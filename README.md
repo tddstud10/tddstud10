@@ -1,4 +1,13 @@
+- delete random comments in program.cs
+- copyright ms comments form all files
+- rename VSPackagePackage
+- curate todo list
+
+
 /*
+  - Enable fxcop
+  - release build - enable all warning, etc.
+ 
     TODO:
     - switch to permanent repo [dont delete wiki]
     - make the obvious speed improvements (don't copy all files, filter out assemblies, remove o(n^2) search in discoverer, filter out known assemblies from coverage)

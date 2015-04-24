@@ -24,5 +24,14 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            System.Threading.ThreadPool.QueueUserWorkItem(delegate
+            {
+                new Engine(@"d:\src\r4nd0mkatas\fizzbuzz\FizzBuzz.sln").
+                    DisplayFileSystemWatcherInfo(text => Dispatcher.BeginInvoke(new Action(() => this.textBlock.Text += (text + "\n"))));
+            }, null);
+        }
     }
 }
