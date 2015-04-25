@@ -15,10 +15,20 @@ using Xunit.Abstractions;
 
 namespace R4nd0mApps.TddStud10.TestHost
 {
+    public static class Marker
+    {
+        // TODO: Change first argument to guid
+        public static void EnterSequencePoint(string mvid, string mdToken, string spid)
+        {
+            Console.WriteLine("{0}, {1}, {2}", mvid, mdToken, spid);
+        }
+    }
+
     // TODO: Telemetry
     // TODO: Logging - study some well writen codebases
     // TODO: Add todo list to tddstudio
     // TODO: Speed up - see in gmail draft
+    // TODO: Change target version of all the dlls
     class Program
     {
         private static XmlSerializer serializer = new XmlSerializer(typeof(List<string>));
@@ -60,7 +70,7 @@ namespace R4nd0mApps.TddStud10.TestHost
             // TODO: Can get base test execution metrics
             var testCases = LoadTestCases();
             var testResults = new TestDetails();
-            foreach (var asm in Directory.GetFiles(solutionBuildRoot, "*.dll"))
+            foreach (var asm in Directory.GetFiles(solutionBuildRoot, "*FizzBuzz.UnitTests.dll"))
             {
                 using (var controller = new XunitFrontController(asm))
                 using (var discoveryVisitor = new TestDiscoveryVisitor(t => testCases.Contains(t.UniqueID, StringComparer.OrdinalIgnoreCase)))
@@ -134,7 +144,7 @@ namespace R4nd0mApps.TddStud10.TestHost
             // TODO: Multi-threaded test execution
             // TODO: Can get base test execution metrics
             List<string> testCases = new List<string>();
-            foreach (var asm in Directory.GetFiles(solutionBuildRoot, "*.dll"))
+            foreach (var asm in Directory.GetFiles(solutionBuildRoot, "*FizzBuzz.UnitTests.dll"))
             {
                 using (var controller = new XunitFrontController(asm))
                 using (var discoveryVisitor = new TestDiscoveryVisitor(t => true))

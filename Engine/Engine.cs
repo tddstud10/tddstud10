@@ -156,7 +156,7 @@ namespace R4nd0mApps.TddStud10
             elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                         ts.Hours, ts.Minutes, ts.Seconds,
                         ts.Milliseconds / 10);
-            AddListLine("Done! [" + elapsedTime + "]");
+            AddListLine("Done copying files! [" + elapsedTime + "]");
             AddListLine("/////////////////////////////////////////////////////////////////////////");
             AddListLine("/////////////////////////////////////////////////////////////////////////");
 
@@ -176,7 +176,7 @@ namespace R4nd0mApps.TddStud10
             elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                         ts.Hours, ts.Minutes, ts.Seconds,
                         ts.Milliseconds / 10);
-            AddListLine("Done! [" + elapsedTime + "]");
+            AddListLine("Done building project! [" + elapsedTime + "]");
             AddListLine("/////////////////////////////////////////////////////////////////////////");
             AddListLine("/////////////////////////////////////////////////////////////////////////");
 
@@ -192,7 +192,7 @@ namespace R4nd0mApps.TddStud10
             elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                         ts.Hours, ts.Minutes, ts.Seconds,
                         ts.Milliseconds / 10);
-            AddListLine("Done! [" + elapsedTime + "]");
+            AddListLine("Done discovering tests! [" + elapsedTime + "]");
             AddListLine("/////////////////////////////////////////////////////////////////////////");
             AddListLine("/////////////////////////////////////////////////////////////////////////");
 
@@ -205,7 +205,8 @@ namespace R4nd0mApps.TddStud10
             ExecuteProcess(
                 @"D:\Users\ParthoP\Downloads\opencover.4.5.3522\OpenCover.Console.exe",
                 string.Format(
-                    @"-mergebyhash ""-output:{3}"" -register:user -returntargetcode:10000 ""-target:{0}"" ""-targetargs:{1}"" ""-targetdir:{2}"" -coverbytest:*.UnitTests.dll"
+                    // -register:user 
+                    @"-mergebyhash ""-output:{3}"" -log:off -threshold:1 -returntargetcode:10000 ""-target:{0}"" ""-targetargs:{1}"" ""-targetdir:{2}"" -coverbytest:*.UnitTests.dll"
                     , testRunnerPath
                     , string.Format(@"execute {0} {1} {2}", solutionBuildRoot, Path.Combine(solutionBuildRoot, "testcases.txt"), TestResults)
                     , solutionBuildRoot
@@ -218,7 +219,7 @@ namespace R4nd0mApps.TddStud10
             elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                         ts.Hours, ts.Minutes, ts.Seconds,
                         ts.Milliseconds / 10);
-            AddListLine("Done! [" + elapsedTime + "]");
+            AddListLine("Done executing tests! [" + elapsedTime + "]");
             AddListLine("");
         }
 

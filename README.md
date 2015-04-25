@@ -1,22 +1,14 @@
-- delete random comments in program.cs
-- copyright ms comments form all files
-- rename VSPackagePackage
 - curate todo list
 
 
 /*
-  - Enable fxcop
-  - release build - enable all warning, etc.
- 
     TODO:
-    - switch to permanent repo [dont delete wiki]
     - make the obvious speed improvements (don't copy all files, filter out assemblies, remove o(n^2) search in discoverer, filter out known assemblies from coverage)
     - failures in the process show show up clearly 
-    - failed unit test marker
-    - why isn't xunit v1 showing any indicators
     - incremental b/r  
     - automatic trigger
     - run/debug single test
+    - indicator of current progress
 
     In the project:
     - nunit and xunit and both
@@ -32,6 +24,9 @@
 
  */
 
+  - Enable fxcop
+  - release build - enable all warning, etc.
+  - licensing and other stuff
 
 
 [[Markdown](http://daringfireball.net/projects/markdown/) syntax]
