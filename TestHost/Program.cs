@@ -5,25 +5,18 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Server;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace R4nd0mApps.TddStud10.TestHost
 {
-    public static class Marker
-    {
-        // TODO: Change first argument to guid
-        public static void EnterSequencePoint(string mvid, string mdToken, string spid)
-        {
-            Console.WriteLine("{0}, {1}, {2}", mvid, mdToken, spid);
-        }
-    }
-
     // TODO: Telemetry
     // TODO: Logging - study some well writen codebases
     // TODO: Add todo list to tddstudio
@@ -52,7 +45,17 @@ namespace R4nd0mApps.TddStud10.TestHost
             }
             else
             {
-                RunTests();
+                var ccServer = new CodeCoverageServer();
+                using (ServiceHost serviceHost = new ServiceHost(ccServer))
+                {
+                    string address = "net.pipe://localhost/gorillacoding/IPCTest";
+                    NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
+                    serviceHost.AddServiceEndpoint(typeof(ICodeCoverageServer), binding, address);
+                    serviceHost.Open();
+
+                    RunTests();
+                }
+                ccServer.SaveTestCases(Path.Combine(solutionBuildRoot, "results.xml"));
             }
         }
 
@@ -68,38 +71,38 @@ namespace R4nd0mApps.TddStud10.TestHost
             // TODO: Multi-threaded test discovery
             // TODO: Multi-threaded test execution
             // TODO: Can get base test execution metrics
-            var testCases = LoadTestCases();
+            //var testCases = LoadTestCases();
             var testResults = new TestDetails();
-            foreach (var asm in Directory.GetFiles(solutionBuildRoot, "*FizzBuzz.UnitTests.dll"))
+            foreach (var asm in Directory.GetFiles(solutionBuildRoot, "*Test*.dll"))
             {
                 using (var controller = new XunitFrontController(asm))
-                using (var discoveryVisitor = new TestDiscoveryVisitor(t => testCases.Contains(t.UniqueID, StringComparer.OrdinalIgnoreCase)))
+                //using (var discoveryVisitor = new TestDiscoveryVisitor(t => testCases.Contains(t.UniqueID, StringComparer.OrdinalIgnoreCase)))
                 using (var resultsVisitor = new StandardOutputVisitor(new object(), false, solutionBuildRoot, () => false, AddListLine, testResults.Dictionary))
                 {
-                    bool failedToDiscover = true;
-                    try
-                    {
-                        controller.Find(true, discoveryVisitor, TestFrameworkOptions.ForDiscovery(null));
-                        failedToDiscover = false;
-                    }
-                    catch
-                    {
-                    }
+                    //bool failedToDiscover = true;
+                    //try
+                    //{
+                    //    controller.Find(true, discoveryVisitor, TestFrameworkOptions.ForDiscovery(null));
+                    //    failedToDiscover = false;
+                    //}
+                    //catch
+                    //{
+                    //}
 
-                    if (failedToDiscover)
-                    {
-                        AddListLine(string.Format("Failed to discover tests from {0}.", asm));
-                    }
-                    else
-                    {
-                        discoveryVisitor.Finished.WaitOne();
-                        AddListLine(string.Format("Discovered {0} tests in {1}.", discoveryVisitor.TestCases.Count, asm));
-                    }
+                    //if (failedToDiscover)
+                    //{
+                    //    AddListLine(string.Format("Failed to discover tests from {0}.", asm));
+                    //}
+                    //else
+                    //{
+                    //    discoveryVisitor.Finished.WaitOne();
+                    //    AddListLine(string.Format("Discovered {0} tests in {1}.", discoveryVisitor.TestCases.Count, asm));
+                    //}
 
-                    IEnumerable<ITestCase> testcases = discoveryVisitor.TestCases;
-                    if (testcases.Count() == 0) continue;
+                    //IEnumerable<ITestCase> testcases = discoveryVisitor.TestCases;
+                    //if (testcases.Count() == 0) continue;
 
-                    controller.RunTests(testcases, resultsVisitor, TestFrameworkOptions.ForExecution());
+                    controller.RunAll(resultsVisitor, TestFrameworkOptions.ForDiscovery(), TestFrameworkOptions.ForExecution());
                     resultsVisitor.Finished.WaitOne();
                 }
             }
@@ -144,7 +147,7 @@ namespace R4nd0mApps.TddStud10.TestHost
             // TODO: Multi-threaded test execution
             // TODO: Can get base test execution metrics
             List<string> testCases = new List<string>();
-            foreach (var asm in Directory.GetFiles(solutionBuildRoot, "*FizzBuzz.UnitTests.dll"))
+            foreach (var asm in Directory.GetFiles(solutionBuildRoot, "*test*.dll"))
             {
                 using (var controller = new XunitFrontController(asm))
                 using (var discoveryVisitor = new TestDiscoveryVisitor(t => true))

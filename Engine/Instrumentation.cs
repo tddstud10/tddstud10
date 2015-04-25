@@ -38,23 +38,20 @@ namespace R4nd0mApps.TddStud10
     {
         private static string testRunnerPath;
 
-        static void Main(string[] args)
-        {
-            string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
-            testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
-
-            if (args[0] == "gen")
-            {
-                GenerateSequencePointInfo(@"d:\tddstud10\fizzbuzz.out\");
-            }
-            else // instrument
-            {
-                Instrument(@"d:\tddstud10\fizzbuzz.out\");
-            }
-        }
+        //static void Main(string[] args)
+        //{
+        //    if (args[0] == "gen")
+        //    {
+        //        GenerateSequencePointInfo(@"d:\tddstud10\fizzbuzz.out\");
+        //    }
+        //    else // instrument
+        //    {
+        //        Instrument(@"d:\tddstud10\fizzbuzz.out\");
+        //    }
+        //}
 
         // TODO: Merge these 2 methods
-        private static void GenerateSequencePointInfo(string buildOutputRoot)
+        public static void GenerateSequencePointInfo(string buildOutputRoot)
         {
             var dict = new SerializableDictionary<string, List<SequencePointInfo>>();
             foreach (var assemblyPath in Directory.EnumerateFiles(buildOutputRoot, "*.dll"))
@@ -62,12 +59,14 @@ namespace R4nd0mApps.TddStud10
                 if (!File.Exists(Path.ChangeExtension(assemblyPath, ".pdb")))
                 {
                     continue;                
-                }   
+                }
 
-                var mod = ModuleDefinition.ReadModule(assemblyPath, new ReaderParameters { ReadSymbols = true });
+                var assembly = AssemblyDefinition.ReadAssembly(assemblyPath, new ReaderParameters { ReadSymbols = true });
 
-                var sps = from t in mod.GetTypes()
+                var sps = from mod in assembly.Modules
+                          from t in mod.GetTypes()
                           from m in t.Methods
+                          where m.Body != null
                           from i in m.Body.Instructions
                           where i.SequencePoint != null
                           where i.SequencePoint.StartLine != 0xfeefee
@@ -102,8 +101,11 @@ namespace R4nd0mApps.TddStud10
             File.WriteAllText(Path.Combine(buildOutputRoot, "seqpoints.txt"), writer.ToString());
         }
 
-        private static void Instrument(string buildOutputRoot)
+        public static void Instrument(string buildOutputRoot)
         {
+            string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
+            testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
+
             foreach (var assemblyPath in Directory.EnumerateFiles(buildOutputRoot, "*.dll"))
             {
                 if (!File.Exists(Path.ChangeExtension(assemblyPath, ".pdb")))
@@ -133,6 +135,11 @@ namespace R4nd0mApps.TddStud10
                 {
                     foreach (MethodDefinition method in item.Methods)
                     {
+                        if (method.Body == null)
+                        {
+                            continue;
+                        }
+
                         var spi = from i in method.Body.Instructions
                                   where i.SequencePoint != null
                                   // TODO: Check for start/end/line/column 0xfeefee

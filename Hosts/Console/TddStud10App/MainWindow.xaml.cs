@@ -27,9 +27,10 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            var slnPath = solutionPath.Text;
             System.Threading.ThreadPool.QueueUserWorkItem(delegate
             {
-                new Engine(@"d:\src\r4nd0mkatas\fizzbuzz\FizzBuzz.sln").
+                new Engine(slnPath).
                     DisplayFileSystemWatcherInfo(text => Dispatcher.BeginInvoke(new Action(() => this.textBlock.Text += (text + "\n"))));
             }, null);
         }

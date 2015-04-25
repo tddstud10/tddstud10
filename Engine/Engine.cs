@@ -126,6 +126,28 @@ namespace R4nd0mApps.TddStud10
             TimeSpan ts;
             string elapsedTime;
 
+            // Delte files
+            AddListLine("Deleting build output...");
+            stopWatch.Start();
+            foreach (var file in Directory.EnumerateFiles(solutionBuildRoot, "*.pdb"))
+            {
+                File.Delete(file);
+
+                var dll = Path.ChangeExtension(file, "dll");
+                if (File.Exists(dll))
+                {
+                    File.Delete(dll);
+                }
+            }
+            stopWatch.Stop();
+            ts = stopWatch.Elapsed;
+            elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                        ts.Hours, ts.Minutes, ts.Seconds,
+                        ts.Milliseconds / 10);
+            AddListLine("Done deleting build output! [" + elapsedTime + "]");
+            AddListLine("/////////////////////////////////////////////////////////////////////////");
+            AddListLine("/////////////////////////////////////////////////////////////////////////");
+
             // TODO: File copy and file discovery in parallel
             // TODO: File copy can be multi-threaded
             AddListLine("Copying files...");
@@ -171,6 +193,11 @@ namespace R4nd0mApps.TddStud10
                 string.Format(@"/m /v:minimal /p:VisualStudioVersion=12.0 /p:OutDir={0} {1}", solutionBuildRoot, solutionSnapShotPath),
                 AddListLine
             );
+            if (File.Exists(Path.Combine(solutionBuildRoot, Path.GetFileName(testRunnerPath))))
+            {
+                File.Delete(Path.Combine(solutionBuildRoot, Path.GetFileName(testRunnerPath)));
+            }
+            File.Copy(testRunnerPath, Path.Combine(solutionBuildRoot, Path.GetFileName(testRunnerPath)));
             stopWatch.Stop();
             ts = stopWatch.Elapsed;
             elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
@@ -180,19 +207,16 @@ namespace R4nd0mApps.TddStud10
             AddListLine("/////////////////////////////////////////////////////////////////////////");
             AddListLine("/////////////////////////////////////////////////////////////////////////");
 
-            AddListLine("Discovering tests...");
+            AddListLine("Instrumenting and discovering tests...");
             stopWatch.Start();
-            ExecuteProcess(
-                testRunnerPath,
-                string.Format(@"discover {0} {1}", solutionBuildRoot, Path.Combine(solutionBuildRoot, "testcases.txt")),
-                AddListLine
-            );
+            Instrumentation.GenerateSequencePointInfo(solutionBuildRoot);
+            Instrumentation.Instrument(solutionBuildRoot);
             stopWatch.Stop();
             ts = stopWatch.Elapsed;
             elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                         ts.Hours, ts.Minutes, ts.Seconds,
                         ts.Milliseconds / 10);
-            AddListLine("Done discovering tests! [" + elapsedTime + "]");
+            AddListLine("Done instrumenting and discovering tests! [" + elapsedTime + "]");
             AddListLine("/////////////////////////////////////////////////////////////////////////");
             AddListLine("/////////////////////////////////////////////////////////////////////////");
 
@@ -203,15 +227,8 @@ namespace R4nd0mApps.TddStud10
             // TODO: path32 or path64?
             // TODO: Coverbytest has hardcoded filter
             ExecuteProcess(
-                @"D:\Users\ParthoP\Downloads\opencover.4.5.3522\OpenCover.Console.exe",
-                string.Format(
-                    // -register:user 
-                    @"-mergebyhash ""-output:{3}"" -log:off -threshold:1 -returntargetcode:10000 ""-target:{0}"" ""-targetargs:{1}"" ""-targetdir:{2}"" -coverbytest:*.UnitTests.dll"
-                    , testRunnerPath
-                    , string.Format(@"execute {0} {1} {2}", solutionBuildRoot, Path.Combine(solutionBuildRoot, "testcases.txt"), TestResults)
-                    , solutionBuildRoot
-                    , CoverageResults
-                ),
+                testRunnerPath,
+                string.Format(@"execute {0} {1} {2}", solutionBuildRoot, Path.Combine(solutionBuildRoot, "testcases.txt"), TestResults),
                 AddListLine
             );
             stopWatch.Stop();
