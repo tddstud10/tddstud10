@@ -416,7 +416,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
         //{
         //    try
         //    {                
-        //        IWpfTextViewHost host = ProgressBarPackage.Instance.GetCurrentViewHost();
+        //        IWpfTextViewHost host = TddStud10Package.Instance.GetCurrentViewHost();
         //        if (host != null)
         //        {
         //            var doc = GetTextDocumentForView(host);

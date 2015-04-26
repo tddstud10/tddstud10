@@ -41,8 +41,8 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CreateVsixContainer>True</CreateVsixContainer>
-    <DeployExtension>True</DeployExtension>
+    <CreateVsixContainer>False</CreateVsixContainer>
+    <DeployExtension>False</DeployExtension>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <StartAction>Program</StartAction>

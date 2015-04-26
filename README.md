@@ -1,26 +1,36 @@
-- curate todo list
+TODO:
+- v0.1
+    - Trigger on file change in solution directory
+    - Stop a barrage of events
+    - Pick unit test dlls
+    - Progress on status bar
+    - Disable toolwindow
+- v0.2
+    - Resync
+    - 3 stage update of markers
+    - Reduce perf of run tests
+    - Enable on edit trigger
+- v1.0
+    - xunit, nunit
 
+- make the obvious speed improvements (don't copy all files, filter out assemblies, remove o(n^2) search in discoverer, filter out known assemblies from coverage)
+- failures in the process show show up clearly 
+- incremental b/r  
+- automatic trigger
+- run/debug single test
+- indicator of current progress
 
-/*
-    TODO:
-    - make the obvious speed improvements (don't copy all files, filter out assemblies, remove o(n^2) search in discoverer, filter out known assemblies from coverage)
-    - failures in the process show show up clearly 
-    - incremental b/r  
-    - automatic trigger
-    - run/debug single test
-    - indicator of current progress
+In the project:
+- nunit and xunit and both
+- c# and f#
+- 64 and 32 bit
 
-    In the project:
-    - nunit and xunit and both
-    - c# and f#
-    - 64 and 32 bit
-
-    later 
-    - switch to rock steady protocol
-    - self sufficient vsix
-    - vs2010
-    - c++
-    - test: itself, xunit, nunit, opencover, roslyn
+later 
+- switch to rock steady protocol
+- self sufficient vsix
+- vs2010
+- c++
+- test: itself, xunit, nunit, opencover, roslyn
 
  */
 

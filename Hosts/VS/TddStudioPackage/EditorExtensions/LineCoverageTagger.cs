@@ -35,7 +35,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
             _classifier = classifier;
             _buffer = buffer;
 
-            ProgressBarPackage.Instance.Settings.PropertyChanged += OnSettingsChanged;
             CoverageData.Instance.NewCoverageDataAvailable += OnNewCoverageDataAvailable;
         }
 
@@ -47,9 +46,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
             _classifier = null;
             _buffer = null;
 
-            if (ProgressBarPackage.Instance != null)
-                ProgressBarPackage.Instance.Settings.PropertyChanged -= OnSettingsChanged;
-
             CoverageData.Instance.NewCoverageDataAvailable -= OnNewCoverageDataAvailable;
         }
 
@@ -60,9 +56,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
         /// <returns>Tags for the current file based on coverage information</returns>
         IEnumerable<ITagSpan<LineCoverageTag>> ITagger<LineCoverageTag>.GetTags(NormalizedSnapshotSpanCollection spans)
         {
-            if (!ProgressBarPackage.Instance.Settings.ShowCoverageGlyphs)
-                yield break;
-            
             foreach (SnapshotSpan span in spans)
             {
                 //look at each classification span 
@@ -76,17 +69,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Will be called when the settings were changed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void OnSettingsChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "ShowCoverageGlyphs")
-                RaiseAllTagsChanged();
         }
 
         /// <summary>

@@ -46,7 +46,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
         /// <param name="view">The view.</param>
         public TextViewCoverageProviderBase(ITextView view)
         {
-            if (ProgressBarPackage.Instance == null)
+            if (TddStud10Package.Instance == null)
             {
                 return;
             }

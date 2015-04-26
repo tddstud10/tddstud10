@@ -38,7 +38,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
         /// <param name="coveredType">The type.</param>
         public TextTagger(ITextView view, ITextSearchService searchService, IClassificationType coveredType, IClassificationType notCoveredType) : base(view)
         {
-            if (ProgressBarPackage.Instance == null)
+            if (TddStud10Package.Instance == null)
             {
                 return;
             }
@@ -46,8 +46,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
             _searchService = searchService;
             _coveredType = coveredType;
             _notCoveredType = notCoveredType;
-
-            ProgressBarPackage.Instance.Settings.PropertyChanged += OnSettingsChanged;
 
             // Register instance of the view
             _instances.Add(view, this);
@@ -61,9 +59,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
         /// <param name="disposing">True for managed ressources</param>
         protected override void Dispose(bool disposing)
         {
-            if (ProgressBarPackage.Instance != null && ProgressBarPackage.Instance.Settings != null)
-                ProgressBarPackage.Instance.Settings.PropertyChanged -= OnSettingsChanged;
-
             if (_textView != null)
                 _textView.Closed -= OnViewClosed;
 
@@ -85,7 +80,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
         /// <returns>Tags for the current file based on coverage information</returns>
         //public IEnumerable<ITagSpan<ClassificationTag>> GetTags(NormalizedSnapshotSpanCollection spans)
         //{
-        //    if (_currentSpans == null || _currentSpans.Count == 0 || (!ProgressBarPackage.Instance.Settings.ShowLinesColored && _lineSpans == null))
+        //    if (_currentSpans == null || _currentSpans.Count == 0 || (!TddStud10Package.Instance.Settings.ShowLinesColored && _lineSpans == null))
         //        yield break;
 
         //    var spansToSerach = _lineSpans ?? _currentSpans;
@@ -109,17 +104,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
                 return _instances[view];
             else
                 return null;
-        }
-
-        /// <summary>
-        /// Will be called when the settings were changed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void OnSettingsChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "ShowLinesColored")
-                RaiseAllTagsChanged();
         }
 
         private void OnViewClosed(object sender, EventArgs e)
