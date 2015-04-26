@@ -159,7 +159,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
         }
 
         /// <summary>
-        /// Search for a class + meth in the opened solution. When found, the corresponding file will
+        /// Search for a class + meth in the opened _solution. When found, the corresponding file will
         /// be opened, and the specified meth will be shown.
         /// </summary>
         /// <param name="fullyQualifiedMethodName">Fully qualified meth to search for.</param>
@@ -177,14 +177,14 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
                 {
                     if (Debugger.IsAttached)
                     {
-                        WriteToOutputWindow("Method found, stopping solution search");
+                        WriteToOutputWindow("Method found, stopping _solution search");
                     }
 
                     return; 
                 }
             }
 
-            WriteToOutputWindow("Could not find meth '{0}' in the current solution", fullyQualifiedMethodName);
+            WriteToOutputWindow("Could not find meth '{0}' in the current _solution", fullyQualifiedMethodName);
         }
 
         private static bool ScanProjectItems(string fullyQualifiedMethodName, EnvDTE.ProjectItems projectItems)

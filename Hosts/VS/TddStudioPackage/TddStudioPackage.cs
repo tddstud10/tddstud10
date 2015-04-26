@@ -34,7 +34,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         private uint solutionEventsCookie;
 
-        private IVsSolution2 solution = null;
+        private IVsSolution2 _solution = null;
+        private IVsStatusbar _statusBar;
 
         public TddStud10Package()
         {
@@ -59,11 +60,13 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             _uiThreadInvoker = new Control();
 
-            solution = ServiceProvider.GlobalProvider.GetService(typeof(SVsSolution)) as IVsSolution2;
-            if (solution != null)
+            _solution = ServiceProvider.GlobalProvider.GetService(typeof(SVsSolution)) as IVsSolution2;
+            if (_solution != null)
             {
-                solution.AdviseSolutionEvents(this, out solutionEventsCookie);
+                _solution.AdviseSolutionEvents(this, out solutionEventsCookie);
             }
+
+            _statusBar = ServiceProvider.GlobalProvider.GetService(typeof(SVsStatusbar)) as IVsStatusbar;
 
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
@@ -93,11 +96,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                 {
                 }
 
-                if (solution != null && solutionEventsCookie != 0)
+                if (_solution != null && solutionEventsCookie != 0)
                 {
-                    solution.UnadviseSolutionEvents(solutionEventsCookie);
+                    _solution.UnadviseSolutionEvents(solutionEventsCookie);
                 }
-                solution = null;
+                _solution = null;
 
                 _disposed = true;
             }
@@ -127,7 +130,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         int IVsSolutionEvents.OnAfterOpenSolution(object pUnkReserved, int fNewSolution)
         {
             var solutionPath = ((Package.GetGlobalService(typeof(EnvDTE.DTE))) as EnvDTE.DTE).Solution.FullName;
-            EngineLoader.Load(solutionPath);
+            EngineLoader.Load(solutionPath, RunStarting, RunStepStarting, RunEnded);
 
             return VSConstants.S_OK;
         }
@@ -165,5 +168,29 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         }
 
         #endregion
+
+        private void RunStepStarting(string stepDetails)
+        {
+            InvokeOnUIThread(() => {
+                _statusBar.SetText(stepDetails);
+            });
+        }
+
+        private void RunStarting()
+        {
+            InvokeOnUIThread(() => {
+                _statusBar.SetText(string.Empty);
+                _statusBar.Animation(1, (short)Microsoft.VisualStudio.Shell.Interop.Constants.SBAI_Synch);
+            });
+        }
+
+        private void RunEnded()
+        {
+            InvokeOnUIThread(() =>
+            {
+                _statusBar.Animation(0, (short)Microsoft.VisualStudio.Shell.Interop.Constants.SBAI_Synch);
+                _statusBar.SetText(string.Empty);
+            });
+        }
     }
 }

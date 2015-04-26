@@ -16,12 +16,16 @@ using R4nd0mApps.TddStud10.Engine.Diagnostics;
 // TODO: Icons for ttdstud10 - fody pointers to icon generators
 namespace R4nd0mApps.TddStud10.Engine
 {
-    public class Engine
+    public sealed class Engine
     {
         private string _solutionPath;
         private string _solutionGrandParentPath;
 
-        public Engine(string solutionPath)
+        public event EventHandler RunStarting;
+        public event EventHandler<string> RunStepStarting;
+        public event EventHandler RunEnded;
+
+        public  Engine(string solutionPath)
         {
             _solutionPath = solutionPath;
             _solutionGrandParentPath = Path.GetDirectoryName(Path.GetDirectoryName(_solutionPath));
@@ -108,17 +112,18 @@ namespace R4nd0mApps.TddStud10.Engine
 
             try
             {
+                OnRaiseRunStartingEvent();
+
                 string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
                 string testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
 
-                // TODO: [*] Stop a barrage of events
-                // TODO: [*] Stop duplicate events
                 // TODO: Multi-threaded build of xunit.net is buggy
                 Stopwatch stopWatch = new Stopwatch();
                 TimeSpan ts;
                 string elapsedTime;
 
                 // Delte files
+                OnRaiseRunStepStarting("Deleting build output...");
                 Logger.I.Log("Deleting build output...");
                 stopWatch.Start();
                 foreach (var file in Directory.EnumerateFiles(solutionBuildRoot, "*.pdb"))
@@ -142,7 +147,8 @@ namespace R4nd0mApps.TddStud10.Engine
 
                 // TODO: File copy and file discovery in parallel
                 // TODO: File copy can be multi-threaded
-                Logger.I.Log("Copying files...");
+                OnRaiseRunStepStarting("Taking solution snapshot...");
+                Logger.I.Log("Taking solution snapshot...");
                 stopWatch.Start();
                 var sln = new Solution(_solutionPath);
                 sln.Projects.ForEach(p =>
@@ -170,12 +176,13 @@ namespace R4nd0mApps.TddStud10.Engine
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                             ts.Hours, ts.Minutes, ts.Seconds,
                             ts.Milliseconds / 10);
-                Logger.I.Log("Done copying files! [" + elapsedTime + "]");
+                Logger.I.Log("Done taking solution snapshot! [" + elapsedTime + "]");
                 Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
                 Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
 
                 // TODO: Just build the dirty projects
                 // TODO: Get a robust stdout/err redirector from msbuild
+                OnRaiseRunStepStarting("Building project...");
                 Logger.I.Log("Building project...");
                 stopWatch.Start();
                 ExecuteProcess(
@@ -196,6 +203,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
                 Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
 
+                OnRaiseRunStepStarting("Instrumenting and discovering tests...");
                 Logger.I.Log("Instrumenting and discovering tests...");
                 stopWatch.Start();
                 Instrumentation.GenerateSequencePointInfo(solutionBuildRoot, SequencePointStore);
@@ -209,6 +217,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
                 Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
 
+                OnRaiseRunStepStarting("Executing tests...");
                 Logger.I.Log("Executing tests...");
                 stopWatch.Start();
                 ExecuteProcess(
@@ -222,6 +231,8 @@ namespace R4nd0mApps.TddStud10.Engine
                             ts.Milliseconds / 10);
                 Logger.I.Log("Done executing tests! [" + elapsedTime + "]");
                 Logger.I.Log("");
+
+                OnRaiseRunEndedEvent();
             }
             finally
             {
@@ -250,7 +261,7 @@ namespace R4nd0mApps.TddStud10.Engine
             process.StartInfo = processStartInfo;
             // enable raising events because Process does not raise events by default
             process.EnableRaisingEvents = true;
-            // attach the event handler for OutputDataReceived before starting the process
+            // attach the event handler for OutputDataReceived before runStarting the process
             process.OutputDataReceived += new DataReceivedEventHandler
             (
                 delegate(object sender, DataReceivedEventArgs e)
@@ -275,6 +286,39 @@ namespace R4nd0mApps.TddStud10.Engine
             process.BeginOutputReadLine();
             process.WaitForExit();
             process.CancelOutputRead();
+        }
+    
+        private void OnRaiseRunStartingEvent()
+        {
+            var handler = RunStarting;
+
+            // Event will be null if there are no subscribers 
+            if (handler != null)
+            {
+                handler(this, new EventArgs());
+            }
+        }
+
+        private void OnRaiseRunStepStarting(string stepDetails)
+        {
+            var handler = RunStepStarting;
+
+            // Event will be null if there are no subscribers 
+            if (handler != null)
+            {
+                handler(this, stepDetails);
+            }
+        }
+
+        private void OnRaiseRunEndedEvent()
+        {
+            var handler = RunEnded;
+
+            // Event will be null if there are no subscribers 
+            if (handler != null)
+            {
+                handler(this, new EventArgs());
+            }
         }
     }
 }

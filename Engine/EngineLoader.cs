@@ -13,11 +13,22 @@ namespace R4nd0mApps.TddStud10.Engine
 {
     public class EngineLoader
     {
-        public static void Load(string solutionPath)
+        private static EventHandler runStartingHandler;
+        private static EventHandler<string> runStepStartingHandler;
+        private static EventHandler runEndedHandler;
+
+        public static void Load(string solutionPath, Action runStarting, Action<string> runStepStarting, Action runEnded)
         {
             Logger.I.Log("Loading Engine with solution {0}", solutionPath);
 
+            runStartingHandler = (o, ea) => runStarting();
+            runStepStartingHandler = (o, ea) => runStepStarting(ea);
+            runEndedHandler = (o, ea) => runEnded();
+
             Engine.Instance = new Engine(solutionPath);
+            Engine.Instance.RunStarting += runStartingHandler;
+            Engine.Instance.RunStepStarting += runStepStartingHandler;
+            Engine.Instance.RunEnded += runEndedHandler;
         }
 
         public static void RunEngine()
@@ -91,6 +102,13 @@ namespace R4nd0mApps.TddStud10.Engine
         {
             Logger.I.Log("Unloading Engine...");
 
+            Engine.Instance.RunStarting -= runStartingHandler;
+            Engine.Instance.RunStepStarting -= runStepStartingHandler;
+            Engine.Instance.RunEnded -= runEndedHandler;
+
+            runStartingHandler = null;
+            runStepStartingHandler = null;
+            runEndedHandler = null;
             Engine.Instance = null;
         }
     }
