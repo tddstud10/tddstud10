@@ -91,14 +91,13 @@ namespace R4nd0mApps.TddStud10.Engine
             return false;
         }
 
-        public void DisplayFileSystemWatcherInfo(Action<string> AddListLine)
+        public void Start(Action<string> AddListLine)
         {
             string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
             string testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
 
-            // TODO: Stop a barrage of events
-            // TODO: Stop duplicate events
-            // TODO: VisualStudioVersion=12.0
+            // TODO: [*] Stop a barrage of events
+            // TODO: [*] Stop duplicate events
             // TODO: Multi-threaded build of xunit.net is buggy
             Stopwatch stopWatch = new Stopwatch();
             TimeSpan ts;
@@ -160,8 +159,6 @@ namespace R4nd0mApps.TddStud10.Engine
             AddListLine("/////////////////////////////////////////////////////////////////////////");
             AddListLine("/////////////////////////////////////////////////////////////////////////");
 
-            // TODO: Registration free COM for opencover
-
             // TODO: Just build the dirty projects
             // TODO: Get a robust stdout/err redirector from msbuild
             AddListLine("Building project...");
@@ -200,10 +197,6 @@ namespace R4nd0mApps.TddStud10.Engine
 
             AddListLine("Executing tests...");
             stopWatch.Start();
-            // TODO: -coverbytest
-            // TODO: Ignore our namespaces
-            // TODO: path32 or path64?
-            // TODO: Coverbytest has hardcoded filter
             ExecuteProcess(
                 testRunnerPath,
                 string.Format(@"execute {0} {1} {2}", solutionBuildRoot, CoverageResults, TestResults),
@@ -229,7 +222,6 @@ namespace R4nd0mApps.TddStud10.Engine
             processStartInfo.RedirectStandardOutput = true;
             processStartInfo.RedirectStandardInput = true;
             processStartInfo.UseShellExecute = false;
-            // TODO: Multiprocess build for MSBuild sometimes causes trouble - put back the /m option.
             processStartInfo.Arguments = arguments;
             processStartInfo.FileName = fileName;
 

@@ -30,7 +30,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
     {
         const double _glyphSize = 8.0;
         
-        // TODO: Show lines when they go out of date
+        // TODO: [*] Show lines when they go out of date
         // TODO: Put a question mark on unknown brush
         private static Brush _uncoveredBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         private static Brush _coveredWithPassingTestBrush = new SolidColorBrush(Color.FromRgb(0, 171, 0));

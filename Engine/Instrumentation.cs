@@ -14,29 +14,10 @@ using R4nd0mApps.TddStud10.TestHost;
 
 namespace R4nd0mApps.TddStud10
 {
-    /*
-     * TODO:
-     * √ what about maxstack - cecil seems to be adjusting it automatically, revisit if needed
-     * √ disable jit opt in assembly - it is done pre-jit, we'll gen debug info if needed
-     * 
-     * √ Generate span information
-     * √ Generate coverage information
-     *   √ Inject calls
-     *   √ Inject call for non-feefee
-     *   √ Inject call for both assemblies and backup/save
-     *   √ Inject call by passing mvid/mdtoken/spid
-     *   √ Execute test host and see console output
-     *   √ C# and F#
-     *   √ Implement enterSeqPointMethDef to collect coverage information [may run into appdomain issues]
-     *   √ Save coverage information
-     *   √ Which unit test is executing
-     * - Integrate with VS
-     *   - Read new span format
-     *   - Merge with new coverage format
-     *   - Check for multi-line spans [with older code]
-     * - Make it work for c#
-     */
-    class Instrumentation
+    // TODO: Debugging/Profiling should be done using logs
+    // TODO: Integrate with gallileo
+    // TODO: Make it work for another project
+    internal class Instrumentation
     {
         private static string testRunnerPath;
 

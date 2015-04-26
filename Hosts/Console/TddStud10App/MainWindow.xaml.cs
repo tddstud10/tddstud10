@@ -31,7 +31,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App
             System.Threading.ThreadPool.QueueUserWorkItem(delegate
             {
                 new Engine.Engine(slnPath).
-                    DisplayFileSystemWatcherInfo(text => Dispatcher.BeginInvoke(new Action(() => this.textBlock.Text += (text + "\n"))));
+                    Start(text => Dispatcher.BeginInvoke(new Action(() => this.textBlock.Text += (text + "\n"))));
             }, null);
         }
     }

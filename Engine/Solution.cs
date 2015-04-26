@@ -11,10 +11,6 @@ namespace R4nd0mApps.TddStud10
 {
     public class Solution
     {
-        //internal class SolutionParser
-        //Name: Microsoft.Build.Construction.SolutionParser
-        //Assembly: Microsoft.Build, Version=4.0.0.0
-
         // TODO: Consider Roslyn's msbuildworkspace [a] parse sln [b] get exact list of project files
 
         static readonly Type s_SolutionParser;

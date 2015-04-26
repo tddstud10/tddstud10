@@ -19,10 +19,8 @@ using Xunit.Abstractions;
 namespace R4nd0mApps.TddStud10.TestHost
 {
     // TODO: Telemetry
-    // TODO: Logging - study some well writen codebases
     // TODO: Add todo list to tddstudio
-    // TODO: Speed up - see in gmail draft
-    // TODO: Change target version of all the dlls
+    // TODO: Change target version of all the dlls to 3.5
     class Program
     {
         private static XmlSerializer serializer = new XmlSerializer(typeof(List<string>));
@@ -63,9 +61,8 @@ namespace R4nd0mApps.TddStud10.TestHost
             AddListLine("Executing tests...");
             stopWatch.Start();
             // TODO: Could be any assembly - dll or exe
-            // TODO: Multi-threaded test discovery
-            // TODO: Multi-threaded test execution
-            // TODO: Can get base test execution metrics
+            // TODO: Multi-threaded test discovery/execution
+            // TODO: Can get base test execution metrics - timing etc
             var testResults = new TestDetails();
             // TODO: Select the files judicously
             foreach (var asm in Directory.GetFiles(solutionBuildRoot, "*.UnitTests.dll"))

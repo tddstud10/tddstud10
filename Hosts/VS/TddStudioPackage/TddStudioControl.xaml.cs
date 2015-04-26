@@ -144,9 +144,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             System.Threading.ThreadPool.QueueUserWorkItem(delegate
             {
                 Engine.Engine.Instance = new Engine.Engine(solutionPath);
-                Engine.Engine.Instance.DisplayFileSystemWatcherInfo(AddListLine);
+                Engine.Engine.Instance.Start(AddListLine);
 
-                // TODO: Do this in 2 stages - first put black markers for all sequence points after instrumentation run, then put coverage info after ut run
+                // TODO: [*] Do this in 2 stages - first put black markers for all sequence points after instrumentation run, then put coverage info after ut run
                 var serializer = new XmlSerializer(typeof(SequencePointSession));
                 var res = System.IO.File.ReadAllText(Engine.Engine.Instance.SequencePointStore);
                 SequencePointSession seqPtSession = null;

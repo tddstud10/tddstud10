@@ -185,9 +185,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
 
                 if (sequencePoints != null)
                 {
-                    // TODO: All pieces runnable and testable independent of VS or e2e.
-                    // TODO: delete covered
-                    // TODO: Assignments outside class to a member
                     foreach (var sequencePoint in sequencePoints)
                     {
                         var covData = new CovData();
@@ -275,7 +272,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
 
             if (allFiles != null && allSequencePoints != null) 
             {
-                // TODO: Taking dependency on Engine from here is not correct
                 var selectedFile = allFiles.FirstOrDefault(file => Engine.Engine.Instance != null && Engine.Engine.Instance.ArePathsTheSame(file, fileName));
                 if (selectedFile != null)
                 {
