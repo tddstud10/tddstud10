@@ -10,40 +10,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace R4nd0mApps.TddStud10
+
+// TODO: Icons for ttdstud10 - fody pointers to icon generators
+namespace R4nd0mApps.TddStud10.Engine
 {
-    public enum TestResult
-    {
-        Failed,
-        Skipped,
-        Passed,
-    }
-
-    public class TestDetail
-    {
-        public string Assembly { get; set; }
-        public string Class { get; set; }
-        public string Method { get; set; }
-        public string ReturnType { get; set; }
-        public string Name { get; set; }
-    }
-
-    public class TestDetails
-    {
-        public SerializableDictionary<string, TestResult> Dictionary
-        {
-            get;
-            set;
-        }
-
-        public static readonly XmlSerializer Serializer = new XmlSerializer(typeof(TestDetails));
-
-        public TestDetails()
-        {
-            Dictionary = new SerializableDictionary<string, TestResult>();
-        }
-    }
-
     public class Engine
     {
         private string _solutionPath;
@@ -73,11 +43,19 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
+        public string SequencePointStore
+        {
+            get
+            {
+                return Path.Combine(solutionBuildRoot, "Z_seqpoints.xml");
+            }
+        }
+
         public string CoverageResults
         {
             get
             {
-                return Path.Combine(solutionBuildRoot, "results.xml");
+                return Path.Combine(solutionBuildRoot, "Z_coverageresults.xml");
             }
         }
 
@@ -85,7 +63,7 @@ namespace R4nd0mApps.TddStud10
         {
             get
             {
-                return Path.Combine(solutionBuildRoot, "testresults.txt");
+                return Path.Combine(solutionBuildRoot, "Z_testresults.xml");
             }
         }
 
@@ -209,7 +187,7 @@ namespace R4nd0mApps.TddStud10
 
             AddListLine("Instrumenting and discovering tests...");
             stopWatch.Start();
-            Instrumentation.GenerateSequencePointInfo(solutionBuildRoot);
+            Instrumentation.GenerateSequencePointInfo(solutionBuildRoot, SequencePointStore);
             Instrumentation.Instrument(solutionBuildRoot);
             stopWatch.Stop();
             ts = stopWatch.Elapsed;
@@ -228,7 +206,7 @@ namespace R4nd0mApps.TddStud10
             // TODO: Coverbytest has hardcoded filter
             ExecuteProcess(
                 testRunnerPath,
-                string.Format(@"execute {0} {1} {2}", solutionBuildRoot, Path.Combine(solutionBuildRoot, "testcases.txt"), TestResults),
+                string.Format(@"execute {0} {1} {2}", solutionBuildRoot, CoverageResults, TestResults),
                 AddListLine
             );
             stopWatch.Stop();

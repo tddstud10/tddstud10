@@ -5,9 +5,9 @@ using System.Text;
 
 namespace R4nd0mApps.TddStud10
 {
-    public class SequencePointInfo
+    public class SequencePoint
     {
-        public Guid Mvid { get; set; }
+        public string Mvid { get; set; }
         public string MdToken { get; set; }
         public string ID { get; set; }
         public string File { get; set; }

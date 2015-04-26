@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using R4nd0mApps.TddStud10.Engine;
 using Server;
 using Xunit;
 using Xunit.Abstractions;
@@ -27,7 +28,7 @@ namespace R4nd0mApps.TddStud10.TestHost
         private static XmlSerializer serializer = new XmlSerializer(typeof(List<string>));
 
         private static string solutionBuildRoot;
-        private static string testCasesStore;
+        private static string codeCoverageStore;
         private static string testResultsStore;
         public static void AddListLine(string text)
         {
@@ -37,26 +38,20 @@ namespace R4nd0mApps.TddStud10.TestHost
         static void Main(string[] args)
         {
             solutionBuildRoot = args[1];
-            testCasesStore = args[2];
+            codeCoverageStore = args[2];
             testResultsStore = args[3];
-            if (args[0] == "discover")
-            {
-                DiscoverTests();
-            }
-            else
-            {
-                var ccServer = new CodeCoverageServer();
-                using (ServiceHost serviceHost = new ServiceHost(ccServer))
-                {
-                    string address = "net.pipe://localhost/gorillacoding/IPCTest";
-                    NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
-                    serviceHost.AddServiceEndpoint(typeof(ICodeCoverageServer), binding, address);
-                    serviceHost.Open();
 
-                    RunTests();
-                }
-                ccServer.SaveTestCases(Path.Combine(solutionBuildRoot, "results.xml"));
+            var ccServer = new CodeCoverageServer();
+            using (ServiceHost serviceHost = new ServiceHost(ccServer))
+            {
+                string address = "net.pipe://localhost/gorillacoding/IPCTest";
+                NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
+                serviceHost.AddServiceEndpoint(typeof(ICodeCoverageServer), binding, address);
+                serviceHost.Open();
+
+                RunTests();
             }
+            ccServer.SaveTestCases(codeCoverageStore);
         }
 
         private static void RunTests()
@@ -71,37 +66,13 @@ namespace R4nd0mApps.TddStud10.TestHost
             // TODO: Multi-threaded test discovery
             // TODO: Multi-threaded test execution
             // TODO: Can get base test execution metrics
-            //var testCases = LoadTestCases();
             var testResults = new TestDetails();
-            foreach (var asm in Directory.GetFiles(solutionBuildRoot, "*Test*.dll"))
+            // TODO: Select the files judicously
+            foreach (var asm in Directory.GetFiles(solutionBuildRoot, "*.UnitTests.dll"))
             {
                 using (var controller = new XunitFrontController(asm))
-                //using (var discoveryVisitor = new TestDiscoveryVisitor(t => testCases.Contains(t.UniqueID, StringComparer.OrdinalIgnoreCase)))
                 using (var resultsVisitor = new StandardOutputVisitor(new object(), false, solutionBuildRoot, () => false, AddListLine, testResults.Dictionary))
                 {
-                    //bool failedToDiscover = true;
-                    //try
-                    //{
-                    //    controller.Find(true, discoveryVisitor, TestFrameworkOptions.ForDiscovery(null));
-                    //    failedToDiscover = false;
-                    //}
-                    //catch
-                    //{
-                    //}
-
-                    //if (failedToDiscover)
-                    //{
-                    //    AddListLine(string.Format("Failed to discover tests from {0}.", asm));
-                    //}
-                    //else
-                    //{
-                    //    discoveryVisitor.Finished.WaitOne();
-                    //    AddListLine(string.Format("Discovered {0} tests in {1}.", discoveryVisitor.TestCases.Count, asm));
-                    //}
-
-                    //IEnumerable<ITestCase> testcases = discoveryVisitor.TestCases;
-                    //if (testcases.Count() == 0) continue;
-
                     controller.RunAll(resultsVisitor, TestFrameworkOptions.ForDiscovery(), TestFrameworkOptions.ForExecution());
                     resultsVisitor.Finished.WaitOne();
                 }
@@ -116,88 +87,6 @@ namespace R4nd0mApps.TddStud10.TestHost
                         ts.Milliseconds / 10);
             AddListLine("Done! [" + elapsedTime + "]");
             AddListLine("");
-        }
-
-        private static IEnumerable<string> LoadTestCases()
-        {
-            var testCases = File.ReadAllText(testCasesStore);
-            StringReader reader = new StringReader(testCases);
-            XmlTextReader xmlReader = new XmlTextReader(reader);
-            try
-            {
-                return serializer.Deserialize(xmlReader) as List<string>;
-            }
-            finally
-            {
-                xmlReader.Close();
-                reader.Close();
-            }
-        }
-
-        private static void DiscoverTests()
-        {
-            Stopwatch stopWatch = new Stopwatch();
-            TimeSpan ts;
-            string elapsedTime;
-
-            AddListLine("Discovering tests...");
-            stopWatch.Start();
-            // TODO: Could be any assembly - dll or exe
-            // TODO: Multi-threaded test discovery
-            // TODO: Multi-threaded test execution
-            // TODO: Can get base test execution metrics
-            List<string> testCases = new List<string>();
-            foreach (var asm in Directory.GetFiles(solutionBuildRoot, "*test*.dll"))
-            {
-                using (var controller = new XunitFrontController(asm))
-                using (var discoveryVisitor = new TestDiscoveryVisitor(t => true))
-                {
-                    bool failedToDiscover = true;
-                    try
-                    {
-                        controller.Find(true, discoveryVisitor, TestFrameworkOptions.ForDiscovery(null));
-                        failedToDiscover = false;
-                    }
-                    catch
-                    {
-                    }
-
-                    if (failedToDiscover)
-                    {
-                        AddListLine(string.Format("Failed to discover tests from {0}.", asm));
-                    }
-                    else
-                    {
-                        discoveryVisitor.Finished.WaitOne();
-                        AddListLine(string.Format("Discovered {0} tests in {1}.", discoveryVisitor.TestCases.Count, asm));
-                    }
-
-                    if (discoveryVisitor.TestCases.Count == 0) continue;
-
-                    foreach (var testcase in discoveryVisitor.TestCases)
-                    {
-                        testCases.Add(testcase.UniqueID);
-                    }
-                }
-            }
-
-            SaveTestCases(testCases);
-
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                        ts.Hours, ts.Minutes, ts.Seconds,
-                        ts.Milliseconds / 10);
-            AddListLine("Done! [" + elapsedTime + "]");
-            AddListLine("");
-        }
-
-        private static void SaveTestCases(IEnumerable<string> testCases)
-        {
-            StringWriter writer = new StringWriter();
-
-            serializer.Serialize(writer, testCases.ToList());
-            File.WriteAllText(testCasesStore, writer.ToString());
         }
 
         private static void SaveTestResults(TestDetails testDetails)

@@ -159,10 +159,10 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
         }
 
         /// <summary>
-        /// Search for a class + method in the opened solution. When found, the corresponding file will
-        /// be opened, and the specified method will be shown.
+        /// Search for a class + meth in the opened solution. When found, the corresponding file will
+        /// be opened, and the specified meth will be shown.
         /// </summary>
-        /// <param name="fullyQualifiedMethodName">Fully qualified method to search for.</param>
+        /// <param name="fullyQualifiedMethodName">Fully qualified meth to search for.</param>
         internal static void OpenFileByFullyQualifiedMethodName(string fullyQualifiedMethodName)
         {
             List<EnvDTE.Project> projects = new List<EnvDTE.Project>();
@@ -184,7 +184,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
                 }
             }
 
-            WriteToOutputWindow("Could not find method '{0}' in the current solution", fullyQualifiedMethodName);
+            WriteToOutputWindow("Could not find meth '{0}' in the current solution", fullyQualifiedMethodName);
         }
 
         private static bool ScanProjectItems(string fullyQualifiedMethodName, EnvDTE.ProjectItems projectItems)
@@ -210,7 +210,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
                             OpenFile(DTE, filepath);
 
                             int methodStartLine = discoveredMethodElement.StartPoint.Line;
-                            WriteToOutputWindow("Moving to method on line: {0}", methodStartLine);
+                            WriteToOutputWindow("Moving to meth on line: {0}", methodStartLine);
                             GoToLine(DTE, discoveredMethodElement.StartPoint.Line);
                             return true;
                         }

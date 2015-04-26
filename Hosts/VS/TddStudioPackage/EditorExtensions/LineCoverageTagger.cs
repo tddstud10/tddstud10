@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
 using R4nd0mApps.TddStud10.Hosts.VS;
+using R4nd0mApps.TddStud10.Engine;
 //using R4nd0mApps.TddStud10.Hosts.VS.Views;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger

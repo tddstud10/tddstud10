@@ -15,10 +15,11 @@ using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 //using R4nd0mApps.TddStud10.Hosts.VS.Views;
 using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
-using OpenCover.Framework.Model;
 using R4nd0mApps.TddStud10.Hosts.VS.Helper;
 using R4nd0mApps.TddStud10.Hosts.VS.Tagger;
 using R4nd0mApps.TddStud10.Hosts.VS;
+using R4nd0mApps.TddStud10.Engine;
+using R4nd0mApps.TddStud10.TestHost;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
 {
@@ -122,17 +123,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
             return null;
         }
 
-        private static string SubstringWithoutParanthesis(string str)
-        {
-            var pIndex = str.IndexOf('(');
-            if (pIndex == -1)
-            {
-                return str;
-            }
-
-            return str.Substring(0, pIndex);
-        }
-
         // TODO: Determine unknown coverage state for this line
         // TODO: Bring back partly covered
         private LineCoverageState GetLineCoverageState(ITextViewLine line)
@@ -149,8 +139,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
                 }
 
                 var results = allTrackedMethods
-                    .Select(tm => SubstringWithoutParanthesis(tm.Name))
-                    .Select(s => CoverageData.Instance.TestDetails.Dictionary[s]);
+                    .Select(tm => CoverageData.Instance.TestDetails.Dictionary[tm]);
 
                 if (results.Any(r => r == TestResult.Failed))
                 {

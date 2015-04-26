@@ -23,11 +23,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using OpenCover.Framework.Model;
 using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
 using Microsoft.VisualStudio.Shell;
+using Server;
+using R4nd0mApps.TddStud10.Engine;
+using R4nd0mApps.TddStud10.TestHost;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
 {
@@ -141,14 +143,30 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             var solutionPath = ((Package.GetGlobalService(typeof(EnvDTE.DTE))) as EnvDTE.DTE).Solution.FullName;
             System.Threading.ThreadPool.QueueUserWorkItem(delegate
             {
-                Engine.Instance = new Engine(solutionPath);
-                Engine.Instance.DisplayFileSystemWatcherInfo(AddListLine);
+                Engine.Engine.Instance = new Engine.Engine(solutionPath);
+                Engine.Engine.Instance.DisplayFileSystemWatcherInfo(AddListLine);
 
-                var serializer = new XmlSerializer(typeof(CoverageSession), new[] { typeof(Module), typeof(OpenCover.Framework.Model.File), typeof(Class) });
-                var res = System.IO.File.ReadAllText(Engine.Instance.CoverageResults);
-                CoverageSession coverageSession = null;
+                // TODO: Do this in 2 stages - first put black markers for all sequence points after instrumentation run, then put coverage info after ut run
+                var serializer = new XmlSerializer(typeof(SequencePointSession));
+                var res = System.IO.File.ReadAllText(Engine.Engine.Instance.SequencePointStore);
+                SequencePointSession seqPtSession = null;
                 StringReader reader = new StringReader(res);
                 XmlTextReader xmlReader = new XmlTextReader(reader);
+                try
+                {
+                    seqPtSession = serializer.Deserialize(xmlReader) as SequencePointSession;
+                }
+                finally
+                {
+                    xmlReader.Close();
+                    reader.Close();
+                }
+
+                serializer = new XmlSerializer(typeof(CoverageSession));
+                res = System.IO.File.ReadAllText(Engine.Engine.Instance.CoverageResults);
+                CoverageSession coverageSession = null;
+                reader = new StringReader(res);
+                xmlReader = new XmlTextReader(reader);
                 try
                 {
                     coverageSession = serializer.Deserialize(xmlReader) as CoverageSession;
@@ -160,7 +178,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                 }
 
                 TestDetails testDetails = null;
-                res = System.IO.File.ReadAllText(Engine.Instance.TestResults);
+                res = System.IO.File.ReadAllText(Engine.Engine.Instance.TestResults);
                 reader = new StringReader(res);
                 xmlReader = new XmlTextReader(reader);
                 try
@@ -173,7 +191,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                     reader.Close();
                 }
 
-                UpdateCoverageResults(coverageSession, testDetails);
+                UpdateCoverageResults(seqPtSession, coverageSession, testDetails);
             }, null);
         }
 
@@ -186,47 +204,12 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         /// Updates the coverage results for current OpenCover run on the UI thread.
         /// </summary>
         /// <param name="data">The CoverageSession data.</param>
-        public void UpdateCoverageResults(CoverageSession data, TestDetails testDetails)
+        public void UpdateCoverageResults(SequencePointSession seqPtSession, CoverageSession coverageSession, TestDetails testDetails)
         {
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                CoverageData.Instance.UpdateCoverageResults(data, testDetails);
+                CoverageData.Instance.UpdateCoverageResults(seqPtSession, coverageSession, testDetails);
             }), null);
         }
-    }
-
-    internal class CoverageData
-    {
-        private static CoverageData _instance;
-        public static CoverageData Instance 
-        { 
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new CoverageData();
-                }
-
-                return _instance;
-            } 
-        }
-
-        public CoverageSession CoverageSession { get; set; }
-
-        public TestDetails TestDetails { get; set; }
-
-        public void UpdateCoverageResults(CoverageSession data, TestDetails testDetails)
-        {
-            CoverageSession = data;
-            TestDetails = testDetails;
-
-            if (CoverageSession != null && testDetails != null)
-            {
-                if (NewCoverageDataAvailable != null)
-                    NewCoverageDataAvailable(this, EventArgs.Empty);
-            }
-        }
-
-        public event EventHandler NewCoverageDataAvailable;
     }
 }

@@ -77,10 +77,10 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         /// <summary>
         /// Default constructor of the package.
-        /// Inside this method you can place any initialization code that does not require 
+        /// Inside this meth you can place any initialization code that does not require 
         /// any Visual Studio service because at this point the package object is created but 
         /// not sited yet inside Visual Studio environment. The place to do all the other 
-        /// initialization is the Initialize method.
+        /// initialization is the Initialize meth.
         /// </summary>
         public ProgressBarPackage()
         {
@@ -157,8 +157,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         }
 
         /// <summary>
-        /// This function is called when the user clicks the menu item that shows the 
-        /// tool window. See the Initialize method to see how the menu item is associated to 
+        /// This function is called when the user clicks the menu type that shows the 
+        /// tool window. See the Initialize meth to see how the menu type is associated to 
         /// this function using the OleMenuCommandService service and the MenuCommand class.
         /// </summary>
         private void ShowToolWindow(object sender, EventArgs e)
@@ -180,7 +180,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         #region Package Members
 
         /// <summary>
-        /// Initialization of the package; this method is called right after the package is sited, so this is the place
+        /// Initialization of the package; this meth is called right after the package is sited, so this is the place
         /// where you can put all the initialization code that rely on services provided by VisualStudio.
         /// </summary>
         protected override void Initialize()
@@ -335,7 +335,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsUpdateSolutionEvents2.UpdateProjectCfg_Begin(IVsHierarchy pHierProj, IVsCfg pCfgProj, IVsCfg pCfgSln, uint dwAction, ref int pfCancel)
         {
-            // This method is called when a specific project begins building.  Based on the total number of open projects, we can estimate
+            // This meth is called when a specific project begins building.  Based on the total number of open projects, we can estimate
             // how far along in the build we are.
             currProject++;
 
@@ -360,7 +360,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsUpdateSolutionEvents2.UpdateProjectCfg_Done(IVsHierarchy pHierProj, IVsCfg pCfgProj, IVsCfg pCfgSln, uint dwAction, int fSuccess, int fCancel)
         {
-            // This method is called when a specific project finishes building.  Move the progress bar value accordginly.
+            // This meth is called when a specific project finishes building.  Move the progress bar value accordginly.
             if (toolWindow != null)
             {
                 toolWindow.BarText = "";
@@ -401,7 +401,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsUpdateSolutionEvents.UpdateSolution_Begin(ref int pfCancelUpdate)
         {
-            // This method is called when the entire solution starts to build.
+            // This meth is called when the entire solution starts to build.
             currProject = 0;
             if (toolWindow != null)
             {
@@ -419,7 +419,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsUpdateSolutionEvents.UpdateSolution_Done(int fSucceeded, int fModified, int fCancelCommand)
         {
-            // This method is called when the entire solution is done building.
+            // This meth is called when the entire solution is done building.
             if (toolWindow != null)
             {
                 if (fSucceeded != 0)

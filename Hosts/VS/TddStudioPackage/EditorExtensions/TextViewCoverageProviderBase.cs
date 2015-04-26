@@ -4,13 +4,14 @@ using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Operations;
 using Microsoft.VisualStudio.Text.Tagging;
-using OpenCover.Framework.Model;
 using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
 //using R4nd0mApps.TddStud10.Hosts.VS.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using R4nd0mApps.TddStud10.Hosts.VS;
+using Server;
+using R4nd0mApps.TddStud10.Engine;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
 {
@@ -160,11 +161,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
 
         public class CovData
         {
-            public IEnumerable<TrackedMethod> TrackedMethods { get; set; }
+            public IEnumerable<string> TrackedMethods { get; set; }
 
             public CovData()
             {
-                TrackedMethods = new TrackedMethod[0];
+                TrackedMethods = new string[0];
             }
         }
 
@@ -190,13 +191,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
                     foreach (var sequencePoint in sequencePoints)
                     {
                         var covData = new CovData();
-                        if (sequencePoint.TrackedMethodRefs == null || sequencePoint.TrackedMethodRefs.Length == 0)
-                        {
-                        }
-                        else
-                        {
-                            covData.TrackedMethods = CoverageData.Instance.CoverageSession.GetTrackedMethodsForSequencePoint(sequencePoint);
-                        }
+                        covData.TrackedMethods = CoverageData.Instance.GetUnitTestsCoveringSequencePoint(sequencePoint);
 
                         int sequencePointStartLine = sequencePoint.StartLine - 1;
                         int sequencePointEndLine = sequencePoint.EndLine - 1;
@@ -272,20 +267,19 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
             }
         }
 
-        public IEnumerable<SequencePoint> GetSequencePoints(CoverageSession coverageSession, string fileName)
+        public IEnumerable<SequencePoint> GetSequencePoints(CoverageData coverageData, string fileName)
         {
-            var allSequencePoints = coverageSession.GetSequencePoints();
-            var allFiles = coverageSession.GetFiles();
+            var allSequencePoints = coverageData.GetSequencePoints();
+            var allFiles = coverageData.GetFiles();
             IEnumerable<SequencePoint> sequencePoints = null;
 
             if (allFiles != null && allSequencePoints != null) 
             {
                 // TODO: Taking dependency on Engine from here is not correct
-                var selectedFile = allFiles.FirstOrDefault(file => Engine.Instance != null && Engine.Instance.ArePathsTheSame(file.FullPath, fileName));
+                var selectedFile = allFiles.FirstOrDefault(file => Engine.Engine.Instance != null && Engine.Engine.Instance.ArePathsTheSame(file, fileName));
                 if (selectedFile != null)
                 {
-                    var sequencePointsForTheFile = allSequencePoints.Where(sp => sp != null && sp.Key == selectedFile.UniqueId);
-                    sequencePoints = sequencePointsForTheFile.SelectMany(sp => sp).SelectMany(sp => sp); 
+                    sequencePoints = allSequencePoints.Where(sp => sp != null && sp.File == selectedFile);
                 }
             }
 
@@ -300,7 +294,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
         {
             // Get the sequence points of the current file
             if (CoverageData.Instance.CoverageSession != null)
-                return GetSequencePoints(CoverageData.Instance.CoverageSession, IDEHelper.GetFileName(_textView));
+                return GetSequencePoints(CoverageData.Instance, IDEHelper.GetFileName(_textView));
             else
                 return new List<SequencePoint>();
         }        

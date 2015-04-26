@@ -29,7 +29,7 @@ namespace R4nd0mApps.TddStud10
 
             while (reader.NodeType != System.Xml.XmlNodeType.EndElement)
             {
-                reader.ReadStartElement("item");
+                reader.ReadStartElement("type");
 
                 reader.ReadStartElement("key");
                 TKey key = (TKey)keySerializer.Deserialize(reader);
@@ -54,7 +54,7 @@ namespace R4nd0mApps.TddStud10
 
             foreach (TKey key in this.Keys)
             {
-                writer.WriteStartElement("item");
+                writer.WriteStartElement("type");
 
                 writer.WriteStartElement("key");
                 keySerializer.Serialize(writer, key);
