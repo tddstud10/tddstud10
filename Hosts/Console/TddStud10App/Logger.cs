@@ -7,6 +7,7 @@ using Microsoft.Diagnostics.Tracing;
 
 namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.Logger
 {
+    [EventSource(Name = "R4nd0mApps-TddStud10-Hosts-Console")] 
     internal sealed class Logger : EventSource
     {
         public static Logger I = new Logger();

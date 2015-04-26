@@ -14,6 +14,9 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
 using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
+using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
+using System.IO;
+using R4nd0mApps.TddStud10.Engine;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
 {
@@ -21,7 +24,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
-    [Guid(GuidList.TddStud10PackageId)]
+    [Guid(GuidList.guidTddStud10Pkg)]
     public sealed class TddStud10Package : Package, IVsSolutionEvents
     {
         private bool _disposed;
@@ -52,7 +55,22 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                 solution.AdviseSolutionEvents(this, out solutionEventsCookie);
             }
 
+            // Add our command handlers for menu (commands must exist in the .vsct file)
+            OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            if (null != mcs)
+            {
+                // Create the command for the menu item.
+                CommandID menuCommandID = new CommandID(new Guid(GuidList.guidProgressBarCmdSetString), (int)PkgCmdIDList.cmdidProgressBar);
+                MenuCommand menuItem = new MenuCommand(TriggerTddStudioRun, menuCommandID);
+                mcs.AddCommand(menuItem);
+            }
+
             Instance = this;
+        }
+
+        private void TriggerTddStudioRun(object sender, EventArgs e)
+        {
+            Logger.I.Log("Called Trigger TddStud10");
         }
 
         protected override void Dispose(bool disposing)
@@ -64,7 +82,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                 }
 
                 if (solution != null && solutionEventsCookie != 0)
-                { 
+                {
                     solution.UnadviseSolutionEvents(solutionEventsCookie);
                 }
                 solution = null;
@@ -96,6 +114,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsSolutionEvents.OnAfterOpenSolution(object pUnkReserved, int fNewSolution)
         {
+            var solutionPath = ((Package.GetGlobalService(typeof(EnvDTE.DTE))) as EnvDTE.DTE).Solution.FullName;
+            EngineLoader.Load(solutionPath);
+
             return VSConstants.S_OK;
         }
 
@@ -106,6 +127,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsSolutionEvents.OnBeforeCloseSolution(object pUnkReserved)
         {
+            EngineLoader.Unload();
+
             return VSConstants.S_OK;
         }
 

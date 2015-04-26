@@ -79,10 +79,10 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
         }
 
         /// <summary>
-        /// Moves the caret to line number.
+        /// Moves the caret to message number.
         /// </summary>
         /// <param name="DTE">The DTE.</param>
-        /// <param name="lineNumber">The line number.</param>
+        /// <param name="lineNumber">The message number.</param>
         internal static void GoToLine(EnvDTE.DTE DTE, int lineNumber)
         {
             DTE.ExecuteCommand("GotoLn", lineNumber.ToString());
@@ -210,7 +210,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
                             OpenFile(DTE, filepath);
 
                             int methodStartLine = discoveredMethodElement.StartPoint.Line;
-                            WriteToOutputWindow("Moving to meth on line: {0}", methodStartLine);
+                            WriteToOutputWindow("Moving to meth on message: {0}", methodStartLine);
                             GoToLine(DTE, discoveredMethodElement.StartPoint.Line);
                             return true;
                         }

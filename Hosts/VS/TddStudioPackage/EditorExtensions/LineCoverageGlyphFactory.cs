@@ -24,7 +24,7 @@ using R4nd0mApps.TddStud10.TestHost;
 namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
 {
     /// <summary>
-    /// Factory for creating the line covergage glyphs.
+    /// Factory for creating the message covergage glyphs.
     /// </summary>
     public class LineCoverageGlyphFactory : TextViewCoverageProviderBase, IGlyphFactory
     {
@@ -47,12 +47,12 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
         /// <summary>
         /// Create the glyph element.
         /// </summary>
-        /// <param name="line">Editor line to create the glyph for.</param>
+        /// <param name="message">Editor message to create the glyph for.</param>
         /// <param name="tag">The corresponding tag.</param>
         /// <returns></returns>
         public UIElement GenerateGlyph(IWpfTextViewLine line, IGlyphTag tag)
         {
-            // get the coverage info for the current line
+            // get the coverage info for the current message
             LineCoverageState state = GetLineCoverageState(line);
 
             // no coverage info found -> exit here
@@ -69,7 +69,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
             ellipse.Height = _glyphSize;
             ellipse.Width = _glyphSize;
 
-            // TODO: Tooltip should have a list of tests covering this line.
+            // TODO: Tooltip should have a list of tests covering this message.
             ellipse.ToolTip = GetToolTipText(state);
 
             if (state == LineCoverageState.Uncovered)
@@ -85,7 +85,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
         /// <summary>
         /// Determines the correct brush for the coverage state.
         /// </summary>
-        /// <param name="state">The line coverage state.</param>
+        /// <param name="state">The message coverage state.</param>
         /// <returns></returns>
         private Brush GetBrushForState(LineCoverageState state)
         {
@@ -105,7 +105,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
         /// <summary>
         /// Determines the tooltip text the coverage state.
         /// </summary>
-        /// <param name="state">The line coverage state.</param>
+        /// <param name="state">The message coverage state.</param>
         /// <returns></returns>
         private string GetToolTipText(LineCoverageState state)
         {
@@ -113,21 +113,21 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
             switch (state)
             {
                 case LineCoverageState.CoveredWithPassingTests:
-                    return "This line is covered by passing tests.";
+                    return "This message is covered by passing tests.";
                 case LineCoverageState.CoveredWithAtleastOneFailedTest:
-                    return "This line is covered by at least one failing test.";
+                    return "This message is covered by at least one failing test.";
                 case LineCoverageState.Uncovered:
-                    return "This line is not covered by any test.";
+                    return "This message is not covered by any test.";
             }
 
             return null;
         }
 
-        // TODO: Determine unknown coverage state for this line
+        // TODO: Determine unknown coverage state for this message
         // TODO: Bring back partly covered
         private LineCoverageState GetLineCoverageState(ITextViewLine line)
         {
-            // get cover state for all spans included in this line
+            // get cover state for all spans included in this message
             var spans = GetSpansForLine(line, _currentSpans);
 
             if (spans.Any())
@@ -156,9 +156,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
         }
 
         /// <summary>
-        /// Calculates the spans covered by the given line
+        /// Calculates the spans covered by the given message
         /// </summary>
-        /// <param name="line">Line to retrieve the spans for.</param>
+        /// <param name="message">Line to retrieve the spans for.</param>
         /// <param name="spanContainer">container of all spans</param>
         /// <returns></returns>
         public static IEnumerable<SnapshotSpan> GetSpansForLine(ITextViewLine line, IEnumerable<SnapshotSpan> spanContainer)
@@ -167,7 +167,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
         }    
 
         /// <summary>
-        /// Hide the colored line
+        /// Hide the colored message
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -180,7 +180,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
         }
 
         /// <summary>
-        /// Shows the line colors
+        /// Shows the message colors
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

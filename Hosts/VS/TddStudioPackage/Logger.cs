@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Diagnostics.Tracing;
 
-namespace R4nd0mApps.TddStud10.Hosts.VS.Logger
+namespace R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 {
-    internal sealed class Logger : EventSource
+    [EventSource(Name = "R4nd0mApps-TddStud10-Hosts-VS")]
+    public sealed class Logger : EventSource
     {
         public static Logger I = new Logger();
 

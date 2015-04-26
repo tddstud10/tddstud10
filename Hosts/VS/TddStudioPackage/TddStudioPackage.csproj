@@ -41,8 +41,8 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CreateVsixContainer>False</CreateVsixContainer>
-    <DeployExtension>False</DeployExtension>
+    <CreateVsixContainer>True</CreateVsixContainer>
+    <DeployExtension>True</DeployExtension>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <StartAction>Program</StartAction>
@@ -223,6 +223,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
   <ItemGroup>
     <VSCTCompile Include="TddStudio.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
+      <SubType>Designer</SubType>
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>

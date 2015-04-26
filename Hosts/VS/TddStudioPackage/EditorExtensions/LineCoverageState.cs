@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
 {
     /// <summary>
-    /// Coverage state for a editor line
+    /// Coverage state for a editor message
     /// </summary>
     public enum LineCoverageState
     {

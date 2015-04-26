@@ -226,8 +226,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
         /// <param name="snapshot">The snapshot.</param>
         /// <param name="wordSpans">The word spans.</param>
         /// <param name="sequencePoint">The sequence point.</param>
-        /// <param name="sequencePointStartLine">The sequence point start line.</param>
-        /// <param name="sequencePointEndLine">The sequence point end line.</param>
+        /// <param name="sequencePointStartLine">The sequence point start message.</param>
+        /// <param name="sequencePointEndLine">The sequence point end message.</param>
         /// <param name="covered">if set to <c>true</c> [covered].</param>
         protected void AddWordSpansForSequencePointsCoveringMultipleLines(ITextSnapshot snapshot, 
                                                                         List<SnapshotSpan> wordSpans, 

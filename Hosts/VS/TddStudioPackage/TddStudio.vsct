@@ -42,11 +42,19 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     group; your package should define its own command set in order to avoid collisions  
     with command ids defined by other packages. -->
 
+    <Groups>
+
+      <Group guid="guidProgressBarCmdSet" id="MyMenuGroup" priority="0x0600">
+        <Parent guid="guidTestCmdSet" id="cmdIdTest"/>
+      </Group>
+
+    </Groups>
 
     <!--Buttons section. -->
     <!--This section defines the elements the user can interact with, like a menu command or a button 
         or combo box in a toolbar. -->
     <Buttons>
+      <!--TODO: Cleanup: - these commentes + names of cmd and grips-->
       <!--To define a menu group you have to specify its ID, the parent menu and its display priority. 
           The command is visible and enabled by default. If you need to change the visibility, status, etc, you can use
           the CommandFlag node.
@@ -56,15 +64,12 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
           If you do not want an image next to your command, remove the Icon node /> -->
 
 
-      <Button guid="guidProgressBarCmdSet" id="cmdidProgressBar" priority="0x0100" type="Button">
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
-        <Icon guid="guidImages" id="bmpPicSearch" />
+      <Button guid="guidProgressBarCmdSet" id="cmdidProgressBar" priority="0x0001" type="Button">
+        <Parent guid="guidProgressBarCmdSet" id="MyMenuGroup" />
         <Strings>
-          <ButtonText>Test Driven Development Studio</ButtonText>
+          <ButtonText>Trigger TddStud10 Run</ButtonText>
         </Strings>
       </Button>
-
-
     </Buttons>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
@@ -81,15 +86,23 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
   </Commands>
 
 
-
-
+  <KeyBindings>
+    <KeyBinding guid="guidProgressBarCmdSet" id="cmdidProgressBar"
+        key1="T" mod1="Control" key2="T" mod2="Control" editor="guidVSStd97" />
+  </KeyBindings>
 
   <Symbols>
+    <!-- This is the guid used to group the menu commands together -->
+    <GuidSymbol name="guidTestCmdSet" value="{1E198C22-5980-4E7E-92F3-F73168D1FB63}">
+      <IDSymbol name="cmdIdTest" value="0x1" />
+    </GuidSymbol>
+
     <!-- This is the package guid. -->
     <GuidSymbol name="guidProgressBarPkg" value="{6C8E3EF7-58D8-44A6-B4EB-71BCCCC8F2E0}" />
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidProgressBarCmdSet" value="{6c8e3ef8-58d8-44a6-b4eb-71bcccc8f2e0}">
+      <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="cmdidProgressBar" value="0x0101" />
     </GuidSymbol>
 

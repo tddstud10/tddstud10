@@ -137,7 +137,7 @@ namespace R4nd0mApps.TddStud10
 
                     var spi = from i in meth.Body.Instructions
                                 where i.SequencePoint != null
-                                // TODO: Check for start/end/line/column 0xfeefee
+                                // TODO: Check for start/end/message/column 0xfeefee
                                 where i.SequencePoint.StartLine != 0xfeefee
                                 select i;
 

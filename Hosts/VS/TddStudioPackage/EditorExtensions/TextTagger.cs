@@ -112,9 +112,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
         }
 
         /// <summary>
-        /// Show spans for line only
+        /// Show spans for message only
         /// </summary>
-        /// <param name="line"></param>
+        /// <param name="message"></param>
         internal void ShowForLine(Microsoft.VisualStudio.Text.Formatting.IWpfTextViewLine line)
         {
             _lineSpans = LineCoverageGlyphFactory.GetSpansForLine(line, _currentSpans);
