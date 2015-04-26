@@ -17,6 +17,7 @@ using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using System.IO;
 using R4nd0mApps.TddStud10.Engine;
+using System.Windows.Controls;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
 {
@@ -27,6 +28,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
     [Guid(GuidList.guidTddStud10Pkg)]
     public sealed class TddStud10Package : Package, IVsSolutionEvents
     {
+        private Control _uiThreadInvoker;
+
         private bool _disposed;
 
         private uint solutionEventsCookie;
@@ -43,11 +46,18 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             private set;
         }
 
+        public void InvokeOnUIThread(Action action)
+        {
+            _uiThreadInvoker.Dispatcher.Invoke(action);
+        }
+
         #region Package Members
 
         protected override void Initialize()
         {
             base.Initialize();
+
+            _uiThreadInvoker = new Control();
 
             solution = ServiceProvider.GlobalProvider.GetService(typeof(SVsSolution)) as IVsSolution2;
             if (solution != null)
@@ -70,7 +80,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         private void TriggerTddStudioRun(object sender, EventArgs e)
         {
-            Logger.I.Log("Called Trigger TddStud10");
+            Logger.I.Log("Called Trigger TddStud10...");
+
+            EngineLoader.RunEngine();
         }
 
         protected override void Dispose(bool disposing)

@@ -24,7 +24,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button Content="Start Run" Grid.Row="0" Width="75" Height="20" Click="Button_Click"/>
+        <Button Content="Start Run" Grid.Row="0" Width="75" Height="20"/>
         <TextBox 
             x:Name="textBlock" 
             Text=""

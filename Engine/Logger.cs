@@ -23,5 +23,14 @@ namespace R4nd0mApps.TddStud10.Engine.Diagnostics
         {
             base.WriteEvent(2, message);
         }
+        
+        [NonEvent]
+        public void Log(string format, params object[] args)
+        {
+            if (IsEnabled())
+            { 
+                WriteEvent(1, string.Format(format, args));
+            }
+        }
     }
 }

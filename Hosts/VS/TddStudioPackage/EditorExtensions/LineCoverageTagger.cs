@@ -87,7 +87,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
         /// <param name="e"></param>
         private void OnNewCoverageDataAvailable(object sender, EventArgs e)
         {
-            RaiseAllTagsChanged();
+            TddStud10Package.Instance.InvokeOnUIThread(RaiseAllTagsChanged);
         }
     }        
 }

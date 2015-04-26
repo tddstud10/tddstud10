@@ -4,79 +4,94 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
+using R4nd0mApps.TddStud10.TestHost;
 
 namespace R4nd0mApps.TddStud10.Engine
 {
     public class EngineLoader
     {
-        private static FileSystemWatcher fsWatcher;
-
         public static void Load(string solutionPath)
         {
+            Logger.I.Log("Loading Engine with solution {0}", solutionPath);
+
             Engine.Instance = new Engine(solutionPath);
-            Engine.Instance.Start(Logger.I.Log);
+        }
 
-            fsWatcher = new FileSystemWatcher();
-            fsWatcher.Filter = "*";
-            fsWatcher.Path = Path.GetDirectoryName(solutionPath);
+        public static void RunEngine()
+        {
+            if (Engine.Instance != null)
+            {
+                System.Threading.ThreadPool.QueueUserWorkItem(delegate
+                {
+                    Engine.Instance.Start();
 
-            SubscribeToEvents();
+                    // TODO: [*] Do this in 2 stages - first put black markers for all sequence points after instrumentation run, then put coverage info after ut run
+                    var serializer = new XmlSerializer(typeof(SequencePointSession));
+                    var res = File.ReadAllText(Engine.Instance.SequencePointStore);
+                    SequencePointSession seqPtSession = null;
+                    StringReader reader = new StringReader(res);
+                    XmlTextReader xmlReader = new XmlTextReader(reader);
+                    try
+                    {
+                        seqPtSession = serializer.Deserialize(xmlReader) as SequencePointSession;
+                    }
+                    finally
+                    {
+                        xmlReader.Close();
+                        reader.Close();
+                    }
+
+                    serializer = new XmlSerializer(typeof(CoverageSession));
+                    res = File.ReadAllText(Engine.Instance.CoverageResults);
+                    CoverageSession coverageSession = null;
+                    reader = new StringReader(res);
+                    xmlReader = new XmlTextReader(reader);
+                    try
+                    {
+                        coverageSession = serializer.Deserialize(xmlReader) as CoverageSession;
+                    }
+                    finally
+                    {
+                        xmlReader.Close();
+                        reader.Close();
+                    }
+
+                    TestDetails testDetails = null;
+                    res = File.ReadAllText(Engine.Instance.TestResults);
+                    reader = new StringReader(res);
+                    xmlReader = new XmlTextReader(reader);
+                    try
+                    {
+                        testDetails = TestDetails.Serializer.Deserialize(xmlReader) as TestDetails;
+                    }
+                    finally
+                    {
+                        xmlReader.Close();
+                        reader.Close();
+                    }
+
+                    UpdateCoverageResults(seqPtSession, coverageSession, testDetails);
+                }, null);
+            }
+            else
+            {
+                Logger.I.Log("Engine is not loaded. Ignoring command.");
+            }
+        }
+
+        public static void UpdateCoverageResults(SequencePointSession seqPtSession, CoverageSession coverageSession, TestDetails testDetails)
+        {
+            CoverageData.Instance.UpdateCoverageResults(seqPtSession, coverageSession, testDetails);
         }
 
         public static void Unload()
         {
-            UnsubscribeToEvents();
+            Logger.I.Log("Unloading Engine...");
 
-            fsWatcher.Dispose();
-        }
-
-        public static void EnableEngine()
-        {
-            fsWatcher.EnableRaisingEvents = true;
-        }
-
-        private static void SubscribeToEvents()
-        {
-            fsWatcher.Created += fsWatcher_Created;
-            fsWatcher.Changed += fsWatcher_Changed;
-            fsWatcher.Renamed += fsWatcher_Renamed;
-            fsWatcher.Deleted += fsWatcher_Deleted;
-            fsWatcher.Error += fsWatcher_Error;
-        }
-
-        private static void UnsubscribeToEvents()
-        {
-            fsWatcher.Error -= fsWatcher_Error;
-            fsWatcher.Deleted -= fsWatcher_Deleted;
-            fsWatcher.Renamed -= fsWatcher_Renamed;
-            fsWatcher.Changed -= fsWatcher_Changed;
-            fsWatcher.Created -= fsWatcher_Created;
-        }
-
-        static void fsWatcher_Error(object sender, ErrorEventArgs e)
-        {
-            Logger.I.LogError(e.ToString());
-        }
-
-        static void fsWatcher_Renamed(object sender, RenamedEventArgs e)
-        {
-            Engine.Instance.Start(Logger.I.Log);
-        }
-
-        static void fsWatcher_Deleted(object sender, FileSystemEventArgs e)
-        {
-            Engine.Instance.Start(Logger.I.Log);
-        }
-
-        static void fsWatcher_Changed(object sender, FileSystemEventArgs e)
-        {
-            Engine.Instance.Start(Logger.I.Log);
-        }
-
-        static void fsWatcher_Created(object sender, FileSystemEventArgs e)
-        {
-            Engine.Instance.Start(Logger.I.Log);
+            Engine.Instance = null;
         }
     }
 }

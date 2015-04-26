@@ -67,7 +67,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
       <Button guid="guidProgressBarCmdSet" id="cmdidProgressBar" priority="0x0001" type="Button">
         <Parent guid="guidProgressBarCmdSet" id="MyMenuGroup" />
         <Strings>
-          <ButtonText>Trigger TddStud10 Run</ButtonText>
+          <ButtonText>Trigger TddStud&amp;10 Run</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -85,11 +85,6 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 
   </Commands>
 
-
-  <KeyBindings>
-    <KeyBinding guid="guidProgressBarCmdSet" id="cmdidProgressBar"
-        key1="T" mod1="Control" key2="T" mod2="Control" editor="guidVSStd97" />
-  </KeyBindings>
 
   <Symbols>
     <!-- This is the guid used to group the menu commands together -->

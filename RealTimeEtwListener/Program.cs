@@ -9,60 +9,68 @@ using Microsoft.Diagnostics.Tracing.Session;
 
 namespace RealTimeEtwListener
 {
-    class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
-            // This is the name of the event source.   
-            var providerName = "R4nd0mApps-TddStud10-Hosts-VS";
-            var providerGuid = TraceEventProviders.GetEventSourceGuidFromName(providerName);
-
-            // Today you have to be Admin to turn on ETW events (anyone can write ETW events).   
             if (!(TraceEventSession.IsElevated() ?? false))
             {
                 Console.WriteLine("To turn on ETW events you need to be Administrator, please run from an Admin process.");
                 return;
             }
 
-            // As mentioned below, sessions can outlive the process that created them.  Thus you need a way of 
-            // naming the session so that you can 'reconnect' to it from another process.   This is what the name
-            // is for.  It can be anything, but it should be descriptive and unique.   If you expect mulitple versions
-            // of your program to run simultaneously, you need to generate unique names (e.g. add a process ID suffix) 
-            Console.WriteLine("Creating a 'My Session' session");
-            var sessionName = "My Session";
-            using (var session = new TraceEventSession(sessionName, null))  // the null second parameter means 'real time session'
+            var sessionName = "R4nd0mApps-TddStud10-Realtime-Session";
+            Console.WriteLine("Creating a '{0}' session", sessionName);
+            using (var session = new TraceEventSession(sessionName, null /* = Realtime session */))
             {
-                // Note that sessions create a OS object (a session) that lives beyond the lifetime of the process
-                // that created it (like Filles), thus you have to be more careful about always cleaning them up. 
-                // An importanty way you can do this is to set the 'StopOnDispose' property which will cause the session to 
-                // stop (and thus the OS object will die) when the TraceEventSession dies.   Because we used a 'using'
-                // statement, this means that any exception in the code below will clean up the OS object.   
                 session.StopOnDispose = true;
 
-                // By default, if you hit Ctrl-C your .NET objects may not be disposed, so force it to.  It is OK if dispose is called twice.
                 Console.CancelKeyPress += delegate(object sender, ConsoleCancelEventArgs e) { session.Dispose(); };
 
-                // prepare to read from the session, connect the ETWTraceEventSource to the session
                 using (var source = new ETWTraceEventSource(sessionName, TraceEventSourceType.Session))
                 {
-                    // Hook up the parser that knows about EventSources
                     var parser = new DynamicTraceEventParser(source);
                     parser.All += delegate(TraceEvent data)
                     {
-                        Console.WriteLine("GOT EVENT: " + data.ToString());
+                        if (data.EventName == "ManifestData")
+                        {
+                            return;
+                        }
+
+                        var sb = new StringBuilder();
+                        sb.AppendFormat("{0}-{1}-{2}: ", data.TimeStamp.ToString("mm:ss.fff"), data.ProcessID.ToString("D5"), data.ThreadID.ToString("D5"));
+                        var pns = from pn in data.PayloadNames
+                                where pn != "MSec" && pn != "PID" && pn != "TID"
+                                select pn;
+                        sb = pns.Aggregate(sb, (acc, pn) => acc.AppendFormat("{0}, ", data.GetValue(pn)));
+                        Console.WriteLine(sb.ToString());
+
+                        if (data.EventName == "Stop")
+                        {
+                            source.StopProcessing();
+                        }
                     };
 
-                    // Enable my provider, you can call many of these on the same session to get other events.  
-                    session.EnableProvider(providerGuid);
+                    session.EnableProvider("R4nd0mApps-TddStud10-Hosts-VS");
+                    session.EnableProvider("R4nd0mApps-TddStud10-Engine");
 
                     Console.WriteLine("Staring Listing for events");
-                    // go into a loop processing events can calling the callbacks.  Because this is live data (not from a file)
-                    // processing never completes by itself, but only because someone called 'source.Close()'.  
                     source.Process();
                     Console.WriteLine();
                     Console.WriteLine("Stopping the collection of events.");
                 }
             }
+        }
+
+        private static object GetValue(this TraceEvent data, string payLoadName)
+        {
+            var index = data.PayloadIndex(payLoadName);
+            if (index < 0)
+            {
+                return string.Format("Value with name '{0}' not found.", payLoadName);
+            }
+
+            return data.PayloadValue(index);
         }
     }
 }

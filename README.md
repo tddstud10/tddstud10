@@ -1,10 +1,10 @@
-TODO:
+﻿TODO:
 - v0.1
-    - Trigger on file change in solution directory
-    - Stop a barrage of events
-    - Pick unit test dlls
+    √ Disable toolwindow
+    √ Trigger on Ctrl T, Ctrl T
+    √ Stop a barrage of events
     - Progress on status bar
-    - Disable toolwindow
+    - Pick unit test dlls
 - v0.2
     - Resync
     - 3 stage update of markers

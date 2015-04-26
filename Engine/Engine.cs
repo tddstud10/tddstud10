@@ -7,8 +7,10 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using R4nd0mApps.TddStud10.Engine.Diagnostics;
 
 
 // TODO: Icons for ttdstud10 - fody pointers to icon generators
@@ -26,6 +28,7 @@ namespace R4nd0mApps.TddStud10.Engine
         }
 
         private string snapshotRoot = @"d:\tddstud10";
+        private bool running;
         private string solutionBuildRoot
         {
             get
@@ -91,129 +94,147 @@ namespace R4nd0mApps.TddStud10.Engine
             return false;
         }
 
-        public void Start(Action<string> AddListLine)
+        public void Start()
         {
-            string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
-            string testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
-
-            // TODO: [*] Stop a barrage of events
-            // TODO: [*] Stop duplicate events
-            // TODO: Multi-threaded build of xunit.net is buggy
-            Stopwatch stopWatch = new Stopwatch();
-            TimeSpan ts;
-            string elapsedTime;
-
-            // Delte files
-            AddListLine("Deleting build output...");
-            stopWatch.Start();
-            foreach (var file in Directory.EnumerateFiles(solutionBuildRoot, "*.pdb"))
+            lock (this)
             {
-                File.Delete(file);
-
-                var dll = Path.ChangeExtension(file, "dll");
-                if (File.Exists(dll))
+                if (running)
                 {
-                    File.Delete(dll);
+                    Logger.I.Log("Ignoring start as engine is currently running...");
                 }
+
+                running = true;
             }
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                        ts.Hours, ts.Minutes, ts.Seconds,
-                        ts.Milliseconds / 10);
-            AddListLine("Done deleting build output! [" + elapsedTime + "]");
-            AddListLine("/////////////////////////////////////////////////////////////////////////");
-            AddListLine("/////////////////////////////////////////////////////////////////////////");
 
-            // TODO: File copy and file discovery in parallel
-            // TODO: File copy can be multi-threaded
-            AddListLine("Copying files...");
-            stopWatch.Start();
-            var sln = new Solution(_solutionPath);
-            sln.Projects.ForEach(p =>
+            try
             {
-                var projectFile = Path.Combine(Path.GetDirectoryName(_solutionPath), p.RelativePath);
-                var folder = Path.GetDirectoryName(projectFile);
-                foreach (var src in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
-                {
-                    // TODO: Can filter out specific folders - e.g. .git
-                    var dst = src.ToUpperInvariant().Replace(_solutionGrandParentPath.ToUpperInvariant(), snapshotRoot);
-                    var srcInfo = new FileInfo(src);
-                    var dstInfo = new FileInfo(dst);
+                string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
+                string testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
 
-                    if (srcInfo.LastWriteTimeUtc > dstInfo.LastWriteTimeUtc)
+                // TODO: [*] Stop a barrage of events
+                // TODO: [*] Stop duplicate events
+                // TODO: Multi-threaded build of xunit.net is buggy
+                Stopwatch stopWatch = new Stopwatch();
+                TimeSpan ts;
+                string elapsedTime;
+
+                // Delte files
+                Logger.I.Log("Deleting build output...");
+                stopWatch.Start();
+                foreach (var file in Directory.EnumerateFiles(solutionBuildRoot, "*.pdb"))
+                {
+                    File.Delete(file);
+
+                    var dll = Path.ChangeExtension(file, "dll");
+                    if (File.Exists(dll))
                     {
-                        Directory.CreateDirectory(Path.GetDirectoryName(dst));
-                        AddListLine(dst);
-                        File.Copy(src, dst, true);
+                        File.Delete(dll);
                     }
                 }
-            });
+                stopWatch.Stop();
+                ts = stopWatch.Elapsed;
+                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                            ts.Hours, ts.Minutes, ts.Seconds,
+                            ts.Milliseconds / 10);
+                Logger.I.Log("Done deleting build output! [" + elapsedTime + "]");
+                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
+                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
 
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                        ts.Hours, ts.Minutes, ts.Seconds,
-                        ts.Milliseconds / 10);
-            AddListLine("Done copying files! [" + elapsedTime + "]");
-            AddListLine("/////////////////////////////////////////////////////////////////////////");
-            AddListLine("/////////////////////////////////////////////////////////////////////////");
+                // TODO: File copy and file discovery in parallel
+                // TODO: File copy can be multi-threaded
+                Logger.I.Log("Copying files...");
+                stopWatch.Start();
+                var sln = new Solution(_solutionPath);
+                sln.Projects.ForEach(p =>
+                {
+                    var projectFile = Path.Combine(Path.GetDirectoryName(_solutionPath), p.RelativePath);
+                    var folder = Path.GetDirectoryName(projectFile);
+                    foreach (var src in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
+                    {
+                        // TODO: Can filter out specific folders - e.g. .git
+                        var dst = src.ToUpperInvariant().Replace(_solutionGrandParentPath.ToUpperInvariant(), snapshotRoot);
+                        var srcInfo = new FileInfo(src);
+                        var dstInfo = new FileInfo(dst);
 
-            // TODO: Just build the dirty projects
-            // TODO: Get a robust stdout/err redirector from msbuild
-            AddListLine("Building project...");
-            stopWatch.Start();
-            ExecuteProcess(
-                @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe",
-                string.Format(@"/m /v:minimal /p:VisualStudioVersion=12.0 /p:OutDir={0} {1}", solutionBuildRoot, solutionSnapShotPath),
-                AddListLine
-            );
-            if (File.Exists(Path.Combine(solutionBuildRoot, Path.GetFileName(testRunnerPath))))
-            {
-                File.Delete(Path.Combine(solutionBuildRoot, Path.GetFileName(testRunnerPath)));
+                        if (srcInfo.LastWriteTimeUtc > dstInfo.LastWriteTimeUtc)
+                        {
+                            Directory.CreateDirectory(Path.GetDirectoryName(dst));
+                            Logger.I.Log(dst);
+                            File.Copy(src, dst, true);
+                        }
+                    }
+                });
+
+                stopWatch.Stop();
+                ts = stopWatch.Elapsed;
+                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                            ts.Hours, ts.Minutes, ts.Seconds,
+                            ts.Milliseconds / 10);
+                Logger.I.Log("Done copying files! [" + elapsedTime + "]");
+                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
+                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
+
+                // TODO: Just build the dirty projects
+                // TODO: Get a robust stdout/err redirector from msbuild
+                Logger.I.Log("Building project...");
+                stopWatch.Start();
+                ExecuteProcess(
+                    @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe",
+                    string.Format(@"/m /v:minimal /p:VisualStudioVersion=12.0 /p:OutDir={0} {1}", solutionBuildRoot, solutionSnapShotPath)
+                );
+                if (File.Exists(Path.Combine(solutionBuildRoot, Path.GetFileName(testRunnerPath))))
+                {
+                    File.Delete(Path.Combine(solutionBuildRoot, Path.GetFileName(testRunnerPath)));
+                }
+                File.Copy(testRunnerPath, Path.Combine(solutionBuildRoot, Path.GetFileName(testRunnerPath)));
+                stopWatch.Stop();
+                ts = stopWatch.Elapsed;
+                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                            ts.Hours, ts.Minutes, ts.Seconds,
+                            ts.Milliseconds / 10);
+                Logger.I.Log("Done building project! [" + elapsedTime + "]");
+                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
+                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
+
+                Logger.I.Log("Instrumenting and discovering tests...");
+                stopWatch.Start();
+                Instrumentation.GenerateSequencePointInfo(solutionBuildRoot, SequencePointStore);
+                Instrumentation.Instrument(solutionBuildRoot);
+                stopWatch.Stop();
+                ts = stopWatch.Elapsed;
+                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                            ts.Hours, ts.Minutes, ts.Seconds,
+                            ts.Milliseconds / 10);
+                Logger.I.Log("Done instrumenting and discovering tests! [" + elapsedTime + "]");
+                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
+                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
+
+                Logger.I.Log("Executing tests...");
+                stopWatch.Start();
+                ExecuteProcess(
+                    testRunnerPath,
+                    string.Format(@"execute {0} {1} {2}", solutionBuildRoot, CoverageResults, TestResults)
+                );
+                stopWatch.Stop();
+                ts = stopWatch.Elapsed;
+                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                            ts.Hours, ts.Minutes, ts.Seconds,
+                            ts.Milliseconds / 10);
+                Logger.I.Log("Done executing tests! [" + elapsedTime + "]");
+                Logger.I.Log("");
             }
-            File.Copy(testRunnerPath, Path.Combine(solutionBuildRoot, Path.GetFileName(testRunnerPath)));
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                        ts.Hours, ts.Minutes, ts.Seconds,
-                        ts.Milliseconds / 10);
-            AddListLine("Done building project! [" + elapsedTime + "]");
-            AddListLine("/////////////////////////////////////////////////////////////////////////");
-            AddListLine("/////////////////////////////////////////////////////////////////////////");
-
-            AddListLine("Instrumenting and discovering tests...");
-            stopWatch.Start();
-            Instrumentation.GenerateSequencePointInfo(solutionBuildRoot, SequencePointStore);
-            Instrumentation.Instrument(solutionBuildRoot);
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                        ts.Hours, ts.Minutes, ts.Seconds,
-                        ts.Milliseconds / 10);
-            AddListLine("Done instrumenting and discovering tests! [" + elapsedTime + "]");
-            AddListLine("/////////////////////////////////////////////////////////////////////////");
-            AddListLine("/////////////////////////////////////////////////////////////////////////");
-
-            AddListLine("Executing tests...");
-            stopWatch.Start();
-            ExecuteProcess(
-                testRunnerPath,
-                string.Format(@"execute {0} {1} {2}", solutionBuildRoot, CoverageResults, TestResults),
-                AddListLine
-            );
-            stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                        ts.Hours, ts.Minutes, ts.Seconds,
-                        ts.Milliseconds / 10);
-            AddListLine("Done executing tests! [" + elapsedTime + "]");
-            AddListLine("");
+            finally
+            {
+                lock (this)
+                {
+                    running = false;
+                }
+            }
         }
 
-        private void ExecuteProcess(string fileName, string arguments, Action<string> AddListLine)
+        private void ExecuteProcess(string fileName, string arguments)
         {
-            AddListLine(string.Format("Executing: '{0}' '{1}'", fileName, arguments));
+            Logger.I.Log(string.Format("Executing: '{0}' '{1}'", fileName, arguments));
             ProcessStartInfo processStartInfo;
             Process process;
 
@@ -235,7 +256,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 delegate(object sender, DataReceivedEventArgs e)
                 {
                     // append the new data to the data already read-in
-                    AddListLine(e.Data);
+                    Logger.I.Log(e.Data);
                 }
             );
             process.ErrorDataReceived += new DataReceivedEventHandler
@@ -243,7 +264,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 delegate(object sender, DataReceivedEventArgs e)
                 {
                     // append the new data to the data already read-in
-                    AddListLine(e.Data);
+                    Logger.I.Log(e.Data);
                 }
             );
             // start the process
