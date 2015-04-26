@@ -1,27 +1,32 @@
-﻿TODO:
-- v0.1 - dogfood
-  - √ Disable toolwindow
-  - √ Trigger on Ctrl T, Ctrl T
-  - √ Stop a barrage of events
-  - √ Progress on status bar
-  - Pick unit test dlls
-- v0.2 - ready for perf tests + 2 dogfood items
-  - enable on filesystem update
-  - debug specific tests
-  - failure experience [one of the steps failed dont proceed, indicate in progressbar]
-  - Resync
-  - 3 stage update of markers
-  - Reduce perf of run tests
-  - dogfood - 1
-  - dogfood - 2
-- v0.3 - perf tests
-  - Enable on edit trigger
-  - xunit, nunit
+﻿# Roadmap
+
+  - v0.1 - dogfood
+    - √ Disable toolwindow
+    - √ Trigger on Ctrl T, Ctrl T
+    - √ Stop a barrage of events
+    - √ Progress on status bar
+    - Pick unit test dlls
+  - v0.2 - ready for perf tests + 2 dogfood items
+    - enable on filesystem update
+    - debug specific tests
+    - failure experience [one of the steps failed dont proceed, indicate in progressbar]
+    - Resync
+    - 3 stage update of markers
+    - Reduce perf of run tests
+    - dogfood - 1
+    - dogfood - 2
+
+  - v0.3 - perf tests
+    - Enable on edit trigger
+    - xunit, nunit
+
 - v0.9 - beta
+
 - v0.9.1 - rc
+
 - v1.0 - v1 release
 
----------------------------------------
+# Miscellenous notes
 
 - make the obvious speed improvements (don't copy all files, filter out assemblies, remove o(n^2) search in discoverer, filter out known assemblies from coverage)
 - failures in the process show show up clearly 
