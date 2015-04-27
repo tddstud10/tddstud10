@@ -10,6 +10,15 @@ namespace R4nd0mApps.TddStud10
     public class SerializableDictionary<TKey, TValue>
         : ConcurrentDictionary<TKey, TValue>, IXmlSerializable
     {
+        public SerializableDictionary()
+        {
+        }
+
+        public SerializableDictionary(IEqualityComparer<TKey> comparer)
+            : base(comparer)
+        {
+        }
+
         #region IXmlSerializable Members
         public System.Xml.Schema.XmlSchema GetSchema()
         {

@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -10,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using R4nd0mApps.TddStud10.Engine.Diagnostics;
+using R4nd0mApps.TddStud10.Common.Diagnostics;
 
 
 // TODO: Icons for ttdstud10 - fody pointers to icon generators
@@ -25,28 +26,29 @@ namespace R4nd0mApps.TddStud10.Engine
         public event EventHandler<string> RunStepStarting;
         public event EventHandler RunEnded;
 
-        public  Engine(string solutionPath)
+        public  Engine(DateTime sessionStartTime, string solutionPath)
         {
+            _sessionStartTime = sessionStartTime;
             _solutionPath = solutionPath;
             _solutionGrandParentPath = Path.GetDirectoryName(Path.GetDirectoryName(_solutionPath));
         }
 
-        private string snapshotRoot = @"d:\tddstud10";
-        private bool running;
-        private string solutionBuildRoot
+        private string _snapshotRoot = @"d:\tddstud10";
+        private bool _running;
+        private DateTime _sessionStartTime;
+
+        public string SolutionBuildRoot
         {
             get
             {
-                return Path.Combine(snapshotRoot, Path.GetFileName(Path.GetDirectoryName(_solutionPath)) + ".out");
-                //return @"d:\tddstud10\xunit.out\";
+                return Path.Combine(_snapshotRoot, Path.GetFileName(Path.GetDirectoryName(_solutionPath)) + ".out");
             }
         }
         private string solutionSnapShotPath
         {
             get
             {
-                return Path.Combine(snapshotRoot, Path.GetFileName(Path.GetDirectoryName(_solutionPath)), Path.GetFileName(_solutionPath));
-                // return @"d:\tddstud10\xunit\xunit.vs2013.NoXamarin.sln";
+                return Path.Combine(_snapshotRoot, Path.GetFileName(Path.GetDirectoryName(_solutionPath)), Path.GetFileName(_solutionPath));
             }
         }
 
@@ -54,7 +56,7 @@ namespace R4nd0mApps.TddStud10.Engine
         {
             get
             {
-                return Path.Combine(solutionBuildRoot, "Z_seqpoints.xml");
+                return Path.Combine(SolutionBuildRoot, "Z_seqpoints.xml");
             }
         }
 
@@ -62,7 +64,7 @@ namespace R4nd0mApps.TddStud10.Engine
         {
             get
             {
-                return Path.Combine(solutionBuildRoot, "Z_coverageresults.xml");
+                return Path.Combine(SolutionBuildRoot, "Z_coverageresults.xml");
             }
         }
 
@@ -70,7 +72,15 @@ namespace R4nd0mApps.TddStud10.Engine
         {
             get
             {
-                return Path.Combine(solutionBuildRoot, "Z_testresults.xml");
+                return Path.Combine(SolutionBuildRoot, "Z_testresults.xml");
+            }
+        }
+
+        public string DiscoveredUnitTestsStore 
+        {
+            get
+            {
+                return Path.Combine(SolutionBuildRoot, "Z_discoveredUnitTests.xml");
             }
         }
 
@@ -83,13 +93,13 @@ namespace R4nd0mApps.TddStud10.Engine
                 return true;
             }
 
-            if (path1.ToUpperInvariant().Replace(snapshotRoot.ToUpperInvariant(), "")
+            if (path1.ToUpperInvariant().Replace(_snapshotRoot.ToUpperInvariant(), "")
                 .Equals(path2.ToUpperInvariant().Replace(_solutionGrandParentPath.ToUpperInvariant(), "")))
             {
                 return true;
             }
 
-            if (path2.ToUpperInvariant().Replace(snapshotRoot.ToUpperInvariant(), "")
+            if (path2.ToUpperInvariant().Replace(_snapshotRoot.ToUpperInvariant(), "")
                 .Equals(path1.ToUpperInvariant().Replace(_solutionGrandParentPath.ToUpperInvariant(), "")))
             {
                 return true;
@@ -102,12 +112,12 @@ namespace R4nd0mApps.TddStud10.Engine
         {
             lock (this)
             {
-                if (running)
+                if (_running)
                 {
-                    Logger.I.Log("Ignoring start as engine is currently running...");
+                    Logger.I.Log("Ignoring start as engine is currently _running...");
                 }
 
-                running = true;
+                _running = true;
             }
 
             try
@@ -126,7 +136,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 OnRaiseRunStepStarting("Deleting build output...");
                 Logger.I.Log("Deleting build output...");
                 stopWatch.Start();
-                foreach (var file in Directory.EnumerateFiles(solutionBuildRoot, "*.pdb"))
+                foreach (var file in Directory.EnumerateFiles(SolutionBuildRoot, "*.pdb"))
                 {
                     File.Delete(file);
 
@@ -158,7 +168,7 @@ namespace R4nd0mApps.TddStud10.Engine
                     foreach (var src in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
                     {
                         // TODO: Can filter out specific folders - e.g. .git
-                        var dst = src.ToUpperInvariant().Replace(_solutionGrandParentPath.ToUpperInvariant(), snapshotRoot);
+                        var dst = src.ToUpperInvariant().Replace(_solutionGrandParentPath.ToUpperInvariant(), _snapshotRoot);
                         var srcInfo = new FileInfo(src);
                         var dstInfo = new FileInfo(dst);
 
@@ -187,13 +197,13 @@ namespace R4nd0mApps.TddStud10.Engine
                 stopWatch.Start();
                 ExecuteProcess(
                     @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe",
-                    string.Format(@"/m /v:minimal /p:VisualStudioVersion=12.0 /p:OutDir={0} {1}", solutionBuildRoot, solutionSnapShotPath)
+                    string.Format(@"/m /v:minimal /p:VisualStudioVersion=12.0 /p:OutDir={0} {1}", SolutionBuildRoot, solutionSnapShotPath)
                 );
-                if (File.Exists(Path.Combine(solutionBuildRoot, Path.GetFileName(testRunnerPath))))
+                if (File.Exists(Path.Combine(SolutionBuildRoot, Path.GetFileName(testRunnerPath))))
                 {
-                    File.Delete(Path.Combine(solutionBuildRoot, Path.GetFileName(testRunnerPath)));
+                    File.Delete(Path.Combine(SolutionBuildRoot, Path.GetFileName(testRunnerPath)));
                 }
-                File.Copy(testRunnerPath, Path.Combine(solutionBuildRoot, Path.GetFileName(testRunnerPath)));
+                File.Copy(testRunnerPath, Path.Combine(SolutionBuildRoot, Path.GetFileName(testRunnerPath)));
                 stopWatch.Stop();
                 ts = stopWatch.Elapsed;
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
@@ -206,8 +216,8 @@ namespace R4nd0mApps.TddStud10.Engine
                 OnRaiseRunStepStarting("Instrumenting and discovering tests...");
                 Logger.I.Log("Instrumenting and discovering tests...");
                 stopWatch.Start();
-                Instrumentation.GenerateSequencePointInfo(solutionBuildRoot, SequencePointStore);
-                Instrumentation.Instrument(solutionBuildRoot);
+                Instrumentation.GenerateSequencePointInfo(_sessionStartTime, SolutionBuildRoot, SequencePointStore);
+                Instrumentation.Instrument(_sessionStartTime, SolutionBuildRoot, DiscoveredUnitTestsStore);
                 stopWatch.Stop();
                 ts = stopWatch.Elapsed;
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
@@ -222,7 +232,13 @@ namespace R4nd0mApps.TddStud10.Engine
                 stopWatch.Start();
                 ExecuteProcess(
                     testRunnerPath,
-                    string.Format(@"execute {0} {1} {2}", solutionBuildRoot, CoverageResults, TestResults)
+                    string.Format(
+                        @"execute {0} {1} {2} {3}",
+                        SolutionBuildRoot, 
+                        CoverageResults, 
+                        TestResults,
+                        DiscoveredUnitTestsStore
+                    )
                 );
                 stopWatch.Stop();
                 ts = stopWatch.Elapsed;
@@ -238,7 +254,7 @@ namespace R4nd0mApps.TddStud10.Engine
             {
                 lock (this)
                 {
-                    running = false;
+                    _running = false;
                 }
             }
         }

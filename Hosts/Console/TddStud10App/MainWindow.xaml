@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBox x:Name="textBlock" TextWrapping="Wrap" Text="" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2"/>
-        <Button Content="Button" HorizontalAlignment="Right" Grid.Row="1" Width="75" Height="20" VerticalAlignment="Top" Click="Button_Click" Grid.Column="1"/>
+        <Button Content="Start Run" HorizontalAlignment="Right" Grid.Row="1" Width="75" Height="20" VerticalAlignment="Top" Click="Button_Click" Grid.Column="1"/>
         <TextBox x:Name="solutionPath" Margin="0,0,0,-3" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Text="d:\src\r4nd0mkatas\fizzbuzz\FizzBuzz.sln"/>
     </Grid>
 </Window>

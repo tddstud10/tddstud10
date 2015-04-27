@@ -52,6 +52,8 @@ namespace RealTimeEtwListener
                     };
 
                     session.EnableProvider("R4nd0mApps-TddStud10-Hosts-VS");
+                    session.EnableProvider("R4nd0mApps-TddStud10-Hosts-Console");
+                    session.EnableProvider("R4nd0mApps-TddStud10-TestHost");
                     session.EnableProvider("R4nd0mApps-TddStud10-Engine");
 
                     Console.WriteLine("Staring Listing for events");

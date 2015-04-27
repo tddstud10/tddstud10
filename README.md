@@ -5,9 +5,9 @@
     - √ Trigger on Ctrl T, Ctrl T
     - √ Stop a barrage of events
     - √ Progress on status bar
-    - Pick unit test dlls
-  - v0.2 - ready for perf tests + 2 dogfood items
+    - √ Pick unit test dlls
     - enable on filesystem update
+  - v0.2 - ready for perf tests + 2 dogfood items
     - debug specific tests
     - failure experience [one of the steps failed dont proceed, indicate in progressbar]
     - Resync
@@ -28,6 +28,8 @@
 
 # Miscellenous notes
 
+- version specific builder/testrunner
+- timing info of tests
 - make the obvious speed improvements (don't copy all files, filter out assemblies, remove o(n^2) search in discoverer, filter out known assemblies from coverage)
 - failures in the process show show up clearly 
 - incremental b/r  

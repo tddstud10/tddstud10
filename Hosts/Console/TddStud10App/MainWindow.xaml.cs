@@ -30,7 +30,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App
             var slnPath = solutionPath.Text;
             System.Threading.ThreadPool.QueueUserWorkItem(delegate
             {
-                new Engine.Engine(slnPath).Start();
+                new Engine.Engine(DateTime.UtcNow, slnPath).Start();
             }, null);
         }
     }

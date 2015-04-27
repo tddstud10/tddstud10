@@ -11,6 +11,7 @@ using Mono.Cecil.Cil;
 using R4nd0mApps.TddStud10;
 using Mono.Cecil.Rocks;
 using R4nd0mApps.TddStud10.TestHost;
+using R4nd0mApps.TddStud10.Common.Diagnostics;
 
 namespace R4nd0mApps.TddStud10
 {
@@ -22,7 +23,7 @@ namespace R4nd0mApps.TddStud10
         private static string testRunnerPath;
 
         // TODO: Merge these 2 methods
-        public static void GenerateSequencePointInfo(string buildOutputRoot, string seqencePointStore)
+        public static void GenerateSequencePointInfo(DateTime timeFilter, string buildOutputRoot, string seqencePointStore)
         {
             var dict = new SequencePointSession();
             foreach (var assemblyPath in Directory.EnumerateFiles(buildOutputRoot, "*.dll"))
@@ -31,6 +32,13 @@ namespace R4nd0mApps.TddStud10
                 {
                     continue;                
                 }
+
+                if (File.GetLastWriteTimeUtc(assemblyPath) < timeFilter)
+                {
+                    continue;
+                }
+
+                Logger.I.Log("Generating sequence point info for {0}.", assemblyPath);
 
                 var assembly = AssemblyDefinition.ReadAssembly(assemblyPath, new ReaderParameters { ReadSymbols = true });
 
@@ -65,24 +73,33 @@ namespace R4nd0mApps.TddStud10
                 }
             }
 
-            StringWriter writer = new StringWriter();
-
-            XmlSerializer serializer = new XmlSerializer(typeof(SequencePointSession));
-            serializer.Serialize(writer, dict);
-            File.WriteAllText(seqencePointStore, writer.ToString());
+            using (StringWriter writer = new StringWriter())
+            {
+                SequencePointSession.Serializer.Serialize(writer, dict);
+                File.WriteAllText(seqencePointStore, writer.ToString());
+            }
         }
 
-        public static void Instrument(string buildOutputRoot)
+        public static void Instrument(DateTime timeFilter, string buildOutputRoot, string discoveredUnitTestsStore)
         {
             string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
             testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
+
+            var unitTests = new DiscoveredUnitTests();
 
             foreach (var assemblyPath in Directory.EnumerateFiles(buildOutputRoot, "*.dll"))
             {
                 if (!File.Exists(Path.ChangeExtension(assemblyPath, ".pdb")))
                 {
                     continue;                
-                }   
+                }
+
+                if (File.GetLastWriteTimeUtc(assemblyPath) < timeFilter)
+                {
+                    continue;
+                }
+
+                Logger.I.Log("Instrumenting {0}.", assemblyPath);
 
                 var assembly = AssemblyDefinition.ReadAssembly(assemblyPath, new ReaderParameters { ReadSymbols = true });
 
@@ -120,6 +137,13 @@ namespace R4nd0mApps.TddStud10
                     meth.Body.SimplifyMacros();
                     if (meth.CustomAttributes.Any(ca => ca.AttributeType.Name == "FactAttribute"))
                     {
+                        var unitTestName = string.Format("{0} {1}::{2}", meth.ReturnType.FullName, meth.DeclaringType.FullName, meth.Name);
+                        if (!unitTests.ContainsKey(assemblyPath))
+                        {
+                            unitTests[assemblyPath] = new List<string>();
+                        }
+                        unitTests[assemblyPath].Add(unitTestName);
+
                         Instruction instrMarker = meth.Body.Instructions[0];
                         Instruction instr = null;
                         var ilProcessor = meth.Body.GetILProcessor();
@@ -129,7 +153,7 @@ namespace R4nd0mApps.TddStud10
                         ilProcessor.InsertBefore(instrMarker, instr);
                         instrMarker = instr;
                         // IL_0006: ldstr <methodName>
-                        instr = ilProcessor.Create(OpCodes.Ldstr, string.Format("{0} {1}::{2}", meth.ReturnType.FullName, meth.DeclaringType.FullName, meth.Name));
+                        instr = ilProcessor.Create(OpCodes.Ldstr, unitTestName);
                         ilProcessor.InsertBefore(instrMarker, instr);
                         instrMarker = instr;
                         // TODO: Fxcop and other release build stuff
@@ -174,6 +198,12 @@ namespace R4nd0mApps.TddStud10
                 File.Delete(backupAssemblyPath);
                 File.Move(assemblyPath, backupAssemblyPath);
                 assembly.Write(assemblyPath, new WriterParameters { WriteSymbols = true });
+            }
+
+            using (StringWriter writer = new StringWriter())
+            {
+                DiscoveredUnitTests.Serializer.Serialize(writer, unitTests);
+                File.WriteAllText(discoveredUnitTestsStore, writer.ToString());
             }
         }
     }

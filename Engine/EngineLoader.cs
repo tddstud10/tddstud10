@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
-using R4nd0mApps.TddStud10.Engine.Diagnostics;
+using R4nd0mApps.TddStud10.Common.Diagnostics;
 using R4nd0mApps.TddStud10.TestHost;
 
 namespace R4nd0mApps.TddStud10.Engine
@@ -17,7 +17,7 @@ namespace R4nd0mApps.TddStud10.Engine
         private static EventHandler<string> runStepStartingHandler;
         private static EventHandler runEndedHandler;
 
-        public static void Load(string solutionPath, Action runStarting, Action<string> runStepStarting, Action runEnded)
+        public static void Load(DateTime sessionStartTime, string solutionPath, Action runStarting, Action<string> runStepStarting, Action runEnded)
         {
             Logger.I.Log("Loading Engine with solution {0}", solutionPath);
 
@@ -25,7 +25,7 @@ namespace R4nd0mApps.TddStud10.Engine
             runStepStartingHandler = (o, ea) => runStepStarting(ea);
             runEndedHandler = (o, ea) => runEnded();
 
-            Engine.Instance = new Engine(solutionPath);
+            Engine.Instance = new Engine(sessionStartTime, solutionPath);
             Engine.Instance.RunStarting += runStartingHandler;
             Engine.Instance.RunStepStarting += runStepStartingHandler;
             Engine.Instance.RunEnded += runEndedHandler;

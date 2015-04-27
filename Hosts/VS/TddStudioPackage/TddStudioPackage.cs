@@ -14,7 +14,7 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
 using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
-using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
+using R4nd0mApps.TddStud10.Common.Diagnostics;
 using System.IO;
 using R4nd0mApps.TddStud10.Engine;
 using System.Windows.Controls;
@@ -37,14 +37,12 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         private IVsSolution2 _solution = null;
         private IVsStatusbar _statusBar;
 
+        public static TddStud10Package Instance { get; private set; }
+
+        public DateTime LoadTimestamp { get; private set; }
+
         public TddStud10Package()
         {
-        }
-
-        public static TddStud10Package Instance
-        {
-            get;
-            private set;
         }
 
         public void InvokeOnUIThread(Action action)
@@ -57,6 +55,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         protected override void Initialize()
         {
             base.Initialize();
+
+            LoadTimestamp = DateTime.UtcNow;
 
             _uiThreadInvoker = new Control();
 
@@ -79,6 +79,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             }
 
             Instance = this;
+
+            Logger.I.Log("Initialized Package. Load timestamp {0}.", LoadTimestamp);
         }
 
         private void TriggerTddStudioRun(object sender, EventArgs e)
@@ -130,7 +132,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         int IVsSolutionEvents.OnAfterOpenSolution(object pUnkReserved, int fNewSolution)
         {
             var solutionPath = ((Package.GetGlobalService(typeof(EnvDTE.DTE))) as EnvDTE.DTE).Solution.FullName;
-            EngineLoader.Load(solutionPath, RunStarting, RunStepStarting, RunEnded);
+            EngineLoader.Load(LoadTimestamp, solutionPath, RunStarting, RunStepStarting, RunEnded);
 
             return VSConstants.S_OK;
         }

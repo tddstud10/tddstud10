@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="CoverageData.cs" />
     <Compile Include="CoverageSession.cs" />
+    <Compile Include="DiscoveredUnitTests.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Marker.cs" />
     <Compile Include="Program.cs" />

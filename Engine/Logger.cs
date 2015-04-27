@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Diagnostics.Tracing;
 
-namespace R4nd0mApps.TddStud10.Engine.Diagnostics
+namespace R4nd0mApps.TddStud10.Common.Diagnostics
 {
     [EventSource(Name = "R4nd0mApps-TddStud10-Engine")]
     internal sealed class Logger : EventSource
@@ -23,13 +23,13 @@ namespace R4nd0mApps.TddStud10.Engine.Diagnostics
         {
             base.WriteEvent(2, message);
         }
-        
+
         [NonEvent]
         public void Log(string format, params object[] args)
         {
             if (IsEnabled())
-            { 
-                WriteEvent(1, string.Format(format, args));
+            {
+                Log(string.Format(format, args));
             }
         }
     }

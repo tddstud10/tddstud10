@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using R4nd0mApps.TddStud10.Common.Diagnostics;
 using R4nd0mApps.TddStud10.Engine;
 using Server;
 using Xunit;
@@ -28,17 +29,14 @@ namespace R4nd0mApps.TddStud10.TestHost
         private static string solutionBuildRoot;
         private static string codeCoverageStore;
         private static string testResultsStore;
-        public static void AddListLine(string text)
-        {
-            Console.WriteLine(text);
-        }
+        private static string discoveredUnitTestsStore;
 
         static void Main(string[] args)
         {
             solutionBuildRoot = args[1];
             codeCoverageStore = args[2];
             testResultsStore = args[3];
-
+            discoveredUnitTestsStore = args[4];
             var ccServer = new CodeCoverageServer();
             using (ServiceHost serviceHost = new ServiceHost(ccServer))
             {
@@ -58,17 +56,18 @@ namespace R4nd0mApps.TddStud10.TestHost
             TimeSpan ts;
             string elapsedTime;
 
-            AddListLine("Executing tests...");
+            Logger.I.Log("TestHost executing tests...");
             stopWatch.Start();
-            // TODO: Could be any assembly - dll or exe
             // TODO: Multi-threaded test discovery/execution
-            // TODO: Can get base test execution metrics - timing etc
+            // TODO: Can also get base test execution metrics - timing etc
             var testResults = new TestDetails();
-            // TODO: Select the files judicously
-            foreach (var asm in Directory.GetFiles(solutionBuildRoot, "*.UnitTests.dll"))
+            var unitTests = LoadUnitTestCases();
+            foreach (var asm in unitTests.Keys)
             {
+                Logger.I.Log("Executing tests in {0}.", asm);
+
                 using (var controller = new XunitFrontController(asm))
-                using (var resultsVisitor = new StandardOutputVisitor(new object(), false, solutionBuildRoot, () => false, AddListLine, testResults.Dictionary))
+                using (var resultsVisitor = new StandardOutputVisitor(new object(), false, solutionBuildRoot, () => false, Logger.I.Log, testResults.Dictionary))
                 {
                     controller.RunAll(resultsVisitor, TestFrameworkOptions.ForDiscovery(), TestFrameworkOptions.ForExecution());
                     resultsVisitor.Finished.WaitOne();
@@ -82,8 +81,25 @@ namespace R4nd0mApps.TddStud10.TestHost
             elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                         ts.Hours, ts.Minutes, ts.Seconds,
                         ts.Milliseconds / 10);
-            AddListLine("Done! [" + elapsedTime + "]");
-            AddListLine("");
+            Logger.I.Log("Done TestHost executing tests! [" + elapsedTime + "]");
+            Logger.I.Log("");
+        }
+
+        // TODO: This pattern is repeated everywhere. Unify it.
+        private static DiscoveredUnitTests LoadUnitTestCases()
+        {
+            var testCases = File.ReadAllText(discoveredUnitTestsStore);
+            StringReader reader = new StringReader(testCases);
+            XmlTextReader xmlReader = new XmlTextReader(reader);
+            try
+            {
+                return DiscoveredUnitTests.Serializer.Deserialize(xmlReader) as DiscoveredUnitTests;
+            }
+            finally
+            {
+                xmlReader.Close();
+                reader.Close();
+            }
         }
 
         private static void SaveTestResults(TestDetails testDetails)
@@ -95,6 +111,7 @@ namespace R4nd0mApps.TddStud10.TestHost
         }
     }
 
+    // TODO: Cleanup - remove unnecesary classes
     internal class TestDiscoveryVisitor : TestMessageVisitor<IDiscoveryCompleteMessage>
     {
         private Predicate<ITestCase> _filter;
@@ -599,6 +616,7 @@ namespace R4nd0mApps.TddStud10.TestHost
 }
 
 /*
+ TODO: Cleanup: Remove these
  c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe /m /v:minimal /p:VisualStudioVersion=12.0 /p:OutDir=d:\tddstud10\fizzbuzz.out d:\tddstud10\fizzbuzz\FizzBuzz.sln
  D:\src\r4nd0mapps\WpfApplication2\WpfApplication2\bin\Debug\TestRunner.exe discover d:\tddstud10\fizzbuzz.out d:\tddstud10\fizzbuzz.out\testcases.txt
  D:\src\r4nd0mapps\WpfApplication2\packages\opencover.4.5.3522\OpenCover.Console.exe -mergebyhash "-output:d:\tddstud10\fizzbuzz.out\results.xml" -register:user -returntargetcode:10000 "-target:D:\src\r4nd0mapps\WpfApplication2\WpfApplication2\bin\Debug\TestRunner.exe" "-targetargs:execute d:\tddstud10\fizzbuzz.out d:\tddstud10\fizzbuzz.out\testcases.txt" "-targetdir:d:\tddstud10\fizzbuzz.out"
