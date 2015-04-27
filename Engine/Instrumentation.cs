@@ -11,7 +11,7 @@ using Mono.Cecil.Cil;
 using R4nd0mApps.TddStud10;
 using Mono.Cecil.Rocks;
 using R4nd0mApps.TddStud10.TestHost;
-using R4nd0mApps.TddStud10.Common.Diagnostics;
+using R4nd0mApps.TddStud10.Engine.Diagnostics;
 
 namespace R4nd0mApps.TddStud10
 {

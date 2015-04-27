@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Diagnostics.Tracing;
 
-namespace R4nd0mApps.TddStud10.Common.Diagnostics
+namespace R4nd0mApps.TddStud10.Engine.Diagnostics
 {
     [EventSource(Name = "R4nd0mApps-TddStud10-Engine")]
     internal sealed class Logger : EventSource

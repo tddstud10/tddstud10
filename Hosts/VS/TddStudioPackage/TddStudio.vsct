@@ -67,7 +67,13 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
       <Button guid="guidProgressBarCmdSet" id="cmdidProgressBar" priority="0x0001" type="Button">
         <Parent guid="guidProgressBarCmdSet" id="MyMenuGroup" />
         <Strings>
-          <ButtonText>Trigger TddStud&amp;10 Run</ButtonText>
+          <ButtonText>Enable TddStud&amp;10</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidProgressBarCmdSet" id="cmdidDisable" priority="0x0002" type="Button">
+        <Parent guid="guidProgressBarCmdSet" id="MyMenuGroup" />
+        <Strings>
+          <ButtonText>Disable TddStud&amp;10</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -99,6 +105,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <GuidSymbol name="guidProgressBarCmdSet" value="{6c8e3ef8-58d8-44a6-b4eb-71bcccc8f2e0}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="cmdidProgressBar" value="0x0101" />
+      <IDSymbol name="cmdidDisable" value="0x0102" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{6c8e3efb-58d8-44a6-b4eb-71bcccc8f2e0}" >

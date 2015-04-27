@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using R4nd0mApps.TddStud10.Common.Diagnostics;
+using R4nd0mApps.TddStud10.Engine.Diagnostics;
 
 
 // TODO: Icons for ttdstud10 - fody pointers to icon generators
@@ -115,6 +115,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 if (_running)
                 {
                     Logger.I.Log("Ignoring start as engine is currently _running...");
+                    return;
                 }
 
                 _running = true;

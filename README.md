@@ -1,12 +1,12 @@
 ﻿# Roadmap
 
-  - v0.1 - dogfood
+  - √ v0.1 - dogfood
     - √ Disable toolwindow
     - √ Trigger on Ctrl T, Ctrl T
     - √ Stop a barrage of events
     - √ Progress on status bar
     - √ Pick unit test dlls
-    - enable on filesystem update
+    - √ enable on filesystem update
   - v0.2 - ready for perf tests + 2 dogfood items
     - debug specific tests
     - failure experience [one of the steps failed dont proceed, indicate in progressbar]
@@ -15,16 +15,13 @@
     - Reduce perf of run tests
     - dogfood - 1
     - dogfood - 2
-
   - v0.3 - perf tests
     - Enable on edit trigger
     - xunit, nunit
+  - v0.9 - beta
+  - v0.9.1 - rc
+  - v1.0 - v1 release
 
-- v0.9 - beta
-
-- v0.9.1 - rc
-
-- v1.0 - v1 release
 
 # Miscellenous notes
 

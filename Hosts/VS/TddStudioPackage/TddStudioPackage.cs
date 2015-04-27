@@ -14,10 +14,10 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using System.Linq;
 using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
-using R4nd0mApps.TddStud10.Common.Diagnostics;
 using System.IO;
 using R4nd0mApps.TddStud10.Engine;
 using System.Windows.Controls;
+using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
 {
@@ -72,10 +72,20 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if (null != mcs)
             {
-                // Create the command for the menu item.
-                CommandID menuCommandID = new CommandID(new Guid(GuidList.guidProgressBarCmdSetString), (int)PkgCmdIDList.cmdidProgressBar);
-                MenuCommand menuItem = new MenuCommand(TriggerTddStudioRun, menuCommandID);
-                mcs.AddCommand(menuItem);
+                new Dictionary<uint, EventHandler>
+                {
+                    { PkgCmdIDList.cmdidEnableTddStud10, EnableTddStud10 },
+                    { PkgCmdIDList.cmdidDisableTddStud10, DisableTddStud10 },
+                }.Aggregate(
+                    new KeyValuePair<uint, EventHandler>(),
+                    (_, kvp) => 
+                    {
+                        // Create the command for the menu item.
+                        CommandID menuCommandID = new CommandID(new Guid(GuidList.guidProgressBarCmdSetString), (int)kvp.Key);
+                        MenuCommand menuItem = new MenuCommand(kvp.Value, menuCommandID);
+                        mcs.AddCommand(menuItem); 
+                        return kvp;
+                    });
             }
 
             Instance = this;
@@ -83,11 +93,18 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             Logger.I.Log("Initialized Package. Load timestamp {0}.", LoadTimestamp);
         }
 
-        private void TriggerTddStudioRun(object sender, EventArgs e)
+        private void EnableTddStud10(object sender, EventArgs e)
         {
-            Logger.I.Log("Called Trigger TddStud10...");
+            Logger.I.Log("Enabling TddStud10...");
 
-            EngineLoader.RunEngine();
+            EngineLoader.EnableEngine();
+        }
+
+        private void DisableTddStud10(object sender, EventArgs e)
+        {
+            Logger.I.Log("Disabling TddStud10...");
+
+            EngineLoader.DisableEngine();
         }
 
         protected override void Dispose(bool disposing)

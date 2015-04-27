@@ -6,16 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
-using R4nd0mApps.TddStud10.Common.Diagnostics;
+using R4nd0mApps.TddStud10.Engine.Diagnostics;
 using R4nd0mApps.TddStud10.TestHost;
 
 namespace R4nd0mApps.TddStud10.Engine
 {
-    public class EngineLoader
+    public static class EngineLoader
     {
         private static EventHandler runStartingHandler;
         private static EventHandler<string> runStepStartingHandler;
         private static EventHandler runEndedHandler;
+        private static EngineFileSystemWatcher efsWatcher;
 
         public static void Load(DateTime sessionStartTime, string solutionPath, Action runStarting, Action<string> runStepStarting, Action runEnded)
         {
@@ -29,9 +30,55 @@ namespace R4nd0mApps.TddStud10.Engine
             Engine.Instance.RunStarting += runStartingHandler;
             Engine.Instance.RunStepStarting += runStepStartingHandler;
             Engine.Instance.RunEnded += runEndedHandler;
+
+            efsWatcher = EngineFileSystemWatcher.Create(solutionPath, RunEngine);
         }
 
-        public static void RunEngine()
+        public static void EnableEngine()
+        {
+            if (efsWatcher == null)
+            {
+                Logger.I.Log("Engine not loaded. Nothing to enable.");
+                return;
+            }
+
+            efsWatcher.Enable();
+        }
+
+        public static void DisableEngine()
+        {
+            if (efsWatcher == null)
+            {
+                Logger.I.Log("Engine not loaded. Nothing to disable.");
+                return;
+            }
+
+            efsWatcher.Disable();
+        }
+
+        public static void UpdateCoverageResults(SequencePointSession seqPtSession, CoverageSession coverageSession, TestDetails testDetails)
+        {
+            CoverageData.Instance.UpdateCoverageResults(seqPtSession, coverageSession, testDetails);
+        }
+
+        public static void Unload()
+        {
+            Logger.I.Log("Unloading Engine...");
+
+            efsWatcher.Disable();
+            efsWatcher.Dispose();
+
+            Engine.Instance.RunStarting -= runStartingHandler;
+            Engine.Instance.RunStepStarting -= runStepStartingHandler;
+            Engine.Instance.RunEnded -= runEndedHandler;
+
+            runStartingHandler = null;
+            runStepStartingHandler = null;
+            runEndedHandler = null;
+            Engine.Instance = null;
+        }
+
+        private static void RunEngine()
         {
             if (Engine.Instance != null)
             {
@@ -91,25 +138,6 @@ namespace R4nd0mApps.TddStud10.Engine
             {
                 Logger.I.Log("Engine is not loaded. Ignoring command.");
             }
-        }
-
-        public static void UpdateCoverageResults(SequencePointSession seqPtSession, CoverageSession coverageSession, TestDetails testDetails)
-        {
-            CoverageData.Instance.UpdateCoverageResults(seqPtSession, coverageSession, testDetails);
-        }
-
-        public static void Unload()
-        {
-            Logger.I.Log("Unloading Engine...");
-
-            Engine.Instance.RunStarting -= runStartingHandler;
-            Engine.Instance.RunStepStarting -= runStepStartingHandler;
-            Engine.Instance.RunEnded -= runEndedHandler;
-
-            runStartingHandler = null;
-            runStepStartingHandler = null;
-            runEndedHandler = null;
-            Engine.Instance = null;
         }
     }
 }

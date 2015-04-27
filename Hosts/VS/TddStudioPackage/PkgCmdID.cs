@@ -17,7 +17,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
     static class PkgCmdIDList
     {
 
-        public const uint cmdidProgressBar = 0x101;
+        public const uint cmdidEnableTddStud10 = 0x101;
 
+        public const uint cmdidDisableTddStud10 = 0x102;
     };
 }
