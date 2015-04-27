@@ -30,7 +30,6 @@ namespace Server
                 store[mvid] = new List<CoverageHitInfo>();
             }
 
-            // TODO: Compress this data.
             store[mvid].Add(new CoverageHitInfo { Method = new MethodId { Mvid = mvid, MdToken = mdToken }, SpId = spid, UnitTest = executingUnitTest });
         }
 

@@ -13,8 +13,6 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
 
-
-// TODO: Icons for ttdstud10 - fody pointers to icon generators
 namespace R4nd0mApps.TddStud10.Engine
 {
     public sealed class Engine
@@ -128,7 +126,6 @@ namespace R4nd0mApps.TddStud10.Engine
                 string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
                 string testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
 
-                // TODO: Multi-threaded build of xunit.net is buggy
                 Stopwatch stopWatch = new Stopwatch();
                 TimeSpan ts;
                 string elapsedTime;
@@ -156,8 +153,6 @@ namespace R4nd0mApps.TddStud10.Engine
                 Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
                 Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
 
-                // TODO: File copy and file discovery in parallel
-                // TODO: File copy can be multi-threaded
                 OnRaiseRunStepStarting("Taking solution snapshot...");
                 Logger.I.Log("Taking solution snapshot...");
                 stopWatch.Start();
@@ -168,7 +163,6 @@ namespace R4nd0mApps.TddStud10.Engine
                     var folder = Path.GetDirectoryName(projectFile);
                     foreach (var src in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
                     {
-                        // TODO: Can filter out specific folders - e.g. .git
                         var dst = src.ToUpperInvariant().Replace(_solutionGrandParentPath.ToUpperInvariant(), _snapshotRoot);
                         var srcInfo = new FileInfo(src);
                         var dstInfo = new FileInfo(dst);
@@ -191,8 +185,6 @@ namespace R4nd0mApps.TddStud10.Engine
                 Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
                 Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
 
-                // TODO: Just build the dirty projects
-                // TODO: Get a robust stdout/err redirector from msbuild
                 OnRaiseRunStepStarting("Building project...");
                 Logger.I.Log("Building project...");
                 stopWatch.Start();

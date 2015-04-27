@@ -15,14 +15,11 @@ using R4nd0mApps.TddStud10.Engine.Diagnostics;
 
 namespace R4nd0mApps.TddStud10
 {
-    // TODO: Debugging/Profiling should be done using logs
-    // TODO: Integrate with gallileo
-    // TODO: Make it work for another project
     internal class Instrumentation
     {
         private static string testRunnerPath;
 
-        // TODO: Merge these 2 methods
+        // TODO: Cleanup: Merge these 2 methods
         public static void GenerateSequencePointInfo(DateTime timeFilter, string buildOutputRoot, string seqencePointStore)
         {
             var dict = new SequencePointSession();
@@ -133,7 +130,6 @@ namespace R4nd0mApps.TddStud10
                         continue;
                     }
 
-                    // TODO: Hard coded to XUnit
                     meth.Body.SimplifyMacros();
                     if (meth.CustomAttributes.Any(ca => ca.AttributeType.Name == "FactAttribute"))
                     {
@@ -156,12 +152,10 @@ namespace R4nd0mApps.TddStud10
                         instr = ilProcessor.Create(OpCodes.Ldstr, unitTestName);
                         ilProcessor.InsertBefore(instrMarker, instr);
                         instrMarker = instr;
-                        // TODO: Fxcop and other release build stuff
                     }
 
                     var spi = from i in meth.Body.Instructions
                                 where i.SequencePoint != null
-                                // TODO: Check for start/end/message/column 0xfeefee
                                 where i.SequencePoint.StartLine != 0xfeefee
                                 select i;
 
@@ -189,7 +183,6 @@ namespace R4nd0mApps.TddStud10
                         instr = ilProcessor.Create(OpCodes.Ldstr, module.Mvid.ToString());
                         ilProcessor.InsertBefore(instrMarker, instr);
                         instrMarker = instr;
-                        // TODO: Fxcop and other release build stuff
                     }
                     meth.Body.OptimizeMacros();
                 }

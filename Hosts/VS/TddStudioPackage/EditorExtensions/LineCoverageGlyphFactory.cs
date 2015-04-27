@@ -30,8 +30,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
     {
         const double _glyphSize = 8.0;
         
-        // TODO: [*] Show lines when they go out of date
-        // TODO: Put a question mark on unknown brush
         private static Brush _uncoveredBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         private static Brush _coveredWithPassingTestBrush = new SolidColorBrush(Color.FromRgb(0, 171, 0));
         private static Brush _coveredWithFailedTestBrush = new SolidColorBrush(Color.FromRgb(171, 0, 0));
@@ -109,7 +107,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
         /// <returns></returns>
         private string GetToolTipText(LineCoverageState state)
         {
-            // TODO: Nicely list out the failed and passing methods, not just these
             switch (state)
             {
                 case LineCoverageState.CoveredWithPassingTests:
@@ -123,8 +120,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
             return null;
         }
 
-        // TODO: Determine unknown coverage state for this message
-        // TODO: Bring back partly covered
         private LineCoverageState GetLineCoverageState(ITextViewLine line)
         {
             // get cover state for all spans included in this message

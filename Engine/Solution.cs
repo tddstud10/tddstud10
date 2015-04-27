@@ -11,8 +11,6 @@ namespace R4nd0mApps.TddStud10
 {
     public class Solution
     {
-        // TODO: Consider Roslyn's msbuildworkspace [a] parse sln [b] get exact list of project files
-
         static readonly Type s_SolutionParser;
         static readonly PropertyInfo s_SolutionParser_solutionReader;
         static readonly MethodInfo s_SolutionParser_parseSolution;

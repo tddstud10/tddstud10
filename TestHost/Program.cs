@@ -19,9 +19,6 @@ using Xunit.Abstractions;
 
 namespace R4nd0mApps.TddStud10.TestHost
 {
-    // TODO: Telemetry
-    // TODO: Add todo list to tddstudio
-    // TODO: Change target version of all the dlls to 3.5
     class Program
     {
         private static XmlSerializer serializer = new XmlSerializer(typeof(List<string>));
@@ -58,8 +55,6 @@ namespace R4nd0mApps.TddStud10.TestHost
 
             Logger.I.Log("TestHost executing tests...");
             stopWatch.Start();
-            // TODO: Multi-threaded test discovery/execution
-            // TODO: Can also get base test execution metrics - timing etc
             var testResults = new TestDetails();
             var unitTests = LoadUnitTestCases();
             foreach (var asm in unitTests.Keys)
@@ -85,7 +80,7 @@ namespace R4nd0mApps.TddStud10.TestHost
             Logger.I.Log("");
         }
 
-        // TODO: This pattern is repeated everywhere. Unify it.
+        // TODO: Cleanup: This pattern is repeated everywhere. Unify it.
         private static DiscoveredUnitTests LoadUnitTestCases()
         {
             var testCases = File.ReadAllText(discoveredUnitTestsStore);
@@ -108,30 +103,6 @@ namespace R4nd0mApps.TddStud10.TestHost
 
             TestDetails.Serializer.Serialize(writer, testDetails);
             File.WriteAllText(testResultsStore, writer.ToString());
-        }
-    }
-
-    // TODO: Cleanup - remove unnecesary classes
-    internal class TestDiscoveryVisitor : TestMessageVisitor<IDiscoveryCompleteMessage>
-    {
-        private Predicate<ITestCase> _filter;
-
-        public TestDiscoveryVisitor(Predicate<ITestCase> filter)
-        {
-            TestCases = new List<ITestCase>();
-            _filter = filter;
-        }
-
-        public List<ITestCase> TestCases { get; private set; }
-
-        protected override bool Visit(ITestCaseDiscoveryMessage discovery)
-        {
-            if (_filter(discovery.TestCase))
-            {
-                TestCases.Add(discovery.TestCase);
-            }
-
-            return base.Visit(discovery);
         }
     }
 
@@ -200,7 +171,6 @@ namespace R4nd0mApps.TddStud10.TestHost
 
             lock (consoleLock)
             {
-                // TODO: Thread-safe way to figure out the default foreground color
                 Console.ForegroundColor = ConsoleColor.Red;
                 consoleWriter(string.Format("   {0} [FAIL]", Escape(testFailed.Test.DisplayName)));
                 Console.ForegroundColor = ConsoleColor.Gray;
@@ -227,8 +197,6 @@ namespace R4nd0mApps.TddStud10.TestHost
             return td;
         }
 
-        // TODO: Dont even build the vsix everytime
-
         protected override bool Visit(ITestPassed testPassed)
         {
             testResults[CreateTestDetail(testPassed).Name] = TestResult.Passed;
@@ -242,7 +210,6 @@ namespace R4nd0mApps.TddStud10.TestHost
 
             lock (consoleLock)
             {
-                // TODO: Thread-safe way to figure out the default foreground color
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 consoleWriter(string.Format("   {0} [SKIP]", Escape(testSkipped.Test.DisplayName)));
                 Console.ForegroundColor = ConsoleColor.Gray;
@@ -614,11 +581,3 @@ namespace R4nd0mApps.TddStud10.TestHost
         }
     }
 }
-
-/*
- TODO: Cleanup: Remove these
- c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe /m /v:minimal /p:VisualStudioVersion=12.0 /p:OutDir=d:\tddstud10\fizzbuzz.out d:\tddstud10\fizzbuzz\FizzBuzz.sln
- D:\src\r4nd0mapps\WpfApplication2\WpfApplication2\bin\Debug\TestRunner.exe discover d:\tddstud10\fizzbuzz.out d:\tddstud10\fizzbuzz.out\testcases.txt
- D:\src\r4nd0mapps\WpfApplication2\packages\opencover.4.5.3522\OpenCover.Console.exe -mergebyhash "-output:d:\tddstud10\fizzbuzz.out\results.xml" -register:user -returntargetcode:10000 "-target:D:\src\r4nd0mapps\WpfApplication2\WpfApplication2\bin\Debug\TestRunner.exe" "-targetargs:execute d:\tddstud10\fizzbuzz.out d:\tddstud10\fizzbuzz.out\testcases.txt" "-targetdir:d:\tddstud10\fizzbuzz.out"
- D:\src\r4nd0mapps\WpfApplication2\packages\ReportGenerator.2.1.4.0\ReportGenerator.exe -reports:D:\src\r4nd0mkatas\fizzbuzz\results.0.xml -targetdir:D:\src\r4nd0mkatas\fizzbuzz\rep
- */

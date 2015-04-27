@@ -86,7 +86,6 @@ namespace R4nd0mApps.TddStud10.Engine
                 {
                     Engine.Instance.Start();
 
-                    // TODO: [*] Do this in 2 stages - first put black markers for all sequence points after instrumentation run, then put coverage info after ut run
                     var serializer = new XmlSerializer(typeof(SequencePointSession));
                     var res = File.ReadAllText(Engine.Instance.SequencePointStore);
                     SequencePointSession seqPtSession = null;
