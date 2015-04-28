@@ -22,8 +22,8 @@
   - √ v0.2.0.1 - fix annoyances
     - √ version number update - 3 places
     - √ additional logging
-  - v0.2.1 - fix top annoyances
-    - version number update - 3 places
+  - v0.3 - fix top annoyances
+    - √ version number update - 3 places
     - engine is always getting rebuilt
     - first time markers are not gettign shown
     - markers are getting created on the fly adn a new line is added
@@ -38,17 +38,17 @@
     - failure experience [more prominent marqeee, one of the steps failed dont proceed, indicate in progressbar, update status on statusbar progressbar]
     - debug specific tests [a] indicate test in margin [b] might requrie gallileo integration [c] debug test host
     - Reduce perf of run tests
-  - v0.2.5
+  - v0.3.5
     - version number update - 3 places
     - host in sublime text
-  - v0.3 - prep for perf tests + ncruch compare
+  - v0.4 - prep for perf tests + ncruch compare
     - version number update - 3 places
     - Resync
     - release build stuff [fxcop etc.]
     - incremental
     - Enable on edit trigger [read file text from buffer]
     - support for nunit
-  - v0.3 - perf tests + ncruch compare
+  - v0.5 - perf tests + ncruch compare
     - version number update - 3 places
     - dont interfere with ncruch [build/test/editor adornments]
     - xunit, nunit

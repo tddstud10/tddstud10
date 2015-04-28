@@ -45,7 +45,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <CreateVsixContainer>True</CreateVsixContainer>
     <DeployExtension>True</DeployExtension>
     <CopyVsixExtensionFiles>True</CopyVsixExtensionFiles>
-    <CopyVsixExtensionLocation>D:\drops\TddStudio\v0.2</CopyVsixExtensionLocation>
+    <CopyVsixExtensionLocation>D:\drops\TddStudio\v0.3</CopyVsixExtensionLocation>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -62,7 +62,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <CreateVsixContainer>True</CreateVsixContainer>
     <DeployExtension>True</DeployExtension>
     <CopyVsixExtensionFiles>True</CopyVsixExtensionFiles>
-    <CopyVsixExtensionLocation>D:\drops\TddStudio\v0.1</CopyVsixExtensionLocation>
+    <CopyVsixExtensionLocation>D:\drops\TddStudio\v0.3</CopyVsixExtensionLocation>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
