@@ -22,7 +22,7 @@ using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 namespace R4nd0mApps.TddStud10.Hosts.VS
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
+    [InstalledProductRegistration("#110", "#112", "0.1.2.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
     [Guid(GuidList.guidTddStud10Pkg)]
