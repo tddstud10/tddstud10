@@ -7,13 +7,23 @@
     - √ Progress on status bar
     - √ Pick unit test dlls
     - √ enable on filesystem update
+  - v0.1.x - be able to run tddstud10
+    - √ version number update - 3 places
+    - √ startup fixes
+    - √ logging around seqpt and instru
+    - √ crash on event source: clear default resolve's default paths, add resolver path
+    - √ make it work for c# project that logs using event source
   - v0.2 - 3 dogfood items and fallout items
+    - version number update - 3 places
+    - instrumentation - [a] cannot crash [b] report as warnings [c] restore assembly
+    - if solution items are not there, then sln does not get copied
+    - all files getting copied as upper case
+    - support Theory
+    - Ignore: when build is going on, solution not loaded, ide shutting down
+    - Enable/Disable TDDStud10
+    - 3 stage update of markers [a] dim the greens once out of date [b] new code should be uncovered to start with [c] update coverage
     - failure experience [one of the steps failed dont proceed, indicate in progressbar, update status on statusbar progressbar]
-    - dogfood x 2
-      - ? Enable/Disable TDDStud10
-      - ? Dont interfere with build
-    - debug specific tests
-    - 3 stage update of markers
+    - debug specific tests [a] indicate test in margin [b] might requrie gallileo integration [c] debug test host
     - Reduce perf of run tests
   - v0.3 - prep for perf tests + ncruch compare
     - Resync

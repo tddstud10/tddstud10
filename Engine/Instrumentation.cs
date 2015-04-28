@@ -19,8 +19,20 @@ namespace R4nd0mApps.TddStud10
     {
         private static string testRunnerPath;
 
-        // TODO: Cleanup: Merge these 2 methods
         public static void GenerateSequencePointInfo(DateTime timeFilter, string buildOutputRoot, string seqencePointStore)
+        {
+            try
+            {
+                GenerateSequencePointInfoImpl(timeFilter, buildOutputRoot, seqencePointStore);
+            }
+            catch (Exception e)
+            {
+                Logger.I.LogError("Failed to instrument. Exception: {0}", e);
+            }
+        }
+
+        // TODO: Merge these 2 methods
+        public static void GenerateSequencePointInfoImpl(DateTime timeFilter, string buildOutputRoot, string seqencePointStore)
         {
             var dict = new SequencePointSession();
             foreach (var assemblyPath in Directory.EnumerateFiles(buildOutputRoot, "*.dll"))
@@ -79,12 +91,34 @@ namespace R4nd0mApps.TddStud10
 
         public static void Instrument(DateTime timeFilter, string buildOutputRoot, string discoveredUnitTestsStore)
         {
+            try
+            {
+                InstrumentImpl(timeFilter, buildOutputRoot, discoveredUnitTestsStore);
+            }
+            catch (Exception e)
+            {
+                Logger.I.LogError("Failed to instrument. Exception: {0}", e);
+            }
+        }
+
+        public static void InstrumentImpl(DateTime timeFilter, string buildOutputRoot, string discoveredUnitTestsStore)
+        {
             string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
             testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
 
             var unitTests = new DiscoveredUnitTests();
 
-            foreach (var assemblyPath in Directory.EnumerateFiles(buildOutputRoot, "*.dll"))
+            var asmResolver = new DefaultAssemblyResolver();
+            Array.ForEach(asmResolver.GetSearchDirectories(), asmResolver.RemoveSearchDirectory);
+            asmResolver.AddSearchDirectory(buildOutputRoot);
+            var readerParams = new ReaderParameters 
+            {
+                AssemblyResolver = asmResolver,
+                ReadSymbols = true,
+            };
+
+            var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".dll", ".exe" };
+            foreach (var assemblyPath in Directory.EnumerateFiles(buildOutputRoot, "*").Where(s => extensions.Contains(Path.GetExtension(s))))
             {
                 if (!File.Exists(Path.ChangeExtension(assemblyPath, ".pdb")))
                 {
@@ -98,7 +132,7 @@ namespace R4nd0mApps.TddStud10
 
                 Logger.I.Log("Instrumenting {0}.", assemblyPath);
 
-                var assembly = AssemblyDefinition.ReadAssembly(assemblyPath, new ReaderParameters { ReadSymbols = true });
+                var assembly = AssemblyDefinition.ReadAssembly(assemblyPath, readerParams);
 
                 var enterSeqPointMethDef = from t in ModuleDefinition.ReadModule(testRunnerPath).GetTypes()
                                           where t.Name == "Marker"
@@ -122,75 +156,87 @@ namespace R4nd0mApps.TddStud10
                 MethodReference enterUnitTestMethRef = assembly.MainModule.Import(enterUnitTestMethDef.First());
 
                 foreach (var module in assembly.Modules)
-                foreach (var type in module.Types)
-                foreach (MethodDefinition meth in type.Methods)
                 {
-                    if (meth.Body == null)
-                    {
-                        continue;
-                    }
-
-                    meth.Body.SimplifyMacros();
-                    if (meth.CustomAttributes.Any(ca => ca.AttributeType.Name == "FactAttribute"))
-                    {
-                        var unitTestName = string.Format("{0} {1}::{2}", meth.ReturnType.FullName, meth.DeclaringType.FullName, meth.Name);
-                        if (!unitTests.ContainsKey(assemblyPath))
+                    foreach (var type in module.Types)
+                        foreach (MethodDefinition meth in type.Methods)
                         {
-                            unitTests[assemblyPath] = new List<string>();
+                            if (meth.Body == null)
+                            {
+                                continue;
+                            }
+
+                            meth.Body.SimplifyMacros();
+                            if (meth.CustomAttributes.Any(ca => ca.AttributeType.Name == "FactAttribute"))
+                            {
+                                var unitTestName = string.Format("{0} {1}::{2}", meth.ReturnType.FullName, meth.DeclaringType.FullName, meth.Name);
+                                if (!unitTests.ContainsKey(assemblyPath))
+                                {
+                                    unitTests[assemblyPath] = new List<string>();
+                                }
+                                unitTests[assemblyPath].Add(unitTestName);
+
+                                Instruction instrMarker = meth.Body.Instructions[0];
+                                Instruction instr = null;
+                                var ilProcessor = meth.Body.GetILProcessor();
+
+                                // IL_000d: call void R4nd0mApps.TddStud10.TestHost.Marker::EnterUnitTest(ldstr, ldstr)
+                                instr = ilProcessor.Create(OpCodes.Call, enterUnitTestMethRef);
+                                ilProcessor.InsertBefore(instrMarker, instr);
+                                instrMarker = instr;
+                                // IL_0006: ldstr <methodName>
+                                instr = ilProcessor.Create(OpCodes.Ldstr, unitTestName);
+                                ilProcessor.InsertBefore(instrMarker, instr);
+                                instrMarker = instr;
+                            }
+
+                            var spi = from i in meth.Body.Instructions
+                                      where i.SequencePoint != null
+                                      where i.SequencePoint.StartLine != 0xfeefee
+                                      select i;
+
+                            var spId = 0;
+                            var instructions = spi.ToArray();
+                            foreach (var sp in instructions)
+                            {
+                                Instruction instrMarker = sp;
+                                Instruction instr = null;
+                                var ilProcessor = meth.Body.GetILProcessor();
+
+                                // IL_000d: call void R4nd0mApps.TddStud10.TestHost.Marker::EnterSequencePoint(string, ldstr, ldstr)
+                                instr = ilProcessor.Create(OpCodes.Call, enterSeqPointMethRef);
+                                ilProcessor.InsertBefore(instrMarker, instr);
+                                instrMarker = instr;
+                                // IL_000b: ldstr <spid>
+                                instr = ilProcessor.Create(OpCodes.Ldstr, (spId++).ToString());
+                                ilProcessor.InsertBefore(instrMarker, instr);
+                                instrMarker = instr;
+                                // IL_0006: ldstr <mdtoken>
+                                instr = ilProcessor.Create(OpCodes.Ldstr, meth.MetadataToken.RID.ToString());
+                                ilProcessor.InsertBefore(instrMarker, instr);
+                                instrMarker = instr;
+                                // IL_0001: ldstr <mvid>
+                                instr = ilProcessor.Create(OpCodes.Ldstr, module.Mvid.ToString());
+                                ilProcessor.InsertBefore(instrMarker, instr);
+                                instrMarker = instr;
+                            }
+                            meth.Body.OptimizeMacros();
                         }
-                        unitTests[assemblyPath].Add(unitTestName);
-
-                        Instruction instrMarker = meth.Body.Instructions[0];
-                        Instruction instr = null;
-                        var ilProcessor = meth.Body.GetILProcessor();
-
-                        // IL_000d: call void R4nd0mApps.TddStud10.TestHost.Marker::EnterUnitTest(ldstr, ldstr)
-                        instr = ilProcessor.Create(OpCodes.Call, enterUnitTestMethRef);
-                        ilProcessor.InsertBefore(instrMarker, instr);
-                        instrMarker = instr;
-                        // IL_0006: ldstr <methodName>
-                        instr = ilProcessor.Create(OpCodes.Ldstr, unitTestName);
-                        ilProcessor.InsertBefore(instrMarker, instr);
-                        instrMarker = instr;
-                    }
-
-                    var spi = from i in meth.Body.Instructions
-                                where i.SequencePoint != null
-                                where i.SequencePoint.StartLine != 0xfeefee
-                                select i;
-
-                    var spId = 0;
-                    var instructions = spi.ToArray();
-                    foreach (var sp in instructions)
-                    {
-                        Instruction instrMarker = sp;
-                        Instruction instr = null;
-                        var ilProcessor = meth.Body.GetILProcessor();
-
-                        // IL_000d: call void R4nd0mApps.TddStud10.TestHost.Marker::EnterSequencePoint(string, ldstr, ldstr)
-                        instr = ilProcessor.Create(OpCodes.Call, enterSeqPointMethRef);
-                        ilProcessor.InsertBefore(instrMarker, instr);
-                        instrMarker = instr;
-                        // IL_000b: ldstr <spid>
-                        instr = ilProcessor.Create(OpCodes.Ldstr, (spId++).ToString());
-                        ilProcessor.InsertBefore(instrMarker, instr);
-                        instrMarker = instr;
-                        // IL_0006: ldstr <mdtoken>
-                        instr = ilProcessor.Create(OpCodes.Ldstr, meth.MetadataToken.RID.ToString());
-                        ilProcessor.InsertBefore(instrMarker, instr);
-                        instrMarker = instr;
-                        // IL_0001: ldstr <mvid>
-                        instr = ilProcessor.Create(OpCodes.Ldstr, module.Mvid.ToString());
-                        ilProcessor.InsertBefore(instrMarker, instr);
-                        instrMarker = instr;
-                    }
-                    meth.Body.OptimizeMacros();
                 }
 
                 var backupAssemblyPath = Path.ChangeExtension(assemblyPath, ".original");
                 File.Delete(backupAssemblyPath);
                 File.Move(assemblyPath, backupAssemblyPath);
-                assembly.Write(assemblyPath, new WriterParameters { WriteSymbols = true });
+                try
+                {
+                    assembly.Write(assemblyPath, new WriterParameters { WriteSymbols = true });
+                }
+                catch
+                {
+                    Logger.I.Log("Backing up or instrumentation failed. Attempting to revert back changes to {0}.", assemblyPath);
+                    File.Delete(assemblyPath);
+                    File.Move(backupAssemblyPath, assemblyPath);
+                    throw;
+                }
             }
 
             using (StringWriter writer = new StringWriter())

@@ -173,7 +173,7 @@ namespace R4nd0mApps.TddStud10.Engine
                         if (srcInfo.LastWriteTimeUtc > dstInfo.LastWriteTimeUtc)
                         {
                             Directory.CreateDirectory(Path.GetDirectoryName(dst));
-                            Logger.I.Log(dst);
+                            Logger.I.Log("Copying: {0} - {1}.", src, dst);
                             File.Copy(src, dst, true);
                         }
                     }
