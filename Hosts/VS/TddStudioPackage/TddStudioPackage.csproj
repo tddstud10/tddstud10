@@ -42,7 +42,9 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CreateVsixContainer>True</CreateVsixContainer>
-    <DeployExtension>True</DeployExtension>
+    <DeployExtension>False</DeployExtension>
+    <CopyVsixExtensionFiles>True</CopyVsixExtensionFiles>
+    <CopyVsixExtensionLocation>D:\drops\TddStudio\v0.1</CopyVsixExtensionLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <StartAction>Program</StartAction>
@@ -55,8 +57,10 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CreateVsixContainer>False</CreateVsixContainer>
+    <CreateVsixContainer>True</CreateVsixContainer>
     <DeployExtension>False</DeployExtension>
+    <CopyVsixExtensionFiles>True</CopyVsixExtensionFiles>
+    <CopyVsixExtensionLocation>D:\drops\TddStudio\v0.1</CopyVsixExtensionLocation>
   </PropertyGroup>
   <ItemGroup>
     <COMReference Include="EnvDTE">

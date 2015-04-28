@@ -106,14 +106,14 @@ namespace R4nd0mApps.TddStud10.Engine
             return false;
         }
 
-        public void Start()
+        public bool Start()
         {
             lock (this)
             {
                 if (_running)
                 {
                     Logger.I.Log("Ignoring start as engine is currently _running...");
-                    return;
+                    return false;
                 }
 
                 _running = true;
@@ -134,14 +134,17 @@ namespace R4nd0mApps.TddStud10.Engine
                 OnRaiseRunStepStarting("Deleting build output...");
                 Logger.I.Log("Deleting build output...");
                 stopWatch.Start();
-                foreach (var file in Directory.EnumerateFiles(SolutionBuildRoot, "*.pdb"))
+                if (Directory.Exists(SolutionBuildRoot))
                 {
-                    File.Delete(file);
-
-                    var dll = Path.ChangeExtension(file, "dll");
-                    if (File.Exists(dll))
+                    foreach (var file in Directory.EnumerateFiles(SolutionBuildRoot, "*.pdb"))
                     {
-                        File.Delete(dll);
+                        File.Delete(file);
+
+                        var dll = Path.ChangeExtension(file, "dll");
+                        if (File.Exists(dll))
+                        {
+                            File.Delete(dll);
+                        }
                     }
                 }
                 stopWatch.Stop();
@@ -250,6 +253,8 @@ namespace R4nd0mApps.TddStud10.Engine
                     _running = false;
                 }
             }
+
+            return true;
         }
 
         private void ExecuteProcess(string fileName, string arguments)

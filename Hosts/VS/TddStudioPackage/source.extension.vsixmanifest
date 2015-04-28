@@ -11,23 +11,23 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 -->
 
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
-    <Metadata>
-        <Identity Id="6c8e3ef6-58d8-44a6-b4eb-71bcccc8f2e0" Version="0.0.1.0" Language="en-US" Publisher="Partho P. Das" />
-        <DisplayName>Test Driven Development Studio</DisplayName>
-        <Description xml:space="preserve">An environment for practicing Kent Beck style Test Driven Development.</Description>
-        <Tags>Unit Tests;TDD;Refactoring;Simple Design;Studio;Kent Beck</Tags>
-    </Metadata>
-    <Installation InstalledByMsi="false">
-        <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="12.0" />
-    </Installation>
-    <Dependencies>
-        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="4.5" />
-        <Dependency Id="Microsoft.VisualStudio.MPF.12.0" DisplayName="Visual Studio MPF 12.0" d:Source="Installed" Version="12.0" />
-    </Dependencies>
-    <Assets>
-        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
-        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
-        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Engine" Path="|Engine|" AssemblyName="|Engine;AssemblyName|" />
-        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="TestHost" Path="|TestHost|" AssemblyName="|TestHost;AssemblyName|" />
-    </Assets>
+  <Metadata>
+    <Identity Id="6c8e3ef6-58d8-44a6-b4eb-71bcccc8f2e0" Version="0.0.1.1" Language="en-US" Publisher="Partho P. Das" />
+    <DisplayName>Test Driven Development Studio</DisplayName>
+    <Description xml:space="preserve">An environment for practicing Kent Beck style Test Driven Development.</Description>
+    <Tags>Unit Tests;TDD;Refactoring;Simple Design;Studio;Kent Beck</Tags>
+  </Metadata>
+  <Installation InstalledByMsi="false">
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="12.0" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="4.5" />
+    <Dependency Id="Microsoft.VisualStudio.MPF.12.0" DisplayName="Visual Studio MPF 12.0" d:Source="Installed" Version="12.0" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Engine" Path="|Engine|" AssemblyName="|Engine;AssemblyName|" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="TestHost" Path="|TestHost|" AssemblyName="|TestHost;AssemblyName|" />
+  </Assets>
 </PackageManifest>

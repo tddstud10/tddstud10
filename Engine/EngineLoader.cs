@@ -84,7 +84,10 @@ namespace R4nd0mApps.TddStud10.Engine
             {
                 System.Threading.ThreadPool.QueueUserWorkItem(delegate
                 {
-                    Engine.Instance.Start();
+                    if (!Engine.Instance.Start())
+                    {
+                        return;
+                    }
 
                     var serializer = new XmlSerializer(typeof(SequencePointSession));
                     var res = File.ReadAllText(Engine.Instance.SequencePointStore);
