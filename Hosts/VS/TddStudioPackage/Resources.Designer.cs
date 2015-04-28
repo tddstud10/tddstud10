@@ -61,6 +61,15 @@ namespace R4nd0mApps.TddStud10.Hosts.VS {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot close solution now as a TddStud10 run is in progress. Try again once the run is complete..
+        /// </summary>
+        internal static string CannotCloseSolution {
+            get {
+                return ResourceManager.GetString("CannotCloseSolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can not create tool window..
         /// </summary>
         internal static string CanNotCreateWindow {
@@ -70,11 +79,38 @@ namespace R4nd0mApps.TddStud10.Hosts.VS {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disable TddStud&amp;10.
+        /// </summary>
+        internal static string DisableTddStud10State {
+            get {
+                return ResourceManager.GetString("DisableTddStud10State", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable TddStud&amp;10.
+        /// </summary>
+        internal static string EnableTddStud10State {
+            get {
+                return ResourceManager.GetString("EnableTddStud10State", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TDD Studio.
         /// </summary>
         internal static string MessageBoxTitle {
             get {
                 return ResourceManager.GetString("MessageBoxTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test Driven Development Studio.
+        /// </summary>
+        internal static string ProductTitle {
+            get {
+                return ResourceManager.GetString("ProductTitle", resourceCulture);
             }
         }
         

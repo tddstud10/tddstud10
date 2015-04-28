@@ -7,41 +7,60 @@
     - √ Progress on status bar
     - √ Pick unit test dlls
     - √ enable on filesystem update
-  - v0.1.x - be able to run tddstud10
+  - √ v0.1.x - be able to run tddstud10
     - √ version number update - 3 places
     - √ startup fixes
     - √ logging around seqpt and instru
     - √ crash on event source: clear default resolve's default paths, add resolver path
     - √ make it work for c# project that logs using event source
-  - v0.2 - 3 dogfood items and fallout items
+  - √ v0.2.0 - fix top annoyances + prep for pulling in some engineering
+    - √ version number update - 3 places
+    - √ Enable/Disable TDDStud10
+    - √ Ignore: when build is going on, solution not loaded, ide shutting down
+    - √ Dont close solution if run is on.
+    - √ disable vsix/build/deploy/etc.
+  - v0.2.1 - fix top annoyances
     - version number update - 3 places
+    - first time markers are not gettign shown
+    - markers are getting created on the fly adn a new line is added
+    - version downgrade to 4.0
+    - move svcs.cs and slnexn to fs and tdd them
+    - single assembly for diagnostics stuff
     - instrumentation - [a] cannot crash [b] report as warnings [c] restore assembly
     - if solution items are not there, then sln does not get copied
     - all files getting copied as upper case
     - support Theory
-    - Ignore: when build is going on, solution not loaded, ide shutting down
-    - Enable/Disable TDDStud10
     - 3 stage update of markers [a] dim the greens once out of date [b] new code should be uncovered to start with [c] update coverage
-    - failure experience [one of the steps failed dont proceed, indicate in progressbar, update status on statusbar progressbar]
+    - failure experience [more prominent marqeee, one of the steps failed dont proceed, indicate in progressbar, update status on statusbar progressbar]
     - debug specific tests [a] indicate test in margin [b] might requrie gallileo integration [c] debug test host
     - Reduce perf of run tests
+  - v0.2.5
+    - version number update - 3 places
+    - host in sublime text
   - v0.3 - prep for perf tests + ncruch compare
+    - version number update - 3 places
     - Resync
     - release build stuff [fxcop etc.]
     - incremental
     - Enable on edit trigger [read file text from buffer]
     - support for nunit
   - v0.3 - perf tests + ncruch compare
+    - version number update - 3 places
     - dont interfere with ncruch [build/test/editor adornments]
     - xunit, nunit
   - v0.9 - beta
-    - video tutorial
+    - version number update - 3 places
+    - support matrix - should be from 2010 ideally
+    - video tutorial with 3 katas
     - telemetry
     - support multiple vs/clr versions
     - icons and artwork
   - v0.9.1 - rc
+    - version number update - 3 places
   - v1.0 - v1 release
+    - version number update - 3 places
   - v2.0
+    - version number update - 3 places
     - test covered on each list, debug that test etc.
     - partly covered statements
     - test timings

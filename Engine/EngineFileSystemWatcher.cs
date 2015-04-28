@@ -30,6 +30,11 @@ namespace R4nd0mApps.TddStud10.Engine
         {
         }
 
+        internal bool IsEnabled()
+        {
+            return fsWatcher.EnableRaisingEvents;
+        }
+
         public void Enable()
         {
             fsWatcher.EnableRaisingEvents = true;

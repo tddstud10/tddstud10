@@ -11,22 +11,38 @@ using R4nd0mApps.TddStud10.TestHost;
 
 namespace R4nd0mApps.TddStud10.Engine
 {
+    // TODO: Move to fs
+    public interface IEngineHost
+    {
+        bool CanStart();
+
+        void RunStarting();
+
+        void RunStepStarting(string stepDetails);
+
+        void RunEnded();
+    }
+
+    // TODO: Cleanup: Move to fs
+    // TODO: Cleanup: Remove the ugly delegates
     public static class EngineLoader
     {
         private static EventHandler runStartingHandler;
         private static EventHandler<string> runStepStartingHandler;
         private static EventHandler runEndedHandler;
         private static EngineFileSystemWatcher efsWatcher;
+        private static IEngineHost _host;
 
-        public static void Load(DateTime sessionStartTime, string solutionPath, Action runStarting, Action<string> runStepStarting, Action runEnded)
+        public static void Load(IEngineHost host, string solutionPath, DateTime sessionStartTime)
         {
             Logger.I.Log("Loading Engine with solution {0}", solutionPath);
 
-            runStartingHandler = (o, ea) => runStarting();
-            runStepStartingHandler = (o, ea) => runStepStarting(ea);
-            runEndedHandler = (o, ea) => runEnded();
+            _host = host;
+            runStartingHandler = (o, ea) => host.RunStarting();
+            runStepStartingHandler = (o, ea) => host.RunStepStarting(ea);
+            runEndedHandler = (o, ea) => host.RunEnded();
 
-            Engine.Instance = new Engine(sessionStartTime, solutionPath);
+            Engine.Instance = new Engine(host, solutionPath, sessionStartTime);
             Engine.Instance.RunStarting += runStartingHandler;
             Engine.Instance.RunStepStarting += runStepStartingHandler;
             Engine.Instance.RunEnded += runEndedHandler;
@@ -34,25 +50,23 @@ namespace R4nd0mApps.TddStud10.Engine
             efsWatcher = EngineFileSystemWatcher.Create(solutionPath, RunEngine);
         }
 
+        public static bool IsEngineEnabled()
+        {
+            var enabled = efsWatcher.IsEnabled();
+            Logger.I.Log("Enable is Engine...", enabled);
+
+            return enabled;
+        }
+
         public static void EnableEngine()
         {
-            if (efsWatcher == null)
-            {
-                Logger.I.Log("Engine not loaded. Nothing to enable.");
-                return;
-            }
-
+            Logger.I.Log("Enable Engine...");
             efsWatcher.Enable();
         }
 
         public static void DisableEngine()
         {
-            if (efsWatcher == null)
-            {
-                Logger.I.Log("Engine not loaded. Nothing to disable.");
-                return;
-            }
-
+            Logger.I.Log("Disable Engine...");
             efsWatcher.Disable();
         }
 
@@ -65,7 +79,6 @@ namespace R4nd0mApps.TddStud10.Engine
         {
             Logger.I.Log("Unloading Engine...");
 
-            efsWatcher.Disable();
             efsWatcher.Dispose();
 
             Engine.Instance.RunStarting -= runStartingHandler;
@@ -78,14 +91,31 @@ namespace R4nd0mApps.TddStud10.Engine
             Engine.Instance = null;
         }
 
+        public static bool IsRunInProgress()
+        {
+            if (Engine.Instance != null && Engine.Instance.IsRunInProgress())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private static void RunEngine()
         {
             if (Engine.Instance != null)
             {
                 System.Threading.ThreadPool.QueueUserWorkItem(delegate
                 {
+                    if (!_host.CanStart())
+                    {
+                        Logger.I.Log("Cannot start engine. Host has denied request.");
+                        return;
+                    }
+
                     if (!Engine.Instance.Start())
                     {
+                        Logger.I.Log("Cannot start engine. A run is already on.");
                         return;
                     }
 

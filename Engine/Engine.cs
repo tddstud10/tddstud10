@@ -24,7 +24,7 @@ namespace R4nd0mApps.TddStud10.Engine
         public event EventHandler<string> RunStepStarting;
         public event EventHandler RunEnded;
 
-        public  Engine(DateTime sessionStartTime, string solutionPath)
+        public  Engine(IEngineHost host, string solutionPath, DateTime sessionStartTime)
         {
             _sessionStartTime = sessionStartTime;
             _solutionPath = solutionPath;
@@ -193,7 +193,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 stopWatch.Start();
                 ExecuteProcess(
                     @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe",
-                    string.Format(@"/m /v:minimal /p:VisualStudioVersion=12.0 /p:OutDir={0} {1}", SolutionBuildRoot, solutionSnapShotPath)
+                    string.Format(@"/m /v:minimal /p:CreateVsixContainer=false /p:DeployExtension=false /p:CopyVsixExtensionFiles=false /p:VisualStudioVersion=12.0 /p:OutDir={0} {1}", SolutionBuildRoot, solutionSnapShotPath)
                 );
                 if (File.Exists(Path.Combine(SolutionBuildRoot, Path.GetFileName(testRunnerPath))))
                 {
@@ -255,6 +255,11 @@ namespace R4nd0mApps.TddStud10.Engine
             }
 
             return true;
+        }
+
+        public bool IsRunInProgress()
+        {
+            return _running;
         }
 
         private void ExecuteProcess(string fileName, string arguments)
@@ -336,10 +341,3 @@ namespace R4nd0mApps.TddStud10.Engine
         }
     }
 }
-
-/*
-
- C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe D:\src\r4nd0mkatas\fizzbuzz\FizzBuzz.sln /p:VisualStudioVersion=12.0 /t:rebuild /v:minimal                                                                                                                                                                
- D:\src\r4nd0mapps\WpfApplication2\packages\opencover.4.5.3522\OpenCover.Console.exe -register:user -target:D:\src\r4nd0mapps\WpfApplication2\packages\xunit.runner.console.2.0.0\tools\xunit.console.exe -targetargs:"D:\src\r4nd0mkatas\fizzbuzz\FizzBuzz.UnitTests\bin\Debug\FizzBuzz.UnitTests.dll" -targetdir:D:\src\r4nd0mkatas\fizzbuzz\FizzBuzz.UnitTests\bin\Debug -mergebyhash -output:D:\src\r4nd0mkatas\fizzbuzz\results.0.xml -showunvisited -returntargetcode:10000
- D:\src\r4nd0mapps\WpfApplication2\packages\ReportGenerator.2.1.4.0\ReportGenerator.exe -reports:D:\src\r4nd0mkatas\fizzbuzz\results.0.xml -targetdir:D:\src\r4nd0mkatas\fizzbuzz\rep
- */

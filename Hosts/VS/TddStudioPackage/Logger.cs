@@ -19,7 +19,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
         }
 
         [Event(2, Level = EventLevel.Error)]
-        internal void LogError(string message)
+        public void LogError(string message)
         {
             base.WriteEvent(2, message);
         }
@@ -27,9 +27,18 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
         [NonEvent]
         public void Log(string format, params object[] args)
         {
-            if (IsEnabled())
+            if (IsEnabled(EventLevel.Informational, EventKeywords.All))
             {
                 Log(string.Format(format, args));
+            }
+        }
+
+        [NonEvent]
+        public void LogError(string format, params object[] args)
+        {
+            if (IsEnabled(EventLevel.Error, EventKeywords.All))
+            {
+                LogError(string.Format(format, args));
             }
         }
     }

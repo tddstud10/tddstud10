@@ -12,7 +12,7 @@
 
     <Groups>
 
-      <Group guid="guidTddStud10CmdSet" id="TddStud10MenuGroup" priority="0x0600">
+      <Group guid="guidTddStud10CmdSet" id="tddStud10MenuGroup" priority="0x0600">
         <Parent guid="guidTestCmdSet" id="cmdIdTest"/>
       </Group>
 
@@ -20,16 +20,14 @@
 
     <Buttons>
 
-      <Button guid="guidTddStud10CmdSet" id="cmdidEnableTddStud10" priority="0x0001" type="Button">
-        <Parent guid="guidTddStud10CmdSet" id="TddStud10MenuGroup" />
+      <Button guid="guidTddStud10CmdSet" id="changeTddStud10State" priority="0x0001" type="Button">
+        <Parent guid="guidTddStud10CmdSet" id="tddStud10MenuGroup" />
+        <CommandFlag>TextChanges</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
-          <ButtonText>Enable TddStud&amp;10</ButtonText>
-        </Strings>
-      </Button>
-      <Button guid="guidTddStud10CmdSet" id="cmdidDisableTddStud10" priority="0x0002" type="Button">
-        <Parent guid="guidTddStud10CmdSet" id="TddStud10MenuGroup" />
-        <Strings>
-          <ButtonText>Disable TddStud&amp;10</ButtonText>
+          <ButtonText>none</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -50,9 +48,8 @@
     <GuidSymbol name="guidTddStud10Pkg" value="{6C8E3EF7-58D8-44A6-B4EB-71BCCCC8F2E0}" />
 
     <GuidSymbol name="guidTddStud10CmdSet" value="{6c8e3ef8-58d8-44a6-b4eb-71bcccc8f2e0}">
-      <IDSymbol name="TddStud10MenuGroup" value="0x1020" />
-      <IDSymbol name="cmdidEnableTddStud10" value="0x0101" />
-      <IDSymbol name="cmdidDisableTddStud10" value="0x0102" />
+      <IDSymbol name="tddStud10MenuGroup" value="0x1020" />
+      <IDSymbol name="changeTddStud10State" value="0x0101" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{6c8e3efb-58d8-44a6-b4eb-71bcccc8f2e0}" >

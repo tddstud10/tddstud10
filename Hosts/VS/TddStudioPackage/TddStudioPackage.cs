@@ -18,15 +18,16 @@ using System.IO;
 using R4nd0mApps.TddStud10.Engine;
 using System.Windows.Controls;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
+using EventHandlerPair = System.Tuple<System.EventHandler, System.EventHandler>;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("#110", "#112", "0.1.4.4", IconResourceID = 400)]
+    [InstalledProductRegistration("#110", "#112", "0.2.0.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
-    [Guid(GuidList.guidTddStud10Pkg)]
-    public sealed class TddStud10Package : Package, IVsSolutionEvents
+    [Guid(GuidList.GuidTddStud10Pkg)]
+    public sealed class TddStud10Package : Package, IVsSolutionEvents, IEngineHost
     {
         private Control _uiThreadInvoker;
 
@@ -36,6 +37,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         private IVsSolution2 _solution = null;
         private IVsStatusbar _statusBar;
+        private EnvDTE.DTE _dte;
 
         public static TddStud10Package Instance { get; private set; }
 
@@ -60,29 +62,31 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             _uiThreadInvoker = new Control();
 
-            _solution = ServiceProvider.GlobalProvider.GetService(typeof(SVsSolution)) as IVsSolution2;
+            _solution = Services.GetService<SVsSolution, IVsSolution2>();
             if (_solution != null)
             {
                 _solution.AdviseSolutionEvents(this, out solutionEventsCookie);
             }
 
-            _statusBar = ServiceProvider.GlobalProvider.GetService(typeof(SVsStatusbar)) as IVsStatusbar;
+            _statusBar = Services.GetService<SVsStatusbar, IVsStatusbar>();
 
-            // Add our command handlers for menu (commands must exist in the .vsct file)
-            OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+            _dte = Services.GetService<EnvDTE.DTE>();
+
+            // TODO: Move to fs: This needs to be moved out to another method and another class responsible for
+            // providing commands.
+            OleMenuCommandService mcs = this.GetService<IMenuCommandService, OleMenuCommandService>();
             if (null != mcs)
             {
-                new Dictionary<uint, EventHandler>
+                new Dictionary<uint, EventHandlerPair>
                 {
-                    { PkgCmdIDList.cmdidEnableTddStud10, EnableTddStud10 },
-                    { PkgCmdIDList.cmdidDisableTddStud10, DisableTddStud10 },
+                    { PkgCmdIDList.ChangeTddStud10State, new EventHandlerPair(ExecuteChangeTddStud10State, OnBeforeQueryStatusChangeTddStud10State) },
                 }.Aggregate(
-                    new KeyValuePair<uint, EventHandler>(),
+                    new KeyValuePair<uint, EventHandlerPair>(),
                     (_, kvp) => 
                     {
-                        // Create the command for the menu item.
-                        CommandID menuCommandID = new CommandID(new Guid(GuidList.guidProgressBarCmdSetString), (int)kvp.Key);
-                        MenuCommand menuItem = new MenuCommand(kvp.Value, menuCommandID);
+                        CommandID menuCommandID = new CommandID(new Guid(GuidList.GuidProgressBarCmdSetString), (int)kvp.Key);
+                        var menuItem = new OleMenuCommand(kvp.Value.Item1, menuCommandID);
+                        menuItem.BeforeQueryStatus += kvp.Value.Item2;
                         mcs.AddCommand(menuItem); 
                         return kvp;
                     });
@@ -93,18 +97,48 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             Logger.I.Log("Initialized Package. Load timestamp {0}.", LoadTimestamp);
         }
 
-        private void EnableTddStud10(object sender, EventArgs e)
+        // TODO: Move to fs
+        private void ExecuteChangeTddStud10State(object sender, EventArgs e)
         {
-            Logger.I.Log("Enabling TddStud10...");
+            Logger.I.Log("Changing TddStud10 state...");
 
-            EngineLoader.EnableEngine();
+            if (EngineLoader.IsEngineEnabled())
+            {
+                EngineLoader.DisableEngine();
+            }
+            else
+            {
+                EngineLoader.EnableEngine();
+            }
         }
 
-        private void DisableTddStud10(object sender, EventArgs e)
+        private void OnBeforeQueryStatusChangeTddStud10State(object sender, EventArgs e)
         {
-            Logger.I.Log("Disabling TddStud10...");
+            Logger.I.Log("Querying for TddStud10 state...");
 
-            EngineLoader.DisableEngine();
+            var cmd = sender as OleMenuCommand;
+            if (cmd == null)
+            {
+                Logger.I.LogError("sender should have been an OleMenuCommand. This is unexpected.");
+                return;
+            }
+
+            if (!_dte.Solution.IsOpen)
+            {
+                Logger.I.Log("Solution is not open.");
+                cmd.Visible = false;
+                return;
+            }
+
+            cmd.Visible = true;
+            if (EngineLoader.IsEngineEnabled())
+            {
+                cmd.Text = Resources.DisableTddStud10State;
+            }
+            else
+            {
+                cmd.Text = Resources.EnableTddStud10State;
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -148,8 +182,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsSolutionEvents.OnAfterOpenSolution(object pUnkReserved, int fNewSolution)
         {
-            var solutionPath = ((Package.GetGlobalService(typeof(EnvDTE.DTE))) as EnvDTE.DTE).Solution.FullName;
-            EngineLoader.Load(LoadTimestamp, solutionPath, RunStarting, RunStepStarting, RunEnded);
+            EngineLoader.Load(this, _dte.Solution.FullName, LoadTimestamp);
 
             return VSConstants.S_OK;
         }
@@ -161,6 +194,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsSolutionEvents.OnBeforeCloseSolution(object pUnkReserved)
         {
+            EngineLoader.DisableEngine();
             EngineLoader.Unload();
 
             return VSConstants.S_OK;
@@ -178,6 +212,15 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsSolutionEvents.OnQueryCloseSolution(object pUnkReserved, ref int pfCancel)
         {
+            pfCancel = 0;
+            if (EngineLoader.IsRunInProgress())
+            {
+                Logger.I.Log("Run in progress. Denying request to close solution.");
+                Services.GetService<SVsUIShell, IVsUIShell>().DisplayMessageBox(Resources.ProductTitle, Resources.CannotCloseSolution);
+                pfCancel = 1; // Veto closing of solution.
+            }
+
+            EngineLoader.DisableEngine();
             return VSConstants.S_OK;
         }
 
@@ -188,28 +231,60 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         #endregion
 
-        private void RunStepStarting(string stepDetails)
+        #region IEngineHost Members
+
+        public bool CanStart()
         {
-            InvokeOnUIThread(() => {
-                _statusBar.SetText(stepDetails);
-            });
+            if (_dte.Solution.SolutionBuild.BuildState == EnvDTE.vsBuildState.vsBuildStateInProgress)
+            {
+                Logger.I.Log("Build in progress. Denying start request.");
+                return false;
+            }
+
+            return true;
         }
 
-        private void RunStarting()
+        public void RunStarting()
         {
-            InvokeOnUIThread(() => {
+            if (_statusBar == null)
+            {
+                return;
+            }
+
+            InvokeOnUIThread(() =>
+            {
                 _statusBar.SetText(string.Empty);
                 _statusBar.Animation(1, (short)Microsoft.VisualStudio.Shell.Interop.Constants.SBAI_Synch);
             });
         }
 
-        private void RunEnded()
+        public void RunStepStarting(string stepDetails)
         {
+            if (_statusBar == null)
+            {
+                return;
+            }
+
+            InvokeOnUIThread(() =>
+            {
+                _statusBar.SetText(stepDetails);
+            });
+        }
+
+        public void RunEnded()
+        {
+            if (_statusBar == null)
+            {
+                return;
+            }
+
             InvokeOnUIThread(() =>
             {
                 _statusBar.Animation(0, (short)Microsoft.VisualStudio.Shell.Interop.Constants.SBAI_Synch);
                 _statusBar.SetText(string.Empty);
             });
         }
+
+        #endregion
     }
 }

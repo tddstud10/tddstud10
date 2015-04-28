@@ -14,6 +14,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <NuGetPackageImportStamp>8f219100</NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -44,7 +45,8 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <CreateVsixContainer>True</CreateVsixContainer>
     <DeployExtension>True</DeployExtension>
     <CopyVsixExtensionFiles>True</CopyVsixExtensionFiles>
-    <CopyVsixExtensionLocation>D:\drops\TddStudio\v0.1</CopyVsixExtensionLocation>
+    <CopyVsixExtensionLocation>D:\drops\TddStudio\v0.2</CopyVsixExtensionLocation>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <StartAction>Program</StartAction>
@@ -61,6 +63,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <DeployExtension>True</DeployExtension>
     <CopyVsixExtensionFiles>True</CopyVsixExtensionFiles>
     <CopyVsixExtensionLocation>D:\drops\TddStudio\v0.1</CopyVsixExtensionLocation>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <COMReference Include="EnvDTE">
@@ -178,7 +181,9 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Reference Include="System.Xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="VsUIShellExtensions.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Services.cs" />
     <Compile Include="TddStudioToolWindow.cs" />
     <Compile Include="EditorExtensions\IDEHelper.cs" />
     <Compile Include="EditorExtensions\LineCoverageGlyphFactory.cs" />
@@ -252,6 +257,10 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
       <Name>TestHost</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\TddStudioPackage.Extensions\TddStudioPackage.Extensions.fsproj">
+      <Project>{0055b0cc-39ba-4dea-ad3e-231cffe4ed58}</Project>
+      <Name>TddStudioPackage.Extensions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

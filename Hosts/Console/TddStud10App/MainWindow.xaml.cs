@@ -12,13 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using R4nd0mApps.TddStud10.Engine;
 
 namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IEngineHost
     {
         public MainWindow()
         {
@@ -30,8 +31,32 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App
             var slnPath = solutionPath.Text;
             System.Threading.ThreadPool.QueueUserWorkItem(delegate
             {
-                new Engine.Engine(DateTime.UtcNow, slnPath).Start();
+                new Engine.Engine(this, slnPath, DateTime.UtcNow).Start();
             }, null);
         }
+
+        #region IEngineHost Members
+
+        public bool CanStart()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RunStarting()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RunStepStarting(string stepDetails)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RunEnded()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }
