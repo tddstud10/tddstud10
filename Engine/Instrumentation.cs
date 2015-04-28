@@ -34,20 +34,28 @@ namespace R4nd0mApps.TddStud10
         // TODO: Merge these 2 methods
         public static void GenerateSequencePointInfoImpl(DateTime timeFilter, string buildOutputRoot, string seqencePointStore)
         {
+            Logger.I.Log(
+                "Generating sequence point info: Time filter - {0}, Build output root - {1}, Sequence point store - {2}.",
+                timeFilter.ToLocalTime(), 
+                buildOutputRoot, 
+                seqencePointStore);
+
             var dict = new SequencePointSession();
-            foreach (var assemblyPath in Directory.EnumerateFiles(buildOutputRoot, "*.dll"))
+            var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".dll", ".exe" };
+            foreach (var assemblyPath in Directory.EnumerateFiles(buildOutputRoot, "*").Where(s => extensions.Contains(Path.GetExtension(s))))
             {
                 if (!File.Exists(Path.ChangeExtension(assemblyPath, ".pdb")))
                 {
                     continue;                
                 }
 
-                if (File.GetLastWriteTimeUtc(assemblyPath) < timeFilter)
+                var lastWriteTime = File.GetLastWriteTimeUtc(assemblyPath);
+                if (lastWriteTime < timeFilter)
                 {
                     continue;
                 }
 
-                Logger.I.Log("Generating sequence point info for {0}.", assemblyPath);
+                Logger.I.Log("Generating sequence point info for {0}. Last write time: {1}.", assemblyPath, lastWriteTime.ToLocalTime());
 
                 var assembly = AssemblyDefinition.ReadAssembly(assemblyPath, new ReaderParameters { ReadSymbols = true });
 
@@ -103,6 +111,12 @@ namespace R4nd0mApps.TddStud10
 
         public static void InstrumentImpl(DateTime timeFilter, string buildOutputRoot, string discoveredUnitTestsStore)
         {
+            Logger.I.Log(
+                "Instrumenting: Time filter - {0}, Build output root - {1}, Discovered unit tests store - {2}.",
+                timeFilter,
+                buildOutputRoot,
+                discoveredUnitTestsStore);
+
             string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
             testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
 
@@ -125,12 +139,13 @@ namespace R4nd0mApps.TddStud10
                     continue;                
                 }
 
-                if (File.GetLastWriteTimeUtc(assemblyPath) < timeFilter)
+                var lastWriteTime = File.GetLastWriteTimeUtc(assemblyPath);
+                if (lastWriteTime < timeFilter)
                 {
                     continue;
                 }
 
-                Logger.I.Log("Instrumenting {0}.", assemblyPath);
+                Logger.I.Log("Instrumenting {0}. Last write time: {1}.", assemblyPath, lastWriteTime.ToLocalTime());
 
                 var assembly = AssemblyDefinition.ReadAssembly(assemblyPath, readerParams);
 

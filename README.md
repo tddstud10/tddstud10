@@ -19,8 +19,12 @@
     - √ Ignore: when build is going on, solution not loaded, ide shutting down
     - √ Dont close solution if run is on.
     - √ disable vsix/build/deploy/etc.
+  - √ v0.2.0.1 - fix annoyances
+    - √ version number update - 3 places
+    - √ additional logging
   - v0.2.1 - fix top annoyances
     - version number update - 3 places
+    - engine is always getting rebuilt
     - first time markers are not gettign shown
     - markers are getting created on the fly adn a new line is added
     - version downgrade to 4.0

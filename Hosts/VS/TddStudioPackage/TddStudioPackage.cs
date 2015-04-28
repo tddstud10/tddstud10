@@ -23,7 +23,7 @@ using EventHandlerPair = System.Tuple<System.EventHandler, System.EventHandler>;
 namespace R4nd0mApps.TddStud10.Hosts.VS
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("#110", "#112", "0.2.0.0", IconResourceID = 400)]
+    [InstalledProductRegistration("#110", "#112", "0.2.0.2", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
     [Guid(GuidList.GuidTddStud10Pkg)]
@@ -94,7 +94,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             Instance = this;
 
-            Logger.I.Log("Initialized Package. Load timestamp {0}.", LoadTimestamp);
+            Logger.I.Log("Initialized Package. Load timestamp {0}.", LoadTimestamp.ToLocalTime());
         }
 
         // TODO: Move to fs
