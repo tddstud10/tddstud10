@@ -30,6 +30,7 @@ namespace R4nd0mApps.TddStud10.TestHost
 
         static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomainUnhandledException); 
             solutionBuildRoot = args[1];
             codeCoverageStore = args[2];
             testResultsStore = args[3];
@@ -45,6 +46,11 @@ namespace R4nd0mApps.TddStud10.TestHost
                 RunTests();
             }
             ccServer.SaveTestCases(codeCoverageStore);
+        }
+
+        private static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Logger.I.LogError("Exception thrown in InvokeEngine: {0}.", e.ExceptionObject);
         }
 
         private static void RunTests()

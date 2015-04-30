@@ -32,5 +32,14 @@ namespace R4nd0mApps.TddStud10.TestHost.Diagnostics
                 Log(string.Format(format, args));
             }
         }
+
+        [NonEvent]
+        public void LogError(string format, params object[] args)
+        {
+            if (IsEnabled(EventLevel.Error, EventKeywords.All))
+            {
+                LogError(string.Format(format, args));
+            }
+        }
     }
 }

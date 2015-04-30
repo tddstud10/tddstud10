@@ -33,7 +33,11 @@
   - √ v0.2.0.1 - fix annoyances
     - √ version number update - 3 places
     - √ additional logging
-  - v0.2.0.2 - fix crashes
+  - v0.2.0.x - fix crashes
+    - √ version number update - 3 places
+    - √ Add symbols to vsix
+    - √ crash handlers in all engine entry points.
+    - √ TestHost unhandled exception handler
     - version number update - 3 places
     - crash handlers in all engine entry points.
   - v0.3 - fix top annoyances

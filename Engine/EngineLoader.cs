@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
@@ -105,70 +106,79 @@ namespace R4nd0mApps.TddStud10.Engine
         {
             if (Engine.Instance != null)
             {
-                System.Threading.ThreadPool.QueueUserWorkItem(delegate
-                {
-                    if (!_host.CanStart())
-                    {
-                        Logger.I.Log("Cannot start engine. Host has denied request.");
-                        return;
-                    }
-
-                    if (!Engine.Instance.Start())
-                    {
-                        Logger.I.Log("Cannot start engine. A run is already on.");
-                        return;
-                    }
-
-                    var serializer = new XmlSerializer(typeof(SequencePointSession));
-                    var res = File.ReadAllText(Engine.Instance.SequencePointStore);
-                    SequencePointSession seqPtSession = null;
-                    StringReader reader = new StringReader(res);
-                    XmlTextReader xmlReader = new XmlTextReader(reader);
-                    try
-                    {
-                        seqPtSession = serializer.Deserialize(xmlReader) as SequencePointSession;
-                    }
-                    finally
-                    {
-                        xmlReader.Close();
-                        reader.Close();
-                    }
-
-                    serializer = new XmlSerializer(typeof(CoverageSession));
-                    res = File.ReadAllText(Engine.Instance.CoverageResults);
-                    CoverageSession coverageSession = null;
-                    reader = new StringReader(res);
-                    xmlReader = new XmlTextReader(reader);
-                    try
-                    {
-                        coverageSession = serializer.Deserialize(xmlReader) as CoverageSession;
-                    }
-                    finally
-                    {
-                        xmlReader.Close();
-                        reader.Close();
-                    }
-
-                    TestDetails testDetails = null;
-                    res = File.ReadAllText(Engine.Instance.TestResults);
-                    reader = new StringReader(res);
-                    xmlReader = new XmlTextReader(reader);
-                    try
-                    {
-                        testDetails = TestDetails.Serializer.Deserialize(xmlReader) as TestDetails;
-                    }
-                    finally
-                    {
-                        xmlReader.Close();
-                        reader.Close();
-                    }
-
-                    UpdateCoverageResults(seqPtSession, coverageSession, testDetails);
-                }, null);
+                Task.Factory.StartNew(InvokeEngine);
             }
             else
             {
                 Logger.I.Log("Engine is not loaded. Ignoring command.");
+            }
+        }
+
+        private static void InvokeEngine()
+        {
+            try
+            {
+                if (!_host.CanStart())
+                {
+                    Logger.I.Log("Cannot start engine. Host has denied request.");
+                    return;
+                }
+
+                if (!Engine.Instance.Start())
+                {
+                    Logger.I.Log("Cannot start engine. A run is already on.");
+                    return;
+                }
+
+                var serializer = new XmlSerializer(typeof(SequencePointSession));
+                var res = File.ReadAllText(Engine.Instance.SequencePointStore);
+                SequencePointSession seqPtSession = null;
+                StringReader reader = new StringReader(res);
+                XmlTextReader xmlReader = new XmlTextReader(reader);
+                try
+                {
+                    seqPtSession = serializer.Deserialize(xmlReader) as SequencePointSession;
+                }
+                finally
+                {
+                    xmlReader.Close();
+                    reader.Close();
+                }
+
+                serializer = new XmlSerializer(typeof(CoverageSession));
+                res = File.ReadAllText(Engine.Instance.CoverageResults);
+                CoverageSession coverageSession = null;
+                reader = new StringReader(res);
+                xmlReader = new XmlTextReader(reader);
+                try
+                {
+                    coverageSession = serializer.Deserialize(xmlReader) as CoverageSession;
+                }
+                finally
+                {
+                    xmlReader.Close();
+                    reader.Close();
+                }
+
+                TestDetails testDetails = null;
+                res = File.ReadAllText(Engine.Instance.TestResults);
+                reader = new StringReader(res);
+                xmlReader = new XmlTextReader(reader);
+                try
+                {
+                    testDetails = TestDetails.Serializer.Deserialize(xmlReader) as TestDetails;
+                }
+                finally
+                {
+                    xmlReader.Close();
+                    reader.Close();
+                }
+
+                UpdateCoverageResults(seqPtSession, coverageSession, testDetails);
+            }
+            catch (Exception e)
+            {
+                Logger.I.LogError("Exception thrown in InvokeEngine: {0}.", e);
             }
         }
     }
