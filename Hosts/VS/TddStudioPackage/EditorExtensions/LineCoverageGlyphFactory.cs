@@ -134,6 +134,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
                 }
 
                 var results = allTrackedMethods
+                    // TODO: Not sure why Marker.EnterSequencePoint sometimes gets called before EnterUnitTest.
+                    // Hence the "where" clause below. It will go with our final design for test hosting/execution
+                    .Where(tm => tm != null)
                     .Select(tm => CoverageData.Instance.TestDetails.Dictionary[tm]);
 
                 if (results.Any(r => r == TestResult.Failed))

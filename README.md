@@ -38,10 +38,13 @@
     - √ Add symbols to vsix
     - √ crash handlers in all engine entry points.
     - √ TestHost unhandled exception handler
-    - version number update - 3 places
-    - crash handlers in all engine entry points.
+    - √ [temporary fix] Strong name fails
+    - √ [temporary fix] Editor crashes as unit test name doesnt ge registered sometime through Maker
   - v0.3 - fix top annoyances
-    
+    - version number update - 3 places
+    - [permanent fix] Editor crashes as unit test name doesnt ge registered sometime through Maker
+    - [permanent fix] Strong name fails
+    - xunit 1.9 tests when mixed with xunit 2.0 projects (in same solution) doesn't execute
     - √ version number update - 3 places
     - √ version downgrade to 4.0
     - strongname disabled on machine

@@ -213,7 +213,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 Logger.I.Log("Instrumenting and discovering tests...");
                 stopWatch.Start();
                 Instrumentation.GenerateSequencePointInfo(_sessionStartTime, SolutionBuildRoot, SequencePointStore);
-                Instrumentation.Instrument(_sessionStartTime, SolutionBuildRoot, DiscoveredUnitTestsStore);
+                Instrumentation.Instrument(_sessionStartTime, Path.GetDirectoryName(_solutionPath), SolutionBuildRoot, DiscoveredUnitTestsStore);
                 stopWatch.Stop();
                 ts = stopWatch.Elapsed;
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",

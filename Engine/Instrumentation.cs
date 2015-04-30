@@ -97,11 +97,11 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        public static void Instrument(DateTime timeFilter, string buildOutputRoot, string discoveredUnitTestsStore)
+        public static void Instrument(DateTime timeFilter, string solutionRoot, string buildOutputRoot, string discoveredUnitTestsStore)
         {
             try
             {
-                InstrumentImpl(timeFilter, buildOutputRoot, discoveredUnitTestsStore);
+                InstrumentImpl(timeFilter, solutionRoot, buildOutputRoot, discoveredUnitTestsStore);
             }
             catch (Exception e)
             {
@@ -109,13 +109,21 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        public static void InstrumentImpl(DateTime timeFilter, string buildOutputRoot, string discoveredUnitTestsStore)
+        public static void InstrumentImpl(DateTime timeFilter, string solutionRoot, string buildOutputRoot, string discoveredUnitTestsStore)
         {
             Logger.I.Log(
                 "Instrumenting: Time filter - {0}, Build output root - {1}, Discovered unit tests store - {2}.",
                 timeFilter,
                 buildOutputRoot,
                 discoveredUnitTestsStore);
+
+            StrongNameKeyPair snKeyPair = null;
+            var snKeyFile = Directory.EnumerateFiles(solutionRoot, "*.snk").FirstOrDefault();
+            if (snKeyFile != null)
+            {
+                snKeyPair = new StrongNameKeyPair(File.ReadAllBytes(snKeyFile));
+                Logger.I.Log("Using strong name from {0}.", snKeyFile);
+            }
 
             string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
             testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
@@ -243,7 +251,7 @@ namespace R4nd0mApps.TddStud10
                 File.Move(assemblyPath, backupAssemblyPath);
                 try
                 {
-                    assembly.Write(assemblyPath, new WriterParameters { WriteSymbols = true });
+                    assembly.Write(assemblyPath, new WriterParameters { WriteSymbols = true, StrongNameKeyPair = snKeyPair });
                 }
                 catch
                 {
