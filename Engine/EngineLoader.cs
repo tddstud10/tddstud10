@@ -53,7 +53,7 @@ namespace R4nd0mApps.TddStud10.Engine
         public static bool IsEngineEnabled()
         {
             var enabled = efsWatcher.IsEnabled();
-            Logger.I.Log("Enable is Engine...", enabled);
+            Logger.I.Log("Engine is {0}", enabled);
 
             return enabled;
         }

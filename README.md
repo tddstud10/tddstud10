@@ -1,5 +1,16 @@
-﻿# Roadmap
+﻿# Mission
+  - Environment for promoting Kent Beck style TDD [F.I.R.S.T. Unit Tests, fast builds, No Mocks, Hexagonal architecture]
+  - Does not replace the awesome nCrunch.NET [Features that dont require the above attributes]
+  - Add supporting features [TODO list, hotspot analysis]
 
+# Principles
+  - Fully open source [TBD - similar to the Gallio license]
+  - One click setup, then continous streaming delivery
+  - Host agnostic [VS or MonoDevelop, not tied to .NET/Windows]
+  - Framework agnostic [xUnit.NET, JUnit, RSpec, not tied to .NET/Windows]
+  - Meet or beat nCrunch w.r.t. snappiness & stability [not necessarily w.r.t. the feature set]
+
+# Roadmap
   - √ v0.1 - dogfood
     - √ Disable toolwindow
     - √ Trigger on Ctrl T, Ctrl T
@@ -22,12 +33,20 @@
   - √ v0.2.0.1 - fix annoyances
     - √ version number update - 3 places
     - √ additional logging
+  - v0.2.0.2 - fix crashes
+    - version number update - 3 places
+    - crash handlers in all engine entry points.
   - v0.3 - fix top annoyances
+    
     - √ version number update - 3 places
+    - √ version downgrade to 4.0
+    - strongname disabled on machine
+    - Remove vision notes untill they are bit more ready
+    - integrage with omnisharp/sublime
+    - test start and test failure point markers
     - engine is always getting rebuilt
     - first time markers are not gettign shown
     - markers are getting created on the fly adn a new line is added
-    - version downgrade to 4.0
     - move svcs.cs and slnexn to fs and tdd them
     - single assembly for diagnostics stuff
     - instrumentation - [a] cannot crash [b] report as warnings [c] restore assembly
@@ -48,6 +67,7 @@
     - incremental
     - Enable on edit trigger [read file text from buffer]
     - support for nunit
+    - cancel run
   - v0.5 - perf tests + ncruch compare
     - version number update - 3 places
     - dont interfere with ncruch [build/test/editor adornments]
@@ -69,6 +89,7 @@
     - partly covered statements
     - test timings
     - todo List
+    - *hotspot
 
 
 # Miscellenous notes
@@ -93,21 +114,19 @@
 
   In the project:
   - nunit and xunit and both
-  - c# and f#
+  - c#/f#-C++-RSpec
   - 64 and 32 bit
 
   later 
-  - switch to rock steady protocol
   - self sufficient vsix
   - vs2010
   - c++/js
   - test: itself, xunit, nunit, opencover, roslyn
 
-   */
 
-    - Enable fxcop
-    - release build - enable all warning, etc.
-    - licensing and other stuff
+  - Enable fxcop
+  - release build - enable all warning, etc.
+  - licensing and other stuff
 
 
   [[Markdown](http://daringfireball.net/projects/markdown/) syntax]
@@ -121,35 +140,3 @@
   - Debug first failing 1 test 
   - Test List 
   - Automated change detection
-
-  # Staging Plan #
-  ## MVP0: ##
-  - *Definition*: Console Host -> Pointed to xUnit/F# Sln folder -> Detect File Changes -> Builds -> Runs Tests -> Shows failing tests 
-  - Console Host:
-      - Point to folder, detect changes in that folder
-      - Trigger Builder.exe -> Break on error
-      - Run Tests -> Detect tests, Show current running test, Show progress 
-  - Builder
-      - All FS APIs Hooked and logged
-      - VFS Implementation
-      - VFS Implementation tested on xUnit codebase
-  - TestRunner 
-      - Detect number of tests
-      - Run Tests one by one
-      - Report progress
-
-  # Components #
-  - UX Integration 
-      - CC Markers 
-      - Automation Triggers 
-      - Debugger launch 
- 
-  - Source Snapshoter 
-      - Determine  
- 
-  - Builder 
-      - Build sources 
- 
-  - Tester 
-      - Discover Tests 
-      - Execute tests 

@@ -33,3 +33,4 @@ telog.txt
 ipch/
 *.sdf
 *.opensdf
+*.sublime-workspace

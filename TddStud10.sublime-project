@@ -1,0 +1,17 @@
+{
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	]
+	, "settings":
+    {
+        "tab_size": 6
+        , "use_tab_stops": true
+        , "translate_tabs_to_spaces": true
+
+        , "smart_indent": true
+        , "trim_automatic_white_space": true
+    }	
+}
