@@ -1,23 +1,15 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.Runtime.InteropServices;
-using System.ComponentModel.Design;
-using Microsoft.Win32;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.OLE.Interop;
-using Microsoft.VisualStudio.Shell;
-using EnvDTE80;
-using System.Windows.Threading;
-using System.ComponentModel;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
-using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
-using System.IO;
-using R4nd0mApps.TddStud10.Engine;
+using System.Runtime.InteropServices;
 using System.Windows.Controls;
+using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
+using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
 using EventHandlerPair = System.Tuple<System.EventHandler, System.EventHandler>;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
@@ -65,7 +57,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             _solution = Services.GetService<SVsSolution, IVsSolution2>();
             if (_solution != null)
             {
-                _solution.AdviseSolutionEvents(this, out solutionEventsCookie);
+                _solution.AdviseSolutionEvents(this, out solutionEventsCookie).ThrowOnFailure();
             }
 
             _statusBar = Services.GetService<SVsStatusbar, IVsStatusbar>();
@@ -82,25 +74,25 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                     { PkgCmdIDList.ChangeTddStud10State, new EventHandlerPair(ExecuteChangeTddStud10State, OnBeforeQueryStatusChangeTddStud10State) },
                 }.Aggregate(
                     new KeyValuePair<uint, EventHandlerPair>(),
-                    (_, kvp) => 
+                    (_, kvp) =>
                     {
                         CommandID menuCommandID = new CommandID(new Guid(GuidList.GuidProgressBarCmdSetString), (int)kvp.Key);
                         var menuItem = new OleMenuCommand(kvp.Value.Item1, menuCommandID);
                         menuItem.BeforeQueryStatus += kvp.Value.Item2;
-                        mcs.AddCommand(menuItem); 
+                        mcs.AddCommand(menuItem);
                         return kvp;
                     });
             }
 
             Instance = this;
 
-            Logger.I.Log("Initialized Package. Load timestamp {0}.", LoadTimestamp.ToLocalTime());
+            Logger.I.LogInfo("Initialized Package. Load timestamp {0}.", LoadTimestamp.ToLocalTime());
         }
 
         // TODO: Move to fs
         private void ExecuteChangeTddStud10State(object sender, EventArgs e)
         {
-            Logger.I.Log("Changing TddStud10 state...");
+            Logger.I.LogInfo("Changing TddStud10 state...");
 
             if (EngineLoader.IsEngineEnabled())
             {
@@ -114,7 +106,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         private void OnBeforeQueryStatusChangeTddStud10State(object sender, EventArgs e)
         {
-            Logger.I.Log("Querying for TddStud10 state...");
+            Logger.I.LogInfo("Querying for TddStud10 state...");
 
             var cmd = sender as OleMenuCommand;
             if (cmd == null)
@@ -125,7 +117,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             if (!_dte.Solution.IsOpen)
             {
-                Logger.I.Log("Solution is not open.");
+                Logger.I.LogInfo("Solution is not open.");
                 cmd.Visible = false;
                 return;
             }
@@ -215,7 +207,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             pfCancel = 0;
             if (EngineLoader.IsRunInProgress())
             {
-                Logger.I.Log("Run in progress. Denying request to close solution.");
+                Logger.I.LogInfo("Run in progress. Denying request to close solution.");
                 Services.GetService<SVsUIShell, IVsUIShell>().DisplayMessageBox(Resources.ProductTitle, Resources.CannotCloseSolution);
                 pfCancel = 1; // Veto closing of solution.
             }
@@ -237,7 +229,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
             if (_dte.Solution.SolutionBuild.BuildState == EnvDTE.vsBuildState.vsBuildStateInProgress)
             {
-                Logger.I.Log("Build in progress. Denying start request.");
+                Logger.I.LogInfo("Build in progress. Denying start request.");
                 return false;
             }
 
@@ -253,8 +245,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             InvokeOnUIThread(() =>
             {
-                _statusBar.SetText(string.Empty);
-                _statusBar.Animation(1, (short)Microsoft.VisualStudio.Shell.Interop.Constants.SBAI_Synch);
+                _statusBar.SetText(string.Empty).ThrowOnFailure();
+                _statusBar.Animation(1, (short)Microsoft.VisualStudio.Shell.Interop.Constants.SBAI_Synch).ThrowOnFailure();
             });
         }
 
@@ -267,7 +259,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             InvokeOnUIThread(() =>
             {
-                _statusBar.SetText(stepDetails);
+                _statusBar.SetText(stepDetails).ThrowOnFailure();
             });
         }
 
@@ -280,8 +272,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             InvokeOnUIThread(() =>
             {
-                _statusBar.Animation(0, (short)Microsoft.VisualStudio.Shell.Interop.Constants.SBAI_Synch);
-                _statusBar.SetText(string.Empty);
+                _statusBar.Animation(0, (short)Microsoft.VisualStudio.Shell.Interop.Constants.SBAI_Synch).ThrowOnFailure();
+                _statusBar.SetText(string.Empty).ThrowOnFailure();
             });
         }
 

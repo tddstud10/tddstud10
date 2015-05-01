@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
@@ -36,7 +32,7 @@ namespace R4nd0mApps.TddStud10.Engine
 
         public static void Load(IEngineHost host, string solutionPath, DateTime sessionStartTime)
         {
-            Logger.I.Log("Loading Engine with solution {0}", solutionPath);
+            Logger.I.LogInfo("Loading Engine with solution {0}", solutionPath);
 
             _host = host;
             runStartingHandler = (o, ea) => host.RunStarting();
@@ -54,20 +50,20 @@ namespace R4nd0mApps.TddStud10.Engine
         public static bool IsEngineEnabled()
         {
             var enabled = efsWatcher.IsEnabled();
-            Logger.I.Log("Engine is {0}", enabled);
+            Logger.I.LogInfo("Engine is {0}", enabled);
 
             return enabled;
         }
 
         public static void EnableEngine()
         {
-            Logger.I.Log("Enable Engine...");
+            Logger.I.LogInfo("Enable Engine...");
             efsWatcher.Enable();
         }
 
         public static void DisableEngine()
         {
-            Logger.I.Log("Disable Engine...");
+            Logger.I.LogInfo("Disable Engine...");
             efsWatcher.Disable();
         }
 
@@ -78,7 +74,7 @@ namespace R4nd0mApps.TddStud10.Engine
 
         public static void Unload()
         {
-            Logger.I.Log("Unloading Engine...");
+            Logger.I.LogInfo("Unloading Engine...");
 
             efsWatcher.Dispose();
 
@@ -110,7 +106,7 @@ namespace R4nd0mApps.TddStud10.Engine
             }
             else
             {
-                Logger.I.Log("Engine is not loaded. Ignoring command.");
+                Logger.I.LogInfo("Engine is not loaded. Ignoring command.");
             }
         }
 
@@ -120,13 +116,13 @@ namespace R4nd0mApps.TddStud10.Engine
             {
                 if (!_host.CanStart())
                 {
-                    Logger.I.Log("Cannot start engine. Host has denied request.");
+                    Logger.I.LogInfo("Cannot start engine. Host has denied request.");
                     return;
                 }
 
                 if (!Engine.Instance.Start())
                 {
-                    Logger.I.Log("Cannot start engine. A run is already on.");
+                    Logger.I.LogInfo("Cannot start engine. A run is already on.");
                     return;
                 }
 

@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
-using R4nd0mApps.TddStud10;
 using Mono.Cecil.Rocks;
-using R4nd0mApps.TddStud10.TestHost;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
+using R4nd0mApps.TddStud10.TestHost;
 
 namespace R4nd0mApps.TddStud10
 {
@@ -34,10 +30,10 @@ namespace R4nd0mApps.TddStud10
         // TODO: Merge these 2 methods
         public static void GenerateSequencePointInfoImpl(DateTime timeFilter, string buildOutputRoot, string seqencePointStore)
         {
-            Logger.I.Log(
+            Logger.I.LogInfo(
                 "Generating sequence point info: Time filter - {0}, Build output root - {1}, Sequence point store - {2}.",
-                timeFilter.ToLocalTime(), 
-                buildOutputRoot, 
+                timeFilter.ToLocalTime(),
+                buildOutputRoot,
                 seqencePointStore);
 
             var dict = new SequencePointSession();
@@ -46,7 +42,7 @@ namespace R4nd0mApps.TddStud10
             {
                 if (!File.Exists(Path.ChangeExtension(assemblyPath, ".pdb")))
                 {
-                    continue;                
+                    continue;
                 }
 
                 var lastWriteTime = File.GetLastWriteTimeUtc(assemblyPath);
@@ -55,7 +51,7 @@ namespace R4nd0mApps.TddStud10
                     continue;
                 }
 
-                Logger.I.Log("Generating sequence point info for {0}. Last write time: {1}.", assemblyPath, lastWriteTime.ToLocalTime());
+                Logger.I.LogInfo("Generating sequence point info for {0}. Last write time: {1}.", assemblyPath, lastWriteTime.ToLocalTime());
 
                 var assembly = AssemblyDefinition.ReadAssembly(assemblyPath, new ReaderParameters { ReadSymbols = true });
 
@@ -111,7 +107,7 @@ namespace R4nd0mApps.TddStud10
 
         public static void InstrumentImpl(DateTime timeFilter, string solutionRoot, string buildOutputRoot, string discoveredUnitTestsStore)
         {
-            Logger.I.Log(
+            Logger.I.LogInfo(
                 "Instrumenting: Time filter - {0}, Build output root - {1}, Discovered unit tests store - {2}.",
                 timeFilter,
                 buildOutputRoot,
@@ -122,7 +118,7 @@ namespace R4nd0mApps.TddStud10
             if (snKeyFile != null)
             {
                 snKeyPair = new StrongNameKeyPair(File.ReadAllBytes(snKeyFile));
-                Logger.I.Log("Using strong name from {0}.", snKeyFile);
+                Logger.I.LogInfo("Using strong name from {0}.", snKeyFile);
             }
 
             string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
@@ -133,7 +129,7 @@ namespace R4nd0mApps.TddStud10
             var asmResolver = new DefaultAssemblyResolver();
             Array.ForEach(asmResolver.GetSearchDirectories(), asmResolver.RemoveSearchDirectory);
             asmResolver.AddSearchDirectory(buildOutputRoot);
-            var readerParams = new ReaderParameters 
+            var readerParams = new ReaderParameters
             {
                 AssemblyResolver = asmResolver,
                 ReadSymbols = true,
@@ -144,7 +140,7 @@ namespace R4nd0mApps.TddStud10
             {
                 if (!File.Exists(Path.ChangeExtension(assemblyPath, ".pdb")))
                 {
-                    continue;                
+                    continue;
                 }
 
                 var lastWriteTime = File.GetLastWriteTimeUtc(assemblyPath);
@@ -153,27 +149,27 @@ namespace R4nd0mApps.TddStud10
                     continue;
                 }
 
-                Logger.I.Log("Instrumenting {0}. Last write time: {1}.", assemblyPath, lastWriteTime.ToLocalTime());
+                Logger.I.LogInfo("Instrumenting {0}. Last write time: {1}.", assemblyPath, lastWriteTime.ToLocalTime());
 
                 var assembly = AssemblyDefinition.ReadAssembly(assemblyPath, readerParams);
 
                 var enterSeqPointMethDef = from t in ModuleDefinition.ReadModule(testRunnerPath).GetTypes()
-                                          where t.Name == "Marker"
-                                          from m in t.Methods
-                                          where m.Name == "EnterSequencePoint"
-                                          select m;
+                                           where t.Name == "Marker"
+                                           from m in t.Methods
+                                           where m.Name == "EnterSequencePoint"
+                                           select m;
 
                 var enterUnitTestMethDef = from t in ModuleDefinition.ReadModule(testRunnerPath).GetTypes()
-                                          where t.Name == "Marker"
-                                          from m in t.Methods
+                                           where t.Name == "Marker"
+                                           from m in t.Methods
                                            where m.Name == "EnterUnitTest"
-                                          select m;
+                                           select m;
 
                 /*
-	            IL_0001: ldstr <mvid>
-	            IL_0006: ldstr <mdtoken>
-	            IL_000b: ldstr <spid>
-	            IL_000d: call void R4nd0mApps.TddStud10.TestHost.Marker::EnterSequencePoint(string, ldstr, ldstr)
+                   IL_0001: ldstr <mvid>
+                   IL_0006: ldstr <mdtoken>
+                   IL_000b: ldstr <spid>
+                   IL_000d: call void R4nd0mApps.TddStud10.TestHost.Marker::EnterSequencePoint(string, ldstr, ldstr)
                  */
                 MethodReference enterSeqPointMethRef = assembly.MainModule.Import(enterSeqPointMethDef.First());
                 MethodReference enterUnitTestMethRef = assembly.MainModule.Import(enterUnitTestMethDef.First());
@@ -255,7 +251,7 @@ namespace R4nd0mApps.TddStud10
                 }
                 catch
                 {
-                    Logger.I.Log("Backing up or instrumentation failed. Attempting to revert back changes to {0}.", assemblyPath);
+                    Logger.I.LogInfo("Backing up or instrumentation failed. Attempting to revert back changes to {0}.", assemblyPath);
                     File.Delete(assemblyPath);
                     File.Move(backupAssemblyPath, assemblyPath);
                     throw;

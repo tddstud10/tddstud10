@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
 
 namespace R4nd0mApps.TddStud10.Engine
@@ -24,7 +15,7 @@ namespace R4nd0mApps.TddStud10.Engine
         public event EventHandler<string> RunStepStarting;
         public event EventHandler RunEnded;
 
-        public  Engine(IEngineHost host, string solutionPath, DateTime sessionStartTime)
+        public Engine(IEngineHost host, string solutionPath, DateTime sessionStartTime)
         {
             _sessionStartTime = sessionStartTime;
             _solutionPath = solutionPath;
@@ -74,7 +65,7 @@ namespace R4nd0mApps.TddStud10.Engine
             }
         }
 
-        public string DiscoveredUnitTestsStore 
+        public string DiscoveredUnitTestsStore
         {
             get
             {
@@ -112,7 +103,7 @@ namespace R4nd0mApps.TddStud10.Engine
             {
                 if (_running)
                 {
-                    Logger.I.Log("Ignoring start as engine is currently _running...");
+                    Logger.I.LogInfo("Ignoring start as engine is currently _running...");
                     return false;
                 }
 
@@ -132,7 +123,7 @@ namespace R4nd0mApps.TddStud10.Engine
 
                 // Delte files
                 OnRaiseRunStepStarting("Deleting build output...");
-                Logger.I.Log("Deleting build output...");
+                Logger.I.LogInfo("Deleting build output...");
                 stopWatch.Start();
                 if (Directory.Exists(SolutionBuildRoot))
                 {
@@ -152,12 +143,12 @@ namespace R4nd0mApps.TddStud10.Engine
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                             ts.Hours, ts.Minutes, ts.Seconds,
                             ts.Milliseconds / 10);
-                Logger.I.Log("Done deleting build output! [" + elapsedTime + "]");
-                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
-                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
+                Logger.I.LogInfo("Done deleting build output! [" + elapsedTime + "]");
+                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
+                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
 
                 OnRaiseRunStepStarting("Taking solution snapshot...");
-                Logger.I.Log("Taking solution snapshot...");
+                Logger.I.LogInfo("Taking solution snapshot...");
                 stopWatch.Start();
                 var sln = new Solution(_solutionPath);
                 sln.Projects.ForEach(p =>
@@ -173,7 +164,7 @@ namespace R4nd0mApps.TddStud10.Engine
                         if (srcInfo.LastWriteTimeUtc > dstInfo.LastWriteTimeUtc)
                         {
                             Directory.CreateDirectory(Path.GetDirectoryName(dst));
-                            Logger.I.Log("Copying: {0} - {1}.", src, dst);
+                            Logger.I.LogInfo("Copying: {0} - {1}.", src, dst);
                             File.Copy(src, dst, true);
                         }
                     }
@@ -184,12 +175,12 @@ namespace R4nd0mApps.TddStud10.Engine
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                             ts.Hours, ts.Minutes, ts.Seconds,
                             ts.Milliseconds / 10);
-                Logger.I.Log("Done taking solution snapshot! [" + elapsedTime + "]");
-                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
-                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
+                Logger.I.LogInfo("Done taking solution snapshot! [" + elapsedTime + "]");
+                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
+                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
 
                 OnRaiseRunStepStarting("Building project...");
-                Logger.I.Log("Building project...");
+                Logger.I.LogInfo("Building project...");
                 stopWatch.Start();
                 ExecuteProcess(
                     @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe",
@@ -205,12 +196,12 @@ namespace R4nd0mApps.TddStud10.Engine
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                             ts.Hours, ts.Minutes, ts.Seconds,
                             ts.Milliseconds / 10);
-                Logger.I.Log("Done building project! [" + elapsedTime + "]");
-                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
-                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
+                Logger.I.LogInfo("Done building project! [" + elapsedTime + "]");
+                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
+                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
 
                 OnRaiseRunStepStarting("Instrumenting and discovering tests...");
-                Logger.I.Log("Instrumenting and discovering tests...");
+                Logger.I.LogInfo("Instrumenting and discovering tests...");
                 stopWatch.Start();
                 Instrumentation.GenerateSequencePointInfo(_sessionStartTime, SolutionBuildRoot, SequencePointStore);
                 Instrumentation.Instrument(_sessionStartTime, Path.GetDirectoryName(_solutionPath), SolutionBuildRoot, DiscoveredUnitTestsStore);
@@ -219,19 +210,19 @@ namespace R4nd0mApps.TddStud10.Engine
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                             ts.Hours, ts.Minutes, ts.Seconds,
                             ts.Milliseconds / 10);
-                Logger.I.Log("Done instrumenting and discovering tests! [" + elapsedTime + "]");
-                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
-                Logger.I.Log("/////////////////////////////////////////////////////////////////////////");
+                Logger.I.LogInfo("Done instrumenting and discovering tests! [" + elapsedTime + "]");
+                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
+                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
 
                 OnRaiseRunStepStarting("Executing tests...");
-                Logger.I.Log("Executing tests...");
+                Logger.I.LogInfo("Executing tests...");
                 stopWatch.Start();
                 ExecuteProcess(
                     testRunnerPath,
                     string.Format(
                         @"execute {0} {1} {2} {3}",
-                        SolutionBuildRoot, 
-                        CoverageResults, 
+                        SolutionBuildRoot,
+                        CoverageResults,
                         TestResults,
                         DiscoveredUnitTestsStore
                     )
@@ -241,8 +232,8 @@ namespace R4nd0mApps.TddStud10.Engine
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                             ts.Hours, ts.Minutes, ts.Seconds,
                             ts.Milliseconds / 10);
-                Logger.I.Log("Done executing tests! [" + elapsedTime + "]");
-                Logger.I.Log("");
+                Logger.I.LogInfo("Done executing tests! [" + elapsedTime + "]");
+                Logger.I.LogInfo("");
 
                 OnRaiseRunEndedEvent();
             }
@@ -264,7 +255,7 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private void ExecuteProcess(string fileName, string arguments)
         {
-            Logger.I.Log(string.Format("Executing: '{0}' '{1}'", fileName, arguments));
+            Logger.I.LogInfo(string.Format("Executing: '{0}' '{1}'", fileName, arguments));
             ProcessStartInfo processStartInfo;
             Process process;
 
@@ -286,7 +277,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 delegate(object sender, DataReceivedEventArgs e)
                 {
                     // append the new data to the data already read-in
-                    Logger.I.Log(e.Data);
+                    Logger.I.LogInfo(e.Data);
                 }
             );
             process.ErrorDataReceived += new DataReceivedEventHandler
@@ -294,7 +285,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 delegate(object sender, DataReceivedEventArgs e)
                 {
                     // append the new data to the data already read-in
-                    Logger.I.Log(e.Data);
+                    Logger.I.LogInfo(e.Data);
                 }
             );
             // start the process
@@ -306,7 +297,7 @@ namespace R4nd0mApps.TddStud10.Engine
             process.WaitForExit();
             process.CancelOutputRead();
         }
-    
+
         private void OnRaiseRunStartingEvent()
         {
             var handler = RunStarting;

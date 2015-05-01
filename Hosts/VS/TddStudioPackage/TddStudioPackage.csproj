@@ -13,7 +13,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <NuGetPackageImportStamp>8f219100</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>a2c8a2b3</NuGetPackageImportStamp>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -181,9 +181,6 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Reference Include="System.Xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="VsUIShellExtensions.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="Services.cs" />
     <Compile Include="TddStudioToolWindow.cs" />
     <Compile Include="EditorExtensions\IDEHelper.cs" />
     <Compile Include="EditorExtensions\LineCoverageGlyphFactory.cs" />
@@ -246,23 +243,40 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Engine.Core\Engine.Core.fsproj">
+      <Project>{E5FB2292-1833-4C4C-800E-A31AC891A931}</Project>
+      <Name>Engine.Core</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>
+      </IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Engine\Engine.csproj">
       <Project>{96D4C703-953A-43F6-94FA-A5394B297703}</Project>
       <Name>Engine</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
-      <IncludeOutputGroupsInVSIXLocalOnly></IncludeOutputGroupsInVSIXLocalOnly>
+      <IncludeOutputGroupsInVSIXLocalOnly>
+      </IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\TestHost.Core\TestHost.Core.fsproj">
+      <Project>{84693096-CBA0-407A-900A-3B48D21C5459}</Project>
+      <Name>TestHost.Core</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>
+      </IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
     <ProjectReference Include="..\..\..\TestHost\TestHost.csproj">
       <Project>{D6D4D595-14E0-4631-9FF5-F33976E08B34}</Project>
       <Name>TestHost</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
-      <IncludeOutputGroupsInVSIXLocalOnly></IncludeOutputGroupsInVSIXLocalOnly>
+      <IncludeOutputGroupsInVSIXLocalOnly>
+      </IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
     <ProjectReference Include="..\TddStudioPackage.Extensions\TddStudioPackage.Extensions.fsproj">
       <Project>{0055b0cc-39ba-4dea-ad3e-231cffe4ed58}</Project>
       <Name>TddStudioPackage.Extensions</Name>
-      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
-      <IncludeOutputGroupsInVSIXLocalOnly></IncludeOutputGroupsInVSIXLocalOnly>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3bBuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>
+      </IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

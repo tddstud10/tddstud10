@@ -59,16 +59,16 @@ namespace R4nd0mApps.TddStud10.TestHost
             TimeSpan ts;
             string elapsedTime;
 
-            Logger.I.Log("TestHost executing tests...");
+            Logger.I.LogInfo("TestHost executing tests...");
             stopWatch.Start();
             var testResults = new TestDetails();
             var unitTests = LoadUnitTestCases();
             foreach (var asm in unitTests.Keys)
             {
-                Logger.I.Log("Executing tests in {0}.", asm);
+                Logger.I.LogInfo("Executing tests in {0}.", asm);
 
                 using (var controller = new XunitFrontController(asm))
-                using (var resultsVisitor = new StandardOutputVisitor(new object(), false, solutionBuildRoot, () => false, Logger.I.Log, testResults.Dictionary))
+                using (var resultsVisitor = new StandardOutputVisitor(new object(), false, solutionBuildRoot, () => false, Logger.I.LogInfo, testResults.Dictionary))
                 {
                     controller.RunAll(resultsVisitor, TestFrameworkOptions.ForDiscovery(), TestFrameworkOptions.ForExecution());
                     resultsVisitor.Finished.WaitOne();
@@ -82,8 +82,8 @@ namespace R4nd0mApps.TddStud10.TestHost
             elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                         ts.Hours, ts.Minutes, ts.Seconds,
                         ts.Milliseconds / 10);
-            Logger.I.Log("Done TestHost executing tests! [" + elapsedTime + "]");
-            Logger.I.Log("");
+            Logger.I.LogInfo("Done TestHost executing tests! [" + elapsedTime + "]");
+            Logger.I.LogInfo("");
         }
 
         // TODO: Cleanup: This pattern is repeated everywhere. Unify it.

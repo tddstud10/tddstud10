@@ -12,7 +12,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>1f8882bf</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>c0d6e420</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -73,7 +73,6 @@
     <Compile Include="EngineFileSystemWatcher.cs" />
     <Compile Include="EngineLoader.cs" />
     <Compile Include="Instrumentation.cs" />
-    <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solution.cs" />
   </ItemGroup>
@@ -82,6 +81,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Engine.Core\Engine.Core.fsproj">
+      <Project>{e5fb2292-1833-4c4c-800e-a31ac891a931}</Project>
+      <Name>Engine.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestHost.Core\TestHost.Core.fsproj">
+      <Project>{84693096-cba0-407a-900a-3b48d21c5459}</Project>
+      <Name>TestHost.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestHost\TestHost.csproj">
       <Project>{d6d4d595-14e0-4631-9ff5-f33976e08b34}</Project>
       <Name>TestHost</Name>

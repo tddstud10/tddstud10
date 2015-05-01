@@ -29,5 +29,8 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Engine" Path="|Engine|" AssemblyName="|Engine;AssemblyName|" />
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="TestHost" Path="|TestHost|" AssemblyName="|TestHost;AssemblyName|" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="%CurrentProject%.Extensions" Path="|TddStudioPackage.Extensions|" AssemblyName="|TddStudioPackage.Extensions;AssemblyName|" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Engine.Core" Path="|Engine.Core|" AssemblyName="|Engine.Core;AssemblyName|" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="TestHost.Core" Path="|TestHost.Core|" AssemblyName="|TestHost.Core;AssemblyName|" />
   </Assets>
 </PackageManifest>

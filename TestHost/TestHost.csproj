@@ -12,7 +12,7 @@
     <AssemblyName>TddStud10.TestHost</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>b0b611c1</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>f61ce14f</NuGetPackageImportStamp>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -76,7 +76,6 @@
     <Compile Include="CoverageData.cs" />
     <Compile Include="CoverageSession.cs" />
     <Compile Include="DiscoveredUnitTests.cs" />
-    <Compile Include="Logger.cs" />
     <Compile Include="Marker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,6 +88,12 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="..\tddstud10.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestHost.Core\TestHost.Core.fsproj">
+      <Project>{84693096-cba0-407a-900a-3b48d21c5459}</Project>
+      <Name>TestHost.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.Composition;
 using System.Windows;
-using System.Windows.Shapes;
 using System.Windows.Media;
-using System.Windows.Controls;
+using System.Windows.Shapes;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
-using Microsoft.VisualStudio.Text.Tagging;
-using Microsoft.VisualStudio.Utilities;
+using R4nd0mApps.TddStud10.Engine;
+using R4nd0mApps.TddStud10.Hosts.VS.Helper;
 //using R4nd0mApps.TddStud10.Hosts.VS.Views;
 using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
-using R4nd0mApps.TddStud10.Hosts.VS.Helper;
 using R4nd0mApps.TddStud10.Hosts.VS.Tagger;
-using R4nd0mApps.TddStud10.Hosts.VS;
-using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.TestHost;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
@@ -29,16 +21,17 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
     public class LineCoverageGlyphFactory : TextViewCoverageProviderBase, IGlyphFactory
     {
         const double _glyphSize = 8.0;
-        
+
         private static Brush _uncoveredBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
         private static Brush _coveredWithPassingTestBrush = new SolidColorBrush(Color.FromRgb(0, 171, 0));
-        private static Brush _coveredWithFailedTestBrush = new SolidColorBrush(Color.FromRgb(171, 0, 0));
+        private static Brush _coveredWithFailedTestBrush = new SolidColorBrush(Color.FromRgb(255, 0, 0));
 
         /// <summary>
         /// Initializes a new instance.
         /// </summary>
         /// <param name="view">The current text editor.</param>
-        public LineCoverageGlyphFactory(IWpfTextView view) :base(view)
+        public LineCoverageGlyphFactory(IWpfTextView view)
+            : base(view)
         {
         }
 
@@ -78,7 +71,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
             }
 
             return ellipse;
-        }            
+        }
 
         /// <summary>
         /// Determines the correct brush for the coverage state.
@@ -88,7 +81,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
         private Brush GetBrushForState(LineCoverageState state)
         {
             switch (state)
-            {               
+            {
                 case LineCoverageState.CoveredWithPassingTests:
                     return _coveredWithPassingTestBrush;
                 case LineCoverageState.CoveredWithAtleastOneFailedTest:
@@ -149,7 +142,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
                     return LineCoverageState.CoveredWithPassingTests;
                 }
             }
-            
+
             return LineCoverageState.Unknown;
         }
 
@@ -162,7 +155,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
         public static IEnumerable<SnapshotSpan> GetSpansForLine(ITextViewLine line, IEnumerable<SnapshotSpan> spanContainer)
         {
             return spanContainer.Where(s => (s.Snapshot == line.Snapshot) && ((s.Start >= line.Start && s.Start <= line.End) || (s.Start < line.Start && s.End >= line.Start)));
-        }    
+        }
 
         /// <summary>
         /// Hide the colored message
@@ -189,6 +182,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
 
             if (tagger != null)
                 tagger.ShowForLine(line);
-        }    
+        }
     }
 }

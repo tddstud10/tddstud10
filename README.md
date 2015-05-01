@@ -41,21 +41,46 @@
     - √ [temporary fix] Strong name fails
     - √ [temporary fix] Editor crashes as unit test name doesnt ge registered sometime through Maker
   - v0.3 - fix top annoyances
-    - version number update - 3 places
     - [permanent fix] Editor crashes as unit test name doesnt ge registered sometime through Maker
     - [permanent fix] Strong name fails
-    - xunit 1.9 tests when mixed with xunit 2.0 projects (in same solution) doesn't execute
+    - Test Host design
+      - Unit test name comparision is through simple text - will fail for generics e.g.
+      - xunit 1.9 tests when mixed with xunit 2.0 projects (in same solution) doesn't execute
+      - incorrect comparision between cecil and xunit: crash
+          from cecil: R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests/ITestServiceInterface R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests::Service Provider returns service interface if service is found
+          from xunit: R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests+ITestServiceInterface R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests::Service Provider returns service interface if service is found      
     - √ version number update - 3 places
     - √ version downgrade to 4.0
-    - strongname disabled on machine
+    - build failure is not shown
+    - list of tests on each point
+    - R-G indications need to be much clearer
+    - What is the exception thrown and the point of faiure?
+    - progress reporting 
+      - has to happen, no matter what.
+      - report steps and substeps
+      - cancellable
+    - debug test is needed
+      - for test failures
+      - and for comparing the coverage
+    - switch to instantenous
+    - Editor discrepancies
+      - first time markers are not gettign shown - on scroll up and then down, they get shown
+      - [permanent fix] Editor crashes as unit test name doesnt ge registered sometime through Maker
+      - markers are getting created on the fly adn a new line is added
+    - crash in editor - thought we fixed this
+            <description>System.ArgumentNullException: Value cannot be null.&#x000D;&#x000A;Parameter name: key&#x000D;&#x000A; 
+        System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue&amp; value)&#x000D;&#x000A; 
+        System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)&#x000D;&#x000A; 
+        R4nd0mApps.TddStud10.Hosts.VS.Glyphs.LineCoverageGlyphFactory.&lt;GetLineCoverageState&gt;b__12(String tm) in d:\src\r4nd0mapps\tddstud10.1\Hosts\VS\TddStudioPackage\EditorExtensions\LineCoverageGlyphFactory.cs:line 137&#x000D;&#x000A; 
+        System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()&#x000D;&#x000A; 
+        System.Linq.Enumerable.Any[TSource](IEnumerable`1 source, Func`2 predicate)&#x000D;&#x000A; 
+        R4nd0mApps.TddStud10.Hosts.VS.Glyphs.LineCoverageGlyphFactory.GetLineCoverageState(ITextViewLine line) in d:\src\r4nd0mapps\tddstud10.1\Hosts\VS\TddStudioPackage\EditorExtensions\LineCoverageGlyphFactory.cs:line 139&#x000D;&#x000A;   at R4nd0mApps.TddStud10.Hosts.VS.Glyphs.LineCoverageGlyphFactory.GenerateGlyph(IWpfTextViewLine line, IGlyphTag tag) in d:\src\r4nd0mapps\tddstud10.1\Hosts\VS\TddStudioPackage\EditorExtensions\LineCoverageGlyphFactory.cs:line 54&#x000D;&#x000A;   at Microsoft.VisualStudio.Text.Editor.Implementation.GlyphMarginVisualManager.AddGlyph(IGlyphTag tag, SnapshotSpan span)&#x000D;&#x000A;   at Microsoft.VisualStudio.Text.Editor.Implementation.GlyphMargin.RefreshGlyphsOver(ITextViewLine textViewLine)&#x000D;&#x000A;   at Microsoft.VisualStudio.Text.Editor.Implementation.GlyphMargin.OnBatchedTagsChanged(Object sender, BatchedTagsChangedEventArgs e)&#x000D;&#x000A;   at Microsoft.VisualStudio.Text.Utilities.GuardedOperations.RaiseEvent[TArgs](Object sender, EventHandler`1 eventHandlers, TAr
+    - Run on gallio - http://www.gallio.org/book/GallioBook.pdf - got to internet history
     - Remove vision notes untill they are bit more ready
     - integrage with omnisharp/sublime
     - test start and test failure point markers
     - engine is always getting rebuilt
-    - first time markers are not gettign shown
-    - markers are getting created on the fly adn a new line is added
     - move svcs.cs and slnexn to fs and tdd them
-    - single assembly for diagnostics stuff
     - instrumentation - [a] cannot crash [b] report as warnings [c] restore assembly
     - if solution items are not there, then sln does not get copied
     - all files getting copied as upper case
