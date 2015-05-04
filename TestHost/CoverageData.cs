@@ -24,11 +24,11 @@ namespace R4nd0mApps.TddStud10.Engine
 
         public CoverageSession CoverageSession { get; set; }
 
-        public TestDetails TestDetails { get; set; }
+        public TestResults TestDetails { get; set; }
 
-        public SequencePointSession SequencePointSession { get; set; }
+        public SequencePoints SequencePointSession { get; set; }
 
-        public void UpdateCoverageResults(SequencePointSession seqPtSession, CoverageSession data, TestDetails testDetails)
+        public void UpdateCoverageResults(SequencePoints seqPtSession, CoverageSession data, TestResults testDetails)
         {
             SequencePointSession = seqPtSession;
             CoverageSession = data;

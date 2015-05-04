@@ -1,17 +1,11 @@
-﻿using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Text.Operations;
-using Microsoft.VisualStudio.Text.Tagging;
-using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
-//using R4nd0mApps.TddStud10.Hosts.VS.Views;
+﻿//using R4nd0mApps.TddStud10.Hosts.VS.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using R4nd0mApps.TddStud10.Hosts.VS;
-using Server;
+using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Editor;
 using R4nd0mApps.TddStud10.Engine;
+using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
 {
@@ -59,13 +53,13 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
 
             _textView.GotAggregateFocus += SetupSelectionChangedListener;
             CoverageData.Instance.NewCoverageDataAvailable += OnNewCoverageDataAvailable;
-        }       
+        }
 
         /// <summary>
         /// Disposes the base class
         /// </summary>
         public void Dispose()
-        {           
+        {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
@@ -133,7 +127,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
         /// <param name="e"></param>
         protected virtual void OnNewCoverageDataAvailable(object sender, EventArgs e)
         {
-            TddStud10Package.Instance.InvokeOnUIThread(() => {
+            TddStud10Package.Instance.InvokeOnUIThread(() =>
+            {
                 // update spans
                 _spanCoverage.Clear();
                 _currentSpans = GetWordSpans(_textView.TextBuffer.CurrentSnapshot);
@@ -157,9 +152,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
 
             if (!_spanCoverage.ContainsKey(snapshotPoint))
             {
-                _spanCoverage.Add(snapshotPoint, covered); 
+                _spanCoverage.Add(snapshotPoint, covered);
             }
-        }       
+        }
 
         public class CovData
         {
@@ -179,7 +174,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
         protected List<SnapshotSpan> GetWordSpans(ITextSnapshot snapshot)
         {
             var wordSpans = new List<SnapshotSpan>();
-            
+
             // Get covered sequence points
             try
             {
@@ -217,7 +212,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
                 IDEHelper.WriteToOutputWindow(ex.Message);
                 IDEHelper.WriteToOutputWindow(ex.StackTrace);
             }
-            
+
 
             return (wordSpans);
         }
@@ -231,10 +226,10 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
         /// <param name="sequencePointStartLine">The sequence point start message.</param>
         /// <param name="sequencePointEndLine">The sequence point end message.</param>
         /// <param name="covered">if set to <c>true</c> [covered].</param>
-        protected void AddWordSpansForSequencePointsCoveringMultipleLines(ITextSnapshot snapshot, 
-                                                                        List<SnapshotSpan> wordSpans, 
-                                                                        SequencePoint sequencePoint, 
-                                                                        int sequencePointStartLine, 
+        protected void AddWordSpansForSequencePointsCoveringMultipleLines(ITextSnapshot snapshot,
+                                                                        List<SnapshotSpan> wordSpans,
+                                                                        SequencePoint sequencePoint,
+                                                                        int sequencePointStartLine,
                                                                         int sequencePointEndLine,
                                                                         CovData covered)
         {
@@ -272,7 +267,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
             var allFiles = coverageData.GetFiles();
             IEnumerable<SequencePoint> sequencePoints = null;
 
-            if (allFiles != null && allSequencePoints != null) 
+            if (allFiles != null && allSequencePoints != null)
             {
                 var selectedFile = allFiles.FirstOrDefault(file => Engine.Engine.Instance != null && Engine.Engine.Instance.ArePathsTheSame(file, fileName));
                 if (selectedFile != null)
@@ -295,6 +290,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
                 return GetSequencePoints(CoverageData.Instance, IDEHelper.GetFileName(_textView));
             else
                 return new List<SequencePoint>();
-        }        
+        }
     }
 }

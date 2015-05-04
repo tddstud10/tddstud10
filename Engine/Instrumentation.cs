@@ -36,7 +36,7 @@ namespace R4nd0mApps.TddStud10
                 buildOutputRoot,
                 seqencePointStore);
 
-            var dict = new SequencePointSession();
+            var dict = new SequencePoints();
             var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".dll", ".exe" };
             foreach (var assemblyPath in Directory.EnumerateFiles(buildOutputRoot, "*").Where(s => extensions.Contains(Path.GetExtension(s))))
             {
@@ -88,7 +88,7 @@ namespace R4nd0mApps.TddStud10
 
             using (StringWriter writer = new StringWriter())
             {
-                SequencePointSession.Serializer.Serialize(writer, dict);
+                SequencePoints.Serializer.Serialize(writer, dict);
                 File.WriteAllText(seqencePointStore, writer.ToString());
             }
         }

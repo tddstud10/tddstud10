@@ -67,7 +67,7 @@ namespace R4nd0mApps.TddStud10.Engine
             efsWatcher.Disable();
         }
 
-        public static void UpdateCoverageResults(SequencePointSession seqPtSession, CoverageSession coverageSession, TestDetails testDetails)
+        public static void UpdateCoverageResults(SequencePoints seqPtSession, CoverageSession coverageSession, TestResults testDetails)
         {
             CoverageData.Instance.UpdateCoverageResults(seqPtSession, coverageSession, testDetails);
         }
@@ -126,14 +126,14 @@ namespace R4nd0mApps.TddStud10.Engine
                     return;
                 }
 
-                var serializer = new XmlSerializer(typeof(SequencePointSession));
+                var serializer = new XmlSerializer(typeof(SequencePoints));
                 var res = File.ReadAllText(Engine.Instance.SequencePointStore);
-                SequencePointSession seqPtSession = null;
+                SequencePoints seqPtSession = null;
                 StringReader reader = new StringReader(res);
                 XmlTextReader xmlReader = new XmlTextReader(reader);
                 try
                 {
-                    seqPtSession = serializer.Deserialize(xmlReader) as SequencePointSession;
+                    seqPtSession = serializer.Deserialize(xmlReader) as SequencePoints;
                 }
                 finally
                 {
@@ -156,13 +156,13 @@ namespace R4nd0mApps.TddStud10.Engine
                     reader.Close();
                 }
 
-                TestDetails testDetails = null;
+                TestResults testDetails = null;
                 res = File.ReadAllText(Engine.Instance.TestResults);
                 reader = new StringReader(res);
                 xmlReader = new XmlTextReader(reader);
                 try
                 {
-                    testDetails = TestDetails.Serializer.Deserialize(xmlReader) as TestDetails;
+                    testDetails = TestResults.Serializer.Deserialize(xmlReader) as TestResults;
                 }
                 finally
                 {

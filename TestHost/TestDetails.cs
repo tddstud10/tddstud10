@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-using R4nd0mApps.TddStud10.Engine;
+﻿using System.Xml.Serialization;
 
 namespace R4nd0mApps.TddStud10.TestHost
 {
@@ -15,32 +9,13 @@ namespace R4nd0mApps.TddStud10.TestHost
         Passed,
     }
 
-    public class TestDetail
+    public class TestId
     {
-        public string Method { get; set; }
-
-        public string ReturnType { get; set; }
-
-        public string Class { get; set; }
-
-        public string Assembly { get; set; }
-
         public string Name { get; set; }
     }
 
-    public class TestDetails
+    public class TestResults : SerializableDictionary<string, TestResult>
     {
-        public SerializableDictionary<string, TestResult> Dictionary
-        {
-            get;
-            set;
-        }
-
-        public static readonly XmlSerializer Serializer = new XmlSerializer(typeof(TestDetails));
-
-        public TestDetails()
-        {
-            Dictionary = new SerializableDictionary<string, TestResult>();
-        }
+        public static readonly XmlSerializer Serializer = new XmlSerializer(typeof(TestResults));
     }
 }

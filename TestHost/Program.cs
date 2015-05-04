@@ -4,14 +4,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.ServiceModel;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.TestHost.Diagnostics;
 using Server;
 using Xunit;
@@ -30,7 +27,7 @@ namespace R4nd0mApps.TddStud10.TestHost
 
         static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomainUnhandledException); 
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomainUnhandledException);
             solutionBuildRoot = args[1];
             codeCoverageStore = args[2];
             testResultsStore = args[3];
@@ -61,14 +58,14 @@ namespace R4nd0mApps.TddStud10.TestHost
 
             Logger.I.LogInfo("TestHost executing tests...");
             stopWatch.Start();
-            var testResults = new TestDetails();
+            var testResults = new TestResults();
             var unitTests = LoadUnitTestCases();
             foreach (var asm in unitTests.Keys)
             {
                 Logger.I.LogInfo("Executing tests in {0}.", asm);
 
                 using (var controller = new XunitFrontController(asm))
-                using (var resultsVisitor = new StandardOutputVisitor(new object(), false, solutionBuildRoot, () => false, Logger.I.LogInfo, testResults.Dictionary))
+                using (var resultsVisitor = new StandardOutputVisitor(new object(), false, solutionBuildRoot, () => false, Logger.I.LogInfo, testResults))
                 {
                     controller.RunAll(resultsVisitor, TestFrameworkOptions.ForDiscovery(), TestFrameworkOptions.ForExecution());
                     resultsVisitor.Finished.WaitOne();
@@ -103,11 +100,11 @@ namespace R4nd0mApps.TddStud10.TestHost
             }
         }
 
-        private static void SaveTestResults(TestDetails testDetails)
+        private static void SaveTestResults(TestResults testDetails)
         {
             StringWriter writer = new StringWriter();
 
-            TestDetails.Serializer.Serialize(writer, testDetails);
+            TestResults.Serializer.Serialize(writer, testDetails);
             File.WriteAllText(testResultsStore, writer.ToString());
         }
     }
@@ -188,19 +185,16 @@ namespace R4nd0mApps.TddStud10.TestHost
             return base.Visit(testFailed);
         }
 
-        private static TestDetail CreateTestDetail(ITestMessage testMessage)
+        private static TestId CreateTestDetail(ITestMessage testMessage)
         {
-            var td = new TestDetail
+            return new TestId
             {
-                Assembly = testMessage.Test.TestCase.TestMethod.TestClass.Class.Assembly.Name,
-                Class = testMessage.Test.TestCase.TestMethod.TestClass.Class.Name,
-                ReturnType = testMessage.Test.TestCase.TestMethod.Method.ReturnType.Name,
-                Method = testMessage.Test.TestCase.TestMethod.Method.Name,
+                Name = string.Format(
+                    "{0} {1}::{2}",
+                    testMessage.Test.TestCase.TestMethod.Method.ReturnType.Name,
+                    testMessage.Test.TestCase.TestMethod.TestClass.Class.Name,
+                    testMessage.Test.TestCase.TestMethod.Method.Name)
             };
-
-            td.Name = string.Format("{0} {1}::{2}", td.ReturnType, td.Class, td.Method);
-
-            return td;
         }
 
         protected override bool Visit(ITestPassed testPassed)

@@ -7,8 +7,8 @@ using System.Xml.Serialization;
 
 namespace R4nd0mApps.TddStud10.TestHost
 {
-    public class SequencePointSession : SerializableDictionary<string, List<SequencePoint>>
+    public class SequencePoints : SerializableDictionary<string, List<SequencePoint>>
     {
-        public static readonly XmlSerializer Serializer = new XmlSerializer(typeof(SequencePointSession));
+        public static readonly XmlSerializer Serializer = new XmlSerializer(typeof(SequencePoints));
     }
 }

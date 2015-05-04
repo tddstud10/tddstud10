@@ -45,7 +45,7 @@ namespace R4nd0mApps.TddStud10.Engine
         {
             get
             {
-                return Path.Combine(SolutionBuildRoot, "Z_seqpoints.xml");
+                return Path.Combine(SolutionBuildRoot, "Z_sequencePointStore.xml");
             }
         }
 
