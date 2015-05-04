@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
+using System.Text;
 using Microsoft.FSharp.Core;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
@@ -12,16 +13,17 @@ using R4nd0mApps.TddStud10.TestHost;
     √ extract methods
     √ transform signatures
     √ support cancellation
-    - return ds directly, not write and read xml's, serialize in parallel threads
-      - remove the reading xmls from engineloader
-    - capture return value errors from build adn test
-    - capture console output from build adn test
+    √ return ds directly, not write and read xml's, serialize in parallel threads
+    √ capture return value errors from build adn test
+    √ capture console output from build adn test
+    √ events should have rundata
     - gaurd from reentrancy
     - morph engine to runexeutor
       - wire up handlers
       - cleanup engine
       - implement IRunExecutorHost
       - make the switch
+    - remove the reading xmls from engineloader
     - write errors in toolwindow, clean for every session
     - click on the dots should open the toolwindow
     - bitmaps
@@ -158,8 +160,10 @@ namespace R4nd0mApps.TddStud10.Engine
                                 FilePath.NewFilePath(SolutionBuildRoot),
                                 FSharpOption<SequencePoints>.None,
                                 FSharpOption<DiscoveredUnitTests>.None,
+                                FSharpOption<string>.None,
                                 FSharpOption<CoverageSession>.None,
-                                FSharpOption<TestResults>.None);
+                                FSharpOption<TestResults>.None,
+                                FSharpOption<string>.None);
 
                 Stopwatch stopWatch = new Stopwatch();
                 TimeSpan ts;
@@ -195,7 +199,14 @@ namespace R4nd0mApps.TddStud10.Engine
                 OnRaiseRunStepStarting("Building project...");
                 Logger.I.LogInfo("Building project...");
                 stopWatch.Start();
-                rd = BuildSolutionSnapshot(reh, rd);
+                try
+                {
+                    rd = BuildSolutionSnapshot(reh, rd);
+                }
+                catch (Exception e)
+                {
+                    Logger.I.LogInfo(e.ToString());
+                }
                 stopWatch.Stop();
                 ts = stopWatch.Elapsed;
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
@@ -221,7 +232,14 @@ namespace R4nd0mApps.TddStud10.Engine
                 OnRaiseRunStepStarting("Executing tests...");
                 Logger.I.LogInfo("Executing tests...");
                 stopWatch.Start();
-                rd = RunTests(reh, rd);
+                try
+                {
+                    rd = RunTests(reh, rd);
+                }
+                catch (Exception e)
+                {
+                    Logger.I.LogInfo(e.ToString());
+                }
                 stopWatch.Stop();
                 ts = stopWatch.Elapsed;
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
@@ -245,9 +263,8 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private static RunData RunTests(IRunExecutorHost host, RunData rd)
         {
-            string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
-            string testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
-            ExecuteProcess(
+            string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Program).Assembly.Location);
+            var output = ExecuteProcess(
                 testRunnerPath,
                 string.Format(
                     @"execute {0} {1} {2} {3}",
@@ -258,29 +275,79 @@ namespace R4nd0mApps.TddStud10.Engine
                 )
             );
 
-            return rd;
+            if (output.Item1 != 0)
+            {
+                throw new Exception(output.Item2);
+            }
+
+            return CreateRunDataForRunTest(rd, output.Item2);
+        }
+
+        private static RunData CreateRunDataForRunTest(RunData rd, string testConsoleOutput)
+        {
+            return new RunData(
+                rd.startTime,
+                rd.solutionPath,
+                rd.solutionSnapshotPath,
+                rd.solutionBuildRoot,
+                rd.sequencePoints,
+                rd.discoveredUnitTests,
+                rd.buildConsoleOutput,
+                rd.codeCoverageResults,
+                rd.executedTests,
+                new FSharpOption<string>(testConsoleOutput));
         }
 
         private static RunData InstrumentBinaries(IRunExecutorHost host, RunData rd)
         {
             var sequencePointStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_sequencePointStore.xml");
-            Instrumentation.GenerateSequencePointInfo(rd.startTime, rd.solutionBuildRoot.Item, sequencePointStore);
+            var dict = Instrumentation.GenerateSequencePointInfo(rd.startTime, rd.solutionBuildRoot.Item);
+            if (dict != null)
+            {
+                using (StringWriter writer = new StringWriter())
+                {
+                    SequencePoints.Serializer.Serialize(writer, dict);
+                    File.WriteAllText(sequencePointStore, writer.ToString());
+                    Logger.I.LogInfo("Written sequence points to {0}.", sequencePointStore);
+                }
+            }
+
             if (!host.CanContinue())
             {
                 throw new OperationCanceledException();
             }
 
             var discoveredUnitTestsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
-            Instrumentation.Instrument(rd.startTime, Path.GetDirectoryName(rd.solutionPath.Item), rd.solutionBuildRoot.Item, discoveredUnitTestsStore);
+            var unitTests = Instrumentation.Instrument(rd.startTime, Path.GetDirectoryName(rd.solutionPath.Item), rd.solutionBuildRoot.Item);
+            using (StringWriter writer = new StringWriter())
+            {
+                DiscoveredUnitTests.Serializer.Serialize(writer, unitTests);
+                File.WriteAllText(discoveredUnitTestsStore, writer.ToString());
+                Logger.I.LogInfo("Written discovered unit tests to {0}.", discoveredUnitTestsStore);
+            }
 
-            return rd;
+            return CreateRunDataForInstrumentationStep(rd, dict, unitTests);
+        }
+
+        private static RunData CreateRunDataForInstrumentationStep(RunData rd, SequencePoints sequencePoints, DiscoveredUnitTests unitTests)
+        {
+            return new RunData(
+                rd.startTime,
+                rd.solutionPath,
+                rd.solutionSnapshotPath,
+                rd.solutionBuildRoot,
+                new FSharpOption<SequencePoints>(sequencePoints),
+                new FSharpOption<DiscoveredUnitTests>(unitTests),
+                rd.buildConsoleOutput,
+                rd.codeCoverageResults,
+                rd.executedTests,
+                rd.testConoleOutput);
         }
 
         private static RunData BuildSolutionSnapshot(IRunExecutorHost host, RunData rd)
         {
-            string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
-            string testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
-            ExecuteProcess(
+            string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Program).Assembly.Location);
+            var output = ExecuteProcess(
                 @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe",
                 string.Format(
                     @"/m /v:minimal /p:CreateVsixContainer=false /p:DeployExtension=false /p:CopyVsixExtensionFiles=false /p:VisualStudioVersion=12.0 /p:OutDir={0} {1}",
@@ -294,7 +361,27 @@ namespace R4nd0mApps.TddStud10.Engine
             }
             File.Copy(testRunnerPath, Path.Combine(rd.solutionBuildRoot.Item, Path.GetFileName(testRunnerPath)));
 
-            return rd;
+            if (output.Item1 != 0)
+            {
+                throw new Exception(output.Item2);
+            }
+
+            return CreateRunDataForBuildSolution(rd, output.Item2);
+        }
+
+        private static RunData CreateRunDataForBuildSolution(RunData rd, string buildConsoleOutput)
+        {
+            return new RunData(
+                rd.startTime,
+                rd.solutionPath,
+                rd.solutionSnapshotPath,
+                rd.solutionBuildRoot,
+                rd.sequencePoints,
+                rd.discoveredUnitTests,
+                new FSharpOption<string>(buildConsoleOutput),
+                rd.codeCoverageResults,
+                rd.executedTests,
+                rd.buildConsoleOutput);
         }
 
         private static RunData TakeSolutionSnapshot(IRunExecutorHost host, RunData rd)
@@ -352,9 +439,13 @@ namespace R4nd0mApps.TddStud10.Engine
             return _running;
         }
 
-        private static void ExecuteProcess(string fileName, string arguments)
+        private static Tuple<int, string> ExecuteProcess(string fileName, string arguments)
         {
-            Logger.I.LogInfo(string.Format("Executing: '{0}' '{1}'", fileName, arguments));
+            ConcurrentQueue<string> consoleOutput = new ConcurrentQueue<string>();
+            var commandLine = string.Format("Executing: '{0}' '{1}'", fileName, arguments);
+            consoleOutput.Enqueue(commandLine);
+            Logger.I.LogInfo(commandLine);
+
             ProcessStartInfo processStartInfo;
             Process process;
 
@@ -376,6 +467,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 delegate(object sender, DataReceivedEventArgs e)
                 {
                     // append the new data to the data already read-in
+                    consoleOutput.Enqueue(e.Data);
                     Logger.I.LogInfo(e.Data);
                 }
             );
@@ -384,6 +476,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 delegate(object sender, DataReceivedEventArgs e)
                 {
                     // append the new data to the data already read-in
+                    consoleOutput.Enqueue(e.Data);
                     Logger.I.LogInfo(e.Data);
                 }
             );
@@ -395,6 +488,11 @@ namespace R4nd0mApps.TddStud10.Engine
             process.BeginOutputReadLine();
             process.WaitForExit();
             process.CancelOutputRead();
+
+            var sb = new StringBuilder();
+            Array.ForEach(consoleOutput.ToArray(), s => sb.AppendLine(s));
+
+            return new Tuple<int, string>(process.ExitCode, sb.ToString());
         }
 
         private void OnRaiseRunStartingEvent()

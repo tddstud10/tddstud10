@@ -22,11 +22,11 @@ module PathHelpers =
         FilePath(Path.Combine(snapShotRoot, slnParentDirName + ".out"))
 
 type public RunExecutor(runSteps : RunSteps, stepWrapper : RunStepFunc -> RunStepFunc) = 
-    let runStarting = new Event<unit>()
-    let runEnded = new Event<unit>()
+    let runStarting = new Event<RunData>()
+    let runEnded = new Event<RunData>()
     let runErrored = new Event<Exception>()
-    let runStepStarting = new Event<RunStepName>()
-    let runStepEnded = new Event<RunStepName>()
+    let runStepStarting = new RunStepEvent()
+    let runStepEnded = new RunStepEvent()
     
     let executeStep (host : IRunExecutorHost) events (acc, err) e = 
         match err with
@@ -46,7 +46,6 @@ type public RunExecutor(runSteps : RunSteps, stepWrapper : RunStepFunc -> RunSte
     member public this.RunStepEnded = runStepEnded.Publish
     member public this.Start(host : IRunExecutorHost, startTime : DateTime, solutionPath : FilePath) = 
         async { 
-            runStarting.Trigger()
             let runData = 
                 { startTime = startTime
                   solutionPath = solutionPath
@@ -54,13 +53,15 @@ type public RunExecutor(runSteps : RunSteps, stepWrapper : RunStepFunc -> RunSte
                   solutionBuildRoot = PathHelpers.makeSlnBuildRoot solutionPath
                   sequencePoints = None
                   discoveredUnitTests = None
+                  buildConsoleOutput = None
                   codeCoverageResults = None
-                  executedTests = None }
-            
+                  executedTests = None
+                  testConoleOutput = None }
+            runStarting.Trigger(runData)
             let rd, err = runSteps |> Array.fold (executeStep host (runStepStarting, runStepEnded)) (runData, None)
             match err with
             | None -> ()
             | Some e -> runErrored.Trigger(e)
-            runEnded.Trigger()
+            runEnded.Trigger(runData)
             return rd, err
         }

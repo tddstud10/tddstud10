@@ -15,18 +15,23 @@ let createSteps n =
            yield (new StepFunc()) |]
 
 let toRSF : StepFunc array -> RunStep array = Array.map (fun s -> RS s)
-let createHandlers() = (new CallSpy<unit>(), new CallSpy<Exception>(), new CallSpy<unit>())
+let createHandlers() = (new CallSpy<RunData>(), new CallSpy<Exception>(), new CallSpy<RunData>())
 let createRE ss f = new RunExecutor(ss |> toRSF, f)
 
-let createRE2 ss f (sh : CallSpy<unit>, erh : CallSpy<Exception>, eh : CallSpy<unit>) = 
+let createRE2 ss f (sh : CallSpy<RunData>, erh : CallSpy<Exception>, eh : CallSpy<RunData>) = 
     let re = createRE ss (fun f -> f)
-    re.RunStarting.Add(sh.Func)
+    re.RunStarting.Add(sh.Func >> ignore)
     re.RunErrored.Add(erh.Func >> ignore)
-    re.RunEnded.Add(eh.Func)
+    re.RunEnded.Add(eh.Func >> ignore)
     re
 
 let startRE (re : RunExecutor) = re.Start(host, now, ~~"c:\\folder\\file.sln") |> Async.RunSynchronously
 let startRE2 (re : RunExecutor) h = re.Start(h, now, ~~"c:\\folder\\file.sln") |> Async.RunSynchronously
+
+let areRdsSimillar rd1 rd2 = 
+    match rd1 with
+    | None -> false
+    | Some rd1 -> rd1.solutionPath = rd2.solutionPath
 
 [<Fact>]
 let ``Executor initialized RunData``() = 
@@ -76,6 +81,9 @@ let ``Executor raises starting and ended events only``() =
     let re = createRE2 ss (fun f -> f) (sh, erh, eh)
     let rd, err = startRE re
     Assert.True(sh.Called && not erh.Called && eh.Called, "Only start and end handlers should have been called")
+    Assert.True
+        ((areRdsSimillar sh.CalledWith rd) && (areRdsSimillar eh.CalledWith rd), 
+         "Start and end events should be called with rundata")
     Assert.Equal(err, None)
 
 [<Fact>]
@@ -85,6 +93,9 @@ let ``Cancellation - Executor raises all 3 events and stops execution``() =
     let re = createRE2 ss (fun f -> f) (sh, erh, eh)
     let rd, err = startRE2 re (new TestHost(1))
     Assert.True(sh.Called && erh.Called && eh.Called, "All handlers should have been called")
+    Assert.True
+        ((areRdsSimillar sh.CalledWith rd) && (areRdsSimillar eh.CalledWith rd), 
+         "Start and end events should be called with rundata")
     Assert.True(ss.[0].Called && not ss.[1].Called && not ss.[2].Called, "Only step 1 should have been executed")
     Assert.True(err <> None && err = erh.CalledWith, "Error returned should also have been passed to error handler")
 

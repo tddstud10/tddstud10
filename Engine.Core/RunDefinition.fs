@@ -14,8 +14,10 @@ type RunData =
       solutionBuildRoot : FilePath
       sequencePoints : SequencePoints option
       discoveredUnitTests : DiscoveredUnitTests option
+      buildConsoleOutput : string option
       codeCoverageResults : CoverageSession option
-      executedTests : TestResults option }
+      executedTests : TestResults option
+      testConoleOutput : string option }
 
 type RunStepName = 
     | RunStepName of string
@@ -23,9 +25,10 @@ type RunStepName =
 type public IRunExecutorHost = 
     abstract CanContinue : unit -> bool
 
-type RunStepFunc = 
-    IRunExecutorHost -> RunStepName -> (Event<RunStepName> * Event<RunStepName>) 
-        -> RunData -> RunData
+type RunStepEvent =
+    Event<RunStepName * RunData>
+
+type RunStepFunc = IRunExecutorHost -> RunStepName -> (RunStepEvent * RunStepEvent) -> RunData -> RunData
 
 type RunStep = 
     { name : RunStepName

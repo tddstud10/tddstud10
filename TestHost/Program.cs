@@ -16,7 +16,7 @@ using Xunit.Abstractions;
 
 namespace R4nd0mApps.TddStud10.TestHost
 {
-    class Program
+    public class Program
     {
         private static XmlSerializer serializer = new XmlSerializer(typeof(List<string>));
 

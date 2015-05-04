@@ -32,7 +32,7 @@ let private runStepFuncLogger f =
 
 // Event publisher
 let private runStepFuncEventsPublisher f =
-    fun h n (s : Event<RunStepName>, e : Event<RunStepName>) rd ->
+    fun h n (s : Event<RunStepName * RunData>, e : Event<RunStepName * RunData>) rd ->
         s.Trigger(n)
         f h n (s, e) rd
         e.Trigger(n)

@@ -13,28 +13,27 @@ namespace R4nd0mApps.TddStud10
 {
     internal class Instrumentation
     {
-        private static string testRunnerPath;
-
-        public static void GenerateSequencePointInfo(DateTime timeFilter, string buildOutputRoot, string seqencePointStore)
+        public static SequencePoints GenerateSequencePointInfo(DateTime timeFilter, string buildOutputRoot)
         {
             try
             {
-                GenerateSequencePointInfoImpl(timeFilter, buildOutputRoot, seqencePointStore);
+                return GenerateSequencePointInfoImpl(timeFilter, buildOutputRoot);
             }
             catch (Exception e)
             {
                 Logger.I.LogError("Failed to instrument. Exception: {0}", e);
             }
+
+            return null;
         }
 
         // TODO: Merge these 2 methods
-        public static void GenerateSequencePointInfoImpl(DateTime timeFilter, string buildOutputRoot, string seqencePointStore)
+        public static SequencePoints GenerateSequencePointInfoImpl(DateTime timeFilter, string buildOutputRoot)
         {
             Logger.I.LogInfo(
-                "Generating sequence point info: Time filter - {0}, Build output root - {1}, Sequence point store - {2}.",
+                "Generating sequence point info: Time filter - {0}, Build output root - {1}.",
                 timeFilter.ToLocalTime(),
-                buildOutputRoot,
-                seqencePointStore);
+                buildOutputRoot);
 
             var dict = new SequencePoints();
             var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".dll", ".exe" };
@@ -86,32 +85,29 @@ namespace R4nd0mApps.TddStud10
                 }
             }
 
-            using (StringWriter writer = new StringWriter())
-            {
-                SequencePoints.Serializer.Serialize(writer, dict);
-                File.WriteAllText(seqencePointStore, writer.ToString());
-            }
+            return dict;
         }
 
-        public static void Instrument(DateTime timeFilter, string solutionRoot, string buildOutputRoot, string discoveredUnitTestsStore)
+        public static DiscoveredUnitTests Instrument(DateTime timeFilter, string solutionRoot, string buildOutputRoot)
         {
             try
             {
-                InstrumentImpl(timeFilter, solutionRoot, buildOutputRoot, discoveredUnitTestsStore);
+                return InstrumentImpl(timeFilter, solutionRoot, buildOutputRoot);
             }
             catch (Exception e)
             {
                 Logger.I.LogError("Failed to instrument. Exception: {0}", e);
             }
+
+            return null;
         }
 
-        public static void InstrumentImpl(DateTime timeFilter, string solutionRoot, string buildOutputRoot, string discoveredUnitTestsStore)
+        public static DiscoveredUnitTests InstrumentImpl(DateTime timeFilter, string solutionRoot, string buildOutputRoot)
         {
             Logger.I.LogInfo(
-                "Instrumenting: Time filter - {0}, Build output root - {1}, Discovered unit tests store - {2}.",
+                "Instrumenting: Time filter - {0}, Build output root - {1}.",
                 timeFilter,
-                buildOutputRoot,
-                discoveredUnitTestsStore);
+                buildOutputRoot);
 
             StrongNameKeyPair snKeyPair = null;
             var snKeyFile = Directory.EnumerateFiles(solutionRoot, "*.snk").FirstOrDefault();
@@ -121,8 +117,7 @@ namespace R4nd0mApps.TddStud10
                 Logger.I.LogInfo("Using strong name from {0}.", snKeyFile);
             }
 
-            string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
-            testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
+            string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Program).Assembly.Location);
 
             var unitTests = new DiscoveredUnitTests();
 
@@ -258,11 +253,7 @@ namespace R4nd0mApps.TddStud10
                 }
             }
 
-            using (StringWriter writer = new StringWriter())
-            {
-                DiscoveredUnitTests.Serializer.Serialize(writer, unitTests);
-                File.WriteAllText(discoveredUnitTestsStore, writer.ToString());
-            }
+            return unitTests;
         }
     }
 }
