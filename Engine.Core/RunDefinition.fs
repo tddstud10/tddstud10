@@ -23,7 +23,9 @@ type RunStepName =
 type public IRunExecutorHost = 
     abstract CanContinue : unit -> bool
 
-type RunStepFunc = IRunExecutorHost -> RunData -> RunData
+type RunStepFunc = 
+    IRunExecutorHost -> RunStepName -> (Event<RunStepName> * Event<RunStepName>) 
+        -> RunData -> RunData
 
 type RunStep = 
     { name : RunStepName

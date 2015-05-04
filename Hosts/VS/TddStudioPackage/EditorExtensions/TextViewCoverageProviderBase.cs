@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using R4nd0mApps.TddStud10.Engine;
+using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
@@ -209,8 +210,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
             }
             catch (Exception ex)
             {
-                IDEHelper.WriteToOutputWindow(ex.Message);
-                IDEHelper.WriteToOutputWindow(ex.StackTrace);
+                Logger.I.LogError(ex.Message);
+                Logger.I.LogError(ex.StackTrace);
             }
 
 

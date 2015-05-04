@@ -64,6 +64,7 @@
     <Compile Include="Logger.fs" />
     <Compile Include="RunDefinition.fs" />
     <Compile Include="RunExecutor.fs" />
+    <Compile Include="RunStepFuncWrappers.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">

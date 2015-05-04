@@ -15,7 +15,7 @@ type StepFunc(throwException) =
     member val Called = false with get, set
     member val CalledWith = None with get, set
     member val ReturningWith = None with get, set
-    member public t.Func (h : IRunExecutorHost) (rd : RunData) : RunData = 
+    member public t.Func (h : IRunExecutorHost) name events (rd : RunData) : RunData = 
         t.Called <- true
         t.CalledWith <- Some(rd.GetHashCode())
         if throwException then failwith "Step threw some exception"

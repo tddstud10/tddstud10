@@ -25,14 +25,16 @@ type public RunExecutor(runSteps : RunSteps, stepWrapper : RunStepFunc -> RunSte
     let runStarting = new Event<unit>()
     let runEnded = new Event<unit>()
     let runErrored = new Event<Exception>()
+    let runStepStarting = new Event<RunStepName>()
+    let runStepEnded = new Event<RunStepName>()
     
-    let executeStep (host : IRunExecutorHost) (acc, err) e = 
+    let executeStep (host : IRunExecutorHost) events (acc, err) e = 
         match err with
         | Some _ -> acc, err
         | None -> 
             if (host.CanContinue()) then 
                 try 
-                    (stepWrapper (e.func)) host acc, err
+                    (stepWrapper (e.func)) host e.name events acc, err
                 with ex -> acc, Some ex
             else acc, Some(new OperationCanceledException() :> Exception)
     
@@ -40,6 +42,8 @@ type public RunExecutor(runSteps : RunSteps, stepWrapper : RunStepFunc -> RunSte
     member public this.RunStarting = runStarting.Publish
     member public this.RunEnded = runEnded.Publish
     member public this.RunErrored = runErrored.Publish
+    member public this.RunStepStarting = runStepStarting.Publish
+    member public this.RunStepEnded = runStepEnded.Publish
     member public this.Start(host : IRunExecutorHost, startTime : DateTime, solutionPath : FilePath) = 
         async { 
             runStarting.Trigger()
@@ -53,7 +57,7 @@ type public RunExecutor(runSteps : RunSteps, stepWrapper : RunStepFunc -> RunSte
                   codeCoverageResults = None
                   executedTests = None }
             
-            let rd, err = runSteps |> Array.fold (executeStep host) (runData, None)
+            let rd, err = runSteps |> Array.fold (executeStep host (runStepStarting, runStepEnded)) (runData, None)
             match err with
             | None -> ()
             | Some e -> runErrored.Trigger(e)

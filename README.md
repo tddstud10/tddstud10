@@ -43,7 +43,7 @@
   - v0.3 - fix top annoyances
     - √ version number update - 3 places
     - √ move svcs.cs and slnexn to fs and tdd them
-    - Remove vision notes untill they are bit more ready
+    - √ Remove vision notes untill they are bit more ready
     - * progress reporting 
       - timing
       - logging
@@ -61,6 +61,13 @@
       - UX
         - R-G indications need to be much clearer
         - 3 stage update of markers [a] dim the greens once out of date [b] new code should be uncovered to start with [c] update coverage
+<* Feedback
+  testdoubles.runexector methods are not called + methods inside an async block
+  unable to understand red due to build failure - needed to build
+  unable to understand exception caused and where - needed to look into the test failures
+  test execution seems to halt initially - not as fast as the rest of teh steps!!!
+  debugging really really needed
+ *>
     - * Test Host design
       - Unit test name comparision is through simple text - will fail for generics e.g.
       - xunit 1.9 tests when mixed with xunit 2.0 projects (in same solution) doesn't execute

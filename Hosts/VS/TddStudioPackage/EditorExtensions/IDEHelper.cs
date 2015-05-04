@@ -17,6 +17,7 @@ using System.Windows.Controls;
 using VSLangProj;
 using VSLangProj80;
 using R4nd0mApps.TddStud10.Hosts.VS;
+using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
 {
@@ -24,8 +25,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
     {
         private const string BASE_IMAGE_PREFIX = "/BuildProgressBar;component/";
 
-        private static IVsOutputWindow _outputWindow;
-        private static IVsOutputWindowPane _pane;
         private static EnvDTE.DTE DTE;
 
         /// <summary>
@@ -33,12 +32,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
         /// </summary>
         static IDEHelper()
         {
-            _outputWindow = Package.GetGlobalService(typeof(SVsOutputWindow)) as IVsOutputWindow;
-
-            Guid guidGeneral = VSConstants.OutputWindowPaneGuid.GeneralPane_guid;
-            int hr = _outputWindow.CreatePane(guidGeneral, "Test Driven Development Studio", 1, 1);
-            hr = _outputWindow.GetPane(guidGeneral, out _pane);
-
             DTE = (Package.GetGlobalService(typeof(EnvDTE.DTE))) as EnvDTE.DTE;
         }
 
@@ -87,37 +80,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
         {
             DTE.ExecuteCommand("GotoLn", lineNumber.ToString());
         }
-
-        /// <summary>
-        /// Writes to the output window.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        internal static void WriteToOutputWindow(string message)
-        {
-            try
-            {
-                if (_pane != null)
-                {
-                    _pane.OutputStringThreadSafe(message);
-                    _pane.OutputStringThreadSafe(Environment.NewLine);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(String.Format("{0}\n{1}", ex.Message, ex.StackTrace), Resources.MessageBoxTitle, MessageBoxButton.OK);
-            }
-        }
-
-        /// <summary>
-        /// Writes to output window.
-        /// </summary>
-        /// <param name="format">The string format.</param>
-        /// <param name="arguments">The arguments to formatting.</param>
-        internal static void WriteToOutputWindow(string format, params object[] arguments)
-        {
-            WriteToOutputWindow(String.Format(format, arguments));
-        }
-
 
         /// <summary>
         /// Finds all the dlls in the project with reference to UnitTestFramework.dll
@@ -177,14 +139,14 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
                 {
                     if (Debugger.IsAttached)
                     {
-                        WriteToOutputWindow("Method found, stopping _solution search");
+                        Logger.I.LogError("Method found, stopping _solution search");
                     }
 
                     return; 
                 }
             }
 
-            WriteToOutputWindow("Could not find meth '{0}' in the current _solution", fullyQualifiedMethodName);
+            Logger.I.LogInfo("Could not find meth '{0}' in the current _solution", fullyQualifiedMethodName);
         }
 
         private static bool ScanProjectItems(string fullyQualifiedMethodName, EnvDTE.ProjectItems projectItems)
@@ -193,7 +155,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
             {
                 if (Debugger.IsAttached)
                 {
-                    WriteToOutputWindow("Processing projectItem: {0}", projectItem.Name);
+                    Logger.I.LogInfo("Processing projectItem: {0}", projectItem.Name);
                 }
 
                 if (projectItem.FileCodeModel != null)
@@ -206,11 +168,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
                         {
                             var filepath = (string)projectItem.Properties.Item("FullPath").Value;
 
-                            WriteToOutputWindow("Method '{0}' found, opening file: '{1}'", fullyQualifiedMethodName, filepath);
+                            Logger.I.LogInfo("Method '{0}' found, opening file: '{1}'", fullyQualifiedMethodName, filepath);
                             OpenFile(DTE, filepath);
 
                             int methodStartLine = discoveredMethodElement.StartPoint.Line;
-                            WriteToOutputWindow("Moving to meth on message: {0}", methodStartLine);
+                            Logger.I.LogInfo("Moving to meth on message: {0}", methodStartLine);
                             GoToLine(DTE, discoveredMethodElement.StartPoint.Line);
                             return true;
                         }
@@ -220,7 +182,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
                 {
                     if (Debugger.IsAttached)
                     {
-                        WriteToOutputWindow("Scanning subfolder: {0}", projectItem.Name);
+                        Logger.I.LogInfo("Scanning subfolder: {0}", projectItem.Name);
                     }
 
                     var found = ScanProjectItems(fullyQualifiedMethodName, projectItem.ProjectItems);
@@ -240,7 +202,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
             {
                 if (Debugger.IsAttached)
                 {
-                    WriteToOutputWindow("Processing class: {0}", codeElement.FullName);
+                    Logger.I.LogInfo("Processing class: {0}", codeElement.FullName);
                 }
 
                 foreach (EnvDTE.CodeElement classChildCodeElement in codeElement.Children)

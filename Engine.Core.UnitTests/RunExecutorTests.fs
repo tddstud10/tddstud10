@@ -97,15 +97,3 @@ let ``Step throws - Executor raises all 3 events and stops execution``() =
     Assert.True(sh.Called && erh.Called && eh.Called, "All handlers should have been called")
     Assert.True(ss.[0].Called && not ss.[1].Called && not ss.[2].Called, "Only step 1 should have been executed")
     Assert.True(err <> None && err = erh.CalledWith, "Error returned should also have been passed to error handler")
-
-// Next
-// - Not in engine
-//   - stepStarted
-//   - stepEnded
-(*
-testdoubles.runexector methods are not called + methods inside an async block
-unable to understand red due to build failure - needed to build
-unable to understand exception caused and where - needed to look into the test failures
-test execution seems to halt initially - not as fast as the rest of teh steps!!!
-debugging really really needed
-*)

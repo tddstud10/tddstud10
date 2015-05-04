@@ -2,10 +2,46 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using Microsoft.FSharp.Core;
+using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
+using R4nd0mApps.TddStud10.TestHost;
+
+/*
+    TODO:
+    √ extract methods
+    √ transform signatures
+    √ support cancellation
+    - return ds directly, not write and read xml's, serialize in parallel threads
+      - remove the reading xmls from engineloader
+    - capture return value errors from build adn test
+    - capture console output from build adn test
+    - gaurd from reentrancy
+    - morph engine to runexeutor
+      - wire up handlers
+      - cleanup engine
+      - implement IRunExecutorHost
+      - make the switch
+    - write errors in toolwindow, clean for every session
+    - click on the dots should open the toolwindow
+    - bitmaps
+ */
 
 namespace R4nd0mApps.TddStud10.Engine
 {
+    public class RunExecutorHost : IRunExecutorHost
+    {
+
+        #region IRunExecutorHost Members
+
+        public bool CanContinue()
+        {
+            return true;
+        }
+
+        #endregion
+    }
+
     public sealed class Engine
     {
         private string _solutionPath;
@@ -114,8 +150,16 @@ namespace R4nd0mApps.TddStud10.Engine
             {
                 OnRaiseRunStartingEvent();
 
-                string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
-                string testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
+                var reh = new RunExecutorHost();
+                RunData rd = new RunData(
+                                _sessionStartTime,
+                                FilePath.NewFilePath(_solutionPath),
+                                FilePath.NewFilePath(solutionSnapShotPath),
+                                FilePath.NewFilePath(SolutionBuildRoot),
+                                FSharpOption<SequencePoints>.None,
+                                FSharpOption<DiscoveredUnitTests>.None,
+                                FSharpOption<CoverageSession>.None,
+                                FSharpOption<TestResults>.None);
 
                 Stopwatch stopWatch = new Stopwatch();
                 TimeSpan ts;
@@ -125,19 +169,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 OnRaiseRunStepStarting("Deleting build output...");
                 Logger.I.LogInfo("Deleting build output...");
                 stopWatch.Start();
-                if (Directory.Exists(SolutionBuildRoot))
-                {
-                    foreach (var file in Directory.EnumerateFiles(SolutionBuildRoot, "*.pdb"))
-                    {
-                        File.Delete(file);
-
-                        var dll = Path.ChangeExtension(file, "dll");
-                        if (File.Exists(dll))
-                        {
-                            File.Delete(dll);
-                        }
-                    }
-                }
+                rd = DeleteBuildOutput(reh, rd);
                 stopWatch.Stop();
                 ts = stopWatch.Elapsed;
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
@@ -150,26 +182,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 OnRaiseRunStepStarting("Taking solution snapshot...");
                 Logger.I.LogInfo("Taking solution snapshot...");
                 stopWatch.Start();
-                var sln = new Solution(_solutionPath);
-                sln.Projects.ForEach(p =>
-                {
-                    var projectFile = Path.Combine(Path.GetDirectoryName(_solutionPath), p.RelativePath);
-                    var folder = Path.GetDirectoryName(projectFile);
-                    foreach (var src in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
-                    {
-                        var dst = src.ToUpperInvariant().Replace(_solutionGrandParentPath.ToUpperInvariant(), _snapshotRoot);
-                        var srcInfo = new FileInfo(src);
-                        var dstInfo = new FileInfo(dst);
-
-                        if (srcInfo.LastWriteTimeUtc > dstInfo.LastWriteTimeUtc)
-                        {
-                            Directory.CreateDirectory(Path.GetDirectoryName(dst));
-                            Logger.I.LogInfo("Copying: {0} - {1}.", src, dst);
-                            File.Copy(src, dst, true);
-                        }
-                    }
-                });
-
+                rd = TakeSolutionSnapshot(reh, rd);
                 stopWatch.Stop();
                 ts = stopWatch.Elapsed;
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
@@ -182,15 +195,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 OnRaiseRunStepStarting("Building project...");
                 Logger.I.LogInfo("Building project...");
                 stopWatch.Start();
-                ExecuteProcess(
-                    @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe",
-                    string.Format(@"/m /v:minimal /p:CreateVsixContainer=false /p:DeployExtension=false /p:CopyVsixExtensionFiles=false /p:VisualStudioVersion=12.0 /p:OutDir={0} {1}", SolutionBuildRoot, solutionSnapShotPath)
-                );
-                if (File.Exists(Path.Combine(SolutionBuildRoot, Path.GetFileName(testRunnerPath))))
-                {
-                    File.Delete(Path.Combine(SolutionBuildRoot, Path.GetFileName(testRunnerPath)));
-                }
-                File.Copy(testRunnerPath, Path.Combine(SolutionBuildRoot, Path.GetFileName(testRunnerPath)));
+                rd = BuildSolutionSnapshot(reh, rd);
                 stopWatch.Stop();
                 ts = stopWatch.Elapsed;
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
@@ -203,8 +208,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 OnRaiseRunStepStarting("Instrumenting and discovering tests...");
                 Logger.I.LogInfo("Instrumenting and discovering tests...");
                 stopWatch.Start();
-                Instrumentation.GenerateSequencePointInfo(_sessionStartTime, SolutionBuildRoot, SequencePointStore);
-                Instrumentation.Instrument(_sessionStartTime, Path.GetDirectoryName(_solutionPath), SolutionBuildRoot, DiscoveredUnitTestsStore);
+                rd = InstrumentBinaries(reh, rd);
                 stopWatch.Stop();
                 ts = stopWatch.Elapsed;
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
@@ -217,16 +221,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 OnRaiseRunStepStarting("Executing tests...");
                 Logger.I.LogInfo("Executing tests...");
                 stopWatch.Start();
-                ExecuteProcess(
-                    testRunnerPath,
-                    string.Format(
-                        @"execute {0} {1} {2} {3}",
-                        SolutionBuildRoot,
-                        CoverageResults,
-                        TestResults,
-                        DiscoveredUnitTestsStore
-                    )
-                );
+                rd = RunTests(reh, rd);
                 stopWatch.Stop();
                 ts = stopWatch.Elapsed;
                 elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
@@ -248,12 +243,116 @@ namespace R4nd0mApps.TddStud10.Engine
             return true;
         }
 
+        private static RunData RunTests(IRunExecutorHost host, RunData rd)
+        {
+            string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
+            string testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
+            ExecuteProcess(
+                testRunnerPath,
+                string.Format(
+                    @"execute {0} {1} {2} {3}",
+                    rd.solutionBuildRoot.Item,
+                    Path.Combine(rd.solutionBuildRoot.Item, "Z_coverageresults.xml"),
+                    Path.Combine(rd.solutionBuildRoot.Item, "Z_testresults.xml"),
+                    Path.Combine(rd.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml")
+                )
+            );
+
+            return rd;
+        }
+
+        private static RunData InstrumentBinaries(IRunExecutorHost host, RunData rd)
+        {
+            var sequencePointStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_sequencePointStore.xml");
+            Instrumentation.GenerateSequencePointInfo(rd.startTime, rd.solutionBuildRoot.Item, sequencePointStore);
+            if (!host.CanContinue())
+            {
+                throw new OperationCanceledException();
+            }
+
+            var discoveredUnitTestsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
+            Instrumentation.Instrument(rd.startTime, Path.GetDirectoryName(rd.solutionPath.Item), rd.solutionBuildRoot.Item, discoveredUnitTestsStore);
+
+            return rd;
+        }
+
+        private static RunData BuildSolutionSnapshot(IRunExecutorHost host, RunData rd)
+        {
+            string currFolder = Path.GetFullPath(Assembly.GetExecutingAssembly().Location);
+            string testRunnerPath = Path.Combine(Path.GetDirectoryName(currFolder), "TddStud10.TestHost.exe");
+            ExecuteProcess(
+                @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe",
+                string.Format(
+                    @"/m /v:minimal /p:CreateVsixContainer=false /p:DeployExtension=false /p:CopyVsixExtensionFiles=false /p:VisualStudioVersion=12.0 /p:OutDir={0} {1}",
+                    rd.solutionBuildRoot.Item,
+                    rd.solutionSnapshotPath.Item)
+            );
+
+            if (File.Exists(Path.Combine(rd.solutionBuildRoot.Item, Path.GetFileName(testRunnerPath))))
+            {
+                File.Delete(Path.Combine(rd.solutionBuildRoot.Item, Path.GetFileName(testRunnerPath)));
+            }
+            File.Copy(testRunnerPath, Path.Combine(rd.solutionBuildRoot.Item, Path.GetFileName(testRunnerPath)));
+
+            return rd;
+        }
+
+        private static RunData TakeSolutionSnapshot(IRunExecutorHost host, RunData rd)
+        {
+            var sln = new Solution(rd.solutionPath.Item);
+            var solutionGrandParentPath = Path.GetDirectoryName(Path.GetDirectoryName(rd.solutionPath.Item));
+            sln.Projects.ForEach(p =>
+            {
+                if (!host.CanContinue())
+                {
+                    throw new OperationCanceledException();
+                }
+
+                var projectFile = Path.Combine(Path.GetDirectoryName(rd.solutionPath.Item), p.RelativePath);
+                var folder = Path.GetDirectoryName(projectFile);
+                foreach (var src in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
+                {
+                    var dst = src.ToUpperInvariant().Replace(solutionGrandParentPath.ToUpperInvariant(), rd.solutionSnapshotPath.Item);
+                    var srcInfo = new FileInfo(src);
+                    var dstInfo = new FileInfo(dst);
+
+                    if (srcInfo.LastWriteTimeUtc > dstInfo.LastWriteTimeUtc)
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(dst));
+                        Logger.I.LogInfo("Copying: {0} - {1}.", src, dst);
+                        File.Copy(src, dst, true);
+                    }
+                }
+            });
+
+            return rd;
+        }
+
+        private static RunData DeleteBuildOutput(IRunExecutorHost host, RunData rd)
+        {
+            if (Directory.Exists(rd.solutionBuildRoot.Item))
+            {
+                foreach (var file in Directory.EnumerateFiles(rd.solutionBuildRoot.Item, "*.pdb"))
+                {
+                    File.Delete(file);
+
+                    var dll = Path.ChangeExtension(file, "dll");
+                    if (File.Exists(dll))
+                    {
+                        File.Delete(dll);
+                    }
+                }
+            }
+
+            return rd;
+        }
+
         public bool IsRunInProgress()
         {
             return _running;
         }
 
-        private void ExecuteProcess(string fileName, string arguments)
+        private static void ExecuteProcess(string fileName, string arguments)
         {
             Logger.I.LogInfo(string.Format("Executing: '{0}' '{1}'", fileName, arguments));
             ProcessStartInfo processStartInfo;
