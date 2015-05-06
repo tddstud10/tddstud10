@@ -67,6 +67,7 @@
     <Compile Include="RunExecutor.PathHelpers.fs" />
     <Compile Include="RunStepFuncWrappers.fs" />
     <Compile Include="RunExecutor.fs" />
+    <Compile Include="TddStud10Runner.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">

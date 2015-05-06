@@ -22,7 +22,7 @@ type StaleMessageIgnoringAgent<'T>(f) =
     
     let createAgent f = 
         let agent = 
-            MailboxProcessor.Start(fun inbox -> 
+            MailboxProcessor<AgentMessage<'T>>.Start(fun inbox -> 
                 let rec messageLoop c p il = 
                     async { 
                         try 

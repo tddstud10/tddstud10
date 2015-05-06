@@ -57,13 +57,13 @@ namespace R4nd0mApps.TddStud10.Engine
 
         public static void EnableEngine()
         {
-            Logger.I.LogInfo("Enable Engine...");
+            Logger.I.LogInfo("Enabling Engine...");
             efsWatcher.Enable();
         }
 
         public static void DisableEngine()
         {
-            Logger.I.LogInfo("Disable Engine...");
+            Logger.I.LogInfo("Disabling Engine...");
             efsWatcher.Disable();
         }
 

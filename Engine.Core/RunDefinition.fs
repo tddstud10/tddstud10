@@ -28,7 +28,12 @@ type public IRunExecutorHost =
 type RunStepEvent =
     Event<RunStepName * RunData>
 
+type RunStepEventPair =
+    RunStepEvent * RunStepEvent
+
 type RunStepFunc = IRunExecutorHost -> RunStepName -> (RunStepEvent * RunStepEvent) -> RunData -> RunData
+
+type RunStepFuncWrapper = RunStepFunc -> RunStepFunc
 
 type RunStep = 
     { name : RunStepName

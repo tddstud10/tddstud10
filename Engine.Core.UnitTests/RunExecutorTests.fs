@@ -17,7 +17,7 @@ let createSteps n =
 
 let toRSF : StepFunc array -> RunStep array = Array.map (fun s -> RS s)
 let createHandlers() = (new CallSpy<RunData>(), new CallSpy<Exception>(), new CallSpy<RunData>())
-let createRE h ss f = RunExecutor.Create(h, ss |> toRSF, f)
+let createRE h ss f = RunExecutor.Create h (ss |> toRSF) f
 
 let createRE2 h ss f (sh : CallSpy<RunData>, erh : CallSpy<Exception>, eh : CallSpy<RunData>) = 
     let re = createRE h ss I
@@ -26,7 +26,7 @@ let createRE2 h ss f (sh : CallSpy<RunData>, erh : CallSpy<Exception>, eh : Call
     re.RunEnded.Add(eh.Func >> ignore)
     re
 
-let startRE (re : RunExecutor) = re.Start(now, ~~"c:\\folder\\file.sln") |> Async.RunSynchronously
+let startRE (re : RunExecutor) = re.Start(now, ~~"c:\\folder\\file.sln")
 
 let areRdsSimillar rd1 rd2 = 
     match rd1 with
@@ -35,7 +35,7 @@ let areRdsSimillar rd1 rd2 =
 
 [<Fact>]
 let ``Executor initialized RunData``() = 
-    let re = RunExecutor.Create(host, [||], I)
+    let re = RunExecutor.Create host [||] I
     let rd, err = startRE re
     Assert.Equal(rd.startTime, now)
     Assert.Equal(rd.solutionPath, ~~"c:\\folder\\file.sln")
@@ -45,8 +45,8 @@ let ``Executor initialized RunData``() =
 
 [<Fact>]
 let ``Executor initialized RunData - sln without parent folder``() = 
-    let re = RunExecutor.Create(host, [||], I)
-    let rd, err = re.Start(now, ~~"c:\\file.sln") |> Async.RunSynchronously
+    let re = RunExecutor.Create host [||] I
+    let rd, err = re.Start(now, ~~"c:\\file.sln")
     Assert.Equal(rd.startTime, now)
     Assert.Equal(rd.solutionPath, ~~"c:\\file.sln")
     Assert.Equal(rd.solutionSnapshotPath, ~~"d:\\tddstud10\\file\\file.sln")
