@@ -143,6 +143,9 @@
     - todo List
     - *hotspot
 
+# Dogfood build checklist
+  - Rename all assemblies
+  - Rename event source channels
 
 # Miscellenous notes
 

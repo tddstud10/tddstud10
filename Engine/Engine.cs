@@ -17,7 +17,8 @@ using R4nd0mApps.TddStud10.TestHost;
     √ capture return value errors from build adn test
     √ capture console output from build adn test
     √ events should have rundata
-    - gaurd from reentrancy
+    √ unit tests - events fired no matter what
+    √ gaurd from reentrancy
     - morph engine to runexeutor
       - wire up handlers
       - cleanup engine
@@ -27,6 +28,12 @@ using R4nd0mApps.TddStud10.TestHost;
     - write errors in toolwindow, clean for every session
     - click on the dots should open the toolwindow
     - bitmaps
+    TRIAGED OUT:
+    - cancellationtoken
+ * 
+ * 
+    - Errors in red, Warnings in yellow
+    - Cheap debug - right click on one of the green, set bp, launch db
  */
 
 namespace R4nd0mApps.TddStud10.Engine
@@ -53,16 +60,14 @@ namespace R4nd0mApps.TddStud10.Engine
         public event EventHandler<string> RunStepStarting;
         public event EventHandler RunEnded;
 
-        public Engine(IEngineHost host, string solutionPath, DateTime sessionStartTime)
+        public Engine(IEngineHost host, string solutionPath)
         {
-            _sessionStartTime = sessionStartTime;
             _solutionPath = solutionPath;
             _solutionGrandParentPath = Path.GetDirectoryName(Path.GetDirectoryName(_solutionPath));
         }
 
         private string _snapshotRoot = @"d:\tddstud10";
         private bool _running;
-        private DateTime _sessionStartTime;
 
         public string SolutionBuildRoot
         {
@@ -135,8 +140,10 @@ namespace R4nd0mApps.TddStud10.Engine
             return false;
         }
 
-        public bool Start()
+        public bool Start(DateTime sessionStartTime)
         {
+            Logger.I.LogInfo("Starting session. Start Time {0}.", sessionStartTime.ToLocalTime());
+
             lock (this)
             {
                 if (_running)
@@ -154,7 +161,7 @@ namespace R4nd0mApps.TddStud10.Engine
 
                 var reh = new RunExecutorHost();
                 RunData rd = new RunData(
-                                _sessionStartTime,
+                                sessionStartTime,
                                 FilePath.NewFilePath(_solutionPath),
                                 FilePath.NewFilePath(solutionSnapShotPath),
                                 FilePath.NewFilePath(SolutionBuildRoot),
@@ -263,7 +270,7 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private static RunData RunTests(IRunExecutorHost host, RunData rd)
         {
-            string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Program).Assembly.Location);
+            string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Marker).Assembly.Location);
             var output = ExecuteProcess(
                 testRunnerPath,
                 string.Format(
@@ -346,7 +353,7 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private static RunData BuildSolutionSnapshot(IRunExecutorHost host, RunData rd)
         {
-            string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Program).Assembly.Location);
+            string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Marker).Assembly.Location);
             var output = ExecuteProcess(
                 @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe",
                 string.Format(

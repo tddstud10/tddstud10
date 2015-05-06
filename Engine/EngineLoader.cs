@@ -30,7 +30,7 @@ namespace R4nd0mApps.TddStud10.Engine
         private static EngineFileSystemWatcher efsWatcher;
         private static IEngineHost _host;
 
-        public static void Load(IEngineHost host, string solutionPath, DateTime sessionStartTime)
+        public static void Load(IEngineHost host, string solutionPath)
         {
             Logger.I.LogInfo("Loading Engine with solution {0}", solutionPath);
 
@@ -39,7 +39,7 @@ namespace R4nd0mApps.TddStud10.Engine
             runStepStartingHandler = (o, ea) => host.RunStepStarting(ea);
             runEndedHandler = (o, ea) => host.RunEnded();
 
-            Engine.Instance = new Engine(host, solutionPath, sessionStartTime);
+            Engine.Instance = new Engine(host, solutionPath);
             Engine.Instance.RunStarting += runStartingHandler;
             Engine.Instance.RunStepStarting += runStepStartingHandler;
             Engine.Instance.RunEnded += runEndedHandler;
@@ -120,7 +120,7 @@ namespace R4nd0mApps.TddStud10.Engine
                     return;
                 }
 
-                if (!Engine.Instance.Start())
+                if (!Engine.Instance.Start(DateTime.UtcNow))
                 {
                     Logger.I.LogInfo("Cannot start engine. A run is already on.");
                     return;

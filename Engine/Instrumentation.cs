@@ -117,7 +117,7 @@ namespace R4nd0mApps.TddStud10
                 Logger.I.LogInfo("Using strong name from {0}.", snKeyFile);
             }
 
-            string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Program).Assembly.Location);
+            string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Marker).Assembly.Location);
 
             var unitTests = new DiscoveredUnitTests();
 

@@ -33,8 +33,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         public static TddStud10Package Instance { get; private set; }
 
-        public DateTime LoadTimestamp { get; private set; }
-
         public TddStud10Package()
         {
         }
@@ -49,8 +47,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         protected override void Initialize()
         {
             base.Initialize();
-
-            LoadTimestamp = DateTime.UtcNow;
 
             _uiThreadInvoker = new Control();
 
@@ -86,7 +82,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             Instance = this;
 
-            Logger.I.LogInfo("Initialized Package. Load timestamp {0}.", LoadTimestamp.ToLocalTime());
+            Logger.I.LogInfo("Initialized Package successfully.");
         }
 
         // TODO: Move to fs
@@ -174,7 +170,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsSolutionEvents.OnAfterOpenSolution(object pUnkReserved, int fNewSolution)
         {
-            EngineLoader.Load(this, _dte.Solution.FullName, LoadTimestamp);
+            EngineLoader.Load(this, _dte.Solution.FullName);
 
             return VSConstants.S_OK;
         }
