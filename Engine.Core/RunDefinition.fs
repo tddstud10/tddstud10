@@ -6,6 +6,9 @@ open System
 
 type FilePath = 
     | FilePath of string
+    override t.ToString() =
+        match t with
+        | FilePath s -> s
 
 type RunData = 
     { startTime : DateTime
@@ -24,6 +27,9 @@ type RunStepName =
 
 type public IRunExecutorHost = 
     abstract CanContinue : unit -> bool
+
+type RunStepEventArgType =
+    RunStepName * RunData
 
 type RunStepEvent =
     Event<RunStepName * RunData>

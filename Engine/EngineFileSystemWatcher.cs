@@ -10,13 +10,17 @@ namespace R4nd0mApps.TddStud10.Engine
 {
     internal sealed class EngineFileSystemWatcher : IDisposable
     {
-        private Action action;
+        private Action<DateTime, string> action;
 
-        public static EngineFileSystemWatcher Create(string solutionPath, Action action)
+        private string solutionPath;
+
+        public static EngineFileSystemWatcher Create(string solutionPath, Action<DateTime, string> runEngine)
         {
             var efsWatcher = new EngineFileSystemWatcher();
 
-            efsWatcher.action = action;
+            efsWatcher.solutionPath = solutionPath;
+
+            efsWatcher.action = runEngine;
             efsWatcher.fsWatcher = new FileSystemWatcher();
             efsWatcher.fsWatcher.Filter = "*";
             efsWatcher.fsWatcher.Path = Path.GetDirectoryName(solutionPath);
@@ -101,31 +105,31 @@ namespace R4nd0mApps.TddStud10.Engine
         void FsWatcher_Error(object sender, ErrorEventArgs e)
         {
             Logger.I.LogError(e.ToString());
-            action();
+            action(DateTime.UtcNow, solutionPath);
         }
 
         void FsWatcher_Created(object sender, FileSystemEventArgs e)
         {
             Logger.I.LogError("FSWatcher: Got created event");
-            action();
+            action(DateTime.UtcNow, solutionPath);
         }
 
         void FsWatcher_Changed(object sender, FileSystemEventArgs e)
         {
             Logger.I.LogError("FSWatcher: Got changed event");
-            action();
+            action(DateTime.UtcNow, solutionPath);
         }
 
         void FsWatcher_Renamed(object sender, RenamedEventArgs e)
         {
             Logger.I.LogError("FSWatcher: Got renamed event");
-            action();
+            action(DateTime.UtcNow, solutionPath);
         }
 
         void FsWatcher_Deleted(object sender, FileSystemEventArgs e)
         {
             Logger.I.LogError("FSWatcher: Got deleted event");
-            action();
+            action(DateTime.UtcNow, solutionPath);
         }
 
         #endregion

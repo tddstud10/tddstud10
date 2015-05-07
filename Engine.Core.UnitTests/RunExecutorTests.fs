@@ -44,16 +44,6 @@ let ``Executor initialized RunData``() =
     Assert.Equal(err, None)
 
 [<Fact>]
-let ``Executor initialized RunData - sln without parent folder``() = 
-    let re = RunExecutor.Create host [||] I
-    let rd, err = re.Start(now, ~~"c:\\file.sln")
-    Assert.Equal(rd.startTime, now)
-    Assert.Equal(rd.solutionPath, ~~"c:\\file.sln")
-    Assert.Equal(rd.solutionSnapshotPath, ~~"d:\\tddstud10\\file\\file.sln")
-    Assert.Equal(rd.solutionBuildRoot, ~~"d:\\tddstud10\\file.out")
-    Assert.Equal(err, None)
-
-[<Fact>]
 let ``Executor calls all steps sequentially and relays rundata``() = 
     let ss = createSteps 2
     let re = createRE host ss I

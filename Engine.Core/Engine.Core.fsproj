@@ -64,8 +64,8 @@
     <Compile Include="Logger.fs" />
     <Compile Include="RunDefinition.fs" />
     <Compile Include="StaleMessageIgnoringAgent.fs" />
-    <Compile Include="RunExecutor.PathHelpers.fs" />
-    <Compile Include="RunStepFuncWrappers.fs" />
+    <Compile Include="PathBuilder.fs" />
+    <Compile Include="RunStepFuncBehaviors.fs" />
     <Compile Include="RunExecutor.fs" />
     <Compile Include="TddStud10Runner.fs" />
   </ItemGroup>

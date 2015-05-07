@@ -30,7 +30,7 @@ let ``SMIAgent discards old messages and processes only the latest``() =
 let ``SMIAgent continues processing even when exception is thrown by message processor``() = 
     let agent, cs, eh = createAgent (Throws)
     agent.SendMessageAsync DateTime.Now |> ignore
-    Thread.Sleep(500) // NOTE: Duh! Have any better ideas?
+    Thread.Sleep(1000) // NOTE: Duh! Have any better ideas?
     Assert.True(cs.Called, "Message handler should have been invoked")
     Assert.True(eh.Called, "Exception handler should have been invoked")
     agent.Stop()

@@ -42,9 +42,9 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CreateVsixContainer>True</CreateVsixContainer>
-    <DeployExtension>True</DeployExtension>
-    <CopyVsixExtensionFiles>True</CopyVsixExtensionFiles>
+    <CreateVsixContainer>False</CreateVsixContainer>
+    <DeployExtension>False</DeployExtension>
+    <CopyVsixExtensionFiles>False</CopyVsixExtensionFiles>
     <CopyVsixExtensionLocation>D:\drops\TddStudio\v0.3</CopyVsixExtensionLocation>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>

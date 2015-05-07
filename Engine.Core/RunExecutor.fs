@@ -38,8 +38,8 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
         let runData = 
             { startTime = startTime
               solutionPath = solutionPath
-              solutionSnapshotPath = PathHelpers.makeSlnSnapshotPath solutionPath
-              solutionBuildRoot = PathHelpers.makeSlnBuildRoot solutionPath
+              solutionSnapshotPath = PathBuilder.makeSlnSnapshotPath solutionPath
+              solutionBuildRoot = PathBuilder.makeSlnBuildRoot solutionPath
               sequencePoints = None
               discoveredUnitTests = None
               buildConsoleOutput = None

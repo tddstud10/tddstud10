@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using R4nd0mApps.TddStud10.Engine;
+using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
 
@@ -270,7 +271,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
 
             if (allFiles != null && allSequencePoints != null)
             {
-                var selectedFile = allFiles.FirstOrDefault(file => Engine.Engine.Instance != null && Engine.Engine.Instance.ArePathsTheSame(file, fileName));
+                var selectedFile = allFiles.FirstOrDefault(file => PathBuilder.arePathsTheSame(IDEHelper.GetSolutionPath(), file, fileName));
                 if (selectedFile != null)
                 {
                     sequencePoints = allSequencePoints.Where(sp => sp != null && sp.File == selectedFile);

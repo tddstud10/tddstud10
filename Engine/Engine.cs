@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Xml;
 using Microsoft.FSharp.Core;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
@@ -19,266 +20,58 @@ using R4nd0mApps.TddStud10.TestHost;
     √ events should have rundata
     √ unit tests - events fired no matter what
     √ gaurd from reentrancy
-    - morph engine to runexeutor
-      - wire up handlers
-      - cleanup engine
-      - implement IRunExecutorHost
-      - make the switch
-    - remove the reading xmls from engineloader
+    √ morph engine to runexeutor
+      √ wire up handlers
+      √ cleanup engine
+      √ implement IRunExecutorHost
+      √ make the switch
+    √ remove the reading xmls from engineloader
+    - reentrancy gaurd busted - should we fix?
+    - test VS Integration
+    - unit tests for the wrappers
     - write errors in toolwindow, clean for every session
     - click on the dots should open the toolwindow
     - bitmaps
     TRIAGED OUT:
+    - host should not be able to change its mind about cancellation
     - cancellationtoken
- * 
- * 
+    - http://fsharp.org/specs/component-design-guidelines/
+ 
     - Errors in red, Warnings in yellow
     - Cheap debug - right click on one of the green, set bp, launch db
+    - Support theory
  */
 
 namespace R4nd0mApps.TddStud10.Engine
 {
-    public class RunExecutorHost : IRunExecutorHost
+    public static class Engine
     {
-
-        #region IRunExecutorHost Members
-
-        public bool CanContinue()
+        public static RunStep[] CreateRunSteps()
         {
-            return true;
+            return new[] 
+            {
+                TddStud10Runner.CreateRunStep("Deleting Build Output", DeleteBuildOutput)
+                , TddStud10Runner.CreateRunStep("Creating Solution Snapshot", TakeSolutionSnapshot)
+                , TddStud10Runner.CreateRunStep("Building Solution Snapshot", BuildSolutionSnapshot)
+                , TddStud10Runner.CreateRunStep("Instrument Binaries", InstrumentBinaries)
+                , TddStud10Runner.CreateRunStep("Running Tests", RunTests)
+            };
         }
 
-        #endregion
-    }
-
-    public sealed class Engine
-    {
-        private string _solutionPath;
-        private string _solutionGrandParentPath;
-
-        public event EventHandler RunStarting;
-        public event EventHandler<string> RunStepStarting;
-        public event EventHandler RunEnded;
-
-        public Engine(IEngineHost host, string solutionPath)
+        private static RunData RunTests(IRunExecutorHost host, string name, RunData rd)
         {
-            _solutionPath = solutionPath;
-            _solutionGrandParentPath = Path.GetDirectoryName(Path.GetDirectoryName(_solutionPath));
-        }
-
-        private string _snapshotRoot = @"d:\tddstud10";
-        private bool _running;
-
-        public string SolutionBuildRoot
-        {
-            get
-            {
-                return Path.Combine(_snapshotRoot, Path.GetFileName(Path.GetDirectoryName(_solutionPath)) + ".out");
-            }
-        }
-        private string solutionSnapShotPath
-        {
-            get
-            {
-                return Path.Combine(_snapshotRoot, Path.GetFileName(Path.GetDirectoryName(_solutionPath)), Path.GetFileName(_solutionPath));
-            }
-        }
-
-        public string SequencePointStore
-        {
-            get
-            {
-                return Path.Combine(SolutionBuildRoot, "Z_sequencePointStore.xml");
-            }
-        }
-
-        public string CoverageResults
-        {
-            get
-            {
-                return Path.Combine(SolutionBuildRoot, "Z_coverageresults.xml");
-            }
-        }
-
-        public string TestResults
-        {
-            get
-            {
-                return Path.Combine(SolutionBuildRoot, "Z_testresults.xml");
-            }
-        }
-
-        public string DiscoveredUnitTestsStore
-        {
-            get
-            {
-                return Path.Combine(SolutionBuildRoot, "Z_discoveredUnitTests.xml");
-            }
-        }
-
-        public static Engine Instance { get; set; }
-
-        public bool ArePathsTheSame(string path1, string path2)
-        {
-            if (path1.Equals(path2, StringComparison.InvariantCultureIgnoreCase))
-            {
-                return true;
-            }
-
-            if (path1.ToUpperInvariant().Replace(_snapshotRoot.ToUpperInvariant(), "")
-                .Equals(path2.ToUpperInvariant().Replace(_solutionGrandParentPath.ToUpperInvariant(), "")))
-            {
-                return true;
-            }
-
-            if (path2.ToUpperInvariant().Replace(_snapshotRoot.ToUpperInvariant(), "")
-                .Equals(path1.ToUpperInvariant().Replace(_solutionGrandParentPath.ToUpperInvariant(), "")))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool Start(DateTime sessionStartTime)
-        {
-            Logger.I.LogInfo("Starting session. Start Time {0}.", sessionStartTime.ToLocalTime());
-
-            lock (this)
-            {
-                if (_running)
-                {
-                    Logger.I.LogInfo("Ignoring start as engine is currently _running...");
-                    return false;
-                }
-
-                _running = true;
-            }
-
-            try
-            {
-                OnRaiseRunStartingEvent();
-
-                var reh = new RunExecutorHost();
-                RunData rd = new RunData(
-                                sessionStartTime,
-                                FilePath.NewFilePath(_solutionPath),
-                                FilePath.NewFilePath(solutionSnapShotPath),
-                                FilePath.NewFilePath(SolutionBuildRoot),
-                                FSharpOption<SequencePoints>.None,
-                                FSharpOption<DiscoveredUnitTests>.None,
-                                FSharpOption<string>.None,
-                                FSharpOption<CoverageSession>.None,
-                                FSharpOption<TestResults>.None,
-                                FSharpOption<string>.None);
-
-                Stopwatch stopWatch = new Stopwatch();
-                TimeSpan ts;
-                string elapsedTime;
-
-                // Delte files
-                OnRaiseRunStepStarting("Deleting build output...");
-                Logger.I.LogInfo("Deleting build output...");
-                stopWatch.Start();
-                rd = DeleteBuildOutput(reh, rd);
-                stopWatch.Stop();
-                ts = stopWatch.Elapsed;
-                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                            ts.Hours, ts.Minutes, ts.Seconds,
-                            ts.Milliseconds / 10);
-                Logger.I.LogInfo("Done deleting build output! [" + elapsedTime + "]");
-                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
-                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
-
-                OnRaiseRunStepStarting("Taking solution snapshot...");
-                Logger.I.LogInfo("Taking solution snapshot...");
-                stopWatch.Start();
-                rd = TakeSolutionSnapshot(reh, rd);
-                stopWatch.Stop();
-                ts = stopWatch.Elapsed;
-                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                            ts.Hours, ts.Minutes, ts.Seconds,
-                            ts.Milliseconds / 10);
-                Logger.I.LogInfo("Done taking solution snapshot! [" + elapsedTime + "]");
-                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
-                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
-
-                OnRaiseRunStepStarting("Building project...");
-                Logger.I.LogInfo("Building project...");
-                stopWatch.Start();
-                try
-                {
-                    rd = BuildSolutionSnapshot(reh, rd);
-                }
-                catch (Exception e)
-                {
-                    Logger.I.LogInfo(e.ToString());
-                }
-                stopWatch.Stop();
-                ts = stopWatch.Elapsed;
-                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                            ts.Hours, ts.Minutes, ts.Seconds,
-                            ts.Milliseconds / 10);
-                Logger.I.LogInfo("Done building project! [" + elapsedTime + "]");
-                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
-                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
-
-                OnRaiseRunStepStarting("Instrumenting and discovering tests...");
-                Logger.I.LogInfo("Instrumenting and discovering tests...");
-                stopWatch.Start();
-                rd = InstrumentBinaries(reh, rd);
-                stopWatch.Stop();
-                ts = stopWatch.Elapsed;
-                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                            ts.Hours, ts.Minutes, ts.Seconds,
-                            ts.Milliseconds / 10);
-                Logger.I.LogInfo("Done instrumenting and discovering tests! [" + elapsedTime + "]");
-                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
-                Logger.I.LogInfo("/////////////////////////////////////////////////////////////////////////");
-
-                OnRaiseRunStepStarting("Executing tests...");
-                Logger.I.LogInfo("Executing tests...");
-                stopWatch.Start();
-                try
-                {
-                    rd = RunTests(reh, rd);
-                }
-                catch (Exception e)
-                {
-                    Logger.I.LogInfo(e.ToString());
-                }
-                stopWatch.Stop();
-                ts = stopWatch.Elapsed;
-                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                            ts.Hours, ts.Minutes, ts.Seconds,
-                            ts.Milliseconds / 10);
-                Logger.I.LogInfo("Done executing tests! [" + elapsedTime + "]");
-                Logger.I.LogInfo("");
-
-                OnRaiseRunEndedEvent();
-            }
-            finally
-            {
-                lock (this)
-                {
-                    _running = false;
-                }
-            }
-
-            return true;
-        }
-
-        private static RunData RunTests(IRunExecutorHost host, RunData rd)
-        {
+            var coverageSessionStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_coverageresults.xml");
+            var testResultsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_testresults.xml");
+            var discoveredUnitTestsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
             string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Marker).Assembly.Location);
             var output = ExecuteProcess(
                 testRunnerPath,
                 string.Format(
                     @"execute {0} {1} {2} {3}",
                     rd.solutionBuildRoot.Item,
-                    Path.Combine(rd.solutionBuildRoot.Item, "Z_coverageresults.xml"),
-                    Path.Combine(rd.solutionBuildRoot.Item, "Z_testresults.xml"),
-                    Path.Combine(rd.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml")
+                    coverageSessionStore,
+                    testResultsStore,
+                    discoveredUnitTestsStore
                 )
             );
 
@@ -287,11 +80,39 @@ namespace R4nd0mApps.TddStud10.Engine
                 throw new Exception(output.Item2);
             }
 
-            return CreateRunDataForRunTest(rd, output.Item2);
+            return CreateRunDataForRunTest(rd, output.Item2, coverageSessionStore, testResultsStore, discoveredUnitTestsStore);
         }
 
-        private static RunData CreateRunDataForRunTest(RunData rd, string testConsoleOutput)
+        private static RunData CreateRunDataForRunTest(RunData rd, string testConsoleOutput, string coverageSessionStore, string testResultsStore, string discoveredUnitTestsStore)
         {
+            TestResults testResults = null;
+            var res = File.ReadAllText(testResultsStore);
+            var reader = new StringReader(res);
+            var xmlReader = new XmlTextReader(reader);
+            try
+            {
+                testResults = TestResults.Serializer.Deserialize(xmlReader) as TestResults;
+            }
+            finally
+            {
+                xmlReader.Close();
+                reader.Close();
+            }
+
+            CoverageSession coverageSession = null;
+            res = File.ReadAllText(coverageSessionStore);
+            reader = new StringReader(res);
+            xmlReader = new XmlTextReader(reader);
+            try
+            {
+                coverageSession = CoverageSession.Serializer.Deserialize(xmlReader) as CoverageSession;
+            }
+            finally
+            {
+                xmlReader.Close();
+                reader.Close();
+            }
+
             return new RunData(
                 rd.startTime,
                 rd.solutionPath,
@@ -300,12 +121,12 @@ namespace R4nd0mApps.TddStud10.Engine
                 rd.sequencePoints,
                 rd.discoveredUnitTests,
                 rd.buildConsoleOutput,
-                rd.codeCoverageResults,
-                rd.executedTests,
+                new FSharpOption<CoverageSession>(coverageSession),
+                new FSharpOption<TestResults>(testResults),
                 new FSharpOption<string>(testConsoleOutput));
         }
 
-        private static RunData InstrumentBinaries(IRunExecutorHost host, RunData rd)
+        private static RunData InstrumentBinaries(IRunExecutorHost host, string name, RunData rd)
         {
             var sequencePointStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_sequencePointStore.xml");
             var dict = Instrumentation.GenerateSequencePointInfo(rd.startTime, rd.solutionBuildRoot.Item);
@@ -351,7 +172,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 rd.testConoleOutput);
         }
 
-        private static RunData BuildSolutionSnapshot(IRunExecutorHost host, RunData rd)
+        private static RunData BuildSolutionSnapshot(IRunExecutorHost host, string name, RunData rd)
         {
             string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Marker).Assembly.Location);
             var output = ExecuteProcess(
@@ -391,7 +212,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 rd.buildConsoleOutput);
         }
 
-        private static RunData TakeSolutionSnapshot(IRunExecutorHost host, RunData rd)
+        private static RunData TakeSolutionSnapshot(IRunExecutorHost host, string name, RunData rd)
         {
             var sln = new Solution(rd.solutionPath.Item);
             var solutionGrandParentPath = Path.GetDirectoryName(Path.GetDirectoryName(rd.solutionPath.Item));
@@ -406,7 +227,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 var folder = Path.GetDirectoryName(projectFile);
                 foreach (var src in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
                 {
-                    var dst = src.ToUpperInvariant().Replace(solutionGrandParentPath.ToUpperInvariant(), rd.solutionSnapshotPath.Item);
+                    var dst = src.ToUpperInvariant().Replace(solutionGrandParentPath.ToUpperInvariant(), PathBuilder.snapShotRoot);
                     var srcInfo = new FileInfo(src);
                     var dstInfo = new FileInfo(dst);
 
@@ -422,7 +243,7 @@ namespace R4nd0mApps.TddStud10.Engine
             return rd;
         }
 
-        private static RunData DeleteBuildOutput(IRunExecutorHost host, RunData rd)
+        private static RunData DeleteBuildOutput(IRunExecutorHost host, string name, RunData rd)
         {
             if (Directory.Exists(rd.solutionBuildRoot.Item))
             {
@@ -439,11 +260,6 @@ namespace R4nd0mApps.TddStud10.Engine
             }
 
             return rd;
-        }
-
-        public bool IsRunInProgress()
-        {
-            return _running;
         }
 
         private static Tuple<int, string> ExecuteProcess(string fileName, string arguments)
@@ -500,39 +316,6 @@ namespace R4nd0mApps.TddStud10.Engine
             Array.ForEach(consoleOutput.ToArray(), s => sb.AppendLine(s));
 
             return new Tuple<int, string>(process.ExitCode, sb.ToString());
-        }
-
-        private void OnRaiseRunStartingEvent()
-        {
-            var handler = RunStarting;
-
-            // Event will be null if there are no subscribers 
-            if (handler != null)
-            {
-                handler(this, new EventArgs());
-            }
-        }
-
-        private void OnRaiseRunStepStarting(string stepDetails)
-        {
-            var handler = RunStepStarting;
-
-            // Event will be null if there are no subscribers 
-            if (handler != null)
-            {
-                handler(this, stepDetails);
-            }
-        }
-
-        private void OnRaiseRunEndedEvent()
-        {
-            var handler = RunEnded;
-
-            // Event will be null if there are no subscribers 
-            if (handler != null)
-            {
-                handler(this, new EventArgs());
-            }
         }
     }
 }

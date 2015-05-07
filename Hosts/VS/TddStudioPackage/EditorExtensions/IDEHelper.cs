@@ -81,6 +81,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
             DTE.ExecuteCommand("GotoLn", lineNumber.ToString());
         }
 
+        public static string GetSolutionPath()
+        {
+            return DTE.Solution.FullName;
+        }
+
         /// <summary>
         /// Finds all the dlls in the project with reference to UnitTestFramework.dll
         /// </summary>

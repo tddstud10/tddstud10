@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace R4nd0mApps.TddStud10.Engine
 {
@@ -32,5 +33,6 @@ namespace R4nd0mApps.TddStud10.Engine
 
     public class CoverageSession : SerializableDictionary<string, List<CoverageHitInfo>>
     {
+        public static readonly XmlSerializer Serializer = new XmlSerializer(typeof(CoverageSession));
     }
 }

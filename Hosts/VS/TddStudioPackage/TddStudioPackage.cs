@@ -8,6 +8,7 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using R4nd0mApps.TddStud10.Engine;
+using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
 using EventHandlerPair = System.Tuple<System.EventHandler, System.EventHandler>;
@@ -15,7 +16,7 @@ using EventHandlerPair = System.Tuple<System.EventHandler, System.EventHandler>;
 namespace R4nd0mApps.TddStud10.Hosts.VS
 {
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("#110", "#112", "0.3.0.0", IconResourceID = 400)]
+    [InstalledProductRegistration("#110", "#112", "0.3.0.1", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
     [Guid(GuidList.GuidTddStud10Pkg)]
@@ -222,7 +223,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         #region IEngineHost Members
 
-        public bool CanStart()
+        public bool CanContinue()
         {
             if (_dte.Solution.SolutionBuild.BuildState == EnvDTE.vsBuildState.vsBuildStateInProgress)
             {
@@ -233,7 +234,12 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             return true;
         }
 
-        public void RunStarting()
+        public bool CanStart()
+        {
+            return CanContinue();
+        }
+
+        public void RunStarting(RunData rd)
         {
             if (_statusBar == null)
             {
@@ -247,7 +253,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             });
         }
 
-        public void RunStepStarting(string stepDetails)
+        public void RunStepStarting(string stepDetails, RunData rd)
         {
             if (_statusBar == null)
             {
@@ -260,7 +266,32 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             });
         }
 
-        public void RunEnded()
+        public void RunStepEnded(string stepDetails, RunData rd)
+        {
+            if (_statusBar == null)
+            {
+                return;
+            }
+
+            InvokeOnUIThread(() =>
+            {
+                //_statusBar.SetText(stepDetails).ThrowOnFailure();
+            });
+        }
+
+        public void OnRunError(Exception e)
+        {
+            if (_statusBar == null)
+            {
+                return;
+            }
+
+            InvokeOnUIThread(() =>
+            {
+            });
+        }
+
+        public void RunEnded(RunData rd)
         {
             if (_statusBar == null)
             {

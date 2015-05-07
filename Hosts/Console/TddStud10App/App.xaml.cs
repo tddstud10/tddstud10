@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using GalaSoft.MvvmLight.Threading;
 
 namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App
 {
@@ -13,5 +14,9 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App
     /// </summary>
     public partial class App : Application
     {
+        static App()
+        {
+            DispatcherHelper.Initialize();
+        }
     }
 }
