@@ -4,20 +4,23 @@ open System.Diagnostics
 open R4nd0mApps.TddStud10.Engine.Diagnostics
 
 let eventsPublisher f = 
-    fun h n k {onStart = se; onError = ee; onFinish = fe} rd -> 
+    fun h n k { onStart = se; onError = ee; onFinish = fe } rd -> 
         Common.safeExec (fun () -> se.Trigger(n, rd))
         try 
             try 
-                let rss = f h n k {onStart = se; onError = ee; onFinish = fe} rd
-                if rss.status <> Succeeded then
-                    Common.safeExec (fun () -> ee.Trigger(rss))
+                let rss = 
+                    f h n k { onStart = se
+                              onError = ee
+                              onFinish = fe } rd
+                if rss.status <> Succeeded then Common.safeExec (fun () -> ee.Trigger(rss))
                 rss
             with ex -> 
-                let rss = { name = n
-                            kind = k
-                            status = Aborted
-                            addendum = Some(ExceptionData ex)
-                            runData = rd }
+                let rss = 
+                    { name = n
+                      kind = k
+                      status = Aborted
+                      addendum = Some(ExceptionData ex)
+                      runData = rd }
                 Common.safeExec (fun () -> ee.Trigger(rss))
                 reraise()
         finally

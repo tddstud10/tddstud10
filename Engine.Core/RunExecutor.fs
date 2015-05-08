@@ -31,7 +31,7 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
     member public this.OnRunStepStarting = onRunStepError.Publish
     member public this.RunStepEnded = runStepEnded.Publish
     
-    static member public makeRunData startTime solutionPath =
+    static member public makeRunData startTime solutionPath = 
         { startTime = startTime
           solutionPath = solutionPath
           solutionSnapshotPath = PathBuilder.makeSlnSnapshotPath solutionPath
@@ -40,15 +40,17 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
           discoveredUnitTests = None
           codeCoverageResults = None
           executedTests = None }
-
-    member public this.Start (startTime, solutionPath) = 
+    
+    member public this.Start(startTime, solutionPath) = 
         (* NOTE: Need to ensure the started/errored/ended events go out no matter what*)
         let runData = RunExecutor.makeRunData startTime solutionPath
         Common.safeExec (fun () -> runStarting.Trigger(runData))
-        let rses = { onStart = runStepStarting; onError = onRunStepError; onFinish = runStepEnded }
-        let rd, err = 
-            runSteps
-            |> Seq.fold (executeStep this.host rses) (runData, None)
+        let rses = 
+            { onStart = runStepStarting
+              onError = onRunStepError
+              onFinish = runStepEnded }
+        
+        let rd, err = runSteps |> Seq.fold (executeStep this.host rses) (runData, None)
         match err with
         | None -> ()
         | Some e -> Common.safeExec (fun () -> onRunError.Trigger(e))

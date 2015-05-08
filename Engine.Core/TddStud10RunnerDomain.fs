@@ -6,7 +6,7 @@ open System
 
 type FilePath = 
     | FilePath of string
-    override t.ToString() =
+    override t.ToString() = 
         match t with
         | FilePath s -> s
 
@@ -20,7 +20,7 @@ type RunData =
       codeCoverageResults : CoverageSession option
       executedTests : TestResults option }
 
-type RunStepKind =
+type RunStepKind = 
     | Build
     | Test
 
@@ -30,30 +30,28 @@ type RunStepName =
 type public IRunExecutorHost = 
     abstract CanContinue : unit -> bool
 
-type RunStepStatus =
+type RunStepStatus = 
     | Aborted
     | Succeeded
     | Failed
 
-type RunStepStatusAddendum =
+type RunStepStatusAddendum = 
     | FreeFormatData of string
     | ExceptionData of Exception
 
-type RunStepResult =
+type RunStepResult = 
     { name : RunStepName
-      kind : RunStepKind 
+      kind : RunStepKind
       status : RunStepStatus
       addendum : RunStepStatusAddendum option
       runData : RunData }
 
-type RunStepEventArg =
-    RunStepName * RunData
+type RunStepEventArg = RunStepName * RunData
 
-type RunStepErrorEventArg =
-    RunStepResult
+type RunStepErrorEventArg = RunStepResult
 
-type RunStepEvents =
-    { onStart : Event<RunStepEventArg> 
+type RunStepEvents = 
+    { onStart : Event<RunStepEventArg>
       onError : Event<RunStepErrorEventArg>
       onFinish : Event<RunStepEventArg> }
 
