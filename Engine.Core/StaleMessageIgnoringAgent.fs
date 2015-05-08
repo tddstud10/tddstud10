@@ -4,6 +4,7 @@ open System
 open R4nd0mApps.TddStud10.Engine.Diagnostics
 open System.IO
 open System.Threading
+open System.Threading.Tasks
 
 [<Measure>]
 type ms
@@ -69,7 +70,9 @@ type StaleMessageIgnoringAgent<'T>(f) =
     let agent = createAgent f
     member this.OnError = errorEvent.Publish
     member this.SendMessage(m : 'T) = agent.PostAndReply(fun rc -> Data(m, rc))
-    member this.SendMessageAsync(m : 'T) = (agent.PostAndAsyncReply >> Async.StartAsTask) (fun rc -> Data(m, rc))
+    member this.SendMessageAsync (m : 'T) token = 
+        Async.StartAsTask(agent.PostAndAsyncReply(fun rc -> Data(m, rc)), TaskCreationOptions.None, token)
     member this.PauseAsync(t : int<ms>) = agent.Post(Pause(Duration t))
     member this.Stop() = agent.PostAndReply(fun rc -> Stop(rc))
-    member this.StopAsync() = (agent.PostAndAsyncReply >> Async.StartAsTask) (fun rc -> Stop(rc))
+    member this.StopAsync(token) = 
+        Async.StartAsTask(agent.PostAndAsyncReply(fun rc -> Stop(rc)), TaskCreationOptions.None, token)

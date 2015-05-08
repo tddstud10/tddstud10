@@ -11,39 +11,39 @@
   - Meet or beat nCrunch w.r.t. snappiness & stability [not necessarily w.r.t. the feature set]
 
 # Roadmap
-  - √ v0.1 - dogfood
-    - √ Disable toolwindow
-    - √ Trigger on Ctrl T, Ctrl T
-    - √ Stop a barrage of events
-    - √ Progress on status bar
-    - √ Pick unit test dlls
-    - √ enable on filesystem update
-  - √ v0.1.x - be able to run tddstud10
-    - √ version number update - 3 places
-    - √ startup fixes
-    - √ logging around seqpt and instru
-    - √ crash on event source: clear default resolve's default paths, add resolver path
-    - √ make it work for c# project that logs using event source
-  - √ v0.2.0 - fix top annoyances + prep for pulling in some engineering
-    - √ version number update - 3 places
-    - √ Enable/Disable TDDStud10
-    - √ Ignore: when build is going on, solution not loaded, ide shutting down
-    - √ Dont close solution if run is on.
-    - √ disable vsix/build/deploy/etc.
-  - √ v0.2.0.1 - fix annoyances
-    - √ version number update - 3 places
-    - √ additional logging
+  - ✔ v0.1 - dogfood
+    - ✔ Disable toolwindow
+    - ✔ Trigger on Ctrl T, Ctrl T
+    - ✔ Stop a barrage of events
+    - ✔ Progress on status bar
+    - ✔ Pick unit test dlls
+    - ✔ enable on filesystem update
+  - ✔ v0.1.x - be able to run tddstud10
+    - ✔ version number update - 3 places
+    - ✔ startup fixes
+    - ✔ logging around seqpt and instru
+    - ✔ crash on event source: clear default resolve's default paths, add resolver path
+    - ✔ make it work for c# project that logs using event source
+  - ✔ v0.2.0 - fix top annoyances + prep for pulling in some engineering
+    - ✔ version number update - 3 places
+    - ✔ Enable/Disable TDDStud10
+    - ✔ Ignore: when build is going on, solution not loaded, ide shutting down
+    - ✔ Dont close solution if run is on.
+    - ✔ disable vsix/build/deploy/etc.
+  - ✔ v0.2.0.1 - fix annoyances
+    - ✔ version number update - 3 places
+    - ✔ additional logging
   - v0.2.0.x - fix crashes
-    - √ version number update - 3 places
-    - √ Add symbols to vsix
-    - √ crash handlers in all engine entry points.
-    - √ TestHost unhandled exception handler
-    - √ [temporary fix] Strong name fails
-    - √ [temporary fix] Editor crashes as unit test name doesnt ge registered sometime through Maker
+    - ✔ version number update - 3 places
+    - ✔ Add symbols to vsix
+    - ✔ crash handlers in all engine entry points.
+    - ✔ TestHost unhandled exception handler
+    - ✔ [temporary fix] Strong name fails
+    - ✔ [temporary fix] Editor crashes as unit test name doesnt ge registered sometime through Maker
   - v0.3 - fix top annoyances
-    - √ version number update - 3 places
-    - √ move svcs.cs and slnexn to fs and tdd them
-    - √ Remove vision notes untill they are bit more ready
+    - ✔ version number update - 3 places
+    - ✔ move svcs.cs and slnexn to fs and tdd them
+    - ✔ Remove vision notes untill they are bit more ready
     - * progress reporting 
       - timing
       - logging

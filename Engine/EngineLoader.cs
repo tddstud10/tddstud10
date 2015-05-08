@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
@@ -34,6 +35,7 @@ namespace R4nd0mApps.TddStud10.Engine
         private static IEngineHost _host;
         private static TddStud10Runner _runner;
         private static Task _currentRun;
+        private static CancellationTokenSource _currentRunCts;
 
         public static void Load(IEngineHost host, string solutionPath)
         {
@@ -59,8 +61,9 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private static void OnRunEnded(object sender, RunData e)
         {
-            _runner = null;
             CoverageData.Instance.UpdateCoverageResults(e.sequencePoints.Value, e.codeCoverageResults.Value, e.executedTests.Value);
+            // NOTE: Note fix the CT design once we wire up.
+            _currentRunCts.Dispose();
         }
 
         public static bool IsEngineLoaded()
@@ -112,22 +115,23 @@ namespace R4nd0mApps.TddStud10.Engine
 
         public static bool IsRunInProgress()
         {
-            if (_currentRun != null
-                && (_currentRun.Status == TaskStatus.Canceled
+            if (_currentRun == null
+                || (_currentRun.Status == TaskStatus.Canceled
                     || _currentRun.Status == TaskStatus.Faulted
                     || _currentRun.Status == TaskStatus.RanToCompletion))
             {
-                return true;
+                return false;
             }
 
-            return false;
+            return true;
         }
 
         private static void RunEngine(DateTime runStartTime, string solutionPath)
         {
             if (_runner != null)
             {
-                InvokeEngine(runStartTime, solutionPath);
+                _currentRunCts = new CancellationTokenSource();
+                InvokeEngine(runStartTime, solutionPath, _currentRunCts.Token);
             }
             else
             {
@@ -135,7 +139,7 @@ namespace R4nd0mApps.TddStud10.Engine
             }
         }
 
-        private static void InvokeEngine(DateTime runStartTime, string solutionPath)
+        private static void InvokeEngine(DateTime runStartTime, string solutionPath, CancellationToken token)
         {
             try
             {
@@ -145,7 +149,15 @@ namespace R4nd0mApps.TddStud10.Engine
                     return;
                 }
 
-                _currentRun = _runner.StartAsync(runStartTime, solutionPath);
+                if (IsRunInProgress())
+                {
+                    Logger.I.LogInfo("Cannot start engine. A run is already in progress.");
+                    return;
+                }
+
+                Logger.I.LogInfo("--------------------------------------------------------------------------------");
+                Logger.I.LogInfo("EngineLoader: Going to trigger a run.");
+                _currentRun = _runner.StartAsync(runStartTime, solutionPath, token);
             }
             catch (Exception e)
             {

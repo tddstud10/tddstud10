@@ -67,9 +67,10 @@
     <Compile Include="TestFramework.CallSpy.fs" />
     <Compile Include="TestDoubles.RunExecutor.fs" />
     <Content Include="packages.config" />
-    <Compile Include="PathBuilderTests.fs" />
-    <Compile Include="RunExecutorTests.fs" />
     <Compile Include="StaleMessageIgnoringAgentTests.fs" />
+    <Compile Include="PathBuilderTests.fs" />
+    <Compile Include="RunStepFuncBehaviorTests.fs" />
+    <Compile Include="RunExecutorTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestHost.Core\TestHost.Core.fsproj">

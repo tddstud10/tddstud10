@@ -11,35 +11,50 @@ using R4nd0mApps.TddStud10.TestHost;
 
 /*
     TODO:
-    √ extract methods
-    √ transform signatures
-    √ support cancellation
-    √ return ds directly, not write and read xml's, serialize in parallel threads
-    √ capture return value errors from build adn test
-    √ capture console output from build adn test
-    √ events should have rundata
-    √ unit tests - events fired no matter what
-    √ gaurd from reentrancy
-    √ morph engine to runexeutor
-      √ wire up handlers
-      √ cleanup engine
-      √ implement IRunExecutorHost
-      √ make the switch
-    √ remove the reading xmls from engineloader
-    - reentrancy gaurd busted - should we fix?
+    ☑ extract methods
+    ☑ transform signatures
+    ☑ support cancellation
+    ☑ return ds directly, not write and read xml's, serialize in parallel threads
+    ☑ capture return value errors from build adn test
+    ☑ capture console output from build adn test
+    ☑ events should have rundata
+    ☑ unit tests - events fired no matter what
+    ☑ gaurd from reentrancy
+    ☑ reentrancy gaurd busted - should we fix?
+    ☑ morph engine to runexeutor
+        ☑ wire up handlers
+        ☑ cleanup engine
+        ☑ implement IRunExecutorHost
+        ☑ make the switch
+    ☑ remove the reading xmls from engineloader
+
+    ☑ Remove hte console fields from run data
+    In the WPF clearly state
+    ☐ State of the runner: ? [B/T] -> R [B/T] -> G [B/T]
+    - Step that failed - Build, Test
+    - Error during the last failure
+
+    OnRunStepFailure [Excption, StepFailureException<StepType, FailureData>] event
+    StepFailureException
+    - StepType
+    - Console output
+
+
     - test VS Integration
     - unit tests for the wrappers
-    - write errors in toolwindow, clean for every session
-    - click on the dots should open the toolwindow
     - bitmaps
     TRIAGED OUT:
-    - host should not be able to change its mind about cancellation
-    - cancellationtoken
-    - http://fsharp.org/specs/component-design-guidelines/
+    ☒ fix fsunit
+    ☒ host should not be able to change its mind about cancellation
+    ☒ cancellationtoken wireup
+    ☒ http://fsharp.org/specs/component-design-guidelines/
  
-    - Errors in red, Warnings in yellow
-    - Cheap debug - right click on one of the green, set bp, launch db
-    - Support theory
+    ☒ write errors in toolwindow, clean for every session
+    ☒ click on the dots should open the toolwindow
+    ☒ Errors in red, Warnings in yellow - remove training ","
+    ☒ Cheap debug - right click on one of the green, set bp, launch db
+    ☒ Support theory
+    ☒ Move stuff from engineloader to Runner
  */
 
 namespace R4nd0mApps.TddStud10.Engine
@@ -50,15 +65,31 @@ namespace R4nd0mApps.TddStud10.Engine
         {
             return new[] 
             {
-                TddStud10Runner.CreateRunStep("Deleting Build Output", DeleteBuildOutput)
-                , TddStud10Runner.CreateRunStep("Creating Solution Snapshot", TakeSolutionSnapshot)
-                , TddStud10Runner.CreateRunStep("Building Solution Snapshot", BuildSolutionSnapshot)
-                , TddStud10Runner.CreateRunStep("Instrument Binaries", InstrumentBinaries)
-                , TddStud10Runner.CreateRunStep("Running Tests", RunTests)
+                TddStud10Runner.CreateRunStep(RunStepKind.Build, "Creating Solution Snapshot".ToRSN(), TakeSolutionSnapshot)
+                , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Deleting Build Output".ToRSN(), DeleteBuildOutput)
+                , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Building Solution Snapshot".ToRSN(), BuildSolutionSnapshot)
+                , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Instrument Binaries".ToRSN(), InstrumentBinaries)
+                , TddStud10Runner.CreateRunStep(RunStepKind.Test, "Running Tests".ToRSN(), RunTests)
             };
         }
 
-        private static RunData RunTests(IRunExecutorHost host, string name, RunData rd)
+        private static RunStepName ToRSN(this string name)
+        {
+            return RunStepName.NewRunStepName(name);
+        }
+
+        private static RunStepResult ToRSR(this RunData rd, RunStepName name, RunStepKind kind, RunStepStatus runStepStatus, string addendum)
+        {
+            FSharpOption<RunStepStatusAddendum> rssa = FSharpOption<RunStepStatusAddendum>.None;
+            if (addendum != null)
+            {
+                rssa = FSharpOption<RunStepStatusAddendum>.Some(RunStepStatusAddendum.NewFreeFormatData(addendum));
+            }
+
+            return new RunStepResult(name, kind, RunStepStatus.Succeeded, rssa, rd);
+        }
+
+        private static RunStepResult RunTests(IRunExecutorHost host, RunStepName name, RunStepKind kind, RunData rd)
         {
             var coverageSessionStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_coverageresults.xml");
             var testResultsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_testresults.xml");
@@ -75,15 +106,17 @@ namespace R4nd0mApps.TddStud10.Engine
                 )
             );
 
+            RunStepStatus rss = RunStepStatus.Succeeded;
             if (output.Item1 != 0)
             {
-                throw new Exception(output.Item2);
+                rss = RunStepStatus.Failed;
             }
 
-            return CreateRunDataForRunTest(rd, output.Item2, coverageSessionStore, testResultsStore, discoveredUnitTestsStore);
+            var retRd = CreateRunDataForRunTest(rd, coverageSessionStore, testResultsStore, discoveredUnitTestsStore);
+            return retRd.ToRSR(name, kind, rss, output.Item2);
         }
 
-        private static RunData CreateRunDataForRunTest(RunData rd, string testConsoleOutput, string coverageSessionStore, string testResultsStore, string discoveredUnitTestsStore)
+        private static RunData CreateRunDataForRunTest(RunData rd, string coverageSessionStore, string testResultsStore, string discoveredUnitTestsStore)
         {
             TestResults testResults = null;
             var res = File.ReadAllText(testResultsStore);
@@ -120,13 +153,11 @@ namespace R4nd0mApps.TddStud10.Engine
                 rd.solutionBuildRoot,
                 rd.sequencePoints,
                 rd.discoveredUnitTests,
-                rd.buildConsoleOutput,
                 new FSharpOption<CoverageSession>(coverageSession),
-                new FSharpOption<TestResults>(testResults),
-                new FSharpOption<string>(testConsoleOutput));
+                new FSharpOption<TestResults>(testResults));
         }
 
-        private static RunData InstrumentBinaries(IRunExecutorHost host, string name, RunData rd)
+        private static RunStepResult InstrumentBinaries(IRunExecutorHost host, RunStepName name, RunStepKind kind, RunData rd)
         {
             var sequencePointStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_sequencePointStore.xml");
             var dict = Instrumentation.GenerateSequencePointInfo(rd.startTime, rd.solutionBuildRoot.Item);
@@ -154,7 +185,9 @@ namespace R4nd0mApps.TddStud10.Engine
                 Logger.I.LogInfo("Written discovered unit tests to {0}.", discoveredUnitTestsStore);
             }
 
-            return CreateRunDataForInstrumentationStep(rd, dict, unitTests);
+            var retRd = CreateRunDataForInstrumentationStep(rd, dict, unitTests);
+
+            return retRd.ToRSR(name, kind, RunStepStatus.Succeeded, null);
         }
 
         private static RunData CreateRunDataForInstrumentationStep(RunData rd, SequencePoints sequencePoints, DiscoveredUnitTests unitTests)
@@ -166,13 +199,11 @@ namespace R4nd0mApps.TddStud10.Engine
                 rd.solutionBuildRoot,
                 new FSharpOption<SequencePoints>(sequencePoints),
                 new FSharpOption<DiscoveredUnitTests>(unitTests),
-                rd.buildConsoleOutput,
                 rd.codeCoverageResults,
-                rd.executedTests,
-                rd.testConoleOutput);
+                rd.executedTests);
         }
 
-        private static RunData BuildSolutionSnapshot(IRunExecutorHost host, string name, RunData rd)
+        private static RunStepResult BuildSolutionSnapshot(IRunExecutorHost host, RunStepName name, RunStepKind kind, RunData rd)
         {
             string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Marker).Assembly.Location);
             var output = ExecuteProcess(
@@ -189,15 +220,18 @@ namespace R4nd0mApps.TddStud10.Engine
             }
             File.Copy(testRunnerPath, Path.Combine(rd.solutionBuildRoot.Item, Path.GetFileName(testRunnerPath)));
 
+            RunStepStatus rss = RunStepStatus.Succeeded;
             if (output.Item1 != 0)
             {
-                throw new Exception(output.Item2);
+                rss = RunStepStatus.Failed;
             }
 
-            return CreateRunDataForBuildSolution(rd, output.Item2);
+            var rdRet = CreateRunDataForBuildSolution(rd);
+
+            return rdRet.ToRSR(name, kind, rss, output.Item2);
         }
 
-        private static RunData CreateRunDataForBuildSolution(RunData rd, string buildConsoleOutput)
+        private static RunData CreateRunDataForBuildSolution(RunData rd)
         {
             return new RunData(
                 rd.startTime,
@@ -206,13 +240,11 @@ namespace R4nd0mApps.TddStud10.Engine
                 rd.solutionBuildRoot,
                 rd.sequencePoints,
                 rd.discoveredUnitTests,
-                new FSharpOption<string>(buildConsoleOutput),
                 rd.codeCoverageResults,
-                rd.executedTests,
-                rd.buildConsoleOutput);
+                rd.executedTests);
         }
 
-        private static RunData TakeSolutionSnapshot(IRunExecutorHost host, string name, RunData rd)
+        private static RunStepResult TakeSolutionSnapshot(IRunExecutorHost host, RunStepName name, RunStepKind kind, RunData rd)
         {
             var sln = new Solution(rd.solutionPath.Item);
             var solutionGrandParentPath = Path.GetDirectoryName(Path.GetDirectoryName(rd.solutionPath.Item));
@@ -240,10 +272,10 @@ namespace R4nd0mApps.TddStud10.Engine
                 }
             });
 
-            return rd;
+            return rd.ToRSR(name, kind, RunStepStatus.Succeeded, null);
         }
 
-        private static RunData DeleteBuildOutput(IRunExecutorHost host, string name, RunData rd)
+        private static RunStepResult DeleteBuildOutput(IRunExecutorHost host, RunStepName name, RunStepKind kind, RunData rd)
         {
             if (Directory.Exists(rd.solutionBuildRoot.Item))
             {
@@ -259,7 +291,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 }
             }
 
-            return rd;
+            return rd.ToRSR(name, kind, RunStepStatus.Succeeded, null);
         }
 
         private static Tuple<int, string> ExecuteProcess(string fileName, string arguments)

@@ -7,13 +7,9 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
     let runStarting = new Event<RunData>()
     let runEnded = new Event<RunData>()
     let onRunError = new Event<Exception>()
-    let runStepStarting = new RunStepEvent()
-    let runStepEnded = new RunStepEvent()
-    
-    let safeExec (f : unit -> unit) = 
-        try 
-            f()
-        with ex -> Logger.logErrorf "Exception thrown: %s." (ex.ToString())
+    let runStepStarting = new Event<RunStepName * RunData>()
+    let onRunStepError = new Event<RunStepResult>()
+    let runStepEnded = new Event<RunStepName * RunData>()
     
     let executeStep (host : IRunExecutorHost) events (acc, err) e = 
         match err with
@@ -21,7 +17,8 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
         | None -> 
             if (host.CanContinue()) then 
                 try 
-                    (e.func |> stepWrapper) host e.name events acc, err
+                    let rsr = (e.func |> stepWrapper) host e.name e.kind events acc
+                    rsr.runData, err
                 with ex -> acc, Some ex
             else acc, Some(new OperationCanceledException() :> Exception)
     
@@ -31,27 +28,31 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
     member public this.RunEnded = runEnded.Publish
     member public this.OnRunError = onRunError.Publish
     member public this.RunStepStarting = runStepStarting.Publish
+    member public this.OnRunStepStarting = onRunStepError.Publish
     member public this.RunStepEnded = runStepEnded.Publish
     
+    static member public makeRunData startTime solutionPath =
+        { startTime = startTime
+          solutionPath = solutionPath
+          solutionSnapshotPath = PathBuilder.makeSlnSnapshotPath solutionPath
+          solutionBuildRoot = PathBuilder.makeSlnBuildRoot solutionPath
+          sequencePoints = None
+          discoveredUnitTests = None
+          codeCoverageResults = None
+          executedTests = None }
+
     member public this.Start (startTime, solutionPath) = 
         (* NOTE: Need to ensure the started/errored/ended events go out no matter what*)
-        let runData = 
-            { startTime = startTime
-              solutionPath = solutionPath
-              solutionSnapshotPath = PathBuilder.makeSlnSnapshotPath solutionPath
-              solutionBuildRoot = PathBuilder.makeSlnBuildRoot solutionPath
-              sequencePoints = None
-              discoveredUnitTests = None
-              buildConsoleOutput = None
-              codeCoverageResults = None
-              executedTests = None
-              testConoleOutput = None }
-        safeExec (fun () -> runStarting.Trigger(runData))
-        let rd, err = runSteps |> Array.fold (executeStep this.host (runStepStarting, runStepEnded)) (runData, None)
+        let runData = RunExecutor.makeRunData startTime solutionPath
+        Common.safeExec (fun () -> runStarting.Trigger(runData))
+        let rses = { onStart = runStepStarting; onError = onRunStepError; onFinish = runStepEnded }
+        let rd, err = 
+            runSteps
+            |> Seq.fold (executeStep this.host rses) (runData, None)
         match err with
         | None -> ()
-        | Some e -> safeExec (fun () -> onRunError.Trigger(e))
-        safeExec (fun () -> runEnded.Trigger(runData))
+        | Some e -> Common.safeExec (fun () -> onRunError.Trigger(e))
+        Common.safeExec (fun () -> runEnded.Trigger(runData))
         rd, err
     
     static member public Create host runSteps stepWrapper = new RunExecutor(host, runSteps, stepWrapper)

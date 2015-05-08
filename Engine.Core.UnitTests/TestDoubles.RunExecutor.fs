@@ -15,14 +15,19 @@ type StepFunc(throwException) =
     member val Called = false with get, set
     member val CalledWith = None with get, set
     member val ReturningWith = None with get, set
-    member public t.Func (h : IRunExecutorHost) name events (rd : RunData) : RunData = 
+    member public t.Func (h : IRunExecutorHost) name kind events (rd : RunData) : RunStepResult = 
         t.Called <- true
         t.CalledWith <- Some(rd.GetHashCode())
         if throwException then failwith "Step threw some exception"
         let retRd = { rd with sequencePoints = Some(new SequencePoints()) }
         t.ReturningWith <- Some(retRd.GetHashCode())
-        retRd
+        { name = name
+          kind = kind
+          status = Failed
+          addendum = Some(FreeFormatData "There has been a failure")
+          runData = retRd }
 
 let inline RS(sf : StepFunc) = 
-    { name = RunStepName(sf.GetHashCode().ToString())
+    { kind = Build
+      name = RunStepName(sf.GetHashCode().ToString())
       func = sf.Func }

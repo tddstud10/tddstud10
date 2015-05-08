@@ -24,6 +24,7 @@ namespace R4nd0mApps.TddStud10.Engine
             efsWatcher.fsWatcher = new FileSystemWatcher();
             efsWatcher.fsWatcher.Filter = "*";
             efsWatcher.fsWatcher.Path = Path.GetDirectoryName(solutionPath);
+            efsWatcher.fsWatcher.IncludeSubdirectories = true;
 
             efsWatcher.SubscribeToEvents();
 

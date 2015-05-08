@@ -17,10 +17,12 @@ type RunData =
       solutionBuildRoot : FilePath
       sequencePoints : SequencePoints option
       discoveredUnitTests : DiscoveredUnitTests option
-      buildConsoleOutput : string option
       codeCoverageResults : CoverageSession option
-      executedTests : TestResults option
-      testConoleOutput : string option }
+      executedTests : TestResults option }
+
+type RunStepKind =
+    | Build
+    | Test
 
 type RunStepName = 
     | RunStepName of string
@@ -28,21 +30,40 @@ type RunStepName =
 type public IRunExecutorHost = 
     abstract CanContinue : unit -> bool
 
-type RunStepEventArgType =
+type RunStepStatus =
+    | Aborted
+    | Succeeded
+    | Failed
+
+type RunStepStatusAddendum =
+    | FreeFormatData of string
+    | ExceptionData of Exception
+
+type RunStepResult =
+    { name : RunStepName
+      kind : RunStepKind 
+      status : RunStepStatus
+      addendum : RunStepStatusAddendum option
+      runData : RunData }
+
+type RunStepEventArg =
     RunStepName * RunData
 
-type RunStepEvent =
-    Event<RunStepName * RunData>
+type RunStepErrorEventArg =
+    RunStepResult
 
-type RunStepEventPair =
-    RunStepEvent * RunStepEvent
+type RunStepEvents =
+    { onStart : Event<RunStepEventArg> 
+      onError : Event<RunStepErrorEventArg>
+      onFinish : Event<RunStepEventArg> }
 
-type RunStepFunc = IRunExecutorHost -> RunStepName -> (RunStepEvent * RunStepEvent) -> RunData -> RunData
+type RunStepFunc = IRunExecutorHost -> RunStepName -> RunStepKind -> RunStepEvents -> RunData -> RunStepResult
 
 type RunStepFuncWrapper = RunStepFunc -> RunStepFunc
 
 type RunStep = 
     { name : RunStepName
+      kind : RunStepKind
       func : RunStepFunc }
 
 type RunSteps = RunStep array
