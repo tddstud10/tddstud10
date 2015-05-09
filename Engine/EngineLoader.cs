@@ -13,9 +13,11 @@ namespace R4nd0mApps.TddStud10.Engine
 
         void RunStarting(RunData rd);
 
-        void RunStepStarting(string runStepName, RunData rd);
+        void RunStepStarting(RunStepEventArg rsea);
 
-        void RunStepEnded(string runStepName, RunData rd);
+        void OnRunStepError(RunStepResult rss);
+
+        void RunStepEnded(RunStepResult rss);
 
         void OnRunError(Exception ex);
 
@@ -27,8 +29,9 @@ namespace R4nd0mApps.TddStud10.Engine
     public static class EngineLoader
     {
         private static EventHandler<RunData> runStartingHandler;
-        private static EventHandler<Tuple<string, RunData>> runStepStartingHandler;
-        private static EventHandler<Tuple<string, RunData>> runStepEndedHandler;
+        private static EventHandler<RunStepEventArg> runStepStartingHandler;
+        private static EventHandler<RunStepResult> onRunStepErrorHandler;
+        private static EventHandler<RunStepResult> runStepEndedHandler;
         private static EventHandler<Exception> onRunErrorHandler;
         private static EventHandler<RunData> runEndedHandler;
         private static EngineFileSystemWatcher efsWatcher;
@@ -43,16 +46,18 @@ namespace R4nd0mApps.TddStud10.Engine
 
             _host = host;
             runStartingHandler = (o, ea) => host.RunStarting(ea);
-            runStepStartingHandler = (o, ea) => host.RunStepStarting(ea.Item1, ea.Item2);
-            runStepEndedHandler = (o, ea) => host.RunStepEnded(ea.Item1, ea.Item2);
+            runStepStartingHandler = (o, ea) => host.RunStepStarting(ea);
+            onRunStepErrorHandler = (o, ea) => host.OnRunStepError(ea);
+            runStepEndedHandler = (o, ea) => host.RunStepEnded(ea);
             onRunErrorHandler = (o, ea) => host.OnRunError(ea);
             runEndedHandler = (o, ea) => host.RunEnded(ea);
 
             _runner = _runner ?? TddStud10Runner.Create(host, Engine.CreateRunSteps());
             _runner.AttachHandlers(
                 _host.RunStarting,
-                ea => _host.RunStepStarting(ea.Item1.Item, ea.Item2),
-                ea => _host.RunStepEnded(ea.Item1.Item, ea.Item2),
+                ea => _host.RunStepStarting(ea),
+                _host.OnRunStepError,
+                ea => _host.RunStepEnded(ea),
                 _host.OnRunError,
                 _host.RunEnded);
 
@@ -73,7 +78,7 @@ namespace R4nd0mApps.TddStud10.Engine
 
         public static bool IsEngineEnabled()
         {
-            var enabled = efsWatcher.IsEnabled();
+            var enabled = IsEngineLoaded() && efsWatcher.IsEnabled();
             Logger.I.LogInfo("Engine is {0}", enabled);
 
             return enabled;
@@ -101,12 +106,14 @@ namespace R4nd0mApps.TddStud10.Engine
             _runner.DetachHandlers(
                 _host.RunEnded,
                 _host.OnRunError,
-                ea => _host.RunStepEnded(ea.Item1.Item, ea.Item2),
-                ea => _host.RunStepStarting(ea.Item1.Item, ea.Item2),
+                ea => _host.RunStepEnded(ea),
+                _host.OnRunStepError,
+                ea => _host.RunStepStarting(ea),
                 _host.RunStarting);
 
             runStartingHandler = null;
             runStepStartingHandler = null;
+            onRunStepErrorHandler = null;
             runStepEndedHandler = null;
             onRunErrorHandler = null;
             runEndedHandler = null;
@@ -130,8 +137,7 @@ namespace R4nd0mApps.TddStud10.Engine
         {
             if (_runner != null)
             {
-                _currentRunCts = new CancellationTokenSource();
-                InvokeEngine(runStartTime, solutionPath, _currentRunCts.Token);
+                InvokeEngine(runStartTime, solutionPath);
             }
             else
             {
@@ -139,7 +145,7 @@ namespace R4nd0mApps.TddStud10.Engine
             }
         }
 
-        private static void InvokeEngine(DateTime runStartTime, string solutionPath, CancellationToken token)
+        private static void InvokeEngine(DateTime runStartTime, string solutionPath)
         {
             try
             {
@@ -157,7 +163,8 @@ namespace R4nd0mApps.TddStud10.Engine
 
                 Logger.I.LogInfo("--------------------------------------------------------------------------------");
                 Logger.I.LogInfo("EngineLoader: Going to trigger a run.");
-                _currentRun = _runner.StartAsync(runStartTime, solutionPath, token);
+                _currentRunCts = new CancellationTokenSource();
+                _currentRun = _runner.StartAsync(runStartTime, solutionPath, _currentRunCts.Token);
             }
             catch (Exception e)
             {

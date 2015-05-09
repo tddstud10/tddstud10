@@ -40,7 +40,9 @@ namespace R4nd0mApps.TddStud10.TestHost
 
         private static ICodeCoverageServer CreateChannel()
         {
-            string address = "net.pipe://localhost/gorillacoding/IPCTest";
+            string address = string.Format(
+                "net.pipe://localhost/gorillacoding/IPCTest/{0}", 
+                Process.GetCurrentProcess().Id.ToString());
 
             NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
             EndpointAddress ep = new EndpointAddress(address);

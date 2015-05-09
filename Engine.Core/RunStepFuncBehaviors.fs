@@ -5,26 +5,26 @@ open R4nd0mApps.TddStud10.Engine.Diagnostics
 
 let eventsPublisher f = 
     fun h n k { onStart = se; onError = ee; onFinish = fe } rd -> 
-        Common.safeExec (fun () -> se.Trigger(n, rd))
-        try 
+        Common.safeExec (fun () -> se.Trigger({name = n; kind = k; runData = rd}))
+        let rss = 
             try 
-                let rss = 
-                    f h n k { onStart = se
-                              onError = ee
-                              onFinish = fe } rd
-                if rss.status <> Succeeded then Common.safeExec (fun () -> ee.Trigger(rss))
-                rss
+                f h n k { onStart = se
+                          onError = ee
+                          onFinish = fe } rd
             with ex -> 
-                let rss = 
-                    { name = n
-                      kind = k
-                      status = Aborted
-                      addendum = Some(ExceptionData ex)
-                      runData = rd }
-                Common.safeExec (fun () -> ee.Trigger(rss))
-                reraise()
-        finally
-            Common.safeExec (fun () -> fe.Trigger(n, rd))
+                { name = n
+                  kind = k
+                  status = Aborted
+                  addendum = ExceptionData ex
+                  runData = rd }
+        if rss.status <> Succeeded then 
+            Common.safeExec (fun () -> ee.Trigger(rss))
+
+        Common.safeExec (fun () -> fe.Trigger(rss))
+
+        if rss.status <> Succeeded then 
+            raise (RunStepFailedException rss)
+        rss
 
 let stepTimer f = 
     fun h n k es rd -> 

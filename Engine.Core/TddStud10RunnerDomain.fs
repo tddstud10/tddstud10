@@ -23,9 +23,16 @@ type RunData =
 type RunStepKind = 
     | Build
     | Test
+    override t.ToString() = 
+        match t with
+        | Build -> "Build"
+        | Test -> "Test"
 
 type RunStepName = 
     | RunStepName of string
+    override t.ToString() = 
+        match t with
+        | RunStepName s -> s
 
 type public IRunExecutorHost = 
     abstract CanContinue : unit -> bool
@@ -34,26 +41,40 @@ type RunStepStatus =
     | Aborted
     | Succeeded
     | Failed
+    override t.ToString() = 
+        match t with
+        | Aborted -> "Aborted"
+        | Succeeded -> "Succeeded"
+        | Failed -> "Failed"
 
 type RunStepStatusAddendum = 
     | FreeFormatData of string
     | ExceptionData of Exception
+    override t.ToString() = 
+        match t with
+        | FreeFormatData s -> s
+        | ExceptionData e -> e.ToString()
 
 type RunStepResult = 
     { name : RunStepName
       kind : RunStepKind
       status : RunStepStatus
-      addendum : RunStepStatusAddendum option
+      addendum : RunStepStatusAddendum
       runData : RunData }
 
-type RunStepEventArg = RunStepName * RunData
+exception RunStepFailedException of RunStepResult
 
-type RunStepErrorEventArg = RunStepResult
+type RunStepEventArg =
+    { name : RunStepName
+      kind : RunStepKind
+      runData : RunData }
+
+type RunStepEndEventArg = RunStepResult
 
 type RunStepEvents = 
     { onStart : Event<RunStepEventArg>
-      onError : Event<RunStepErrorEventArg>
-      onFinish : Event<RunStepEventArg> }
+      onError : Event<RunStepEndEventArg>
+      onFinish : Event<RunStepEndEventArg> }
 
 type RunStepFunc = IRunExecutorHost -> RunStepName -> RunStepKind -> RunStepEvents -> RunData -> RunStepResult
 

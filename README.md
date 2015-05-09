@@ -146,6 +146,8 @@
 # Dogfood build checklist
   - Rename all assemblies
   - Rename event source channels
+  - df next to menu items
+  - df in product name
 
 # Miscellenous notes
 

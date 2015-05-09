@@ -25,18 +25,20 @@ type public TddStud10Runner private (re, agent) =
         new TddStud10Runner(re, agent)
     
     member public t.AttachHandlers (sh : Action<RunData>) (ssh : Action<RunStepEventArg>) 
-           (seh : Action<RunStepEventArg>) (erh : Action<Exception>) (eh : Action<RunData>) = 
+           (serh : Action<RunStepEndEventArg>) (seh : Action<RunStepEndEventArg>) (erh : Action<Exception>) (eh : Action<RunData>) = 
         t.re.RunStarting.AddHandler(fun s ea -> sh.Invoke(ea))
         t.re.RunStepStarting.AddHandler(fun s ea -> ssh.Invoke(ea))
+        t.re.OnRunStepError.AddHandler(fun s ea -> serh.Invoke(ea))
         t.re.RunStepEnded.AddHandler(fun s ea -> seh.Invoke(ea))
         t.re.OnRunError.AddHandler(fun s ea -> erh.Invoke(ea))
         t.re.RunEnded.AddHandler(fun s ea -> eh.Invoke(ea))
     
-    member public t.DetachHandlers (eh : Action<RunData>) (erh : Action<Exception>) (seh : Action<RunStepEventArg>) 
-           (ssh : Action<RunStepEventArg>) (sh : Action<RunData>) = 
+    member public t.DetachHandlers (eh : Action<RunData>) (erh : Action<Exception>) (seh : Action<RunStepEndEventArg>) 
+           (serh : Action<RunStepEndEventArg>) (ssh : Action<RunStepEventArg>) (sh : Action<RunData>) = 
         t.re.RunEnded.RemoveHandler(fun s ea -> eh.Invoke(ea))
         t.re.OnRunError.RemoveHandler(fun s ea -> erh.Invoke(ea))
         t.re.RunStepEnded.RemoveHandler(fun s ea -> seh.Invoke(ea))
+        t.re.OnRunStepError.RemoveHandler(fun s ea -> serh.Invoke(ea))
         t.re.RunStepStarting.RemoveHandler(fun s ea -> ssh.Invoke(ea))
         t.re.RunStarting.RemoveHandler(fun s ea -> sh.Invoke(ea))
     

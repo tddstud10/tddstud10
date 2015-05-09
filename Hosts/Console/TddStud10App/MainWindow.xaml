@@ -5,42 +5,102 @@
   xmlns:local="using:R4nd0mApps.TddStud10.Hosts.Console.TddStud10App"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  Title="MainWindow" Height="350" Width="525">
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  Title="MainWindow" Height="350" Width="721.575"
+  DataContext="{Binding Path=Main, Source={StaticResource Locator}}">
 
-  <Window.DataContext>
-    <Binding Mode="OneWay" Path="Main" Source="{StaticResource Locator}"/>
-  </Window.DataContext>
+  <Window.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+      </ResourceDictionary.MergedDictionaries>
+      <Storyboard x:Key="MyAnimation">
+        <DoubleAnimation AutoReverse="True"
+                         From="0"
+                         RepeatBehavior="Forever"
+                         Storyboard.TargetName="RectangleCompleted"
+                         Storyboard.TargetProperty="Opacity"
+                         To="1" />
+      </Storyboard>
+    </ResourceDictionary>
+  </Window.Resources>
 
   <Grid>
     <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
       <ColumnDefinition Width="*"/>
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
-      <RowDefinition Height="*"/>
+      <RowDefinition Height="5*"/>
+      <RowDefinition Height="2*"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <TextBox 
-      x:Name="textBlock" 
       TextWrapping="Wrap" 
-      Grid.ColumnSpan="2"
+      Grid.ColumnSpan="3"
       ScrollViewer.CanContentScroll="True" 
       ScrollViewer.HorizontalScrollBarVisibility="Auto" 
       ScrollViewer.VerticalScrollBarVisibility="Auto" 
       Text="{Binding Mode=OneWay, Path=ConsoleContents}"/>
+    <TextBox 
+      TextWrapping="Wrap" 
+      Grid.Column="1" Grid.Row="1"
+      ScrollViewer.CanContentScroll="True" 
+      ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+      ScrollViewer.VerticalScrollBarVisibility="Auto" 
+      Text="{Binding Mode=OneWay, Path=StepResultAddendum}" Grid.ColumnSpan="2"/>
+    <Ellipse 
+      x:Name="RectangleCompleted"
+      Grid.Column="0" Grid.Row="1"
+      Width="50"
+      Height="50"
+      Stroke="{Binding Path=RectangleColor}"
+      Fill="{Binding Path=RectangleColor}"
+      StrokeThickness="5" Margin="12,18,13,17">
+      <i:Interaction.Triggers>
+        <ei:DataTrigger Binding="{Binding Path=Animation}"
+                        Comparison="Equal"
+                        Value="True">
+          <ei:ControlStoryboardAction 
+            ControlStoryboardOption="Play"
+            Storyboard="{StaticResource MyAnimation}" />
+        </ei:DataTrigger>
+        <ei:DataTrigger Binding="{Binding Path=Animation}"
+                        Comparison="Equal"
+                        Value="False">
+          <ei:ControlStoryboardAction ControlStoryboardOption="Stop"
+                                      Storyboard="{StaticResource MyAnimation}" />
+        </ei:DataTrigger>
+      </i:Interaction.Triggers>
+    </Ellipse>
+    <Label
+      Grid.Row="1" Grid.Column="0"
+      Content="{Binding Mode=OneWay, Path=StepKind}" 
+      FontWeight="Bold" FontSize="20"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center" Margin="28,24"
+    />
     <Button 
-      Grid.Row="1" Grid.Column="1"
+      Grid.Row="2" Grid.Column="0"
       Width="75" Height="20" 
       HorizontalAlignment="Right" VerticalAlignment="Top" 
       Command="{Binding EnableDisableTddStud10Command}" 
-      Content="Enable"
+      Content="{Binding Path=EngineState}"
     />
     <TextBox 
-      x:Name="solutionPath" 
-      Grid.Row="1" 
+      Grid.Row="2" Grid.Column="1"
       Margin="0,0,0,-3" 
       TextWrapping="Wrap" 
       VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-      Text="{Binding Mode=TwoWay, Path=SolutionPath}"/>
+      Text="{Binding Mode=TwoWay, Path=SolutionPath}" Grid.ColumnSpan="2"/>
+    <Button 
+      Grid.Row="2" Grid.Column="2"
+      Width="75" Height="20" 
+      HorizontalAlignment="Right" VerticalAlignment="Top" 
+      Command="{Binding CancelRunCommand}"
+      IsEnabled="{Binding Mode=OneWay, Path=IsRunInProgress}"
+      Content="Cancel Run"
+    />
   </Grid>
 </Window>

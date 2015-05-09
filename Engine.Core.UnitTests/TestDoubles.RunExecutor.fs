@@ -24,7 +24,7 @@ type StepFunc(throwException) =
         { name = name
           kind = kind
           status = Failed
-          addendum = Some(FreeFormatData "There has been a failure")
+          addendum = FreeFormatData "There has been a failure"
           runData = retRd }
 
 let inline RS(sf : StepFunc) = 

@@ -253,7 +253,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             });
         }
 
-        public void RunStepStarting(string stepDetails, RunData rd)
+        public void RunStepStarting(RunStepEventArg rsea)
         {
             if (_statusBar == null)
             {
@@ -262,11 +262,24 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             InvokeOnUIThread(() =>
             {
-                _statusBar.SetText(stepDetails).ThrowOnFailure();
+                _statusBar.SetText(rsea.name.Item).ThrowOnFailure();
             });
         }
 
-        public void RunStepEnded(string stepDetails, RunData rd)
+        public void OnRunStepError(RunStepResult rss)
+        {
+            if (_statusBar == null)
+            {
+                return;
+            }
+
+            InvokeOnUIThread(() =>
+            {
+                // _statusBar.SetText(stepDetails).ThrowOnFailure();
+            });
+        }
+
+        public void RunStepEnded(RunStepResult rss)
         {
             if (_statusBar == null)
             {

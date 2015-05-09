@@ -7,9 +7,9 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
     let runStarting = new Event<RunData>()
     let runEnded = new Event<RunData>()
     let onRunError = new Event<Exception>()
-    let runStepStarting = new Event<RunStepName * RunData>()
-    let onRunStepError = new Event<RunStepResult>()
-    let runStepEnded = new Event<RunStepName * RunData>()
+    let runStepStarting = new Event<RunStepEventArg>()
+    let onRunStepError = new Event<RunStepEndEventArg>()
+    let runStepEnded = new Event<RunStepEndEventArg>()
     
     let executeStep (host : IRunExecutorHost) events (acc, err) e = 
         match err with
@@ -28,7 +28,7 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
     member public this.RunEnded = runEnded.Publish
     member public this.OnRunError = onRunError.Publish
     member public this.RunStepStarting = runStepStarting.Publish
-    member public this.OnRunStepStarting = onRunStepError.Publish
+    member public this.OnRunStepError = onRunStepError.Publish
     member public this.RunStepEnded = runStepEnded.Publish
     
     static member public makeRunData startTime solutionPath = 

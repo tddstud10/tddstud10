@@ -10,51 +10,58 @@ using R4nd0mApps.TddStud10.Engine.Diagnostics;
 using R4nd0mApps.TddStud10.TestHost;
 
 /*
+EngineOK, EngineNotOK 
+Unknown, Red, Green
+None, Build, Test
+Running, Idle
+
+ * 
+ * [Final State] -> [Initial state] : Only by run start run
+ * Idle -> Runing : Start step
+ * Runing -> Idle : End step
+ * 
+ * [EngineNotOK]
+ * Unknown, None, Idle          [Final State]
+
+ * [EngineOK]
+ * Unknown, None, Idle          [Initial state]
+ * Unknown, None, Running
+ * Unknown, Build, Running
+ * ☒ Unknown, Build, Idle
+ * ☒ Unknown, Test, Running
+ * ☒ Unknown, Test, Idle
+ * ☒ Red, None, Running
+ * ☒ Red, None, Idle
+ * Red, Build, Running
+ * Red, Build, Idle             [Final State]
+ * Red, Test, Running
+ * Red, Test, Idle              [Final State]
+ * ☒ Green, None, Running
+ * ☒ Green, None, Idle
+ * Green, Build, Running
+ * ☒ Green, Build, Idle
+ * Green, Test, Running
+ * Green, Test, Idle            [Final State]
+
     TODO:
-    ☑ extract methods
-    ☑ transform signatures
-    ☑ support cancellation
-    ☑ return ds directly, not write and read xml's, serialize in parallel threads
-    ☑ capture return value errors from build adn test
-    ☑ capture console output from build adn test
-    ☑ events should have rundata
-    ☑ unit tests - events fired no matter what
-    ☑ gaurd from reentrancy
-    ☑ reentrancy gaurd busted - should we fix?
-    ☑ morph engine to runexeutor
-        ☑ wire up handlers
-        ☑ cleanup engine
-        ☑ implement IRunExecutorHost
-        ☑ make the switch
-    ☑ remove the reading xmls from engineloader
+    ☑ Author state management in WPF
+    ☐ Abstract state management for VS
+    ☐ test VS Integration
+    ☐ bitmaps for vs animation
 
-    ☑ Remove hte console fields from run data
-    In the WPF clearly state
-    ☐ State of the runner: ? [B/T] -> R [B/T] -> G [B/T]
-    - Step that failed - Build, Test
-    - Error during the last failure
-
-    OnRunStepFailure [Excption, StepFailureException<StepType, FailureData>] event
-    StepFailureException
-    - StepType
-    - Console output
-
-
-    - test VS Integration
-    - unit tests for the wrappers
-    - bitmaps
-    TRIAGED OUT:
-    ☒ fix fsunit
-    ☒ host should not be able to change its mind about cancellation
-    ☒ cancellationtoken wireup
-    ☒ http://fsharp.org/specs/component-design-guidelines/
+    ☒ TRIAGED OUT:
+        ☒ Engine loading/unloading in app is buggy - enable/disable/enable - two seperate agents launched
+        ☒ fix fsunit
+        ☒ host should not be able to change its mind about cancellation
+        ☒ cancellationtoken wireup
+        ☒ http://fsharp.org/specs/component-design-guidelines/
  
-    ☒ write errors in toolwindow, clean for every session
-    ☒ click on the dots should open the toolwindow
-    ☒ Errors in red, Warnings in yellow - remove training ","
-    ☒ Cheap debug - right click on one of the green, set bp, launch db
-    ☒ Support theory
-    ☒ Move stuff from engineloader to Runner
+        ☒ write errors in toolwindow, clean for every session
+        ☒ click on the dots should open the toolwindow
+        ☒ Errors in red, Warnings in yellow - remove training ","
+        ☒ Cheap debug - right click on one of the green, set bp, launch db
+        ☒ Support theory
+        ☒ Move stuff from engineloader to Runner
  */
 
 namespace R4nd0mApps.TddStud10.Engine
@@ -80,13 +87,12 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private static RunStepResult ToRSR(this RunData rd, RunStepName name, RunStepKind kind, RunStepStatus runStepStatus, string addendum)
         {
-            FSharpOption<RunStepStatusAddendum> rssa = FSharpOption<RunStepStatusAddendum>.None;
-            if (addendum != null)
-            {
-                rssa = FSharpOption<RunStepStatusAddendum>.Some(RunStepStatusAddendum.NewFreeFormatData(addendum));
-            }
-
-            return new RunStepResult(name, kind, RunStepStatus.Succeeded, rssa, rd);
+            return new RunStepResult(
+                name,
+                kind,
+                runStepStatus,
+                RunStepStatusAddendum.NewFreeFormatData(addendum),
+                rd);
         }
 
         private static RunStepResult RunTests(IRunExecutorHost host, RunStepName name, RunStepKind kind, RunData rd)
@@ -187,7 +193,7 @@ namespace R4nd0mApps.TddStud10.Engine
 
             var retRd = CreateRunDataForInstrumentationStep(rd, dict, unitTests);
 
-            return retRd.ToRSR(name, kind, RunStepStatus.Succeeded, null);
+            return retRd.ToRSR(name, kind, RunStepStatus.Succeeded, "Binaries Instrumented - which ones - TBD");
         }
 
         private static RunData CreateRunDataForInstrumentationStep(RunData rd, SequencePoints sequencePoints, DiscoveredUnitTests unitTests)
@@ -272,7 +278,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 }
             });
 
-            return rd.ToRSR(name, kind, RunStepStatus.Succeeded, null);
+            return rd.ToRSR(name, kind, RunStepStatus.Succeeded, "What was done - TBD");
         }
 
         private static RunStepResult DeleteBuildOutput(IRunExecutorHost host, RunStepName name, RunStepKind kind, RunData rd)
@@ -291,7 +297,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 }
             }
 
-            return rd.ToRSR(name, kind, RunStepStatus.Succeeded, null);
+            return rd.ToRSR(name, kind, RunStepStatus.Succeeded, "What was done - TBD");
         }
 
         private static Tuple<int, string> ExecuteProcess(string fileName, string arguments)

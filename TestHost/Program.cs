@@ -25,8 +25,21 @@ namespace R4nd0mApps.TddStud10.TestHost
         private static string testResultsStore;
         private static string discoveredUnitTestsStore;
 
-        static void Main(string[] args)
+        private static void LogInfo(string format, params object[] args)
         {
+            Logger.I.LogInfo(format, args);
+            Console.WriteLine(format, args);
+        }
+
+        private static void LogError(string format, params object[] args)
+        {
+            Logger.I.LogError(format, args);
+            Console.WriteLine(format, args);
+        }
+
+        public static int Main(string[] args)
+        {
+            bool runFailed = true;
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomainUnhandledException);
             solutionBuildRoot = args[1];
             codeCoverageStore = args[2];
@@ -35,37 +48,41 @@ namespace R4nd0mApps.TddStud10.TestHost
             var ccServer = new CodeCoverageServer();
             using (ServiceHost serviceHost = new ServiceHost(ccServer))
             {
-                string address = "net.pipe://localhost/gorillacoding/IPCTest";
+                string address = string.Format(
+                    "net.pipe://localhost/gorillacoding/IPCTest/{0}",
+                    Process.GetCurrentProcess().Id.ToString());
                 NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
                 serviceHost.AddServiceEndpoint(typeof(ICodeCoverageServer), binding, address);
                 serviceHost.Open();
 
-                RunTests();
+                runFailed = RunTests();
             }
             ccServer.SaveTestCases(codeCoverageStore);
+
+            return runFailed ? 1 : 0;
         }
 
         private static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Logger.I.LogError("Exception thrown in InvokeEngine: {0}.", e.ExceptionObject);
+            LogError("Exception thrown in InvokeEngine: {0}.", e.ExceptionObject);
         }
 
-        private static void RunTests()
+        private static bool RunTests()
         {
             Stopwatch stopWatch = new Stopwatch();
             TimeSpan ts;
             string elapsedTime;
 
-            Logger.I.LogInfo("TestHost executing tests...");
+            LogInfo("TestHost executing tests...");
             stopWatch.Start();
             var testResults = new TestResults();
             var unitTests = LoadUnitTestCases();
             foreach (var asm in unitTests.Keys)
             {
-                Logger.I.LogInfo("Executing tests in {0}.", asm);
+                LogInfo("Executing tests in {0}.", asm);
 
                 using (var controller = new XunitFrontController(asm))
-                using (var resultsVisitor = new StandardOutputVisitor(new object(), false, solutionBuildRoot, () => false, Logger.I.LogInfo, testResults))
+                using (var resultsVisitor = new StandardOutputVisitor(new object(), false, solutionBuildRoot, () => false, s => LogInfo(s, new object[0]), testResults))
                 {
                     controller.RunAll(resultsVisitor, TestFrameworkOptions.ForDiscovery(), TestFrameworkOptions.ForExecution());
                     resultsVisitor.Finished.WaitOne();
@@ -79,8 +96,10 @@ namespace R4nd0mApps.TddStud10.TestHost
             elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                         ts.Hours, ts.Minutes, ts.Seconds,
                         ts.Milliseconds / 10);
-            Logger.I.LogInfo("Done TestHost executing tests! [" + elapsedTime + "]");
-            Logger.I.LogInfo("");
+            LogInfo("Done TestHost executing tests! [" + elapsedTime + "]");
+            LogInfo("");
+
+            return testResults.Values.Contains(TestResult.Failed);
         }
 
         // TODO: Cleanup: This pattern is repeated everywhere. Unify it.
