@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Media;
 using GalaSoft.MvvmLight;
@@ -12,34 +13,6 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase, IEngineHost
     {
-        private bool _currentRunCancelled;
-        private Dictionary<string, StringBuilder> sbMap;
-
-        public string SolutionPath { get; set; }
-
-        private StringBuilder _consoleContents = new StringBuilder();
-        public string ConsoleContents
-        {
-            get
-            {
-                return _consoleContents.ToString();
-            }
-        }
-
-        public char StepKind { get; set; }
-
-        private StringBuilder _stepResultAddendum = new StringBuilder();
-        public string StepResultAddendum
-        {
-            get
-            {
-                return _stepResultAddendum.ToString();
-            }
-        }
-
-        public RelayCommand EnableDisableTddStud10Command { get; set; }
-        public RelayCommand CancelRunCommand { get; set; }
-
         private bool _animation;
         public bool Animation
         {
@@ -56,6 +29,66 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                 RaisePropertyChanged(() => Animation);
             }
         }
+
+        private char _stepKind;
+        public char StepKind 
+        { 
+            get { return _stepKind; }
+            set 
+            {
+                if (_stepKind == value)
+                {
+                    return;
+                }
+
+                _stepKind = value;
+                RaisePropertyChanged(() => StepKind);
+            }
+        }
+
+        private SolidColorBrush _rectangleColor;
+        public SolidColorBrush RectangleColor 
+        { 
+            get { return _rectangleColor; }
+            set 
+            {
+                if (_rectangleColor == value)
+                {
+                    return;
+                }
+
+                _rectangleColor = value;
+                RaisePropertyChanged(() => RectangleColor);
+            }
+        }
+
+        private bool _currentRunCancelled;
+        private Dictionary<string, StringBuilder> sbMap;
+
+        public string SolutionPath { get; set; }
+
+        private StringBuilder _consoleContents = new StringBuilder();
+        public string ConsoleContents
+        {
+            get
+            {
+                return _consoleContents.ToString();
+            }
+        }
+
+
+        private StringBuilder _stepResultAddendum = new StringBuilder();
+        public string StepResultAddendum
+        {
+            get
+            {
+                return _stepResultAddendum.ToString();
+            }
+        }
+
+        public RelayCommand EnableDisableTddStud10Command { get; set; }
+
+        public RelayCommand CancelRunCommand { get; set; }
 
         public string EngineState 
         { 
@@ -82,8 +115,10 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
 
         public MainWindowViewModel()
         {
+            Animation = false;
             StepKind = '?';
             RectangleColor = new SolidColorBrush(Colors.LightGray);
+
             SolutionPath = @"d:\src\r4nd0mkatas\fizzbuzz\FizzBuzz.sln";
             EnableDisableTddStud10Command = new RelayCommand(
                 EnableOrDisable,
@@ -175,15 +210,81 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             return CanContinue();
         }
 
+        public void RunStateChanged(RunState rs)
+        {
+            DispatcherHelper.CheckBeginInvokeOnUI(
+                () =>
+                {
+                    // Animating or not
+                    Animation = (rs.IsEngineErrorDetected
+                        || rs.IsBuildFailureDetected
+                        || rs.IsFirstBuildRunning
+                        || rs.IsBuildRunning
+                        || rs.IsTestFailureDetected
+                        || rs.IsTestRunning);
+                    
+                    // Build or Test
+                    if (rs.IsFirstBuildRunning 
+                        || rs.IsBuildRunning
+                        || rs.IsBuildFailureDetected
+                        || rs.IsBuildFailed
+                        || rs.IsBuildPassed)
+                    {
+                        StepKind = 'B';
+                    }
+                    else if (rs.IsTestRunning
+                        || rs.IsTestFailureDetected
+                        || rs.IsTestFailed
+                        || rs.IsTestPassed)
+                    {
+                        StepKind = 'T';
+                    }
+                    else if (rs.IsInitial
+                        || rs.IsEngineError
+                        || rs.IsEngineErrorDetected)
+                    {
+                        StepKind = '?';
+                    }
+                    else
+                    {
+                        Debug.Assert(false, "Cannot set step kind for the current state.");
+                    }
+                    
+                    // Unknown or Red or Green
+                    if (rs.IsInitial
+                        || rs.IsEngineError
+                        || rs.IsEngineErrorDetected
+                        || rs.IsFirstBuildRunning)
+                    {
+                        RectangleColor = new SolidColorBrush(Colors.LightGray);
+                    }
+                    else if (rs.IsBuildFailureDetected 
+                        || rs.IsBuildFailed
+                        || rs.IsTestFailureDetected
+                        || rs.IsTestFailed)
+                    {
+                        RectangleColor = new SolidColorBrush(Colors.Red);
+                    }
+                    else if (rs.IsBuildRunning
+                        || rs.IsBuildPassed
+                        || rs.IsTestRunning
+                        || rs.IsTestPassed)
+                    {
+                        RectangleColor = new SolidColorBrush(Colors.Green);
+                    }
+                    else
+                    {
+                        Debug.Assert(false, "Cannot set a color for the current state.");
+                    }
+                });
+        }
+
         public void RunStarting(RunData rd)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>
                 {
                     RaisePropertyChanged("IsRunInProgress");
-                    RectangleColor = new SolidColorBrush(Colors.LightGray);
-                    RaisePropertyChanged("RectangleColor");
-                    Animation = true;
                     ClearTextFields();
                     AddTextToConsole(
                         sb => sb.AppendFormat("### Starting new run..."),
@@ -196,8 +297,6 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>
                 {
-                    StepKind = rsea.kind.ToString()[0];
-                    RaisePropertyChanged("StepKind");
                     AddTextToConsole(
                         sb => sb.AppendFormat(
                             "### ### Starting run step : {0}...",
@@ -225,15 +324,6 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>
                 {
-                    if (!rss.status.IsSucceeded)
-                    {
-                        RectangleColor = new SolidColorBrush(Colors.DarkRed);
-                    }
-                    else
-                    {
-                        RectangleColor = new SolidColorBrush(Colors.Green);
-                    }
-                    RaisePropertyChanged("RectangleColor");
                     AddTextToConsole(
                         sb => sb.AppendFormat(
                             "### ### Finished run step : {0}...",
@@ -260,8 +350,6 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                             "### Run had error : {0}...",
                             e),
                         "ConsoleContents");
-                    RectangleColor = new SolidColorBrush(Colors.DarkRed);
-                    RaisePropertyChanged("RectangleColor");
                 });
         }
 
@@ -270,14 +358,11 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>
                 {
-                    Animation = false;
                     AddTextToConsole(sb => sb.AppendFormat("### Ended run."),
                         "ConsoleContents");
                 });
         }
 
         #endregion
-
-        public SolidColorBrush RectangleColor { get; set; }
     }
 }

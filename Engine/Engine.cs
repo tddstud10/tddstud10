@@ -45,7 +45,7 @@ Running, Idle
 
     TODO:
     ☑ Author state management in WPF
-    ☐ Abstract state management for VS
+    ☑ Abstract out state management for VS
     ☐ test VS Integration
     ☐ bitmaps for vs animation
 

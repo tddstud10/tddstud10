@@ -239,6 +239,10 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             return CanContinue();
         }
 
+        public void RunStateChanged(RunState rs)
+        {
+        }
+
         public void RunStarting(RunData rd)
         {
             if (_statusBar == null)

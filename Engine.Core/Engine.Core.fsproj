@@ -68,6 +68,7 @@
     <Compile Include="PathBuilder.fs" />
     <Compile Include="RunStepFuncBehaviors.fs" />
     <Compile Include="RunExecutor.fs" />
+    <Compile Include="RunStateTracker.fs" />
     <Compile Include="TddStud10Runner.fs" />
   </ItemGroup>
   <ItemGroup>

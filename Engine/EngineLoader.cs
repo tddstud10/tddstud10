@@ -11,6 +11,8 @@ namespace R4nd0mApps.TddStud10.Engine
     {
         bool CanStart();
 
+        void RunStateChanged(RunState rs);
+
         void RunStarting(RunData rd);
 
         void RunStepStarting(RunStepEventArg rsea);
@@ -28,12 +30,6 @@ namespace R4nd0mApps.TddStud10.Engine
     // TODO: Cleanup: Remove the ugly delegates
     public static class EngineLoader
     {
-        private static EventHandler<RunData> runStartingHandler;
-        private static EventHandler<RunStepEventArg> runStepStartingHandler;
-        private static EventHandler<RunStepResult> onRunStepErrorHandler;
-        private static EventHandler<RunStepResult> runStepEndedHandler;
-        private static EventHandler<Exception> onRunErrorHandler;
-        private static EventHandler<RunData> runEndedHandler;
         private static EngineFileSystemWatcher efsWatcher;
         private static IEngineHost _host;
         private static TddStud10Runner _runner;
@@ -45,19 +41,14 @@ namespace R4nd0mApps.TddStud10.Engine
             Logger.I.LogInfo("Loading Engine with solution {0}", solutionPath);
 
             _host = host;
-            runStartingHandler = (o, ea) => host.RunStarting(ea);
-            runStepStartingHandler = (o, ea) => host.RunStepStarting(ea);
-            onRunStepErrorHandler = (o, ea) => host.OnRunStepError(ea);
-            runStepEndedHandler = (o, ea) => host.RunStepEnded(ea);
-            onRunErrorHandler = (o, ea) => host.OnRunError(ea);
-            runEndedHandler = (o, ea) => host.RunEnded(ea);
 
             _runner = _runner ?? TddStud10Runner.Create(host, Engine.CreateRunSteps());
             _runner.AttachHandlers(
+                _host.RunStateChanged,
                 _host.RunStarting,
-                ea => _host.RunStepStarting(ea),
+                _host.RunStepStarting,
                 _host.OnRunStepError,
-                ea => _host.RunStepEnded(ea),
+                _host.RunStepEnded,
                 _host.OnRunError,
                 _host.RunEnded);
 
@@ -106,18 +97,11 @@ namespace R4nd0mApps.TddStud10.Engine
             _runner.DetachHandlers(
                 _host.RunEnded,
                 _host.OnRunError,
-                ea => _host.RunStepEnded(ea),
+                _host.RunStepEnded,
                 _host.OnRunStepError,
-                ea => _host.RunStepStarting(ea),
-                _host.RunStarting);
-
-            runStartingHandler = null;
-            runStepStartingHandler = null;
-            onRunStepErrorHandler = null;
-            runStepEndedHandler = null;
-            onRunErrorHandler = null;
-            runEndedHandler = null;
-
+                _host.RunStepStarting,
+                _host.RunStarting,
+                _host.RunStateChanged);
         }
 
         public static bool IsRunInProgress()

@@ -86,7 +86,7 @@
       - What is the exception thrown and the point of faiure?
     - * instantenous trigger
       - accurate snapshotting
-      - incremental copy of files
+      - incremental copy of files [chutzpah has solved this]
       - incremental build
       - engine is always getting rebuilt
     - * Toolwindow with rich details
@@ -148,6 +148,7 @@
   - Rename event source channels
   - df next to menu items
   - df in product name
+  - tddstud10.df
 
 # Miscellenous notes
 

@@ -71,6 +71,7 @@
     <Compile Include="PathBuilderTests.fs" />
     <Compile Include="RunStepFuncBehaviorTests.fs" />
     <Compile Include="RunExecutorTests.fs" />
+    <Compile Include="RunStateTrackerTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestHost.Core\TestHost.Core.fsproj">

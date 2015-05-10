@@ -64,7 +64,7 @@ type RunStepResult =
 
 exception RunStepFailedException of RunStepResult
 
-type RunStepEventArg =
+type RunStepEventArg = 
     { name : RunStepName
       kind : RunStepKind
       runData : RunData }
@@ -86,3 +86,60 @@ type RunStep =
       func : RunStepFunc }
 
 type RunSteps = RunStep array
+
+(*
+    Combination of the following variables:
+    - EngineOK, EngineError 
+    - Unknown, Red, Green
+    - None, Build, Test
+    - Running, Idle
+
+    Principles:
+    - [Any State] -> [Initial state] : Only by run start run
+    - Idle -> Runing : Any of the start steps
+    - Runing -> Idle : Ay of the end steps
+
+    Validity of combinations:
+      [EngineError]
+    - Unknown, None, Idle          [Final State]    [An internal engine error has occured]
+
+      [EngineOK]
+    - Unknown, None, Idle          [Initial state]  [The state right at the beginning]
+    - Unknown, None, Running                        
+    - Unknown, Build, Running
+    - x Unknown, Build, Idle
+    - x Unknown, Test, Running
+    - x Unknown, Test, Idle
+    - x Red, None, Running
+    - x Red, None, Idle
+    - Red, Build, Running
+    - Red, Build, Idle             [Final State]
+    - Red, Test, Running
+    - Red, Test, Idle              [Final State]
+    - x Green, None, Running
+    - x Green, None, Idle
+    - Green, Build, Running
+    - Green, Build, Idle
+    - Green, Test, Running
+    - Green, Test, Idle            [Final State]
+ *)
+type RunState = 
+    | Initial
+    | EngineErrorDetected
+    | EngineError
+    | FirstBuildRunning
+    | BuildFailureDetected
+    | BuildFailed
+    | TestFailureDetected
+    | TestFailed
+    | BuildRunning
+    | BuildPassed
+    | TestRunning
+    | TestPassed
+
+type RunEvent =
+    | RunStarting
+    | RunStepStarting of RunStepKind
+    | RunStepError of RunStepKind * RunStepStatus
+    | RunStepEnded of RunStepKind * RunStepStatus
+    | RunError of Exception
