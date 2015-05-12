@@ -1,0 +1,60 @@
+﻿<UserControl 
+  x:Class="R4nd0mApps.TddStud10.Hosts.Common.StatusBarNotificationIcon"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:local="clr-namespace:R4nd0mApps.TddStud10.Hosts.Common"
+  mc:Ignorable="d">
+
+  <UserControl.Resources>
+    <ResourceDictionary>
+      <Storyboard x:Key="FadeInFadeOutAnimation">
+        <DoubleAnimation 
+          AutoReverse="True"
+          From="0" To="1"
+          RepeatBehavior="Forever"
+          Storyboard.TargetName="MainIcon"
+          Storyboard.TargetProperty="Opacity"
+        />
+      </Storyboard>
+    </ResourceDictionary>
+  </UserControl.Resources>
+
+  <Grid>
+    <Ellipse 
+      x:Name="MainIcon"
+      Width="50" Height="50"
+      Stroke="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=RunStatus}"
+      Fill="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=RunStatus}"
+      StrokeThickness="5" Margin="12,18,13,17">
+      <i:Interaction.Triggers>
+        <ei:DataTrigger 
+          Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=RunState}"
+          Comparison="Equal"
+          Value="True">
+          <ei:ControlStoryboardAction 
+            ControlStoryboardOption="Play"
+            Storyboard="{StaticResource FadeInFadeOutAnimation}" 
+          />
+        </ei:DataTrigger>
+        <ei:DataTrigger 
+          Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=RunState}"
+          Comparison="Equal"
+          Value="False">
+          <ei:ControlStoryboardAction 
+            ControlStoryboardOption="Stop"
+            Storyboard="{StaticResource FadeInFadeOutAnimation}"
+          />
+        </ei:DataTrigger>
+      </i:Interaction.Triggers>
+    </Ellipse>
+    <TextBlock
+      FontWeight="Bold" FontSize="20"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center" Margin="24,24"
+      Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=RunStepKind}" />
+  </Grid>
+</UserControl>

@@ -31,10 +31,10 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
         }
 
         private char _stepKind;
-        public char StepKind 
-        { 
+        public char StepKind
+        {
             get { return _stepKind; }
-            set 
+            set
             {
                 if (_stepKind == value)
                 {
@@ -47,10 +47,10 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
         }
 
         private SolidColorBrush _rectangleColor;
-        public SolidColorBrush RectangleColor 
-        { 
+        public SolidColorBrush RectangleColor
+        {
             get { return _rectangleColor; }
-            set 
+            set
             {
                 if (_rectangleColor == value)
                 {
@@ -90,9 +90,9 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
 
         public RelayCommand CancelRunCommand { get; set; }
 
-        public string EngineState 
-        { 
-            get 
+        public string EngineState
+        {
+            get
             {
                 if (EngineLoader.IsEngineEnabled())
                 {
@@ -102,11 +102,11 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                 {
                     return "Enable";
                 }
-            } 
+            }
         }
 
-        public bool IsRunInProgress 
-        { 
+        public bool IsRunInProgress
+        {
             get
             {
                 return !_currentRunCancelled && EngineLoader.IsRunInProgress();
@@ -222,9 +222,9 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                         || rs.IsBuildRunning
                         || rs.IsTestFailureDetected
                         || rs.IsTestRunning);
-                    
+
                     // Build or Test
-                    if (rs.IsFirstBuildRunning 
+                    if (rs.IsFirstBuildRunning
                         || rs.IsBuildRunning
                         || rs.IsBuildFailureDetected
                         || rs.IsBuildFailed
@@ -249,7 +249,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                     {
                         Debug.Assert(false, "Cannot set step kind for the current state.");
                     }
-                    
+
                     // Unknown or Red or Green
                     if (rs.IsInitial
                         || rs.IsEngineError
@@ -258,7 +258,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                     {
                         RectangleColor = new SolidColorBrush(Colors.LightGray);
                     }
-                    else if (rs.IsBuildFailureDetected 
+                    else if (rs.IsBuildFailureDetected
                         || rs.IsBuildFailed
                         || rs.IsTestFailureDetected
                         || rs.IsTestFailed)

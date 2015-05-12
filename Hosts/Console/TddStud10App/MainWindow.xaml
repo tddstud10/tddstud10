@@ -5,8 +5,9 @@
   xmlns:local="using:R4nd0mApps.TddStud10.Hosts.Console.TddStud10App"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:Common="clr-namespace:R4nd0mApps.TddStud10.Hosts.Common;assembly=R4nd0mApps.TddStud10.Hosts.CommonUI"
   Title="MainWindow" Height="350" Width="721.575"
   DataContext="{Binding Path=Main, Source={StaticResource Locator}}">
 
@@ -45,42 +46,16 @@
       Text="{Binding Mode=OneWay, Path=ConsoleContents}"/>
     <TextBox 
       TextWrapping="Wrap" 
-      Grid.Column="1" Grid.Row="1"
+      Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1"
       ScrollViewer.CanContentScroll="True" 
       ScrollViewer.HorizontalScrollBarVisibility="Auto" 
       ScrollViewer.VerticalScrollBarVisibility="Auto" 
-      Text="{Binding Mode=OneWay, Path=StepResultAddendum}" Grid.ColumnSpan="2"/>
-    <Ellipse 
-      x:Name="RectangleCompleted"
-      Grid.Column="0" Grid.Row="1"
-      Width="50"
-      Height="50"
-      Stroke="{Binding Path=RectangleColor}"
-      Fill="{Binding Path=RectangleColor}"
-      StrokeThickness="5" Margin="12,18,13,17">
-      <i:Interaction.Triggers>
-        <ei:DataTrigger Binding="{Binding Path=Animation}"
-                        Comparison="Equal"
-                        Value="True">
-          <ei:ControlStoryboardAction 
-            ControlStoryboardOption="Play"
-            Storyboard="{StaticResource MyAnimation}" />
-        </ei:DataTrigger>
-        <ei:DataTrigger Binding="{Binding Path=Animation}"
-                        Comparison="Equal"
-                        Value="False">
-          <ei:ControlStoryboardAction ControlStoryboardOption="Stop"
-                                      Storyboard="{StaticResource MyAnimation}" />
-        </ei:DataTrigger>
-      </i:Interaction.Triggers>
-    </Ellipse>
-    <Label
-      Grid.Row="1" Grid.Column="0"
-      Content="{Binding Mode=OneWay, Path=StepKind}" 
-      FontWeight="Bold" FontSize="20"
-      HorizontalAlignment="Center"
-      VerticalAlignment="Center" Margin="28,24"
-    />
+      Text="{Binding Mode=OneWay, Path=StepResultAddendum}" />
+    <Common:StatusBarNotificationIcon
+      Grid.Column="0" Grid.Row="1"  
+      RunState="{Binding Animation}" 
+      RunStatus="{Binding RectangleColor}"
+      RunStepKind="{Binding StepKind}"/>
     <Button 
       Grid.Row="2" Grid.Column="0"
       Width="75" Height="20" 
