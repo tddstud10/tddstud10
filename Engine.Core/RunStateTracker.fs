@@ -22,7 +22,7 @@ type RunStateTracker() =
         | _, RunStepEnded(_, Aborted) -> EngineError
 
         | Initial, RunStepStarting(Build) -> FirstBuildRunning
-        | Initial, ev -> logAndReturnBack Initial ev 
+        | Initial as s, ev -> logAndReturnBack s ev 
 
         | EngineErrorDetected as s, ev -> logAndReturnBack s ev 
         
@@ -30,7 +30,7 @@ type RunStateTracker() =
         
         | FirstBuildRunning, RunStepEnded(Build, Succeeded) -> BuildPassed
         | FirstBuildRunning, RunStepError(Build, Failed) -> BuildFailureDetected
-        | FirstBuildRunning as s, ev -> logAndReturnBack FirstBuildRunning ev
+        | FirstBuildRunning as s, ev -> logAndReturnBack s ev
         
         | BuildFailureDetected, RunStepEnded(Build, Failed) -> BuildFailed
         | BuildFailureDetected as s, ev -> logAndReturnBack s ev

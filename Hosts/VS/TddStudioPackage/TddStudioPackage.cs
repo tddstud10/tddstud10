@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -82,6 +85,41 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             }
 
             Instance = this;
+
+            System.Windows.Window expr_0E = Application.Current.MainWindow;
+
+            var dependencyObject = System.Windows.Media.VisualTreeHelper.GetChild(expr_0E, 0);
+            System.Windows.Controls.Grid grid = (System.Windows.Controls.Grid)System.Windows.Media.VisualTreeHelper.GetChild(dependencyObject, 0);
+            System.Windows.Controls.DockPanel outerDockPanel = (System.Windows.Controls.DockPanel)System.Windows.Media.VisualTreeHelper.GetChild(grid, 3);
+
+            var wtsbContainer = outerDockPanel.Children[1];
+
+            System.Reflection.Assembly asm = System.AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName == "Microsoft.VisualStudio.Shell.UI.Internal, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a").First();
+            System.Type type = asm.GetType("Microsoft.VisualStudio.PlatformUI.WorkerThreadStatusBarContainer");
+            System.Reflection.FieldInfo field = type.GetField("statusBarElement", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+
+            StatusBar statusBarElement = (StatusBar)field.GetValue(wtsbContainer);
+            statusBarElement.Dispatcher.InvokeAsync(new Action(() =>
+            {
+                var sbItem = new StatusBarItem();
+                sbItem.Visibility = Visibility.Visible;
+                var tb = new TextBlock();
+                tb.Text = "Hola!";
+                tb.Visibility = Visibility.Visible;
+                DockPanel.SetDock(sbItem, Dock.Right);
+
+                var dp = VisualTreeHelper.GetChild(statusBarElement, 0) as DockPanel;
+                dp.LastChildFill = false;
+                sbItem.Content = tb;
+                dp.Children.Insert(0, sbItem);
+                dp.LastChildFill = true;
+            }));
+
+
+            //IntPtr hdc = IntPtr.Zero;
+            //hdc = Resources.TestFailureDetected.GetHbitmap();
+            //object o = hdc;
+            //_statusBar.Animation(1, ref o);
 
             Logger.I.LogInfo("Initialized Package successfully.");
         }

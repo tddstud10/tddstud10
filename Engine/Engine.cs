@@ -10,39 +10,6 @@ using R4nd0mApps.TddStud10.Engine.Diagnostics;
 using R4nd0mApps.TddStud10.TestHost;
 
 /*
-EngineOK, EngineNotOK 
-Unknown, Red, Green
-None, Build, Test
-Running, Idle
-
- * 
- * [Final State] -> [Initial state] : Only by run start run
- * Idle -> Runing : Start step
- * Runing -> Idle : End step
- * 
- * [EngineNotOK]
- * Unknown, None, Idle          [Final State]
-
- * [EngineOK]
- * Unknown, None, Idle          [Initial state]
- * Unknown, None, Running
- * Unknown, Build, Running
- * ☒ Unknown, Build, Idle
- * ☒ Unknown, Test, Running
- * ☒ Unknown, Test, Idle
- * ☒ Red, None, Running
- * ☒ Red, None, Idle
- * Red, Build, Running
- * Red, Build, Idle             [Final State]
- * Red, Test, Running
- * Red, Test, Idle              [Final State]
- * ☒ Green, None, Running
- * ☒ Green, None, Idle
- * Green, Build, Running
- * ☒ Green, Build, Idle
- * Green, Test, Running
- * Green, Test, Idle            [Final State]
-
     TODO:
     ☑ Author state management in WPF
     ☑ Abstract out state management for VS
