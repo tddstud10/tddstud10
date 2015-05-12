@@ -11,31 +11,31 @@ namespace R4nd0mApps.TddStud10.Hosts.Common
             InitializeComponent();
         }
 
-        public bool RunState
+        public bool Animate
         {
-            get { return (bool)GetValue(RunStateProperty); }
-            set { SetValue(RunStateProperty, value); }
+            get { return (bool)GetValue(AnimateProperty); }
+            set { SetValue(AnimateProperty, value); }
         }
 
-        public static readonly DependencyProperty RunStateProperty =
-            DependencyProperty.Register("RunState", typeof(bool), typeof(StatusBarNotificationIcon), new PropertyMetadata(false));
+        public static readonly DependencyProperty AnimateProperty =
+            DependencyProperty.Register("Animate", typeof(bool), typeof(StatusBarNotificationIcon), new PropertyMetadata(false));
 
-        public SolidColorBrush RunStatus
+        public SolidColorBrush IconColor
         {
-            get { return (SolidColorBrush)GetValue(RunStatusProperty); }
-            set { SetValue(RunStatusProperty, value); }
+            get { return (SolidColorBrush)GetValue(IconColorProperty); }
+            set { SetValue(IconColorProperty, value); }
         }
 
-        public static readonly DependencyProperty RunStatusProperty =
-            DependencyProperty.Register("RunStatus", typeof(SolidColorBrush), typeof(StatusBarNotificationIcon), new PropertyMetadata(Brushes.LightGray));
+        public static readonly DependencyProperty IconColorProperty =
+            DependencyProperty.Register("IconColor", typeof(SolidColorBrush), typeof(StatusBarNotificationIcon), new PropertyMetadata(Brushes.LightGray));
 
-        public string RunStepKind
+        public string IconText
         {
-            get { return (string)GetValue(RunStepKindProperty); }
-            set { SetValue(RunStepKindProperty, value); }
+            get { return (string)GetValue(IconTextProperty); }
+            set { SetValue(IconTextProperty, value); }
         }
 
-        public static readonly DependencyProperty RunStepKindProperty =
-            DependencyProperty.Register("RunStepKind", typeof(string), typeof(StatusBarNotificationIcon), new PropertyMetadata("?"));
+        public static readonly DependencyProperty IconTextProperty =
+            DependencyProperty.Register("IconText", typeof(string), typeof(StatusBarNotificationIcon), new PropertyMetadata("?"));
     }
 }

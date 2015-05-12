@@ -12,21 +12,12 @@
   DataContext="{Binding Path=Main, Source={StaticResource Locator}}">
 
   <Window.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-      </ResourceDictionary.MergedDictionaries>
-      <Storyboard x:Key="MyAnimation">
-        <DoubleAnimation AutoReverse="True"
-                         From="0"
-                         RepeatBehavior="Forever"
-                         Storyboard.TargetName="RectangleCompleted"
-                         Storyboard.TargetProperty="Opacity"
-                         To="1" />
-      </Storyboard>
-    </ResourceDictionary>
+    <Common:RunStateToAnimationStateConverter x:Key="RunStateToAnimationStateConverter" />
+    <Common:RunStateToIconColorConverter x:Key="RunStateToIconColorConverter" />
+    <Common:RunStateToIconTextConverter x:Key="RunStateToIconTextConverter" />
   </Window.Resources>
 
-  <Grid>
+  <Grid Background="DarkGray">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto"/>
       <ColumnDefinition Width="*"/>
@@ -53,9 +44,9 @@
       Text="{Binding Mode=OneWay, Path=StepResultAddendum}" />
     <Common:StatusBarNotificationIcon
       Grid.Column="0" Grid.Row="1"  
-      RunState="{Binding Animation}" 
-      RunStatus="{Binding RectangleColor}"
-      RunStepKind="{Binding StepKind}"/>
+      Animate="{Binding RunState, Converter={StaticResource RunStateToAnimationStateConverter}}" 
+      IconColor="{Binding RunState, Converter={StaticResource RunStateToIconColorConverter}}"
+      IconText="{Binding RunState, Converter={StaticResource RunStateToIconTextConverter}}"/>
     <Button 
       Grid.Row="2" Grid.Column="0"
       Width="75" Height="20" 

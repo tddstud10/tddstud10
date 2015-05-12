@@ -14,7 +14,7 @@
       <Storyboard x:Key="FadeInFadeOutAnimation">
         <DoubleAnimation 
           AutoReverse="True"
-          From="0" To="1"
+          From="0.25" To="1"
           RepeatBehavior="Forever"
           Storyboard.TargetName="MainIcon"
           Storyboard.TargetProperty="Opacity"
@@ -25,14 +25,17 @@
 
   <Grid>
     <Ellipse 
+      Width="50" Height="50" Fill="White"
+    /> 
+    <Ellipse 
       x:Name="MainIcon"
-      Width="50" Height="50"
-      Stroke="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=RunStatus}"
-      Fill="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=RunStatus}"
-      StrokeThickness="5" Margin="12,18,13,17">
+      Width="45" Height="45"
+      Stroke="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IconColor}"
+      Fill="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IconColor}"
+      StrokeThickness="5" Margin="12">
       <i:Interaction.Triggers>
         <ei:DataTrigger 
-          Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=RunState}"
+          Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Animate}"
           Comparison="Equal"
           Value="True">
           <ei:ControlStoryboardAction 
@@ -41,7 +44,7 @@
           />
         </ei:DataTrigger>
         <ei:DataTrigger 
-          Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=RunState}"
+          Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Animate}"
           Comparison="Equal"
           Value="False">
           <ei:ControlStoryboardAction 
@@ -52,9 +55,9 @@
       </i:Interaction.Triggers>
     </Ellipse>
     <TextBlock
-      FontWeight="Bold" FontSize="20"
+      FontWeight="Bold" FontSize="20" Foreground="White"
       HorizontalAlignment="Center"
-      VerticalAlignment="Center" Margin="24,24"
-      Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=RunStepKind}" />
+      VerticalAlignment="Center" Margin="24"
+      Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IconText}" />
   </Grid>
 </UserControl>

@@ -13,52 +13,19 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase, IEngineHost
     {
-        private bool _animation;
-        public bool Animation
+        private RunState _runState;
+        public RunState RunState
         {
-            get { return _animation; }
-
+            get { return _runState; }
             set
             {
-                if (_animation == value)
+                if (_runState == value)
                 {
                     return;
                 }
 
-                _animation = value;
-                RaisePropertyChanged(() => Animation);
-            }
-        }
-
-        private char _stepKind;
-        public char StepKind
-        {
-            get { return _stepKind; }
-            set
-            {
-                if (_stepKind == value)
-                {
-                    return;
-                }
-
-                _stepKind = value;
-                RaisePropertyChanged(() => StepKind);
-            }
-        }
-
-        private SolidColorBrush _rectangleColor;
-        public SolidColorBrush RectangleColor
-        {
-            get { return _rectangleColor; }
-            set
-            {
-                if (_rectangleColor == value)
-                {
-                    return;
-                }
-
-                _rectangleColor = value;
-                RaisePropertyChanged(() => RectangleColor);
+                _runState = value;
+                RaisePropertyChanged(() => RunState);
             }
         }
 
@@ -115,9 +82,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
 
         public MainWindowViewModel()
         {
-            Animation = false;
-            StepKind = '?';
-            RectangleColor = new SolidColorBrush(Colors.LightGray);
+            RunState = RunState.Initial;
 
             SolutionPath = @"d:\src\r4nd0mkatas\fizzbuzz\FizzBuzz.sln";
             EnableDisableTddStud10Command = new RelayCommand(
@@ -215,67 +180,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>
                 {
-                    // Animating or not
-                    Animation = (rs.IsEngineErrorDetected
-                        || rs.IsBuildFailureDetected
-                        || rs.IsFirstBuildRunning
-                        || rs.IsBuildRunning
-                        || rs.IsTestFailureDetected
-                        || rs.IsTestRunning);
-
-                    // Build or Test
-                    if (rs.IsFirstBuildRunning
-                        || rs.IsBuildRunning
-                        || rs.IsBuildFailureDetected
-                        || rs.IsBuildFailed
-                        || rs.IsBuildPassed)
-                    {
-                        StepKind = 'B';
-                    }
-                    else if (rs.IsTestRunning
-                        || rs.IsTestFailureDetected
-                        || rs.IsTestFailed
-                        || rs.IsTestPassed)
-                    {
-                        StepKind = 'T';
-                    }
-                    else if (rs.IsInitial
-                        || rs.IsEngineError
-                        || rs.IsEngineErrorDetected)
-                    {
-                        StepKind = '?';
-                    }
-                    else
-                    {
-                        Debug.Assert(false, "Cannot set step kind for the current state.");
-                    }
-
-                    // Unknown or Red or Green
-                    if (rs.IsInitial
-                        || rs.IsEngineError
-                        || rs.IsEngineErrorDetected
-                        || rs.IsFirstBuildRunning)
-                    {
-                        RectangleColor = new SolidColorBrush(Colors.LightGray);
-                    }
-                    else if (rs.IsBuildFailureDetected
-                        || rs.IsBuildFailed
-                        || rs.IsTestFailureDetected
-                        || rs.IsTestFailed)
-                    {
-                        RectangleColor = new SolidColorBrush(Colors.Red);
-                    }
-                    else if (rs.IsBuildRunning
-                        || rs.IsBuildPassed
-                        || rs.IsTestRunning
-                        || rs.IsTestPassed)
-                    {
-                        RectangleColor = new SolidColorBrush(Colors.Green);
-                    }
-                    else
-                    {
-                        Debug.Assert(false, "Cannot set a color for the current state.");
-                    }
+                    RunState = rs;
                 });
         }
 
