@@ -32,5 +32,6 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="%CurrentProject%.Extensions" Path="|TddStudioPackage.Extensions|" AssemblyName="|TddStudioPackage.Extensions;AssemblyName|" />
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Engine.Core" Path="|Engine.Core|" AssemblyName="|Engine.Core;AssemblyName|" />
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="TestHost.Core" Path="|TestHost.Core|" AssemblyName="|TestHost.Core;AssemblyName|" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="CommonUI" Path="|CommonUI|" AssemblyName="|CommonUI;AssemblyName|" />
   </Assets>
 </PackageManifest>

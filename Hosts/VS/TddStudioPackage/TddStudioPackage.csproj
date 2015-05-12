@@ -169,6 +169,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -182,7 +183,6 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Reference Include="System.Xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TddStudioToolWindow.cs" />
     <Compile Include="EditorExtensions\IDEHelper.cs" />
     <Compile Include="EditorExtensions\LineCoverageGlyphFactory.cs" />
     <Compile Include="EditorExtensions\LineCoverageGlyphFactoryProvider.cs" />
@@ -193,9 +193,6 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Compile Include="EditorExtensions\TextTagger.cs" />
     <Compile Include="EditorExtensions\TextViewCoverageProviderBase.cs" />
     <Compile Include="Guids.cs" />
-    <Compile Include="TddStudioControl.xaml.cs">
-      <DependentUpon>TddStudioControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -238,12 +235,6 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="TddStudioControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Engine.Core\Engine.Core.fsproj">
       <Project>{E5FB2292-1833-4C4C-800E-A31AC891A931}</Project>
       <Name>Engine.Core</Name>
@@ -254,6 +245,14 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <ProjectReference Include="..\..\..\Engine\Engine.csproj">
       <Project>{96D4C703-953A-43F6-94FA-A5394B297703}</Project>
       <Name>Engine</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>
+      </IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\RealTimeEtwListener\RealTimeEtwListener.csproj">
+      <Project>{9C043026-4D34-4B8C-A7B2-3BA39ECDFF22}</Project>
+      <Name>RealTimeEtwListener</Name>
+      <VSIXSubPath>d</VSIXSubPath>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>
       </IncludeOutputGroupsInVSIXLocalOnly>
@@ -272,10 +271,17 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
       <IncludeOutputGroupsInVSIXLocalOnly>
       </IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\CommonUI\CommonUI.csproj">
+      <Project>{C578A684-2FFF-4100-8620-C1220D05EA3E}</Project>
+      <Name>CommonUI</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>
+      </IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
     <ProjectReference Include="..\TddStudioPackage.Extensions\TddStudioPackage.Extensions.fsproj">
       <Project>{0055b0cc-39ba-4dea-ad3e-231cffe4ed58}</Project>
       <Name>TddStudioPackage.Extensions</Name>
-      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3bBuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3bBuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>
       </IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
