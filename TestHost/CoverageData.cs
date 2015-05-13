@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using R4nd0mApps.TddStud10.TestHost;
 
 namespace R4nd0mApps.TddStud10.Engine
@@ -34,10 +33,10 @@ namespace R4nd0mApps.TddStud10.Engine
             CoverageSession = data;
             TestDetails = testDetails;
 
-            if (seqPtSession != null && CoverageSession != null && testDetails != null)
+            var handler = NewCoverageDataAvailable;
+            if (NewCoverageDataAvailable != null)
             {
-                if (NewCoverageDataAvailable != null)
-                    NewCoverageDataAvailable(this, EventArgs.Empty);
+                NewCoverageDataAvailable(this, EventArgs.Empty);
             }
         }
 

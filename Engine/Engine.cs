@@ -9,28 +9,6 @@ using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
 using R4nd0mApps.TddStud10.TestHost;
 
-/*
-    TODO:
-    ☑ Author state management in WPF
-    ☑ Abstract out state management for VS
-    ☐ test VS Integration
-    ☐ bitmaps for vs animation
-
-    ☒ TRIAGED OUT:
-        ☒ Engine loading/unloading in app is buggy - enable/disable/enable - two seperate agents launched
-        ☒ fix fsunit
-        ☒ host should not be able to change its mind about cancellation
-        ☒ cancellationtoken wireup
-        ☒ http://fsharp.org/specs/component-design-guidelines/
- 
-        ☒ write errors in toolwindow, clean for every session
-        ☒ click on the dots should open the toolwindow
-        ☒ Errors in red, Warnings in yellow - remove training ","
-        ☒ Cheap debug - right click on one of the green, set bp, launch db
-        ☒ Support theory
-        ☒ Move stuff from engineloader to Runner
- */
-
 namespace R4nd0mApps.TddStud10.Engine
 {
     public static class Engine

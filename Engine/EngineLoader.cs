@@ -6,13 +6,8 @@ using R4nd0mApps.TddStud10.Engine.Diagnostics;
 
 namespace R4nd0mApps.TddStud10.Engine
 {
-    // TODO: Move to fs
     public interface IEngineHost : IRunExecutorHost
     {
-        bool CanStart();
-
-        void RunStateChanged(RunState rs);
-
         void RunStarting(RunData rd);
 
         void RunStepStarting(RunStepEventArg rsea);
@@ -26,8 +21,6 @@ namespace R4nd0mApps.TddStud10.Engine
         void RunEnded(RunData rd);
     }
 
-    // TODO: Cleanup: Move to fs
-    // TODO: Cleanup: Remove the ugly delegates
     public static class EngineLoader
     {
         private static EngineFileSystemWatcher efsWatcher;
@@ -53,13 +46,6 @@ namespace R4nd0mApps.TddStud10.Engine
                 _host.RunEnded);
 
             efsWatcher = EngineFileSystemWatcher.Create(solutionPath, RunEngine);
-        }
-
-        private static void OnRunEnded(object sender, RunData e)
-        {
-            CoverageData.Instance.UpdateCoverageResults(e.sequencePoints.Value, e.codeCoverageResults.Value, e.executedTests.Value);
-            // NOTE: Note fix the CT design once we wire up.
-            _currentRunCts.Dispose();
         }
 
         public static bool IsEngineLoaded()
@@ -133,7 +119,7 @@ namespace R4nd0mApps.TddStud10.Engine
         {
             try
             {
-                if (!_host.CanStart())
+                if (!_host.CanContinue())
                 {
                     Logger.I.LogInfo("Cannot start engine. Host has denied request.");
                     return;
@@ -147,6 +133,11 @@ namespace R4nd0mApps.TddStud10.Engine
 
                 Logger.I.LogInfo("--------------------------------------------------------------------------------");
                 Logger.I.LogInfo("EngineLoader: Going to trigger a run.");
+                // NOTE: Note fix the CT design once we wire up.
+                if (_currentRunCts != null)
+                {
+                    _currentRunCts.Dispose();
+                }
                 _currentRunCts = new CancellationTokenSource();
                 _currentRun = _runner.StartAsync(runStartTime, solutionPath, _currentRunCts.Token);
             }

@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Tagging;
-using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Utilities;
-using R4nd0mApps.TddStud10.Hosts.VS;
+using Microsoft.VisualStudio.Text.Tagging;
 using R4nd0mApps.TddStud10.Engine;
 //using R4nd0mApps.TddStud10.Hosts.VS.Views;
 
@@ -87,7 +83,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
         /// <param name="e"></param>
         private void OnNewCoverageDataAvailable(object sender, EventArgs e)
         {
-            TddStud10Package.Instance.InvokeOnUIThread(RaiseAllTagsChanged);
+            RaiseAllTagsChanged();
         }
-    }        
+    }
 }

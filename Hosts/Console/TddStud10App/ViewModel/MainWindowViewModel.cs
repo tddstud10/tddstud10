@@ -170,11 +170,6 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             return !_currentRunCancelled;
         }
 
-        public bool CanStart()
-        {
-            return CanContinue();
-        }
-
         public void RunStateChanged(RunState rs)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(

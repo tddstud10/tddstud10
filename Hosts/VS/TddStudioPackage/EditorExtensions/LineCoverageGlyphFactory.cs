@@ -60,7 +60,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
             ellipse.Height = _glyphSize;
             ellipse.Width = _glyphSize;
 
-            // TODO: Tooltip should have a list of tests covering this message.
             ellipse.ToolTip = GetToolTipText(state);
 
             if (state == LineCoverageState.Uncovered)

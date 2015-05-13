@@ -27,7 +27,6 @@ namespace R4nd0mApps.TddStud10
             return null;
         }
 
-        // TODO: Merge these 2 methods
         public static SequencePoints GenerateSequencePointInfoImpl(DateTime timeFilter, string buildOutputRoot)
         {
             Logger.I.LogInfo(

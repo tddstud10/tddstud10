@@ -43,18 +43,18 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
     
     member public this.Start(startTime, solutionPath) = 
         (* NOTE: Need to ensure the started/errored/ended events go out no matter what*)
-        let runData = RunExecutor.makeRunData startTime solutionPath
-        Common.safeExec (fun () -> runStarting.Trigger(runData))
+        let rd = RunExecutor.makeRunData startTime solutionPath
+        Common.safeExec (fun () -> runStarting.Trigger(rd))
         let rses = 
             { onStart = runStepStarting
               onError = onRunStepError
               onFinish = runStepEnded }
         
-        let rd, err = runSteps |> Seq.fold (executeStep this.host rses) (runData, None)
+        let rd, err = runSteps |> Seq.fold (executeStep this.host rses) (rd, None)
         match err with
         | None -> ()
         | Some e -> Common.safeExec (fun () -> onRunError.Trigger(e))
-        Common.safeExec (fun () -> runEnded.Trigger(runData))
+        Common.safeExec (fun () -> runEnded.Trigger(rd))
         rd, err
     
     static member public Create host runSteps stepWrapper = new RunExecutor(host, runSteps, stepWrapper)

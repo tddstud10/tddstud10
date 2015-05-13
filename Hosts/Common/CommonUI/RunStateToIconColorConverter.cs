@@ -8,9 +8,10 @@ namespace R4nd0mApps.TddStud10.Hosts.Common
 {
     public class RunStateToIconColorConverter : IValueConverter
     {
-        public static readonly Color ColorForUnknown = new Color { A = 0xFF, R = 27, G = 161, B = 226 };
+        public static readonly Color ColorForUnknown = Colors.DarkGray;
         public static readonly Color ColorForRed = new Color { A = 0xFF, R = 229, G = 20, B = 0 };
         public static readonly Color ColorForGreen = new Color { A = 0xFF, R = 51, G = 153, B = 51 };
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var rs = value as RunState;

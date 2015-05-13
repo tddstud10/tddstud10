@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -14,12 +11,14 @@ using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
+using R4nd0mApps.TddStud10.TestHost;
 using EventHandlerPair = System.Tuple<System.EventHandler, System.EventHandler>;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
 {
+    [ProvideBindingPath]
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("#110", "#112", "0.3.0.1", IconResourceID = 400)]
+    [InstalledProductRegistration("#110", "#112", "0.3.1.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
     [Guid(GuidList.GuidTddStud10Pkg)]
@@ -31,9 +30,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         private uint solutionEventsCookie;
 
-        private IVsSolution2 _solution = null;
+        private IVsSolution2 _solution;
         private IVsStatusbar _statusBar;
         private EnvDTE.DTE _dte;
+
+        private VsStatusBarIconHost _iconHost;
 
         public static TddStud10Package Instance { get; private set; }
 
@@ -84,47 +85,13 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                     });
             }
 
+            _iconHost = VsStatusBarIconHost.CreateAndInjectIntoVsStatusBar();
+
             Instance = this;
-
-            System.Windows.Window expr_0E = Application.Current.MainWindow;
-
-            var dependencyObject = System.Windows.Media.VisualTreeHelper.GetChild(expr_0E, 0);
-            System.Windows.Controls.Grid grid = (System.Windows.Controls.Grid)System.Windows.Media.VisualTreeHelper.GetChild(dependencyObject, 0);
-            System.Windows.Controls.DockPanel outerDockPanel = (System.Windows.Controls.DockPanel)System.Windows.Media.VisualTreeHelper.GetChild(grid, 3);
-
-            var wtsbContainer = outerDockPanel.Children[1];
-
-            System.Reflection.Assembly asm = System.AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName == "Microsoft.VisualStudio.Shell.UI.Internal, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a").First();
-            System.Type type = asm.GetType("Microsoft.VisualStudio.PlatformUI.WorkerThreadStatusBarContainer");
-            System.Reflection.FieldInfo field = type.GetField("statusBarElement", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-
-            StatusBar statusBarElement = (StatusBar)field.GetValue(wtsbContainer);
-            statusBarElement.Dispatcher.InvokeAsync(new Action(() =>
-            {
-                var sbItem = new StatusBarItem();
-                sbItem.Visibility = Visibility.Visible;
-                var tb = new TextBlock();
-                tb.Text = "Hola!";
-                tb.Visibility = Visibility.Visible;
-                DockPanel.SetDock(sbItem, Dock.Right);
-
-                var dp = VisualTreeHelper.GetChild(statusBarElement, 0) as DockPanel;
-                dp.LastChildFill = false;
-                sbItem.Content = tb;
-                dp.Children.Insert(0, sbItem);
-                dp.LastChildFill = true;
-            }));
-
-
-            //IntPtr hdc = IntPtr.Zero;
-            //hdc = Resources.TestFailureDetected.GetHbitmap();
-            //object o = hdc;
-            //_statusBar.Animation(1, ref o);
 
             Logger.I.LogInfo("Initialized Package successfully.");
         }
 
-        // TODO: Move to fs
         private void ExecuteChangeTddStud10State(object sender, EventArgs e)
         {
             Logger.I.LogInfo("Changing TddStud10 state...");
@@ -224,6 +191,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
             EngineLoader.DisableEngine();
             EngineLoader.Unload();
+            _iconHost.InvokeAsyncOnStatusBarThread(
+                () =>
+                {
+                    _iconHost.RunState = RunState.Initial;
+                });
 
             return VSConstants.S_OK;
         }
@@ -265,99 +237,50 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
             if (_dte.Solution.SolutionBuild.BuildState == EnvDTE.vsBuildState.vsBuildStateInProgress)
             {
-                Logger.I.LogInfo("Build in progress. Denying start request.");
+                Logger.I.LogInfo("Build in progress. Asking to stop.");
                 return false;
             }
 
             return true;
         }
 
-        public bool CanStart()
-        {
-            return CanContinue();
-        }
-
         public void RunStateChanged(RunState rs)
         {
+            _iconHost.InvokeAsyncOnStatusBarThread(
+                () =>
+                {
+                    _iconHost.RunState = rs;
+                });
         }
 
         public void RunStarting(RunData rd)
         {
-            if (_statusBar == null)
-            {
-                return;
-            }
-
-            InvokeOnUIThread(() =>
-            {
-                _statusBar.SetText(string.Empty).ThrowOnFailure();
-                _statusBar.Animation(1, (short)Microsoft.VisualStudio.Shell.Interop.Constants.SBAI_Synch).ThrowOnFailure();
-            });
         }
 
         public void RunStepStarting(RunStepEventArg rsea)
         {
-            if (_statusBar == null)
-            {
-                return;
-            }
-
-            InvokeOnUIThread(() =>
-            {
-                _statusBar.SetText(rsea.name.Item).ThrowOnFailure();
-            });
         }
 
         public void OnRunStepError(RunStepResult rss)
         {
-            if (_statusBar == null)
-            {
-                return;
-            }
-
-            InvokeOnUIThread(() =>
-            {
-                // _statusBar.SetText(stepDetails).ThrowOnFailure();
-            });
         }
 
         public void RunStepEnded(RunStepResult rss)
         {
-            if (_statusBar == null)
-            {
-                return;
-            }
-
-            InvokeOnUIThread(() =>
-            {
-                //_statusBar.SetText(stepDetails).ThrowOnFailure();
-            });
         }
 
         public void OnRunError(Exception e)
         {
-            if (_statusBar == null)
-            {
-                return;
-            }
-
-            InvokeOnUIThread(() =>
-            {
-            });
         }
 
         public void RunEnded(RunData rd)
         {
-            if (_statusBar == null)
-            {
-                return;
-            }
-
-            InvokeOnUIThread(() =>
-            {
-                _statusBar.Animation(0, (short)Microsoft.VisualStudio.Shell.Interop.Constants.SBAI_Synch).ThrowOnFailure();
-                _statusBar.SetText(string.Empty).ThrowOnFailure();
-            });
+            InvokeOnUIThread(
+                () => CoverageData.Instance.UpdateCoverageResults(
+                    rd.sequencePoints == Microsoft.FSharp.Core.FSharpOption<SequencePoints>.None ? new SequencePoints() : rd.sequencePoints.Value,
+                    rd.codeCoverageResults == Microsoft.FSharp.Core.FSharpOption<CoverageSession>.None ? new CoverageSession() : rd.codeCoverageResults.Value,
+                    rd.executedTests == Microsoft.FSharp.Core.FSharpOption<TestResults>.None ? new TestResults() : rd.executedTests.Value)
+            );
         }
 
         #endregion

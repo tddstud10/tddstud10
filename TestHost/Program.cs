@@ -102,7 +102,6 @@ namespace R4nd0mApps.TddStud10.TestHost
             return testResults.Values.Contains(TestResult.Failed);
         }
 
-        // TODO: Cleanup: This pattern is repeated everywhere. Unify it.
         private static DiscoveredUnitTests LoadUnitTestCases()
         {
             var testCases = File.ReadAllText(discoveredUnitTestsStore);

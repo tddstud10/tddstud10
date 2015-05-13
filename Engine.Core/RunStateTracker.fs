@@ -8,7 +8,7 @@ type RunStateTracker() =
     let runStateChanged = new Event<RunState>()
 
     let logAndReturnBack s ev =
-        Logger.logInfof "Run Tracker State Machine: Cannot handle event '%A' in state '%A'" ev Initial
+        Logger.logErrorf "Run Tracker State Machine: Cannot handle event '%A' in state '%A'" ev s
         s
             
     let transitionState = 
@@ -57,7 +57,9 @@ type RunStateTracker() =
         | TestPassed as s, ev -> logAndReturnBack s ev
     
     let transitionStateAndRaiseEvent ev = 
+        let oldState = state
         state <- transitionState (state, ev)
+        Logger.logInfof "Run Tracker State Machine: Trasition (%A, %A) -> %A" oldState ev state
         Common.safeExec (fun () -> runStateChanged.Trigger(state))
     
     member t.State = state

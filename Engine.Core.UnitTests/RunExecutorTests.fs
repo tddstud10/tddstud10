@@ -71,9 +71,8 @@ let ``Executor raises starting and ended events only``() =
     let re = createRE2 host ss I (sh, erh, eh)
     let rd, err = startRE re
     Assert.True(sh.Called && not erh.Called && eh.Called, "Only start and end handlers should have been called")
-    Assert.True
-        ((areRdsSimillar sh.CalledWith rd) && (areRdsSimillar eh.CalledWith rd), 
-         "Start and end events should be called with rundata")
+    Assert.True(areRdsSimillar sh.CalledWith rd)
+    Assert.True((eh.CalledWith |> Option.map (fun v -> v.GetHashCode())) = (Some (rd.GetHashCode())))
     Assert.Equal(err, None)
 
 [<Fact>]
@@ -107,9 +106,8 @@ let ``Cancellation - Executor raises all 3 events and stops execution``() =
     let re = createRE2 (new TestHost(1)) ss I (sh, erh, eh)
     let rd, err = startRE re
     Assert.True(sh.Called && erh.Called && eh.Called, "All handlers should have been called")
-    Assert.True
-        ((areRdsSimillar sh.CalledWith rd) && (areRdsSimillar eh.CalledWith rd), 
-         "Start and end events should be called with rundata")
+    Assert.True(areRdsSimillar sh.CalledWith rd)
+    Assert.True((eh.CalledWith |> Option.map (fun v -> v.GetHashCode())) = (Some (rd.GetHashCode())))
     Assert.True(ss.[0].Called && not ss.[1].Called && not ss.[2].Called, "Only step 1 should have been executed")
     Assert.True(err <> None && err = erh.CalledWith, "Error returned should also have been passed to error handler")
 

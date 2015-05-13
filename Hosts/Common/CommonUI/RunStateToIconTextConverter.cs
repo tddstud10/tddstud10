@@ -7,6 +7,10 @@ namespace R4nd0mApps.TddStud10.Hosts.Common
 {
     public class RunStateToIconTextConverter : IValueConverter
     {
+        public static readonly string TextForUnknown = "?";
+        public static readonly string TextForBuild = "B";
+        public static readonly string TextForTest = "T";
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var rs = value as RunState;
@@ -16,20 +20,20 @@ namespace R4nd0mApps.TddStud10.Hosts.Common
                 || rs.IsBuildFailed
                 || rs.IsBuildPassed)
             {
-                return "B";
+                return TextForBuild;
             }
             else if (rs.IsTestRunning
                 || rs.IsTestFailureDetected
                 || rs.IsTestFailed
                 || rs.IsTestPassed)
             {
-                return "T";
+                return TextForTest;
             }
             else if (rs.IsInitial
                 || rs.IsEngineError
                 || rs.IsEngineErrorDetected)
             {
-                return "?";
+                return TextForUnknown;
             }
             else
             {

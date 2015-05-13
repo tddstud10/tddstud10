@@ -129,14 +129,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
         /// <param name="e"></param>
         protected virtual void OnNewCoverageDataAvailable(object sender, EventArgs e)
         {
-            TddStud10Package.Instance.InvokeOnUIThread(() =>
-            {
-                // update spans
-                _spanCoverage.Clear();
-                _currentSpans = GetWordSpans(_textView.TextBuffer.CurrentSnapshot);
+            // update spans
+            _spanCoverage.Clear();
+            _currentSpans = GetWordSpans(_textView.TextBuffer.CurrentSnapshot);
 
-                RaiseAllTagsChanged();
-            });
+            RaiseAllTagsChanged();
         }
 
         /// <summary>

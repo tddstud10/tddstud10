@@ -18,7 +18,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common
         }
 
         public static readonly DependencyProperty AnimateProperty =
-            DependencyProperty.Register("Animate", typeof(bool), typeof(StatusBarNotificationIcon), new PropertyMetadata(false));
+            DependencyProperty.Register("Animate", typeof(bool), typeof(StatusBarNotificationIcon), new PropertyMetadata(RunStateToAnimationStateConverter.AnimationOff));
 
         public SolidColorBrush IconColor
         {
@@ -27,7 +27,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common
         }
 
         public static readonly DependencyProperty IconColorProperty =
-            DependencyProperty.Register("IconColor", typeof(SolidColorBrush), typeof(StatusBarNotificationIcon), new PropertyMetadata(Brushes.LightGray));
+            DependencyProperty.Register("IconColor", typeof(SolidColorBrush), typeof(StatusBarNotificationIcon), new PropertyMetadata(new SolidColorBrush(RunStateToIconColorConverter.ColorForUnknown)));
 
         public string IconText
         {
@@ -36,6 +36,6 @@ namespace R4nd0mApps.TddStud10.Hosts.Common
         }
 
         public static readonly DependencyProperty IconTextProperty =
-            DependencyProperty.Register("IconText", typeof(string), typeof(StatusBarNotificationIcon), new PropertyMetadata("?"));
+            DependencyProperty.Register("IconText", typeof(string), typeof(StatusBarNotificationIcon), new PropertyMetadata(RunStateToIconTextConverter.TextForUnknown));
     }
 }

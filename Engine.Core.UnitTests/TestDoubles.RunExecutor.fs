@@ -9,6 +9,8 @@ type public TestHost(cancelStep : int) =
         member this.CanContinue() = 
             callCount <- callCount + 1
             callCount <= cancelStep
+        member this.RunStateChanged rs =
+            ()
 
 type StepFunc(throwException) = 
     new() = StepFunc(false)

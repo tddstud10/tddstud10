@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
 
 namespace R4nd0mApps.TddStud10.Engine
@@ -111,25 +107,25 @@ namespace R4nd0mApps.TddStud10.Engine
 
         void FsWatcher_Created(object sender, FileSystemEventArgs e)
         {
-            Logger.I.LogError("FSWatcher: Got created event");
+            Logger.I.LogInfo("FSWatcher: Got created event");
             action(DateTime.UtcNow, solutionPath);
         }
 
         void FsWatcher_Changed(object sender, FileSystemEventArgs e)
         {
-            Logger.I.LogError("FSWatcher: Got changed event");
+            Logger.I.LogInfo("FSWatcher: Got changed event");
             action(DateTime.UtcNow, solutionPath);
         }
 
         void FsWatcher_Renamed(object sender, RenamedEventArgs e)
         {
-            Logger.I.LogError("FSWatcher: Got renamed event");
+            Logger.I.LogInfo("FSWatcher: Got renamed event");
             action(DateTime.UtcNow, solutionPath);
         }
 
         void FsWatcher_Deleted(object sender, FileSystemEventArgs e)
         {
-            Logger.I.LogError("FSWatcher: Got deleted event");
+            Logger.I.LogInfo("FSWatcher: Got deleted event");
             action(DateTime.UtcNow, solutionPath);
         }
 

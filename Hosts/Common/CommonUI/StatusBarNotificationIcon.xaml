@@ -7,7 +7,11 @@
   xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:local="clr-namespace:R4nd0mApps.TddStud10.Hosts.Common"
-  mc:Ignorable="d">
+  mc:Ignorable="d"
+  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+  MinHeight="21" MinWidth="21"
+  Margin="0"
+  Padding="0">
 
   <UserControl.Resources>
     <ResourceDictionary>
@@ -25,14 +29,13 @@
 
   <Grid>
     <Ellipse 
-      Width="50" Height="50" Fill="White"
-    /> 
-    <Ellipse 
       x:Name="MainIcon"
-      Width="45" Height="45"
-      Stroke="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IconColor}"
+      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+      Stroke="White"
+      StrokeThickness="2"
       Fill="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IconColor}"
-      StrokeThickness="5" Margin="12">
+      Margin="0"
+      >
       <i:Interaction.Triggers>
         <ei:DataTrigger 
           Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Animate}"
@@ -55,9 +58,9 @@
       </i:Interaction.Triggers>
     </Ellipse>
     <TextBlock
-      FontWeight="Bold" FontSize="20" Foreground="White"
-      HorizontalAlignment="Center"
-      VerticalAlignment="Center" Margin="24"
-      Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IconText}" />
+      FontWeight="Bold" Foreground="White"
+      HorizontalAlignment="Center" VerticalAlignment="Center"
+      Text="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IconText}" 
+      Margin="0,0,0,0"/>
   </Grid>
 </UserControl>

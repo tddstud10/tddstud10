@@ -34,9 +34,6 @@ type RunStepName =
         match t with
         | RunStepName s -> s
 
-type public IRunExecutorHost = 
-    abstract CanContinue : unit -> bool
-
 type RunStepStatus = 
     | Aborted
     | Succeeded
@@ -75,17 +72,6 @@ type RunStepEvents =
     { onStart : Event<RunStepEventArg>
       onError : Event<RunStepEndEventArg>
       onFinish : Event<RunStepEndEventArg> }
-
-type RunStepFunc = IRunExecutorHost -> RunStepName -> RunStepKind -> RunStepEvents -> RunData -> RunStepResult
-
-type RunStepFuncWrapper = RunStepFunc -> RunStepFunc
-
-type RunStep = 
-    { name : RunStepName
-      kind : RunStepKind
-      func : RunStepFunc }
-
-type RunSteps = RunStep array
 
 (*
     Combination of the following variables:
@@ -143,3 +129,18 @@ type RunEvent =
     | RunStepError of RunStepKind * RunStepStatus
     | RunStepEnded of RunStepKind * RunStepStatus
     | RunError of Exception
+
+type public IRunExecutorHost = 
+    abstract CanContinue : unit -> bool
+    abstract RunStateChanged : RunState -> unit
+
+type RunStepFunc = IRunExecutorHost -> RunStepName -> RunStepKind -> RunStepEvents -> RunData -> RunStepResult
+
+type RunStepFuncWrapper = RunStepFunc -> RunStepFunc
+
+type RunStep = 
+    { name : RunStepName
+      kind : RunStepKind
+      func : RunStepFunc }
+
+type RunSteps = RunStep array
