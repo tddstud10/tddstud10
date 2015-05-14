@@ -1,20 +1,22 @@
-﻿//
-// This source code is released under the GPL License; Please read license.md file for more details.
-//
-using Microsoft.VisualStudio.Shell;
+﻿/*
+Copyright (c) 2015 Raghavendra Nagaraj
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+//using R4nd0mApps.TddStud10.Hosts.VS.Views;
+using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Operations;
-using Microsoft.VisualStudio.Text.Tagging;
 using R4nd0mApps.TddStud10.Hosts.VS.Glyphs;
 using R4nd0mApps.TddStud10.Hosts.VS.Helper;
-using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
-//using R4nd0mApps.TddStud10.Hosts.VS.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using R4nd0mApps.TddStud10.Hosts.VS;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
 {
@@ -22,7 +24,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
     /// Text tagger to produce tags to change background color for covered lines
     /// </summary>
     public sealed class TextTagger : TextViewCoverageProviderBase//, ITagger<ClassificationTag>
-    {        
+    {
         private ITextSearchService _searchService;
         private IClassificationType _coveredType;
         private IClassificationType _notCoveredType;
@@ -36,13 +38,14 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
         /// <param name="view">The view.</param>
         /// <param name="searchService">The search service.</param>
         /// <param name="coveredType">The type.</param>
-        public TextTagger(ITextView view, ITextSearchService searchService, IClassificationType coveredType, IClassificationType notCoveredType) : base(view)
+        public TextTagger(ITextView view, ITextSearchService searchService, IClassificationType coveredType, IClassificationType notCoveredType)
+            : base(view)
         {
             if (TddStud10Package.Instance == null)
             {
                 return;
             }
-        
+
             _searchService = searchService;
             _coveredType = coveredType;
             _notCoveredType = notCoveredType;
@@ -50,7 +53,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
             // Register instance of the view
             _instances.Add(view, this);
 
-            view.Closed += OnViewClosed;            
+            view.Closed += OnViewClosed;
         }
 
         /// <summary>
@@ -68,11 +71,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
 
             // Unregister this instance
             if (_instances.ContainsKey(_textView))
-                _instances.Remove(_textView);            
+                _instances.Remove(_textView);
 
             base.Dispose(disposing);
         }
-    
+
         /// <summary>
         /// Generates tags based on Coverage information.
         /// </summary>

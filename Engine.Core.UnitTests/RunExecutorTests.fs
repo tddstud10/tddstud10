@@ -6,10 +6,10 @@ open R4nd0mApps.TddStud10.TestHost
 open R4nd0mApps.TddStud10.Engine.TestDoubles
 open R4nd0mApps.TddStud10.Engine.TestFramework
 
-let inline (~~) s = FilePath s
 let now = DateTime.Now
 let host = new TestHost(Int32.MaxValue)
 let I = fun f -> f
+let ex = (new InvalidOperationException("A mock method threw")) :> Exception
 
 let createSteps n = 
     [| for i in 1..n do
@@ -78,7 +78,7 @@ let ``Executor raises starting and ended events only``() =
 [<Fact>]
 let ``Exception in handler - Errored and Ended are raised even if Starting throws``() = 
     let ss = createSteps 2
-    let (sh, erh, eh) = new CallSpy<RunData>(Throws), new CallSpy<Exception>(), new CallSpy<RunData>()
+    let (sh, erh, eh) = new CallSpy<RunData>(Throws(ex)), new CallSpy<Exception>(), new CallSpy<RunData>()
     let re = createRE2 (new TestHost(1)) ss I (sh, erh, eh)
     let rd, err = startRE re
     Assert.True(sh.Called && erh.Called && eh.Called, "Only Errored and Ended should have been called")
@@ -86,7 +86,7 @@ let ``Exception in handler - Errored and Ended are raised even if Starting throw
 [<Fact>]
 let ``Exception in handler - Starting and Ended are raised even if Errored throws``() = 
     let ss = createSteps 2
-    let (sh, erh, eh) = new CallSpy<RunData>(), new CallSpy<Exception>(Throws), new CallSpy<RunData>()
+    let (sh, erh, eh) = new CallSpy<RunData>(), new CallSpy<Exception>(Throws(ex)), new CallSpy<RunData>()
     let re = createRE2 (new TestHost(1)) ss I (sh, erh, eh)
     let rd, err = startRE re
     Assert.True(sh.Called && erh.Called && eh.Called, "Only Started and Ended should have been called")
@@ -94,7 +94,7 @@ let ``Exception in handler - Starting and Ended are raised even if Errored throw
 [<Fact>]
 let ``Exception in handler - Starting and Errored are raised even if Ended throws``() = 
     let ss = createSteps 2
-    let (sh, erh, eh) = new CallSpy<RunData>(), new CallSpy<Exception>(), new CallSpy<RunData>(Throws)
+    let (sh, erh, eh) = new CallSpy<RunData>(), new CallSpy<Exception>(), new CallSpy<RunData>(Throws(ex))
     let re = createRE2 (new TestHost(1)) ss I (sh, erh, eh)
     let rd, err = startRE re
     Assert.True(sh.Called && erh.Called && eh.Called, "Only Started and Errored should have been called")
@@ -112,11 +112,28 @@ let ``Cancellation - Executor raises all 3 events and stops execution``() =
     Assert.True(err <> None && err = erh.CalledWith, "Error returned should also have been passed to error handler")
 
 [<Fact>]
-let ``Step throws - Executor raises all 3 events and stops execution``() = 
-    let ss = Array.append [| new StepFunc(true) |] (createSteps 2)
+let ``Step fails - Random Exception - Executor raises all 3 events and stops execution``() = 
+    let ss = Array.append [| new StepFunc(Throws(ex)) |] (createSteps 2)
     let (sh, erh, eh) = createHandlers()
     let re = createRE2 host ss I (sh, erh, eh)
     let rd, err = startRE re
-    Assert.True(sh.Called && erh.Called && eh.Called, "All handlers should have been called")
     Assert.True(ss.[0].Called && not ss.[1].Called && not ss.[2].Called, "Only step 1 should have been executed")
-    Assert.True(err <> None && err = erh.CalledWith, "Error returned should also have been passed to error handler")
+    Assert.True(sh.Called && erh.Called && eh.Called, "All handlers should have been called")
+    Assert.True(err = (Some ex) && erh.CalledWith = (Some ex), "Error returned should also have been passed to error handler")
+
+[<Fact>]
+let ``Step fails - RunStepFailedException - Executor raises all 3 events, stops execution, passes output rss to RunEnded event``() = 
+    let rss = { name = RunStepName "Some step"
+                kind = Build
+                status = Failed
+                addendum = FreeFormatData "There has been a failure"
+                runData = (RunExecutor.makeRunData (DateTime.UtcNow) ~~"c:\\a\\b.sln") }
+    let rsfe = RunStepFailedException rss
+    let ss = Array.append [| new StepFunc(Throws(rsfe)) |] (createSteps 2)
+    let (sh, erh, eh) = createHandlers()
+    let re = createRE2 host ss I (sh, erh, eh)
+    let rd, err = startRE re
+    Assert.True(ss.[0].Called && not ss.[1].Called && not ss.[2].Called, "Only step 1 should have been executed")
+    Assert.True(sh.Called && erh.Called && eh.Called, "All handlers should have been called")
+    Assert.Equal(eh.CalledWith, Some rss.runData)
+    Assert.Equal(erh.CalledWith, Some rsfe)

@@ -4,7 +4,7 @@ open Xunit
 open System
 open R4nd0mApps.TddStud10.Engine.TestFramework
 
-let inline (~~) s = FilePath s
+let ex = new InvalidOperationException("A mock method threw")
 
 let makeSpies (sb, eb, fb) = 
     new CallSpy<RunStepEventArg>(sb), new CallSpy<RunStepEndEventArg>(eb), new CallSpy<RunStepEndEventArg>(fb)
@@ -77,7 +77,7 @@ let ``Events Publisher - Unhandled errors - Raises start, error, finish events``
 
 [<Fact>]
 let ``Events Publisher - Handled errors - Raises all events even when all of them crash``() = 
-    let (ss, se, sf) = makeSpies(Throws, DoesNotThrow, DoesNotThrow)
+    let (ss, se, sf) = makeSpies(Throws(ex), DoesNotThrow, DoesNotThrow)
     let rd = RunExecutor.makeRunData DateTime.Now ~~"c:\\a\\b.sln"
     let rses, _ = makeAndWireUpRSESpies2 (ss, se, sf)
     let f h n k es rd = 
@@ -90,7 +90,7 @@ let ``Events Publisher - Handled errors - Raises all events even when all of the
 
 [<Fact>]
 let ``Events Publisher - Unhandled errors - Raises all events even when all of them crash``() = 
-    let (ss, se, sf) = makeSpies(Throws, Throws, Throws)
+    let (ss, se, sf) = makeSpies(Throws(ex), Throws(ex), Throws(ex))
     let rd = RunExecutor.makeRunData DateTime.Now ~~"c:\\a\\b.sln"
     let rses, (ss, se, sf) = makeAndWireUpRSESpies2 (ss, se, sf)
     let f h n k es rd = 

@@ -176,7 +176,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsSolutionEvents.OnAfterOpenSolution(object pUnkReserved, int fNewSolution)
         {
-            EngineLoader.Load(this, _dte.Solution.FullName);
+            EngineLoader.Load(this, _dte.Solution.FullName, DateTime.UtcNow);
             EngineLoader.EnableEngine();
 
             return VSConstants.S_OK;

@@ -7,6 +7,8 @@ open R4nd0mApps.TddStud10.Engine.TestFramework
 open R4nd0mApps.TddStud10.Engine.Diagnostics
 open System.Threading
 
+let ex = new InvalidOperationException("A mock method threw")
+
 let createAgent<'T> (b) = 
     let cs = new CallSpy<'T>(b)
     let agent = new StaleMessageIgnoringAgent<'T>(cs.Func >> ignore)
@@ -30,7 +32,7 @@ let ``SMIAgent discards old messages and processes only the latest``() =
 [<Fact>]
 let ``SMIAgent continues processing even when exception is thrown by message processor``() = 
     use cts = new CancellationTokenSource()
-    let agent, cs, eh = createAgent (Throws)
+    let agent, cs, eh = createAgent (Throws(ex))
     agent.SendMessageAsync DateTime.Now cts.Token |> ignore
     Thread.Sleep(1000) // NOTE: Duh! Have any better ideas?
     Assert.True(cs.Called, "Message handler should have been invoked")

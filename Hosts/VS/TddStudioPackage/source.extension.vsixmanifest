@@ -4,6 +4,7 @@
     <Identity Id="6c8e3ef6-58d8-44a6-b4eb-71bcccc8f2e0" Version="0.3.1.0" Language="en-US" Publisher="Partho P. Das" />
     <DisplayName>Test Driven Development Studio</DisplayName>
     <Description xml:space="preserve">An environment for practicing Kent Beck style Test Driven Development.</Description>
+    <License>LICENSE.txt</License>
     <Tags>Unit Tests;TDD;Refactoring;Simple Design;Studio;Kent Beck</Tags>
   </Metadata>
   <Installation InstalledByMsi="false">

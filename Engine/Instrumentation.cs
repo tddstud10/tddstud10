@@ -92,7 +92,7 @@ namespace R4nd0mApps.TddStud10
             try
             {
                 return InstrumentImpl(timeFilter, solutionRoot, buildOutputRoot);
-            }
+            }   
             catch (Exception e)
             {
                 Logger.I.LogError("Failed to instrument. Exception: {0}", e);
@@ -105,7 +105,7 @@ namespace R4nd0mApps.TddStud10
         {
             Logger.I.LogInfo(
                 "Instrumenting: Time filter - {0}, Build output root - {1}.",
-                timeFilter,
+                timeFilter.ToLocalTime(),
                 buildOutputRoot);
 
             StrongNameKeyPair snKeyPair = null;

@@ -1,14 +1,36 @@
-﻿# Mission
-  - Environment for promoting Kent Beck style TDD [F.I.R.S.T. Unit Tests, fast builds, No Mocks, Hexagonal architecture]
+﻿Test Driven Development Studio - An environment for practicing Kent Beck style Test Driven Development.
+Copyright (C) 2015  Partho P. Das
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Mission
+  - Environment for practicing Kent Beck style TDD [F.I.R.S.T. Unit Tests, fast builds, No Mocks, Hexagonal architecture]
+  - Make TDD a joy!
 
 # Principles
-  - Fully open source [TBD - similar to the Gallio license]
+  - Fully open source development
   - One click setup, then continous streaming delivery
-  - Host agnostic [VS or MonoDevelop, not tied to .NET/Windows]
+  - Host agnostic [VS/MonoDevelop/Sublime/etc. & Windows/Linux/Mac]
   - Framework agnostic [xUnit.NET, JUnit, RSpec, not tied to .NET/Windows]
-  - Does not replace the awesome nCrunch.NET [Features that dont require the above attributes]
-    - Meet or beat nCrunch w.r.t. snappiness & stability [not necessarily w.r.t. the feature set]
+  - Does not attempt to replace the awesome nCrunch, but meet/beat it w.r.t. snappiness & stability 
   - Not just unit tests - but a collection of facilities that makes TDD a joy! e.g. TODO list, hotspot analysis, etc.
+
+# Features that currently work
+  - Run build/test cycle on every change to any file under the solution folder
+  - Incremental - i.e. build/test happen only for projects that have changed
+  - Show code coverage indicators next to each line [green => tests covering it have all passed, red => otherwise]
+  - nCrunch style status indicator at the bottom-right in VS Status Bar.
 
 # Roadmap
   - ☑ v0.1 - dogfood
@@ -53,24 +75,14 @@
     - ☑ UX
         - ☑ R-G indications need to be much clearer
   - ☐ v0.3.1.1 - fixups for dogfooding for v0.3.1
-    - ☐ version number update - 3 places
-    - ☐ issues
-      - ☐ same ide process - open n times, n failed transition messages get fired!
-      - ☐ session timestamp being the changenotification - causes markers to not show up in the code files if only unit tests are changed
-      - ☐ crash in are paths the same
-        32:06.601-09352-03004: Object reference not set to an instance of an object.
-        32:06.607-09352-03004:    at R4nd0mApps.TddStud10.Engine.Core.PathBuilder.arePathsTheSame(String slnPath, String path1, String path2)
-           at R4nd0mApps.TddStud10.Hosts.VS.Helper.TextViewCoverageProviderBase.<>c__DisplayClassb.<GetSequencePoints>b__8(String file) in d:\src\r4nd0mapps\tddstud10\Hosts\V
-        S\TddStudioPackage\EditorExtensions\TextViewCoverageProviderBase.cs:line 271
-           at System.Linq.Enumerable.FirstOrDefault[TSource](IEnumerable`1 source, Func`2 predicate)
-           at R4nd0mApps.TddStud10.Hosts.VS.Helper.TextViewCoverageProviderBase.GetSequencePoints(CoverageData coverageData, String fileName) in d:\src\r4nd0mapps\tddstud10\H
-        osts\VS\TddStudioPackage\EditorExtensions\TextViewCoverageProviderBase.cs:line 271
-           at R4nd0mApps.TddStud10.Hosts.VS.Helper.TextViewCoverageProviderBase.GetSequencePointsForActiveDocument() in d:\src\r4nd0mapps\tddstud10\Hosts\VS\TddStudioPackage\
-        EditorExtensions\TextViewCoverageProviderBase.cs:line 289
-           at R4nd0mApps.TddStud10.Hosts.VS.Helper.TextViewCoverageProviderBase.GetWordSpans(ITextSnapshot snapshot) in d:\src\r4nd0mapps\tddstud10\Hosts\VS\TddStudioPackage\
-        EditorExtensions\TextViewCoverageProviderBase.cs:line 180
+    - ☑ version number update - 3 places
+    - ☑ add license
+    - ☑ issues
+      - ☑ same ide process - open n times, n failed transition messages get fired!
+      - ☑ session timestamp being the changenotification - causes markers to not show up in the code files if only unit tests are changed
+      - ☑ crash in are paths the same null reference exception in PathBuilder.arePathsTheSame
+      - ☑ red markers werent getting shown
     - ☐ generate dogfood build
-
     - ☐ test dogfood build
   - ☐ v0.3.2 - Test Host design online
     - ☐ version number update - 3 places

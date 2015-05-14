@@ -19,7 +19,9 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
                 try 
                     let rsr = (e.func |> stepWrapper) host e.name e.kind events acc
                     rsr.runData, err
-                with ex -> acc, Some ex
+                with 
+                | RunStepFailedException(rsr) as rsfe -> rsr.runData, Some rsfe 
+                | ex -> acc, Some ex
             else acc, Some(new OperationCanceledException() :> Exception)
     
     member private this.host = host

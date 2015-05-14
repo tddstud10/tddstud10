@@ -5,6 +5,8 @@ open R4nd0mApps.TddStud10.Engine.TestFramework
 open System
 open Xunit.Extensions
 
+let ex = new InvalidOperationException("A mock method threw")
+
 let createSM() = 
     let sm = new RunStateTracker()
     let cs = new CallSpy<RunState>()
@@ -58,7 +60,7 @@ let ``Check initial state``() =
 [<Fact>]
 let ``Handler crashes - Subsequent events are still fired``() = 
     let sm = new RunStateTracker()
-    let cs = new CallSpy<RunState>(Throws)
+    let cs = new CallSpy<RunState>(Throws(ex))
     sm.RunStateChanged.Add(cs.Func >> ignore)
     [ // Event, Expected state
       RunStarting, Initial

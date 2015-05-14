@@ -119,7 +119,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                 EngineLoader.DisableEngine();
                 EngineLoader.Unload();
             }
-            EngineLoader.Load(this, slnPath);
+            EngineLoader.Load(this, slnPath, DateTime.UtcNow);
 
             EngineLoader.EnableEngine();
             RaisePropertyChanged("EngineState");

@@ -1,10 +1,14 @@
 ﻿module R4nd0mApps.TddStud10.Engine.TestFramework
 
 open R4nd0mApps.TddStud10.Engine.Diagnostics
+open System
+open R4nd0mApps.TddStud10.Engine.Core
+
+let inline (~~) s = FilePath s
 
 type CallSpyBehavior =
     | DoesNotThrow
-    | Throws
+    | Throws of Exception
 
 type CallSpy<'T>(behavior) =
     new() = CallSpy<'T>(DoesNotThrow) 
@@ -16,5 +20,5 @@ type CallSpy<'T>(behavior) =
         t.CalledWith <- Some arg
         match behavior with
         | DoesNotThrow -> ()
-        | Throws -> failwith "Call threw exception"
+        | Throws(ex) -> raise ex
         arg
