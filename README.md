@@ -1,24 +1,25 @@
-﻿Test Driven Development Studio - An environment for practicing Kent Beck style Test Driven Development.
-Copyright (C) 2015  Partho P. Das
-
-This program is free software: you can redistribute it and/or modify
+﻿> **Test Driven Development Studio - An environment for practicing Kent Beck style Test Driven Development.**
+>
+>Copyright (C) 2015  Partho P. Das.
+>
+>`This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
+(at your option) any later version.`
+>
+>`This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+GNU General Public License for more details.`
+>
+>`You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.`
 
 # Mission
   - Environment for practicing Kent Beck style TDD [F.I.R.S.T. Unit Tests, fast builds, No Mocks, Hexagonal architecture]
   - Make TDD a joy!
 
-# Principles
+# Goals, Intentions, Guidelines
   - Fully open source development
   - One click setup, then continous streaming delivery
   - Host agnostic [VS/MonoDevelop/Sublime/etc. & Windows/Linux/Mac]
@@ -74,7 +75,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     - ☑ pass data between steps
     - ☑ UX
         - ☑ R-G indications need to be much clearer
-  - ☐ v0.3.1.1 - fixups for dogfooding for v0.3.1
+  - ☑ v0.3.1.1 - fixups for dogfooding for v0.3.1
     - ☑ version number update - 3 places
     - ☑ add license
     - ☑ issues
@@ -82,8 +83,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       - ☑ session timestamp being the changenotification - causes markers to not show up in the code files if only unit tests are changed
       - ☑ crash in are paths the same null reference exception in PathBuilder.arePathsTheSame
       - ☑ red markers werent getting shown
-    - ☐ generate dogfood build
-    - ☐ test dogfood build
+    - ☑ generate dogfood build
+    - ☑ test dogfood build
   - ☐ v0.3.2 - Test Host design online
     - ☐ version number update - 3 places
     - ☐ fix fsunit
