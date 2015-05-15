@@ -88,43 +88,50 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
   - ☐ v0.3.2 - Test Host design online
     - ☐ version number update - 3 places
     - ☐ fix fsunit
-    - ☐ Support theory
-    - ☐ Unit test name comparision is through simple text - will fail for generics e.g.
+    - ☐ Move to VS Test Adapter
+      - ☐ Only move - with no change in domain model
+        - ☐ Pull in vstest adapter stubs
+        - ☐ Unify data model
+        - ☐ Use discoverer to discover unit tests, instead of custom cecil based logic
+      - ☐ Refactor Test runtime assembly
+      - ☐ Inject unit test id in marker calls to get rid of WCF server
+        - ☐ Reduce perf of run tests
+        - ☐ [permanent fix] Test name comparision [Editor crashes as unit test name doesnt ge registered sometime through Maker]
+      - ☐ Should be done automatically
+        - ☐ Support theory
+        - ☐ Unit test name comparision is through simple text - will fail for generics e.g.
+        - ☐ incorrect comparision between cecil and xunit: crash
+            from cecil: R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests/ITestServiceInterface R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests::Service Provider returns service interface if service is found
+            from xunit: R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests+ITestServiceInterface R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests::Service Provider returns service interface if service is found      
+    - ☐ UI Markers
+      - ☐ Mark unit tests in the editor
+      - ☐ What is the exception thrown and the point of faiure?
+    - ☐ Debug
+      - ☐ Test host can run individual tests
+      - ☐ debug test is needed - right click on one of the green, set bp, launch db
+        - ☐ for test failures
+        - ☐ and for comparing the coverage
+    - ☐ Host in out-of-proc WCF server
+      - ☐ WCF server, launch, communicate
+      - ☐ Move data carriers to common assembly
+      - ☐ Spew z_ files for diagnostics
+    - ☐ Send test execution status to toolwindow
+  - ☐☐ FxCop, StyleCop, FSharpLint and AppVeyor
+  - ☐☐ Possible corner cases
     - ☐ xunit 1.9 tests when mixed with xunit 2.0 projects (in same solution) doesn't execute
-    - ☐ incorrect comparision between cecil and xunit: crash
-        from cecil: R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests/ITestServiceInterface R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests::Service Provider returns service interface if service is found
-        from xunit: R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests+ITestServiceInterface R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests::Service Provider returns service interface if service is found      
-    - ☐ debug test is needed - right click on one of the green, set bp, launch db
-      - ☐ for test failures
-      - ☐ and for comparing the coverage
-    - ☐ [permanent fix] Test name comparision [Editor crashes as unit test name doesnt ge registered sometime through Maker]
-    - ☐ Reduce perf of run tests
-    - ☐ debug specific tests [a] indicate test in margin [b] might requrie gallileo integration [c] debug test host
-
   - ☐☐ Visual Feedback & User Experience
       - ☐ 3 stage update of markers [a] dim the greens once out of date [b] new code should be uncovered to start with [c] update coverage
       - ☐ progress of individual steps
       - ☐ true cancellation semantics
+      - ☐ Show test details for each covered lines
+      - ☐ Bring back partial covered lines
       - ☐ Editor discrepancies
-        - ☐ first time markers are not gettign shown - ☐ on scroll up and then down, they get shown
+        - ☐ first time markers are not gettign shown - on scroll up and then down, they get shown
         - ☐ [permanent fix] Editor crashes as unit test name doesnt ge registered sometime through Maker
         - ☐ markers are getting created on the fly adn a new line is added
-        - ☐ crash in editor - ☐ thought we fixed this
-                <description>System.ArgumentNullException: Value cannot be null.&#x000D;&#x000A;Parameter name: key&#x000D;&#x000A; 
-            System.Collections.Concurrent.ConcurrentDictionary`2.TryGetValue(TKey key, TValue&amp; value)&#x000D;&#x000A; 
-            System.Collections.Concurrent.ConcurrentDictionary`2.get_Item(TKey key)&#x000D;&#x000A; 
-            R4nd0mApps.TddStud10.Hosts.VS.Glyphs.LineCoverageGlyphFactory.&lt;GetLineCoverageState&gt;b__12(String tm) in d:\src\r4nd0mapps\tddstud10.1\Hosts\VS\TddStudioPackage\EditorExtensions\LineCoverageGlyphFactory.cs:line 137&#x000D;&#x000A; 
-            System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()&#x000D;&#x000A; 
-            System.Linq.Enumerable.Any[TSource](IEnumerable`1 source, Func`2 predicate)&#x000D;&#x000A; 
-            R4nd0mApps.TddStud10.Hosts.VS.Glyphs.LineCoverageGlyphFactory.GetLineCoverageState(ITextViewLine line) in d:\src\r4nd0mapps\tddstud10.1\Hosts\VS\TddStudioPackage\EditorExtensions\LineCoverageGlyphFactory.cs:line 139&#x000D;&#x000A;   at R4nd0mApps.TddStud10.Hosts.VS.Glyphs.LineCoverageGlyphFactory.GenerateGlyph(IWpfTextViewLine line, IGlyphTag tag) in d:\src\r4nd0mapps\tddstud10.1\Hosts\VS\TddStudioPackage\EditorExtensions\LineCoverageGlyphFactory.cs:line 54&#x000D;&#x000A;   at Microsoft.VisualStudio.Text.Editor.Implementation.GlyphMarginVisualManager.AddGlyph(IGlyphTag tag, SnapshotSpan span)&#x000D;&#x000A;   at Microsoft.VisualStudio.Text.Editor.Implementation.GlyphMargin.RefreshGlyphsOver(ITextViewLine textViewLine)&#x000D;&#x000A;   at Microsoft.VisualStudio.Text.Editor.Implementation.GlyphMargin.OnBatchedTagsChanged(Object sender, BatchedTagsChangedEventArgs e)&#x000D;&#x000A;   at Microsoft.VisualStudio.Text.Utilities.GuardedOperations.RaiseEvent[TArgs](Object sender, EventHandler`1 eventHandlers, TAr
-    - ☐ test start and test failure point markers
-      ☐ list of tests on each point
-      ☐ What is the exception thrown and the point of faiure?
     - ☐ Toolwindow
           - ☐ write errors in toolwindow, clean for every session
           - ☐ click on the status icon should open the toolwindow
-
-
   - ☐☐ instantenous trigger
     - ☐ accurate snapshotting
     - ☐ incremental copy of files [chutzpah has solved this]
