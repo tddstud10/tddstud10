@@ -3,9 +3,11 @@
 open System
 open R4nd0mApps.TddStud10.Engine.Diagnostics
 open System.IO
+open R4nd0mApps.TddStud10
 
 module PathBuilder = 
-    let snapShotRoot = "d:\\tddstud10"
+
+    let snapShotRoot = Constants.SnapshotRoot
     
     let private makeSlnParentDirName slnPath = 
         match Path.GetFileName(Path.GetDirectoryName(slnPath)) with

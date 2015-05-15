@@ -60,6 +60,9 @@
   </Target>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Compile Include="..\Common\Constants.fs">
+      <Link>Constants.fs</Link>
+    </Compile>
     <Compile Include="Logger.fs" />
   </ItemGroup>
   <ItemGroup>

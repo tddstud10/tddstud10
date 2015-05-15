@@ -5,13 +5,14 @@ using System.Text;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Parsers;
 using Microsoft.Diagnostics.Tracing.Session;
+using R4nd0mApps.TddStud10;
 
 namespace RealTimeEtwListener
 {
     public static class Program
     {
-        private const string SessionName = "R4nd0mApps-TddStud10-Realtime-Session";
-        
+        private const string SessionName = Constants.RealTimeSessionName;
+
         private static readonly IReadOnlyDictionary<TraceEventLevel, ConsoleColor> eventLevelColorMap = new Dictionary<TraceEventLevel, ConsoleColor>()
         {
             { TraceEventLevel.Always, ConsoleColor.DarkGray }, // Not meant to use Always
@@ -40,6 +41,7 @@ namespace RealTimeEtwListener
             {
                 session.StopOnDispose = true;
 
+                Console.Title = Constants.ProductName;
                 Console.CancelKeyPress += delegate(object sender, ConsoleCancelEventArgs e) { session.Dispose(); };
 
                 using (var source = new ETWTraceEventSource(SessionName, TraceEventSourceType.Session))
@@ -66,10 +68,10 @@ namespace RealTimeEtwListener
 
         private static void EnableProviders(TraceEventSession session)
         {
-            session.EnableProvider("R4nd0mApps-TddStud10-Hosts-VS");
-            session.EnableProvider("R4nd0mApps-TddStud10-Hosts-Console");
-            session.EnableProvider("R4nd0mApps-TddStud10-TestHost");
-            session.EnableProvider("R4nd0mApps-TddStud10-Engine");
+            session.EnableProvider(Constants.EtwProviderNameHostsVS);
+            session.EnableProvider(Constants.EtwProviderNameHostsConsole);
+            session.EnableProvider(Constants.EtwProviderNameTestHost);
+            session.EnableProvider(Constants.EtwProviderNameEngine);
         }
 
         private static void ProcessTraceEvent(TraceEvent data)

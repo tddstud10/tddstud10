@@ -127,11 +127,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             cmd.Visible = true;
             if (EngineLoader.IsEngineEnabled())
             {
-                cmd.Text = Resources.DisableTddStud10State;
+                cmd.Text = Properties.Resources.DisableTddStud10State;
             }
             else
             {
-                cmd.Text = Resources.EnableTddStud10State;
+                cmd.Text = Properties.Resources.EnableTddStud10State;
             }
         }
 
@@ -216,7 +216,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             if (EngineLoader.IsRunInProgress())
             {
                 Logger.I.LogInfo("Run in progress. Denying request to close solution.");
-                Services.GetService<SVsUIShell, IVsUIShell>().DisplayMessageBox(Resources.ProductTitle, Resources.CannotCloseSolution);
+                Services.GetService<SVsUIShell, IVsUIShell>().DisplayMessageBox(Properties.Resources.ProductTitle, Properties.Resources.CannotCloseSolution);
                 pfCancel = 1; // Veto closing of solution.
             }
 

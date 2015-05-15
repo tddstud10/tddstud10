@@ -2,9 +2,10 @@
 
 open System
 open Microsoft.Diagnostics.Tracing
+open R4nd0mApps.TddStud10
 
 [<Sealed>]
-[<EventSource(Name = "R4nd0mApps-TddStud10-Engine")>]
+[<EventSource(Name = Constants.EtwProviderNameEngine)>]
 type Logger() = 
     inherit EventSource()
     static let i = new Logger()

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace R4nd0mApps.TddStud10.Hosts.VS {
+namespace R4nd0mApps.TddStud10.Hosts.VS.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("R4nd0mApps.TddStud10.Hosts.VS.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("R4nd0mApps.TddStud10.Hosts.VS.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

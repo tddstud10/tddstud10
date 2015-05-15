@@ -169,13 +169,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     - ☐ todo List
     - ☐ *hotspot
 
-# Dogfood build checklist
-  - ☐ Rename all assemblies
-  - ☐ Rename event source channels
-  - ☐ df next to menu items
-  - ☐ df in product name
-  - ☐ tddstud10.df
-
 # Miscellenous notes
 
   - ☐ Progress/Notification Bar ideas
