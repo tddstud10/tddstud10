@@ -220,7 +220,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                 pfCancel = 1; // Veto closing of solution.
             }
 
-            EngineLoader.DisableEngine();
             return VSConstants.S_OK;
         }
 
