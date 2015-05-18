@@ -95,9 +95,6 @@
       <Name>TestHost</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Diagnostics.Tracing.EventRegister.1.0.26\build\Microsoft.Diagnostics.Tracing.EventRegister.targets" Condition="('$(Configuration)' != 'Debug') and Exists('..\packages\Microsoft.Diagnostics.Tracing.EventRegister.1.0.26\build\Microsoft.Diagnostics.Tracing.EventRegister.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
