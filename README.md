@@ -90,9 +90,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
     - ☐ fix fsunit
     - ☐ Move to VS Test Adapter
       - ☐ Only move - with no change in domain model
-        - ☐ Pull in vstest adapter stubs
+        - ☑ Pull in vstest adapter stubs
         - ☐ Unify data model
         - ☐ Use discoverer to discover unit tests, instead of custom cecil based logic
+        - ☐ Establish realtime wire up for discovered tests
+        - ☐ Use LogicalCallContext
       - ☐ Refactor Test runtime assembly
       - ☐ Inject unit test id in marker calls to get rid of WCF server
         - ☐ Reduce perf of run tests
@@ -111,6 +113,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
       - ☐ debug test is needed - right click on one of the green, set bp, launch db
         - ☐ for test failures
         - ☐ and for comparing the coverage
+    - ☐ Move domain to seperate assembly + divide domain into core+subdomains[move types into that]
     - ☐ Host in out-of-proc WCF server
       - ☐ WCF server, launch, communicate
       - ☐ Move data carriers to common assembly
@@ -120,9 +123,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
   - ☐☐ Possible corner cases
     - ☐ xunit 1.9 tests when mixed with xunit 2.0 projects (in same solution) doesn't execute
   - ☐☐ Visual Feedback & User Experience
+      - ☐ The icon - needs to say grey - when we are not sure...
       - ☐ 3 stage update of markers [a] dim the greens once out of date [b] new code should be uncovered to start with [c] update coverage
+      - ☐ as and when seq points are detected, update them in the IDE
+      - ☐ streaming update - as a test gets over, its coverage is updated
       - ☐ progress of individual steps
       - ☐ true cancellation semantics
+        - ☐ Cancellation token can be passed to rundata 
       - ☐ Show test details for each covered lines
       - ☐ Bring back partial covered lines
       - ☐ Editor discrepancies
@@ -132,6 +139,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
     - ☐ Toolwindow
           - ☐ write errors in toolwindow, clean for every session
           - ☐ click on the status icon should open the toolwindow
+          - ☐ Messages from the test adapter should come up in the tool window
+  - ☐☐ Release blockers
+    - ☐ snk/signing problem
+    - ☐ without solution items snapshoting fails
   - ☐☐ instantenous trigger
     - ☐ accurate snapshotting
     - ☐ incremental copy of files [chutzpah has solved this]
