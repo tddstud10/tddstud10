@@ -122,7 +122,8 @@
       <Link>TestData\bins\XUnit20FSPortable\XUnit20FSPortable.XML</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Compile Include="XUnitAdapterTests.fs" />
+    <Compile Include="XUnitTestExecutorTests.fs" />
+    <Compile Include="XUnitTestDiscovererTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">

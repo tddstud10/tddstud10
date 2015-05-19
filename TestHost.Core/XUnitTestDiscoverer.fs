@@ -1,4 +1,4 @@
-﻿namespace R4nd0mApps.TddStud10.TestExecution.Adapters.Discovery
+﻿namespace R4nd0mApps.TddStud10.TestExecution.Adapters
 
 open R4nd0mApps.TddStud10.TestExecution
 open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter

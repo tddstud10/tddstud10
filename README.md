@@ -89,12 +89,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
     - ☐ version number update - 3 places
     - ☐ fix fsunit
     - ☐ Move to VS Test Adapter
-      - ☐ Only move - with no change in domain model
+      - ☑ Only move - with no change in domain model
         - ☑ Pull in vstest adapter stubs
-        - ☐ Unify data model
-        - ☐ Use discoverer to discover unit tests, instead of custom cecil based logic
-        - ☐ Establish realtime wire up for discovered tests
-        - ☐ Use LogicalCallContext
+        - ☑ Unify data model
+        - ☑ Use discoverer to discover unit tests, instead of custom cecil based logic
+      - ☐ Refactor to move datamodel and break assembly dependency
+      - ☐ Establish realtime wire up for discovered tests
       - ☐ Refactor Test runtime assembly
       - ☐ Inject unit test id in marker calls to get rid of WCF server
         - ☐ Reduce perf of run tests

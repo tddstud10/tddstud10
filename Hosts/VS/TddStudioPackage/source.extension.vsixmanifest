@@ -13,12 +13,13 @@
   <Dependencies>
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="4.5" />
     <Dependency Id="Microsoft.VisualStudio.MPF.12.0" DisplayName="Visual Studio MPF 12.0" d:Source="Installed" Version="12.0" />
+    <Dependency d:Source="Project" d:ProjectName="RealTimeEtwListener" d:InstallSource="Embed" d:VsixSubPath="d" Location="|RealTimeEtwListener;BuiltProjectOutputGroup|" DisplayName="|RealTimeEtwListener;BuiltProjectOutputGroup|" Id="|RealTimeEtwListener;BuiltProjectOutputGroup|" />
+    <Dependency d:Source="Project" d:ProjectName="TestHost" d:InstallSource="Embed" Location="|TestHost;BuiltProjectOutputGroup|" DisplayName="|TestHost;BuiltProjectOutputGroup|" Id="|TestHost;BuiltProjectOutputGroup|" />
   </Dependencies>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
     <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Engine" Path="|Engine|" AssemblyName="|Engine;AssemblyName|" />
-    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="TestHost" Path="|TestHost|" AssemblyName="|TestHost;AssemblyName|" />
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="%CurrentProject%.Extensions" Path="|TddStudioPackage.Extensions|" AssemblyName="|TddStudioPackage.Extensions;AssemblyName|" />
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Engine.Core" Path="|Engine.Core|" AssemblyName="|Engine.Core;AssemblyName|" />
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="TestHost.Core" Path="|TestHost.Core|" AssemblyName="|TestHost.Core;AssemblyName|" />

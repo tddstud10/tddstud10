@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
+using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
 using R4nd0mApps.TddStud10.TestHost;
 
@@ -87,21 +90,19 @@ namespace R4nd0mApps.TddStud10
             return dict;
         }
 
-        public static DiscoveredUnitTests Instrument(DateTime timeFilter, string solutionRoot, string buildOutputRoot)
+        public static void Instrument(DateTime timeFilter, string solutionRoot, string buildOutputRoot, IReadOnlyDictionary<FilePath, IEnumerable<TestCase>> testsPerAssembly)
         {
             try
             {
-                return InstrumentImpl(timeFilter, solutionRoot, buildOutputRoot);
+                InstrumentImpl(timeFilter, solutionRoot, buildOutputRoot, testsPerAssembly);
             }   
             catch (Exception e)
             {
                 Logger.I.LogError("Failed to instrument. Exception: {0}", e);
             }
-
-            return null;
         }
 
-        public static DiscoveredUnitTests InstrumentImpl(DateTime timeFilter, string solutionRoot, string buildOutputRoot)
+        public static void InstrumentImpl(DateTime timeFilter, string solutionRoot, string buildOutputRoot, IReadOnlyDictionary<FilePath, IEnumerable<TestCase>> testsPerAssembly)
         {
             Logger.I.LogInfo(
                 "Instrumenting: Time filter - {0}, Build output root - {1}.",
@@ -117,8 +118,6 @@ namespace R4nd0mApps.TddStud10
             }
 
             string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Marker).Assembly.Location);
-
-            var unitTests = new DiscoveredUnitTests();
 
             var asmResolver = new DefaultAssemblyResolver();
             Array.ForEach(asmResolver.GetSearchDirectories(), asmResolver.RemoveSearchDirectory);
@@ -179,33 +178,30 @@ namespace R4nd0mApps.TddStud10
                             }
 
                             meth.Body.SimplifyMacros();
-                            if (meth.CustomAttributes.Any(ca => ca.AttributeType.Name == "FactAttribute"))
-                            {
-                                var unitTestName = string.Format("{0} {1}::{2}", meth.ReturnType.FullName, meth.DeclaringType.FullName, meth.Name);
-                                if (!unitTests.ContainsKey(assemblyPath))
-                                {
-                                    unitTests[assemblyPath] = new List<string>();
-                                }
-                                unitTests[assemblyPath].Add(unitTestName);
-
-                                Instruction instrMarker = meth.Body.Instructions[0];
-                                Instruction instr = null;
-                                var ilProcessor = meth.Body.GetILProcessor();
-
-                                // IL_000d: call void R4nd0mApps.TddStud10.TestHost.Marker::EnterUnitTest(ldstr, ldstr)
-                                instr = ilProcessor.Create(OpCodes.Call, enterUnitTestMethRef);
-                                ilProcessor.InsertBefore(instrMarker, instr);
-                                instrMarker = instr;
-                                // IL_0006: ldstr <methodName>
-                                instr = ilProcessor.Create(OpCodes.Ldstr, unitTestName);
-                                ilProcessor.InsertBefore(instrMarker, instr);
-                                instrMarker = instr;
-                            }
 
                             var spi = from i in meth.Body.Instructions
                                       where i.SequencePoint != null
                                       where i.SequencePoint.StartLine != 0xfeefee
                                       select i;
+
+                            var ret = IsSequencePointAtStartOfAUnitTest(spi.Select(i => i.SequencePoint).FirstOrDefault(), FilePath.NewFilePath(assemblyPath), testsPerAssembly);
+                            if (ret.Item1)
+                            {
+                                var unitTestName = ret.Item2;
+
+                                Instruction instrMarker = meth.Body.Instructions[0];
+                                Instruction instr = null;
+                                var ilProcessor = meth.Body.GetILProcessor();
+
+                                // IL_000d: call void R4nd0mApps.TddStud10.TestHost.Marker::EnterUnitTest(ldstr)
+                                instr = ilProcessor.Create(OpCodes.Call, enterUnitTestMethRef);
+                                ilProcessor.InsertBefore(instrMarker, instr);
+                                instrMarker = instr;
+                                // IL_0006: ldstr <string>
+                                instr = ilProcessor.Create(OpCodes.Ldstr, unitTestName);
+                                ilProcessor.InsertBefore(instrMarker, instr);
+                                instrMarker = instr;
+                            }
 
                             var spId = 0;
                             var instructions = spi.ToArray();
@@ -251,8 +247,28 @@ namespace R4nd0mApps.TddStud10
                     throw;
                 }
             }
+        }
 
-            return unitTests;
+        private static Tuple<bool, string> IsSequencePointAtStartOfAUnitTest(Mono.Cecil.Cil.SequencePoint sp, FilePath assemblyPath, IReadOnlyDictionary<FilePath, IEnumerable<TestCase>> testsPerAssembly)
+        {
+            if (sp == null)
+            {
+                return new Tuple<bool, string>(false, "");
+            }
+
+            if (!testsPerAssembly.ContainsKey(assemblyPath))
+            {
+                return new Tuple<bool, string>(false, "");
+            }
+
+            if (testsPerAssembly[assemblyPath].Any(tc => tc.CodeFilePath == sp.Document.Url && tc.LineNumber == sp.StartLine))
+            {
+                return new Tuple<bool, string>(true, assemblyPath.Item.ToUpperInvariant() + "|" + sp.Document.Url.ToUpperInvariant() + "|" + sp.StartLine.ToString(CultureInfo.InvariantCulture));
+            }
+            else
+            {
+                return new Tuple<bool, string>(false, "");
+            }
         }
     }
 }

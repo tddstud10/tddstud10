@@ -1,16 +1,38 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Serialization;
+using Microsoft.FSharp.Control;
 using Microsoft.FSharp.Core;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
+using R4nd0mApps.TddStud10.TestExecution.Adapters;
 using R4nd0mApps.TddStud10.TestHost;
 
 namespace R4nd0mApps.TddStud10.Engine
 {
+    // TODO
+    // - Run pipeline assembly by assembly
+    // - rewrite the DiscoverUnitTest in FSharp and house it in testhost.core
+    // - Combine the instrument and seq pt passes
+    // - make the assembly selection logic DRY
+    // - can we borrow code from gallio to make codecoverage comm faster
+    // - support nunit
+    //   - remove xunit from vsix root
+    //
+    // - refactor out the domain model
+    //   - case insensitive comparision for FilePath, hashcode, comparable, etc.
+    //   - hascode matching logic dry violation
+    //   - move test host binaries into subfolder
+    //   - create seperate testruntime binary
+    //   - referece to testhost from package
     public static class Engine
     {
         public static RunStep[] CreateRunSteps()
@@ -20,6 +42,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 TddStud10Runner.CreateRunStep(RunStepKind.Build, "Creating Solution Snapshot".ToRSN(), TakeSolutionSnapshot)
                 , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Deleting Build Output".ToRSN(), DeleteBuildOutput)
                 , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Building Solution Snapshot".ToRSN(), BuildSolutionSnapshot)
+                , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Discover Unit Tests".ToRSN(), DiscoverUnitTests)
                 , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Instrument Binaries".ToRSN(), InstrumentBinaries)
                 , TddStud10Runner.CreateRunStep(RunStepKind.Test, "Running Tests".ToRSN(), RunTests)
             };
@@ -102,10 +125,59 @@ namespace R4nd0mApps.TddStud10.Engine
                 rd.solutionPath,
                 rd.solutionSnapshotPath,
                 rd.solutionBuildRoot,
+                rd.testsPerAssembly,
                 rd.sequencePoints,
-                rd.discoveredUnitTests,
                 new FSharpOption<CoverageSession>(coverageSession),
                 new FSharpOption<TestResults>(testResults));
+        }
+
+        private static RunStepResult DiscoverUnitTests(IRunExecutorHost host, RunStepName name, RunStepKind kind, RunData rd)
+        {
+            if (!host.CanContinue())
+            {
+                throw new OperationCanceledException();
+            }
+
+            var buildOutputRoot = rd.solutionBuildRoot.Item;
+            var timeFilter = rd.startTime;
+            var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".dll", ".exe" };
+
+            var testsPerAssembly = new ConcurrentDictionary<FilePath, IEnumerable<TestCase>>();
+            foreach (var assemblyPath in Directory.EnumerateFiles(buildOutputRoot, "*").Where(s => extensions.Contains(Path.GetExtension(s))))
+            {
+                if (!File.Exists(Path.ChangeExtension(assemblyPath, ".pdb")))
+                {
+                    continue;
+                }
+
+                var lastWriteTime = File.GetLastWriteTimeUtc(assemblyPath);
+                if (lastWriteTime < timeFilter)
+                {
+                    continue;
+                }
+
+                Logger.I.LogInfo("Discovering unit tests for {0}. Last write time: {1}.", assemblyPath, lastWriteTime.ToLocalTime());
+
+                var tests = new ConcurrentBag<TestCase>();
+                var disc = new XUnitTestDiscoverer();
+                disc.TestDiscovered.AddHandler(new FSharpHandler<TestCase>((o, ea) => tests.Add(ea)));
+                disc.DiscoverTests(assemblyPath);
+                if (tests.Count > 0)
+                {
+                    testsPerAssembly.TryAdd(FilePath.NewFilePath(assemblyPath), tests);
+                }
+            }
+
+            return new RunData(
+                rd.startTime,
+                rd.solutionPath,
+                rd.solutionSnapshotPath,
+                rd.solutionBuildRoot,
+                new ReadOnlyDictionary<FilePath, IEnumerable<TestCase>>(testsPerAssembly),
+                rd.sequencePoints,
+                rd.codeCoverageResults,
+                rd.executedTests).ToRSR(name, kind, RunStepStatus.Succeeded, "Unit Tests Discovered - which ones - TBD");
+
         }
 
         private static RunStepResult InstrumentBinaries(IRunExecutorHost host, RunStepName name, RunStepKind kind, RunData rd)
@@ -127,29 +199,34 @@ namespace R4nd0mApps.TddStud10.Engine
                 throw new OperationCanceledException();
             }
 
-            var discoveredUnitTestsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
-            var unitTests = Instrumentation.Instrument(rd.startTime, Path.GetDirectoryName(rd.solutionPath.Item), rd.solutionBuildRoot.Item);
+            Instrumentation.Instrument(rd.startTime, Path.GetDirectoryName(rd.solutionPath.Item), rd.solutionBuildRoot.Item, rd.testsPerAssembly);
+
             using (StringWriter writer = new StringWriter())
             {
-                DiscoveredUnitTests.Serializer.Serialize(writer, unitTests);
+                // TODO: This needs to be changed back to FilePath
+                var unitTestAssemblies = new List<string>(rd.testsPerAssembly.Keys.Select(fp => fp.Item));
+
+                var serializer = new XmlSerializer(typeof(List<string>));
+                serializer.Serialize(writer, unitTestAssemblies);
+                var discoveredUnitTestsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
                 File.WriteAllText(discoveredUnitTestsStore, writer.ToString());
                 Logger.I.LogInfo("Written discovered unit tests to {0}.", discoveredUnitTestsStore);
             }
 
-            var retRd = CreateRunDataForInstrumentationStep(rd, dict, unitTests);
+            var retRd = CreateRunDataForInstrumentationStep(rd, dict);
 
             return retRd.ToRSR(name, kind, RunStepStatus.Succeeded, "Binaries Instrumented - which ones - TBD");
         }
 
-        private static RunData CreateRunDataForInstrumentationStep(RunData rd, SequencePoints sequencePoints, DiscoveredUnitTests unitTests)
+        private static RunData CreateRunDataForInstrumentationStep(RunData rd, SequencePoints sequencePoints)
         {
             return new RunData(
                 rd.startTime,
                 rd.solutionPath,
                 rd.solutionSnapshotPath,
                 rd.solutionBuildRoot,
+                rd.testsPerAssembly,
                 new FSharpOption<SequencePoints>(sequencePoints),
-                new FSharpOption<DiscoveredUnitTests>(unitTests),
                 rd.codeCoverageResults,
                 rd.executedTests);
         }
@@ -189,8 +266,8 @@ namespace R4nd0mApps.TddStud10.Engine
                 rd.solutionPath,
                 rd.solutionSnapshotPath,
                 rd.solutionBuildRoot,
+                rd.testsPerAssembly,
                 rd.sequencePoints,
-                rd.discoveredUnitTests,
                 rd.codeCoverageResults,
                 rd.executedTests);
         }

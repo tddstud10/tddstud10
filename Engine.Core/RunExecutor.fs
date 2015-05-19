@@ -2,6 +2,7 @@
 
 open System
 open R4nd0mApps.TddStud10.Engine.Diagnostics
+open System.Collections.Generic
 
 type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, stepWrapper : RunStepFuncWrapper) = 
     let runStarting = new Event<RunData>()
@@ -38,8 +39,8 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
           solutionPath = solutionPath
           solutionSnapshotPath = PathBuilder.makeSlnSnapshotPath solutionPath
           solutionBuildRoot = PathBuilder.makeSlnBuildRoot solutionPath
+          testsPerAssembly = new Dictionary<_, _>()
           sequencePoints = None
-          discoveredUnitTests = None
           codeCoverageResults = None
           executedTests = None }
     

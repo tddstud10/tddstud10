@@ -1,14 +1,12 @@
-﻿module R4nd0mApps.TddStud10.TestExecution.Adapters.XUnitAdapterTests
+﻿module R4nd0mApps.TddStud10.TestExecution.Adapters.XUnitTestExecutorTests
 
 open System.Collections.Generic
 open System.Collections.Concurrent
-open R4nd0mApps.TddStud10.TestExecution.Adapters.Execution
 open Xunit
 open System.IO
 open System
 open System.Reflection
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
-open R4nd0mApps.TddStud10.TestExecution.Adapters.Discovery
 
 let expectedTests = 
     [ "XUnit20FSPortable.UnitTests.Fact Test 1", TestOutcome.Passed
@@ -22,12 +20,6 @@ let testBin =
     |> Path.GetDirectoryName
     |> fun p -> Path.Combine(p, "TestData\\bins\\XUnit20FSPortable\\XUnit20FSPortable.dll")
 
-let createDiscoverer() = 
-    let td = new XUnitTestDiscoverer()
-    let tcs = new List<TestCase>()
-    td.TestDiscovered |> Observable.add tcs.Add
-    td, tcs
-
 let createExecutor() = 
     let te = new XUnitTestExecutor()
     let trs = new ConcurrentQueue<TestResult>()
@@ -35,14 +27,12 @@ let createExecutor() =
     te, trs
 
 [<Fact>]
-let ``Can discover and run theory and facts from test assembly``() = 
-    let td, tcs = createDiscoverer()
-    testBin |> td.DiscoverTests
+let ``Can run theory and facts from test assembly``() = 
     let te, tos = createExecutor()
-    tcs |> te.ExecuteTests
+    testBin |> te.ExecuteTests
     let actualTests = 
         tos
         |> Seq.map (fun t -> t.DisplayName, t.Outcome)
         |> Seq.sortBy fst
         |> Seq.toList
-    Assert.Equal<list<string * TestOutcome>>(expectedTests, actualTests)
+    Assert.Equal<list<_>>(expectedTests, actualTests)

@@ -63,6 +63,10 @@
       <HintPath>..\..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.VisualStudio.TestPlatform.ObjectModel.12.0\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Mono.Cecil.0.9.6.0\lib\net40\Mono.Cecil.dll</HintPath>
       <Private>True</Private>
@@ -105,6 +109,10 @@
     <Compile Include="..\..\..\Common\Constants.cs">
       <Link>Constants.cs</Link>
     </Compile>
+    <None Include="..\..\..\TestHost\App.Config">
+      <Link>TddStud10.TestHost.exe.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="MainWindow.xaml">
@@ -159,6 +167,10 @@
       <Project>{96d4c703-953a-43f6-94fa-a5394b297703}</Project>
       <Name>Engine</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\TestHost.Core\TestHost.Core.fsproj">
+      <Project>{84693096-cba0-407a-900a-3b48d21c5459}</Project>
+      <Name>TestHost.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\TestHost\TestHost.csproj">
       <Project>{d6d4d595-14e0-4631-9ff5-f33976e08b34}</Project>
       <Name>TestHost</Name>
@@ -176,6 +188,10 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\..\packages\Microsoft.Diagnostics.Tracing.EventRegister.1.0.26\build\Microsoft.Diagnostics.Tracing.EventRegister.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Microsoft.Diagnostics.Tracing.EventRegister.1.0.26\build\Microsoft.Diagnostics.Tracing.EventRegister.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

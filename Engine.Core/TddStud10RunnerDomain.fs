@@ -3,6 +3,8 @@
 open R4nd0mApps.TddStud10.TestHost
 open R4nd0mApps.TddStud10.Engine
 open System
+open Microsoft.VisualStudio.TestPlatform.ObjectModel
+open System.Collections.Generic
 
 type FilePath = 
     | FilePath of string
@@ -10,13 +12,15 @@ type FilePath =
         match t with
         | FilePath s -> s
 
+type AssemblyTestCaseMap = IReadOnlyDictionary<FilePath, TestCase seq>
+
 type RunData = 
     { startTime : DateTime
       solutionPath : FilePath
       solutionSnapshotPath : FilePath
       solutionBuildRoot : FilePath
+      testsPerAssembly : AssemblyTestCaseMap 
       sequencePoints : SequencePoints option
-      discoveredUnitTests : DiscoveredUnitTests option
       codeCoverageResults : CoverageSession option
       executedTests : TestResults option }
 
