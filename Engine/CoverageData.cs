@@ -60,7 +60,7 @@ namespace R4nd0mApps.TddStud10.Engine
         {
             var unitTests = from kvp in CoverageSession
                             from chi in kvp.Value
-                            where chi.methodId == sequencePoint.methodId
+                            where chi.methodId.Equals(sequencePoint.methodId)
                             select chi.testId;
             return unitTests.Distinct();
         }

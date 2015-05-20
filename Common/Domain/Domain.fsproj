@@ -60,6 +60,11 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Compile Include="TddStud10RunnerDomain.fs" />
+    <Compile Include="DataStoreBase.fs" />
+    <Compile Include="PerAssemblyTestIds.fs" />
+    <Compile Include="PerAssemblySequencePointsCoverage.fs" />
+    <Compile Include="PerDocumentSequencePoints.fs" />
+    <Compile Include="PerTestIdResults.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">

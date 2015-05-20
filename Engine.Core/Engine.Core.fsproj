@@ -102,11 +102,6 @@
       <Project>{84693096-cba0-407a-900a-3b48d21c5459}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\TestHost\TestHost.csproj">
-      <Name>TestHost</Name>
-      <Project>{d6d4d595-14e0-4631-9ff5-f33976e08b34}</Project>
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

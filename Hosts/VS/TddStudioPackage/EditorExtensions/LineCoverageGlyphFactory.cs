@@ -22,7 +22,6 @@ using R4nd0mApps.TddStud10.Hosts.VS.Helper;
 //using R4nd0mApps.TddStud10.Hosts.VS.Views;
 using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
 using R4nd0mApps.TddStud10.Hosts.VS.Tagger;
-using R4nd0mApps.TddStud10.TestHost;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
 {
@@ -130,16 +129,13 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
 
             if (spans.Any())
             {
-                var allTrackedMethods = spans.SelectMany(s => _spanCoverage[s].TrackedMethods);
+                var allTrackedMethods = spans.SelectMany(s => _spanCoverage[s]);
                 if (!allTrackedMethods.Any())
                 {
                     return LineCoverageState.Uncovered;
                 }
 
                 var results = allTrackedMethods
-                    // TODO: Not sure why Marker.EnterSequencePoint sometimes gets called before EnterUnitTest.
-                    // Hence the "where" clause below. It will go with our final design for test hosting/execution
-                    .Where(tm => tm != null)
                     .Select(tm => CoverageData.Instance.TestDetails[tm]);
 
                 if (results.Any(r => r == TestOutcome.Failed))

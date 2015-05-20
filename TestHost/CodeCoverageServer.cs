@@ -7,7 +7,6 @@ using System.ServiceModel;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Xml.Serialization;
-using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.TestHost.Diagnostics;
 using R4nd0mApps.TddStud10.Common.Domain;
 

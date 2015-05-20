@@ -12,7 +12,6 @@ using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
-using R4nd0mApps.TddStud10.TestHost;
 using EventHandlerPair = System.Tuple<System.EventHandler, System.EventHandler>;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS

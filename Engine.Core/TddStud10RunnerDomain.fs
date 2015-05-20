@@ -1,7 +1,6 @@
 ﻿namespace R4nd0mApps.TddStud10.Engine.Core
 
 open R4nd0mApps.TddStud10.TestHost
-open R4nd0mApps.TddStud10.Engine
 open System
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open System.Collections.Generic

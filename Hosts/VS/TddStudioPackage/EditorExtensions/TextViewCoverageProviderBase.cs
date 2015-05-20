@@ -35,7 +35,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
         /// <summary>
         /// Coverage info for spans.
         /// </summary>
-        protected readonly Dictionary<SnapshotSpan, CovData> _spanCoverage;
+        protected readonly Dictionary<SnapshotSpan, IEnumerable<TestId>> _spanCoverage;
 
         /// <summary>
         /// Span for current editor content.
@@ -60,7 +60,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
 
             _textView = view;
 
-            _spanCoverage = new Dictionary<SnapshotSpan, CovData>();
+            _spanCoverage = new Dictionary<SnapshotSpan, IEnumerable<TestId>>();
 
             _currentSpans = GetWordSpans(_textView.TextSnapshot);
 
@@ -155,24 +155,14 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
         /// <param name="startColumn">The start column.</param>
         /// <param name="totalCharacters">The total characters.</param>
         /// <param name="covered">if set to <c>true</c> [covered].</param>
-        protected void AddWordSpan(List<SnapshotSpan> wordSpans, ITextSnapshot snapshot, int startColumn, int totalCharacters, CovData covered)
+        protected void AddWordSpan(List<SnapshotSpan> wordSpans, ITextSnapshot snapshot, int startColumn, int totalCharacters, IEnumerable<TestId> trackedMethods)
         {
             var snapshotPoint = new SnapshotSpan(snapshot, new Span(startColumn, totalCharacters));
             wordSpans.Add(snapshotPoint);
 
             if (!_spanCoverage.ContainsKey(snapshotPoint))
             {
-                _spanCoverage.Add(snapshotPoint, covered);
-            }
-        }
-
-        public class CovData
-        {
-            public IEnumerable<TestId> TrackedMethods { get; set; }
-
-            public CovData()
-            {
-                TrackedMethods = new TestId[0];
+                _spanCoverage.Add(snapshotPoint, trackedMethods);
             }
         }
 
@@ -194,25 +184,24 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
                 {
                     foreach (var sequencePoint in sequencePoints)
                     {
-                        var covData = new CovData();
-                        covData.TrackedMethods = CoverageData.Instance.GetUnitTestsCoveringSequencePoint(sequencePoint);
+                        var trackedMethods = CoverageData.Instance.GetUnitTestsCoveringSequencePoint(sequencePoint);
 
                         int sequencePointStartLine = sequencePoint.startLine.Item - 1;
                         int sequencePointEndLine = sequencePoint.endLine.Item - 1;
 
                         var startLine = snapshot.Lines.FirstOrDefault(line => line.LineNumber == sequencePointStartLine);
 
-                        if (sequencePoint.endLine == sequencePoint.startLine)
+                        if (sequencePoint.endLine.Equals(sequencePoint.startLine))
                         {
                             AddWordSpan(wordSpans, snapshot,
                                         startLine.Extent.Start.Position + sequencePoint.startColumn.Item - 1,
-                                        sequencePoint.endColumn.Item - sequencePoint.startColumn.Item + 1, covData);
+                                        sequencePoint.endColumn.Item - sequencePoint.startColumn.Item + 1, trackedMethods);
                         }
                         else
                         {
                             // Get selected lines
                             AddWordSpansForSequencePointsCoveringMultipleLines(snapshot, wordSpans, sequencePoint,
-                                                                                sequencePointStartLine, sequencePointEndLine, covData);
+                                                                                sequencePointStartLine, sequencePointEndLine, trackedMethods);
                         }
                     }
                 }
@@ -235,13 +224,13 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
         /// <param name="sequencePoint">The sequence point.</param>
         /// <param name="sequencePointStartLine">The sequence point start message.</param>
         /// <param name="sequencePointEndLine">The sequence point end message.</param>
-        /// <param name="covered">if set to <c>true</c> [covered].</param>
+        /// <param name="trackedMethods">if set to <c>true</c> [trackedMethods].</param>
         protected void AddWordSpansForSequencePointsCoveringMultipleLines(ITextSnapshot snapshot,
                                                                         List<SnapshotSpan> wordSpans,
                                                                         SequencePoint sequencePoint,
                                                                         int sequencePointStartLine,
                                                                         int sequencePointEndLine,
-                                                                        CovData covered)
+                                                                        IEnumerable<TestId> trackedMethods)
         {
             int totalCharacters = 0;
 
@@ -255,18 +244,18 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
                 {
                     totalCharacters = selectedLine.Length - sequencePoint.startColumn.Item + 1;
 
-                    AddWordSpan(wordSpans, snapshot, selectedLine.Extent.Start.Position + sequencePoint.startColumn.Item - 1, totalCharacters, covered);
+                    AddWordSpan(wordSpans, snapshot, selectedLine.Extent.Start.Position + sequencePoint.startColumn.Item - 1, totalCharacters, trackedMethods);
                 }
                 else if (selectedLine.LineNumber == sequencePointEndLine)
                 {
                     var temp = selectedLine.Length - (sequencePoint.endColumn.Item - 1);
                     totalCharacters = selectedLine.Length - temp;
 
-                    AddWordSpan(wordSpans, snapshot, selectedLine.Extent.Start.Position, totalCharacters, covered);
+                    AddWordSpan(wordSpans, snapshot, selectedLine.Extent.Start.Position, totalCharacters, trackedMethods);
                 }
                 else
                 {
-                    AddWordSpan(wordSpans, snapshot, selectedLine.Extent.Start.Position, selectedLine.Length, covered);
+                    AddWordSpan(wordSpans, snapshot, selectedLine.Extent.Start.Position, selectedLine.Length, trackedMethods);
                 }
             }
         }
@@ -285,7 +274,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
                 var selectedFile = allFiles.FirstOrDefault(file => fileName != null && PathBuilder.arePathsTheSame(IDEHelper.GetSolutionPath(), file.Item, fileName));
                 if (selectedFile != null)
                 {
-                    sequencePoints = allSequencePoints.Where(sp => sp != null && sp.document == selectedFile);
+                    sequencePoints = allSequencePoints.Where(sp => sp.document.Equals(selectedFile));
                 }
             }
 

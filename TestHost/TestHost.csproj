@@ -61,15 +61,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PerAssemblySequencePointsCoverage.cs" />
     <Compile Include="Marker.cs" />
-    <Compile Include="PerAssemblyTestIds.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CodeCoverageServer.cs" />
-    <Compile Include="PerDocumentSequencePoints.cs" />
-    <Compile Include="SerializableDictionary.cs" />
-    <Compile Include="PerTestIdResults.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
