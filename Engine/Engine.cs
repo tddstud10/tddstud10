@@ -6,8 +6,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
 using Microsoft.FSharp.Control;
 using Microsoft.FSharp.Core;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
@@ -15,38 +13,9 @@ using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
 using R4nd0mApps.TddStud10.TestExecution.Adapters;
-using R4nd0mApps.TddStud10.TestHost;
 
 namespace R4nd0mApps.TddStud10.Engine
 {
-    // TODO
-    // - make the stages assembly parallel 
-    //   - Marker/code cooverage server/client ned to be multi threaded - lazy kvp with valuefactory - http://arbel.net/2013/02/03/best-practices-for-using-concurrentdictionary/
-    // - Run pipeline assembly by assembly
-    // - rewrite the DiscoverUnitTest in FSharp and house it in testhost.core
-    // - Combine the instrument and seq pt passes
-    // - make the assembly selection logic DRY
-    // - can we borrow code from gallio to make codecoverage comm faster
-    // - support nunit
-    //   - remove xunit from vsix root
-    //
-    // - refactor out the domain model
-    //   v Move to domain: case insensitive comparision for FilePath, hashcode, comparable, etc.
-    //   v Rename to Session*
-    //   v Change to MethodId
-    //   v Change to MethodRid
-    //   v Make strongly typed
-    //     v all strings -> FilePath
-    //   v remove referece to testhost from package
-    //   v write discovered tests in z_disctests for diagnostic purposes
-    //   v change Marker calls in generated il
-    //   v dry violation - UnitTestStartLocation
-    //   - Move session* to engine, POCOS to domain model
-    //   - create seperate testruntime binary
-    //     - Put logger calls into marker
-    //     - dont copy test host into outdir
-    //   - Classify the domain
-    //   x move test host binaries into subfolder
     public static class Engine
     {
         public static RunStep[] CreateRunSteps()
@@ -337,7 +306,6 @@ namespace R4nd0mApps.TddStud10.Engine
                 {
                     // append the new data to the data already read-in
                     consoleOutput.Enqueue(e.Data);
-                    Logger.I.LogInfo(e.Data);
                 }
             );
             process.ErrorDataReceived += new DataReceivedEventHandler
@@ -346,7 +314,6 @@ namespace R4nd0mApps.TddStud10.Engine
                 {
                     // append the new data to the data already read-in
                     consoleOutput.Enqueue(e.Data);
-                    Logger.I.LogInfo(e.Data);
                 }
             );
             // start the process

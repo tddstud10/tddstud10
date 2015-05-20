@@ -35,22 +35,30 @@ namespace Server
                 store[assemId] = new List<SequencePointCoverage>();
             }
 
-            store[assemId].Add(
-                new SequencePointCoverage
-                {
-                    methodId = new MethodId
+            if (source != null && document != null && line != null)
+            {
+                store[assemId].Add(
+                    new SequencePointCoverage
                     {
-                        assemblyId = assemId,
-                        mdTokenRid = MdTokenRid.NewMdTokenRid(uint.Parse(mdToken))
-                    },
-                    sequencePointId = SequencePointId.NewSequencePointId(int.Parse(spid)),
-                    testId = new TestId
-                    {
-                        source = FilePath.NewFilePath(source),
-                        document = FilePath.NewFilePath(document),
-                        line = DocumentCoordinate.NewDocumentCoordinate(int.Parse(line))
-                    }
-                });
+                        methodId = new MethodId
+                        {
+                            assemblyId = assemId,
+                            mdTokenRid = MdTokenRid.NewMdTokenRid(uint.Parse(mdToken))
+                        },
+                        sequencePointId = SequencePointId.NewSequencePointId(int.Parse(spid)),
+                        testId = new TestId
+                        {
+                            source = FilePath.NewFilePath(source),
+                            document = FilePath.NewFilePath(document),
+                            line = DocumentCoordinate.NewDocumentCoordinate(int.Parse(line))
+                        }
+                    });
+            }
+            else
+            {
+                // This happens when instrumented code runs before unit test entry is called.
+                // TODO: Figure out how to deal with this.
+            }
         }
 
         public void SaveTestCases(string codeCoverageStore)

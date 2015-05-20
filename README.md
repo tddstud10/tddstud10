@@ -86,25 +86,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
     - ☑ generate dogfood build
     - ☑ test dogfood build
   - ☐ v0.3.2 - Test Host design online
-    - ☐ version number update - 3 places
-    - ☐ fix fsunit
+    - ☑ version number update - 3 places
     - ☐ Move to VS Test Adapter
       - ☑ Only move - with no change in domain model
         - ☑ Pull in vstest adapter stubs
         - ☑ Unify data model
         - ☑ Use discoverer to discover unit tests, instead of custom cecil based logic
-      - ☐ Refactor to move datamodel and break assembly dependency
-      - ☐ Establish realtime wire up for discovered tests
-      - ☐ Refactor Test runtime assembly
-      - ☐ Inject unit test id in marker calls to get rid of WCF server
-        - ☐ Reduce perf of run tests
-        - ☐ [permanent fix] Test name comparision [Editor crashes as unit test name doesnt ge registered sometime through Maker]
-      - ☐ Should be done automatically
-        - ☐ Support theory - current design treats all theory tests as the same - UnitTestName is the same
-        - ☐ Unit test name comparision is through simple text - will fail for generics e.g.
-        - ☐ incorrect comparision between cecil and xunit: crash
+      - ☑ Refactor to move datamodel and break assembly dependency
+      - ☑ AutoFixes
+        - ☑ Unit test name comparision is through simple text - will fail for generics e.g.
+        - ☑ incorrect comparision between cecil and xunit: crash
             from cecil: R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests/ITestServiceInterface R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests::Service Provider returns service interface if service is found
             from xunit: R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests+ITestServiceInterface R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests::Service Provider returns service interface if service is found      
+      - ☐ speed up the unit tests
+      - ☐ Establish realtime wire up for discovered tests
+      - ☐ Refactor Test runtime assembly
+        - ☐ Put logger calls into marker
+      - ☐ Support theory
+        - ☐ Current design treats all theory tests as the same - UnitTestName is the same
+        - ☐ in libraray1 project - failing a fact marks the theories also failed
+    - ☐ Ideas: make the stages assembly parallel 
+      - ☐ Marker/code cooverage server/client ned to be multi threaded - lazy kvp with valuefactory - http://arbel.net/2013/02/03/best-practices-for-using-concurrentdictionary/
+      - ☐ Run pipeline assembly by assembly
+    - ☐ fix fsunit
     - ☐ UI Markers
       - ☐ Mark unit tests in the editor
       - ☐ What is the exception thrown and the point of faiure?

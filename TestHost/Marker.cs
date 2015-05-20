@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.Remoting.Messaging;
 using System.ServiceModel;
 using R4nd0mApps.TddStud10.TestHost.Diagnostics;
 using Server;
@@ -10,20 +11,32 @@ namespace R4nd0mApps.TddStud10.TestHost
     {
         private static object syncObject = new Object();
 
-        [ThreadStatic]
-        private static string source;
-        [ThreadStatic]
-        private static string document;
-        [ThreadStatic]
-        private static string line;
+        public static string Source
+        {
+            get { return CallContext.LogicalGetData("Marker.Source") as string; }
+            set { CallContext.LogicalSetData("Marker.Source", value); }
+        }
+
+        public static string Document
+        {
+            get { return CallContext.LogicalGetData("Marker.Document") as string; }
+            set { CallContext.LogicalSetData("Marker.Document", value); }
+        }
+
+        public static string Line
+        {
+            get { return CallContext.LogicalGetData("Marker.Line") as string; }
+            set { CallContext.LogicalSetData("Marker.Line", value); }
+        }
+        
 
         private static ICodeCoverageServer channel;
 
         public static void EnterUnitTest(string source, string document, string line)
         {
-            Marker.source = source;
-            Marker.document = document;
-            Marker.line = line;
+            Source = source;
+            Document = document;
+            Line = line;
         }
 
         public static void EnterSequencePoint(string mvid, string mdToken, string spid)
@@ -36,7 +49,7 @@ namespace R4nd0mApps.TddStud10.TestHost
                 }
             }
 
-            channel.EnterSequencePoint(mvid, mdToken, spid, source, document, line);
+            channel.EnterSequencePoint(mvid, mdToken, spid, Source, Document, Line);
         }
 
         private static ICodeCoverageServer CreateChannel()

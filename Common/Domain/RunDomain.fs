@@ -1,10 +1,8 @@
-﻿namespace R4nd0mApps.TddStud10.Engine.Core
+﻿namespace R4nd0mApps.TddStud10.Common.Domain
 
-open R4nd0mApps.TddStud10.TestHost
 open System
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open System.Collections.Generic
-open R4nd0mApps.TddStud10.Common.Domain
+open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
 type PerAssemblyTestCases = IReadOnlyDictionary<FilePath, TestCase seq>
 

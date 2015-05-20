@@ -65,6 +65,7 @@
     <Compile Include="PerAssemblySequencePointsCoverage.fs" />
     <Compile Include="PerDocumentSequencePoints.fs" />
     <Compile Include="PerTestIdResults.fs" />
+    <Compile Include="RunDomain.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
