@@ -7,6 +7,7 @@ open System.IO
 open System
 open System.Reflection
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
+open R4nd0mApps.TddStud10.Common.Domain
 
 let expectedTests = 
     [ "XUnit20FSPortable.UnitTests.Fact Test 1", TestOutcome.Passed
@@ -19,6 +20,7 @@ let testBin =
     |> Path.GetFullPath
     |> Path.GetDirectoryName
     |> fun p -> Path.Combine(p, "TestData\\bins\\XUnit20FSPortable\\XUnit20FSPortable.dll")
+    |> FilePath
 
 let createExecutor() = 
     let te = new XUnitTestExecutor()

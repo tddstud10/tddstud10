@@ -32,7 +32,8 @@ let createDiscoveryContext() =
 
 let createMessageLogger() = 
     { new IMessageLogger with
-          member x.SendMessage(testMessageLevel : TestMessageLevel, message : string) : unit = () }
+          member x.SendMessage(testMessageLevel : TestMessageLevel, message : string) : unit =
+              Logger.logErrorf "TestPlatform: SendMessage call was unexpected : [%O] %s" testMessageLevel message }
 
 let createDiscoverySink td = 
     { new ITestCaseDiscoverySink with
@@ -88,11 +89,8 @@ let createFrameworkHandle te =
           
           member x.RecordAttachments(attachmentSets : IList<AttachmentSet>) : unit = 
               Logger.logErrorf "TestPlatform: RecordAttachments call was unexpected"
-              ()
-          
           member x.RecordEnd(testCase : TestCase, outcome : TestOutcome) : unit = ()
           member x.RecordResult(testResult : TestResult) : unit = te (testResult)
           member x.RecordStart(testCase : TestCase) : unit = ()
           member x.SendMessage(testMessageLevel : TestMessageLevel, message : string) : unit = 
-              Logger.logErrorf "TestPlatform: SendMessage call was unexpected"
-              () }
+              Logger.logErrorf "TestPlatform: SendMessage call was unexpected : [%O] %s" testMessageLevel message }

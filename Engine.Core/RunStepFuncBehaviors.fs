@@ -1,6 +1,7 @@
 ﻿module R4nd0mApps.TddStud10.Engine.Core.RunStepFuncBehaviors
 
 open System.Diagnostics
+open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.Engine.Diagnostics
 
 let eventsPublisher f = 

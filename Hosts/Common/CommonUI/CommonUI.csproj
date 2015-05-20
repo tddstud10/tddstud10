@@ -94,6 +94,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Domain\Domain.fsproj">
+      <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Engine.Core\Engine.Core.fsproj">
       <Project>{e5fb2292-1833-4c4c-800e-a31ac891a931}</Project>
       <Name>Engine.Core</Name>

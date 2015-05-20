@@ -2,6 +2,7 @@
 
 open Xunit
 open System
+open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.TestHost
 open R4nd0mApps.TddStud10.Engine.TestDoubles
 open R4nd0mApps.TddStud10.Engine.TestFramework

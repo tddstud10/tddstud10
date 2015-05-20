@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
@@ -276,9 +277,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
             InvokeOnUIThread(
                 () => CoverageData.Instance.UpdateCoverageResults(
-                    rd.sequencePoints == Microsoft.FSharp.Core.FSharpOption<SequencePoints>.None ? new SequencePoints() : rd.sequencePoints.Value,
-                    rd.codeCoverageResults == Microsoft.FSharp.Core.FSharpOption<CoverageSession>.None ? new CoverageSession() : rd.codeCoverageResults.Value,
-                    rd.executedTests == Microsoft.FSharp.Core.FSharpOption<TestResults>.None ? new TestResults() : rd.executedTests.Value)
+                    rd.sequencePoints == Microsoft.FSharp.Core.FSharpOption<PerAssemblySequencePoints>.None ? new PerAssemblySequencePoints() : rd.sequencePoints.Value,
+                    rd.codeCoverageResults == Microsoft.FSharp.Core.FSharpOption<PerAssemblySequencePointsCoverage>.None ? new PerAssemblySequencePointsCoverage() : rd.codeCoverageResults.Value,
+                    rd.executedTests == Microsoft.FSharp.Core.FSharpOption<PerTestIdResults>.None ? new PerTestIdResults() : rd.executedTests.Value)
             );
         }
 

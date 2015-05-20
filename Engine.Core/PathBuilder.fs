@@ -4,6 +4,7 @@ open System
 open R4nd0mApps.TddStud10.Engine.Diagnostics
 open System.IO
 open R4nd0mApps.TddStud10
+open R4nd0mApps.TddStud10.Common.Domain
 
 module PathBuilder = 
 

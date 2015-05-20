@@ -11,6 +11,7 @@ using GalaSoft.MvvmLight;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.Common;
 using R4nd0mApps.TddStud10.TestHost.Diagnostics;
+using R4nd0mApps.TddStud10.Common.Domain;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
 {

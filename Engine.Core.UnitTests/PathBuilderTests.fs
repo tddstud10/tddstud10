@@ -1,5 +1,6 @@
 ﻿module R4nd0mApps.TddStud10.Engine.Core.PathBuilderTests
 
+open R4nd0mApps.TddStud10.Common.Domain
 open Xunit
 
 [<Theory>]

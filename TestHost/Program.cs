@@ -8,6 +8,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.FSharp.Control;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.TestExecution.Adapters;
 using R4nd0mApps.TddStud10.TestHost.Diagnostics;
 using Server;
@@ -16,9 +17,6 @@ namespace R4nd0mApps.TddStud10.TestHost
 {
     public class Program
     {
-        private static XmlSerializer serializer = new XmlSerializer(typeof(List<string>));
-
-        private static string solutionBuildRoot;
         private static string codeCoverageStore;
         private static string testResultsStore;
         private static string discoveredUnitTestsStore;
@@ -39,7 +37,6 @@ namespace R4nd0mApps.TddStud10.TestHost
         {
             bool runFailed = true;
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomainUnhandledException);
-            solutionBuildRoot = args[1];
             codeCoverageStore = args[2];
             testResultsStore = args[3];
             discoveredUnitTestsStore = args[4];
@@ -73,9 +70,9 @@ namespace R4nd0mApps.TddStud10.TestHost
 
             LogInfo("TestHost executing tests...");
             stopWatch.Start();
-            var testResults = new TestResults();
+            var testResults = new PerTestIdResults();
             var utAssemblies = LoadUnitTestAssemblies();
-            foreach (var asm in utAssemblies)
+            foreach (var asm in utAssemblies.Keys)
             {
                 LogInfo("Executing tests in {0}.", asm);
 
@@ -94,47 +91,29 @@ namespace R4nd0mApps.TddStud10.TestHost
             LogInfo("Done TestHost executing tests! [" + elapsedTime + "]");
             LogInfo("");
 
-            return testResults.Values.Contains(TestResult.Failed);
+            return testResults.Values.Contains(TestOutcome.Failed);
         }
 
-        private static void NoteTestResults(TestResults testResults, Microsoft.VisualStudio.TestPlatform.ObjectModel.TestResult ea)
+        private static void NoteTestResults(PerTestIdResults testResults, Microsoft.VisualStudio.TestPlatform.ObjectModel.TestResult ea)
         {
             LogInfo("Test: {0} - {1}", ea.DisplayName, ea.Outcome);
 
-            var hash = ea.TestCase.Source.ToUpperInvariant() + "|" + ea.TestCase.CodeFilePath.ToUpperInvariant() + "|" + ea.TestCase.LineNumber.ToString(CultureInfo.InvariantCulture);
+            var testId = new TestId(
+                FilePath.NewFilePath(ea.TestCase.Source), 
+                FilePath.NewFilePath(ea.TestCase.CodeFilePath), 
+                DocumentCoordinate.NewDocumentCoordinate(ea.TestCase.LineNumber));
 
-            var testResult = TestResult.Failed;
-            switch (ea.Outcome)
-            {
-                case TestOutcome.None:
-                    testResult = TestResult.Failed;
-                    break;
-                case TestOutcome.NotFound:
-                    testResult = TestResult.Failed;
-                    break;
-                case TestOutcome.Skipped:
-                    testResult = TestResult.Skipped;
-                    break;
-                case TestOutcome.Failed:
-                    testResult = TestResult.Failed;
-                    break;
-                case TestOutcome.Passed:
-                    testResult = TestResult.Passed;
-                    break;
-            }
-
-            testResults.TryAdd(hash.ToString(CultureInfo.InvariantCulture), testResult);
+            testResults.TryAdd(testId, ea.Outcome);
         }
 
-        private static IEnumerable<string> LoadUnitTestAssemblies()
+        private static PerAssemblyTestIds LoadUnitTestAssemblies()
         {
             var testCases = File.ReadAllText(discoveredUnitTestsStore);
             StringReader reader = new StringReader(testCases);
             XmlTextReader xmlReader = new XmlTextReader(reader);
             try
             {
-                var serializer = new XmlSerializer(typeof(List<string>));
-                return serializer.Deserialize(xmlReader) as List<string>;
+                return PerAssemblyTestIds.Serializer.Deserialize(xmlReader) as PerAssemblyTestIds;
             }
             finally
             {
@@ -143,11 +122,11 @@ namespace R4nd0mApps.TddStud10.TestHost
             }
         }
 
-        private static void SaveTestResults(TestResults testDetails)
+        private static void SaveTestResults(PerTestIdResults testDetails)
         {
             StringWriter writer = new StringWriter();
 
-            TestResults.Serializer.Serialize(writer, testDetails);
+            PerTestIdResults.Serializer.Serialize(writer, testDetails);
             File.WriteAllText(testResultsStore, writer.ToString());
         }
     }

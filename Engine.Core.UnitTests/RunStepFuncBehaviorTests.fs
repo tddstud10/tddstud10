@@ -2,6 +2,7 @@
 
 open Xunit
 open System
+open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.Engine.TestFramework
 
 let ex = new InvalidOperationException("A mock method threw")

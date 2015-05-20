@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using R4nd0mApps.TddStud10.Engine.Core;
+using R4nd0mApps.TddStud10.Common.Domain;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common
 {

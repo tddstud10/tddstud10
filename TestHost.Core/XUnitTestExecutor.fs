@@ -2,7 +2,7 @@
 
 open System
 open R4nd0mApps.TddStud10.TestExecution
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
+open R4nd0mApps.TddStud10.Common.Domain
 open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
 
 type XUnitTestExecutor() = 
@@ -11,7 +11,6 @@ type XUnitTestExecutor() =
     let fh = TestPlatformExtensions.createFrameworkHandle
     let testExecuted = new Event<_>()
     member public t.TestExecuted = testExecuted.Publish
-    // TODO: Change to FilePath
-    member public t.ExecuteTests (testAssembly : string) = 
+    member public t.ExecuteTests(FilePath asm) = 
         let te = TestPlatformExtensions.loadTestAdapter() :?> ITestExecutor
-        te.RunTests([testAssembly], rc, fh testExecuted.Trigger)
+        te.RunTests([ asm ], rc, fh testExecuted.Trigger)

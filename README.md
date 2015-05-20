@@ -100,7 +100,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
         - ☐ Reduce perf of run tests
         - ☐ [permanent fix] Test name comparision [Editor crashes as unit test name doesnt ge registered sometime through Maker]
       - ☐ Should be done automatically
-        - ☐ Support theory
+        - ☐ Support theory - current design treats all theory tests as the same - UnitTestName is the same
         - ☐ Unit test name comparision is through simple text - will fail for generics e.g.
         - ☐ incorrect comparision between cecil and xunit: crash
             from cecil: R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests/ITestServiceInterface R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests::Service Provider returns service interface if service is found
@@ -119,6 +119,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
       - ☐ Move data carriers to common assembly
       - ☐ Spew z_ files for diagnostics
     - ☐ Send test execution status to toolwindow
+  - Defects: If last line doenst have a newline - 
+      12:56.581-07808-09328:    at Microsoft.VisualStudio.Text.SnapshotSpan..ctor(ITextSnapshot snapshot, Span span)
+       at R4nd0mApps.TddStud10.Hosts.VS.Helper.TextViewCoverageProviderBase.AddWordSpan(List`1 wordSpans, ITextSnapshot snapshot, Int32 startColumn, Int32 totalCharacters
+    , CovData covered) in d:\src\r4nd0mapps\tddstud10\Hosts\VS\TddStudioPackage\EditorExtensions\TextViewCoverageProviderBase.cs:line 159
+       at R4nd0mApps.TddStud10.Hosts.VS.Helper.TextViewCoverageProviderBase.GetWordSpans(ITextSnapshot snapshot) in d:\src\r4nd0mapps\tddstud10\Hosts\VS\TddStudioPackage\
+    EditorExtensions\TextViewCoverageProviderBase.cs:line 206
   - ☐☐ FxCop, StyleCop, FSharpLint and AppVeyor
   - ☐☐ Possible corner cases
     - ☐ xunit 1.9 tests when mixed with xunit 2.0 projects (in same solution) doesn't execute

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
+using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
@@ -167,11 +168,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
 
         public class CovData
         {
-            public IEnumerable<string> TrackedMethods { get; set; }
+            public IEnumerable<TestId> TrackedMethods { get; set; }
 
             public CovData()
             {
-                TrackedMethods = new string[0];
+                TrackedMethods = new TestId[0];
             }
         }
 
@@ -196,16 +197,16 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
                         var covData = new CovData();
                         covData.TrackedMethods = CoverageData.Instance.GetUnitTestsCoveringSequencePoint(sequencePoint);
 
-                        int sequencePointStartLine = sequencePoint.StartLine - 1;
-                        int sequencePointEndLine = sequencePoint.EndLine - 1;
+                        int sequencePointStartLine = sequencePoint.startLine.Item - 1;
+                        int sequencePointEndLine = sequencePoint.endLine.Item - 1;
 
                         var startLine = snapshot.Lines.FirstOrDefault(line => line.LineNumber == sequencePointStartLine);
 
-                        if (sequencePoint.EndLine == sequencePoint.StartLine)
+                        if (sequencePoint.endLine == sequencePoint.startLine)
                         {
                             AddWordSpan(wordSpans, snapshot,
-                                        startLine.Extent.Start.Position + sequencePoint.StartColumn - 1,
-                                        sequencePoint.EndColumn - sequencePoint.StartColumn + 1, covData);
+                                        startLine.Extent.Start.Position + sequencePoint.startColumn.Item - 1,
+                                        sequencePoint.endColumn.Item - sequencePoint.startColumn.Item + 1, covData);
                         }
                         else
                         {
@@ -252,13 +253,13 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
             {
                 if (selectedLine.LineNumber == sequencePointStartLine)
                 {
-                    totalCharacters = selectedLine.Length - sequencePoint.StartColumn + 1;
+                    totalCharacters = selectedLine.Length - sequencePoint.startColumn.Item + 1;
 
-                    AddWordSpan(wordSpans, snapshot, selectedLine.Extent.Start.Position + sequencePoint.StartColumn - 1, totalCharacters, covered);
+                    AddWordSpan(wordSpans, snapshot, selectedLine.Extent.Start.Position + sequencePoint.startColumn.Item - 1, totalCharacters, covered);
                 }
                 else if (selectedLine.LineNumber == sequencePointEndLine)
                 {
-                    var temp = selectedLine.Length - (sequencePoint.EndColumn - 1);
+                    var temp = selectedLine.Length - (sequencePoint.endColumn.Item - 1);
                     totalCharacters = selectedLine.Length - temp;
 
                     AddWordSpan(wordSpans, snapshot, selectedLine.Extent.Start.Position, totalCharacters, covered);
@@ -281,10 +282,10 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
                 // NOTE: fileName comes out NULL sometimes. i.e. ITextBuffer does not have the ITextDocument property.
                 // Not sure why that happens, but it doesnt seem to impact anything. TB fixed later once we finalize the
                 // design for this layer.
-                var selectedFile = allFiles.FirstOrDefault(file => fileName != null && PathBuilder.arePathsTheSame(IDEHelper.GetSolutionPath(), file, fileName));
+                var selectedFile = allFiles.FirstOrDefault(file => fileName != null && PathBuilder.arePathsTheSame(IDEHelper.GetSolutionPath(), file.Item, fileName));
                 if (selectedFile != null)
                 {
-                    sequencePoints = allSequencePoints.Where(sp => sp != null && sp.File == selectedFile);
+                    sequencePoints = allSequencePoints.Where(sp => sp != null && sp.document == selectedFile);
                 }
             }
 

@@ -151,7 +151,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
                 {
                     if (Debugger.IsAttached)
                     {
-                        Logger.I.LogError("Method found, stopping _solution search");
+                        Logger.I.LogError("methodId found, stopping _solution search");
                     }
 
                     return; 
@@ -180,7 +180,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
                         {
                             var filepath = (string)projectItem.Properties.Item("FullPath").Value;
 
-                            Logger.I.LogInfo("Method '{0}' found, opening file: '{1}'", fullyQualifiedMethodName, filepath);
+                            Logger.I.LogInfo("methodId '{0}' found, opening file: '{1}'", fullyQualifiedMethodName, filepath);
                             OpenFile(DTE, filepath);
 
                             int methodStartLine = discoveredMethodElement.StartPoint.Line;

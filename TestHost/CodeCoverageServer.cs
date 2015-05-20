@@ -8,6 +8,8 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Xml.Serialization;
 using R4nd0mApps.TddStud10.Engine;
+using R4nd0mApps.TddStud10.TestHost.Diagnostics;
+using R4nd0mApps.TddStud10.Common.Domain;
 
 namespace Server
 {
@@ -15,22 +17,41 @@ namespace Server
     public interface ICodeCoverageServer
     {
         [OperationContract]
-        void EnterSequencePoint(string mvid, string mdToken, string spid, string executingUnitTest);
+        void Ping();
+
+        [OperationContract]
+        void EnterSequencePoint(string mvid, string mdToken, string spid, string source, string document, string line);
     }
 
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class CodeCoverageServer : ICodeCoverageServer
     {
-        private CoverageSession store = new CoverageSession();
+        private PerAssemblySequencePointsCoverage store = new PerAssemblySequencePointsCoverage();
 
-        public void EnterSequencePoint(string mvid, string mdToken, string spid, string executingUnitTest)
+        public void EnterSequencePoint(string mvid, string mdToken, string spid, string source, string document, string line)
         {
-            if (!store.ContainsKey(mvid))
+            var assemId = AssemblyId.NewAssemblyId(Guid.Parse(mvid));
+            if (!store.ContainsKey(assemId))
             {
-                store[mvid] = new List<CoverageHitInfo>();
+                store[assemId] = new List<SequencePointCoverage>();
             }
 
-            store[mvid].Add(new CoverageHitInfo { Method = new MethodId { Mvid = mvid, MdToken = mdToken }, SpId = spid, UnitTest = executingUnitTest });
+            store[assemId].Add(
+                new SequencePointCoverage
+                {
+                    methodId = new MethodId
+                    {
+                        assemblyId = assemId,
+                        mdTokenRid = MdTokenRid.NewMdTokenRid(uint.Parse(mdToken))
+                    },
+                    sequencePointId = SequencePointId.NewSequencePointId(int.Parse(spid)),
+                    testId = new TestId
+                    {
+                        source = FilePath.NewFilePath(source),
+                        document = FilePath.NewFilePath(document),
+                        line = DocumentCoordinate.NewDocumentCoordinate(int.Parse(line))
+                    }
+                });
         }
 
         public void SaveTestCases(string codeCoverageStore)
@@ -41,6 +62,15 @@ namespace Server
             File.WriteAllText(codeCoverageStore, writer.ToString());
         }
 
-        private static XmlSerializer serializer = new XmlSerializer(typeof(CoverageSession));
+        private static XmlSerializer serializer = new XmlSerializer(typeof(PerAssemblySequencePointsCoverage));
+
+        #region ICodeCoverageServer Members
+
+        public void Ping()
+        {
+            Logger.I.LogInfo("ICodeCoverageServer - responding to ping.");
+        }
+
+        #endregion
     }
 }

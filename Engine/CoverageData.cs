@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.TestHost;
 
 namespace R4nd0mApps.TddStud10.Engine
@@ -21,13 +22,13 @@ namespace R4nd0mApps.TddStud10.Engine
             }
         }
 
-        public CoverageSession CoverageSession { get; set; }
+        public PerAssemblySequencePointsCoverage CoverageSession { get; set; }
 
-        public TestResults TestDetails { get; set; }
+        public PerTestIdResults TestDetails { get; set; }
 
-        public SequencePoints SequencePointSession { get; set; }
+        public PerAssemblySequencePoints SequencePointSession { get; set; }
 
-        public void UpdateCoverageResults(SequencePoints seqPtSession, CoverageSession data, TestResults testDetails)
+        public void UpdateCoverageResults(PerAssemblySequencePoints seqPtSession, PerAssemblySequencePointsCoverage data, PerTestIdResults testDetails)
         {
             SequencePointSession = seqPtSession;
             CoverageSession = data;
@@ -42,7 +43,7 @@ namespace R4nd0mApps.TddStud10.Engine
 
         public event EventHandler NewCoverageDataAvailable;
 
-        public IEnumerable<string> GetFiles()
+        public IEnumerable<FilePath> GetFiles()
         {
             return from kvp in SequencePointSession
                    select kvp.Key;
@@ -55,12 +56,12 @@ namespace R4nd0mApps.TddStud10.Engine
                    select sps;
         }
 
-        public IEnumerable<string> GetUnitTestsCoveringSequencePoint(SequencePoint sequencePoint)
+        public IEnumerable<TestId> GetUnitTestsCoveringSequencePoint(SequencePoint sequencePoint)
         {
             var unitTests = from kvp in CoverageSession
                             from chi in kvp.Value
-                            where chi.Method.Mvid == sequencePoint.Mvid && chi.Method.MdToken == sequencePoint.MdToken
-                            select chi.UnitTest;
+                            where chi.methodId.assemblyId == sequencePoint.assemblyId && chi.methodId.mdTokenRid == sequencePoint.methodId
+                            select chi.testId;
             return unitTests.Distinct();
         }
     }

@@ -1,6 +1,7 @@
 ﻿namespace R4nd0mApps.TddStud10.Engine.Core
 
 open System
+open R4nd0mApps.TddStud10.Common.Domain
 
 (* NOTE: 
    This should just be a wire up class. No business logic at all. 

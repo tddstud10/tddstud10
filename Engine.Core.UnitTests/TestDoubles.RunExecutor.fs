@@ -1,5 +1,6 @@
 ﻿module R4nd0mApps.TddStud10.Engine.TestDoubles
 
+open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.Engine.Core
 open R4nd0mApps.TddStud10.Engine.TestFramework
 open R4nd0mApps.TddStud10.TestHost
@@ -15,7 +16,7 @@ type public TestHost(cancelStep : int) =
 
 let getRss rss = 
     fun n k rd ->
-        let retRd = { rd with sequencePoints = Some(new SequencePoints()) }
+        let retRd = { rd with sequencePoints = Some(new PerAssemblySequencePoints()) }
         { rss with name = n
                    kind = k
                    status = Failed
@@ -33,7 +34,7 @@ type StepFunc(behavior) =
         match behavior with
         | DoesNotThrow -> ()
         | Throws(ex) -> raise ex
-        let retRd = { rd with sequencePoints = Some(new SequencePoints()) }
+        let retRd = { rd with sequencePoints = Some(new PerAssemblySequencePoints()) }
         t.ReturningWith <- Some(retRd.GetHashCode())
         { name = name
           kind = kind

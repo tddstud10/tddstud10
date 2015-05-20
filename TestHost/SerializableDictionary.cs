@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 
 namespace R4nd0mApps.TddStud10
-{ 
+{
     [XmlRoot("dictionary")]
     public class SerializableDictionary<TKey, TValue>
         : ConcurrentDictionary<TKey, TValue>, IXmlSerializable
@@ -14,8 +14,8 @@ namespace R4nd0mApps.TddStud10
         {
         }
 
-        public SerializableDictionary(IEqualityComparer<TKey> comparer)
-            : base(comparer)
+        public SerializableDictionary(IEnumerable<KeyValuePair<TKey, TValue>> collection)
+            : base(collection)
         {
         }
 

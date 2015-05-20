@@ -1,6 +1,7 @@
 ﻿namespace R4nd0mApps.TddStud10.TestExecution.Adapters
 
 open R4nd0mApps.TddStud10.TestExecution
+open R4nd0mApps.TddStud10.Common.Domain
 open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
 
 type XUnitTestDiscoverer() = 
@@ -9,6 +10,6 @@ type XUnitTestDiscoverer() =
     let ds = TestPlatformExtensions.createDiscoverySink
     let testDiscovered = new Event<_>()
     member public t.TestDiscovered = testDiscovered.Publish
-    member public t.DiscoverTests testAssembly = 
+    member public t.DiscoverTests(FilePath asm) = 
         let td = TestPlatformExtensions.loadTestAdapter() :?> ITestDiscoverer
-        td.DiscoverTests([ testAssembly ], dc, ml, ds testDiscovered.Trigger)
+        td.DiscoverTests([ asm ], dc, ml, ds testDiscovered.Trigger)

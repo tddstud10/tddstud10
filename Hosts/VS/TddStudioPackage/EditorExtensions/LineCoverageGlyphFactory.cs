@@ -13,6 +13,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
@@ -141,12 +142,12 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
                     .Where(tm => tm != null)
                     .Select(tm => CoverageData.Instance.TestDetails[tm]);
 
-                if (results.Any(r => r == TestResult.Failed))
+                if (results.Any(r => r == TestOutcome.Failed))
                 {
                     return LineCoverageState.CoveredWithAtleastOneFailedTest;
                 }
 
-                if (results.All(r => r == TestResult.Passed))
+                if (results.All(r => r == TestOutcome.Passed))
                 {
                     return LineCoverageState.CoveredWithPassingTests;
                 }

@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
+using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
 using R4nd0mApps.TddStud10.TestHost;
@@ -16,7 +17,7 @@ namespace R4nd0mApps.TddStud10
 {
     internal class Instrumentation
     {
-        public static SequencePoints GenerateSequencePointInfo(DateTime timeFilter, string buildOutputRoot)
+        public static PerAssemblySequencePoints GenerateSequencePointInfo(DateTime timeFilter, string buildOutputRoot)
         {
             try
             {
@@ -30,14 +31,14 @@ namespace R4nd0mApps.TddStud10
             return null;
         }
 
-        public static SequencePoints GenerateSequencePointInfoImpl(DateTime timeFilter, string buildOutputRoot)
+        public static PerAssemblySequencePoints GenerateSequencePointInfoImpl(DateTime timeFilter, string buildOutputRoot)
         {
             Logger.I.LogInfo(
                 "Generating sequence point info: Time filter - {0}, Build output root - {1}.",
                 timeFilter.ToLocalTime(),
                 buildOutputRoot);
 
-            var dict = new SequencePoints();
+            var dict = new PerAssemblySequencePoints();
             var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".dll", ".exe" };
             foreach (var assemblyPath in Directory.EnumerateFiles(buildOutputRoot, "*").Where(s => extensions.Contains(Path.GetExtension(s))))
             {
@@ -68,21 +69,22 @@ namespace R4nd0mApps.TddStud10
                 int id = 0;
                 foreach (var sp in sps)
                 {
-                    if (!dict.ContainsKey(sp.SequencePoint.Document.Url))
+                    var fp = FilePath.NewFilePath(sp.SequencePoint.Document.Url);
+                    if (!dict.ContainsKey(fp))
                     {
-                        dict[sp.SequencePoint.Document.Url] = new List<SequencePoint>();
+                        dict[fp] = new List<R4nd0mApps.TddStud10.Common.Domain.SequencePoint>();
                     }
 
-                    dict[sp.SequencePoint.Document.Url].Add(new SequencePoint
+                    dict[fp].Add(new R4nd0mApps.TddStud10.Common.Domain.SequencePoint
                     {
-                        Mvid = sp.mod.Mvid.ToString(),
-                        MdToken = sp.m.MetadataToken.RID.ToString(),
-                        ID = (id++).ToString(),
-                        File = sp.SequencePoint.Document.Url,
-                        StartLine = sp.SequencePoint.StartLine,
-                        StartColumn = sp.SequencePoint.StartColumn,
-                        EndLine = sp.SequencePoint.EndLine,
-                        EndColumn = sp.SequencePoint.EndColumn,
+                        assemblyId = AssemblyId.NewAssemblyId(sp.mod.Mvid),
+                        methodId = MdTokenRid.NewMdTokenRid(sp.m.MetadataToken.RID),
+                        id = SequencePointId.NewSequencePointId(id++),
+                        document = fp,
+                        startLine = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.StartLine),
+                        startColumn = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.StartColumn),
+                        endLine = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.EndLine),
+                        endColumn = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.EndColumn),
                     });
                 }
             }
@@ -159,7 +161,7 @@ namespace R4nd0mApps.TddStud10
                                            select m;
 
                 /*
-                   IL_0001: ldstr <mvid>
+                   IL_0001: ldstr <assemblyId>
                    IL_0006: ldstr <mdtoken>
                    IL_000b: ldstr <spid>
                    IL_000d: call void R4nd0mApps.TddStud10.TestHost.Marker::EnterSequencePoint(string, ldstr, ldstr)
@@ -187,7 +189,7 @@ namespace R4nd0mApps.TddStud10
                             var ret = IsSequencePointAtStartOfAUnitTest(spi.Select(i => i.SequencePoint).FirstOrDefault(), FilePath.NewFilePath(assemblyPath), testsPerAssembly);
                             if (ret.Item1)
                             {
-                                var unitTestName = ret.Item2;
+                                var testId = ret.Item2;
 
                                 Instruction instrMarker = meth.Body.Instructions[0];
                                 Instruction instr = null;
@@ -198,7 +200,15 @@ namespace R4nd0mApps.TddStud10
                                 ilProcessor.InsertBefore(instrMarker, instr);
                                 instrMarker = instr;
                                 // IL_0006: ldstr <string>
-                                instr = ilProcessor.Create(OpCodes.Ldstr, unitTestName);
+                                instr = ilProcessor.Create(OpCodes.Ldstr, testId.line.Item.ToString(CultureInfo.InvariantCulture));
+                                ilProcessor.InsertBefore(instrMarker, instr);
+                                instrMarker = instr;
+                                // IL_0006: ldstr <string>
+                                instr = ilProcessor.Create(OpCodes.Ldstr, testId.document.Item);
+                                ilProcessor.InsertBefore(instrMarker, instr);
+                                instrMarker = instr;
+                                // IL_0006: ldstr <string>
+                                instr = ilProcessor.Create(OpCodes.Ldstr, testId.source.Item);
                                 ilProcessor.InsertBefore(instrMarker, instr);
                                 instrMarker = instr;
                             }
@@ -223,7 +233,7 @@ namespace R4nd0mApps.TddStud10
                                 instr = ilProcessor.Create(OpCodes.Ldstr, meth.MetadataToken.RID.ToString());
                                 ilProcessor.InsertBefore(instrMarker, instr);
                                 instrMarker = instr;
-                                // IL_0001: ldstr <mvid>
+                                // IL_0001: ldstr <assemblyId>
                                 instr = ilProcessor.Create(OpCodes.Ldstr, module.Mvid.ToString());
                                 ilProcessor.InsertBefore(instrMarker, instr);
                                 instrMarker = instr;
@@ -249,25 +259,30 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        private static Tuple<bool, string> IsSequencePointAtStartOfAUnitTest(Mono.Cecil.Cil.SequencePoint sp, FilePath assemblyPath, IReadOnlyDictionary<FilePath, IEnumerable<TestCase>> testsPerAssembly)
+        private static Tuple<bool, TestId> IsSequencePointAtStartOfAUnitTest(Mono.Cecil.Cil.SequencePoint sp, FilePath assemblyPath, IReadOnlyDictionary<FilePath, IEnumerable<TestCase>> testsPerAssembly)
         {
             if (sp == null)
             {
-                return new Tuple<bool, string>(false, "");
+                return new Tuple<bool, TestId>(false, null);
             }
 
             if (!testsPerAssembly.ContainsKey(assemblyPath))
             {
-                return new Tuple<bool, string>(false, "");
+                return new Tuple<bool, TestId>(false, null);
             }
 
             if (testsPerAssembly[assemblyPath].Any(tc => tc.CodeFilePath == sp.Document.Url && tc.LineNumber == sp.StartLine))
             {
-                return new Tuple<bool, string>(true, assemblyPath.Item.ToUpperInvariant() + "|" + sp.Document.Url.ToUpperInvariant() + "|" + sp.StartLine.ToString(CultureInfo.InvariantCulture));
+                return new Tuple<bool, TestId>(
+                    true, 
+                    new TestId(
+                        assemblyPath, 
+                        FilePath.NewFilePath(sp.Document.Url), 
+                        DocumentCoordinate.NewDocumentCoordinate(sp.StartLine)));
             }
             else
             {
-                return new Tuple<bool, string>(false, "");
+                return new Tuple<bool, TestId>(false, null);
             }
         }
     }

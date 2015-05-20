@@ -3,6 +3,7 @@
 open R4nd0mApps.TddStud10.Engine.Diagnostics
 open System
 open R4nd0mApps.TddStud10.Engine.Core
+open R4nd0mApps.TddStud10.Common.Domain
 
 let inline (~~) s = FilePath s
 
