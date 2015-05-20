@@ -55,20 +55,19 @@ type TestId =
       line : DocumentCoordinate }
 
 [<CLIMutable>]
-type SequencePoint = 
+type MethodId = 
     { assemblyId : AssemblyId
-      methodId : MdTokenRid
+      mdTokenRid : MdTokenRid }
+
+[<CLIMutable>]
+type SequencePoint = 
+    { methodId : MethodId
       id : SequencePointId
       document : FilePath
       startLine : DocumentCoordinate
       startColumn : DocumentCoordinate
       endLine : DocumentCoordinate
       endColumn : DocumentCoordinate }
-
-[<CLIMutable>]
-type MethodId = 
-    { assemblyId : AssemblyId
-      mdTokenRid : MdTokenRid }
 
 [<CLIMutable>]
 type SequencePointCoverage = 

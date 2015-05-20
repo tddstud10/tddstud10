@@ -277,7 +277,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
             InvokeOnUIThread(
                 () => CoverageData.Instance.UpdateCoverageResults(
-                    rd.sequencePoints == Microsoft.FSharp.Core.FSharpOption<PerAssemblySequencePoints>.None ? new PerAssemblySequencePoints() : rd.sequencePoints.Value,
+                    rd.sequencePoints == Microsoft.FSharp.Core.FSharpOption<PerDocumentSequencePoints>.None ? new PerDocumentSequencePoints() : rd.sequencePoints.Value,
                     rd.codeCoverageResults == Microsoft.FSharp.Core.FSharpOption<PerAssemblySequencePointsCoverage>.None ? new PerAssemblySequencePointsCoverage() : rd.codeCoverageResults.Value,
                     rd.executedTests == Microsoft.FSharp.Core.FSharpOption<PerTestIdResults>.None ? new PerTestIdResults() : rd.executedTests.Value)
             );

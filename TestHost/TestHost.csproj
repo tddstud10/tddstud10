@@ -67,7 +67,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CodeCoverageServer.cs" />
-    <Compile Include="PerAssemblySequencePoints.cs" />
+    <Compile Include="PerDocumentSequencePoints.cs" />
     <Compile Include="SerializableDictionary.cs" />
     <Compile Include="PerTestIdResults.cs" />
   </ItemGroup>

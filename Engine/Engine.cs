@@ -106,33 +106,9 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private static RunData CreateRunDataForRunTest(RunData rd, string coverageSessionStore, string testResultsStore, string discoveredUnitTestsStore)
         {
-            PerTestIdResults testResults = null;
-            var res = File.ReadAllText(testResultsStore);
-            var reader = new StringReader(res);
-            var xmlReader = new XmlTextReader(reader);
-            try
-            {
-                testResults = PerTestIdResults.Serializer.Deserialize(xmlReader) as PerTestIdResults;
-            }
-            finally
-            {
-                xmlReader.Close();
-                reader.Close();
-            }
+            PerTestIdResults testResults = PerTestIdResults.Deserialize(testResultsStore);
 
-            PerAssemblySequencePointsCoverage coverageSession = null;
-            res = File.ReadAllText(coverageSessionStore);
-            reader = new StringReader(res);
-            xmlReader = new XmlTextReader(reader);
-            try
-            {
-                coverageSession = PerAssemblySequencePointsCoverage.Serializer.Deserialize(xmlReader) as PerAssemblySequencePointsCoverage;
-            }
-            finally
-            {
-                xmlReader.Close();
-                reader.Close();
-            }
+            PerAssemblySequencePointsCoverage coverageSession = PerAssemblySequencePointsCoverage.Deserialize(coverageSessionStore);
 
             return new RunData(
                 rd.startTime,
@@ -182,6 +158,20 @@ namespace R4nd0mApps.TddStud10.Engine
                 }
             }
 
+            var unitTestAssemblies = new PerAssemblyTestIds(
+                testsPerAssembly.ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value.Select(
+                        tc => new TestId(
+                            FilePath.NewFilePath(tc.Source),
+                            FilePath.NewFilePath(tc.CodeFilePath),
+                            DocumentCoordinate.NewDocumentCoordinate(tc.LineNumber))).ToList()));
+
+            var discoveredUnitTestsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
+            unitTestAssemblies.Serialize(discoveredUnitTestsStore);
+
+            Logger.I.LogInfo("Written discovered unit tests to {0}.", discoveredUnitTestsStore);
+
             return new RunData(
                 rd.startTime,
                 rd.solutionPath,
@@ -191,7 +181,6 @@ namespace R4nd0mApps.TddStud10.Engine
                 rd.sequencePoints,
                 rd.codeCoverageResults,
                 rd.executedTests).ToRSR(name, kind, RunStepStatus.Succeeded, "Unit Tests Discovered - which ones - TBD");
-
         }
 
         private static RunStepResult InstrumentBinaries(IRunExecutorHost host, RunStepName name, RunStepKind kind, RunData rd)
@@ -200,12 +189,7 @@ namespace R4nd0mApps.TddStud10.Engine
             var dict = Instrumentation.GenerateSequencePointInfo(rd.startTime, rd.solutionBuildRoot.Item);
             if (dict != null)
             {
-                using (StringWriter writer = new StringWriter())
-                {
-                    PerAssemblySequencePoints.Serializer.Serialize(writer, dict);
-                    File.WriteAllText(sequencePointStore, writer.ToString());
-                    Logger.I.LogInfo("Written sequence points to {0}.", sequencePointStore);
-                }
+                dict.Serialize(sequencePointStore);
             }
 
             if (!host.CanContinue())
@@ -215,29 +199,12 @@ namespace R4nd0mApps.TddStud10.Engine
 
             Instrumentation.Instrument(rd.startTime, Path.GetDirectoryName(rd.solutionPath.Item), rd.solutionBuildRoot.Item, rd.testsPerAssembly);
 
-            using (StringWriter writer = new StringWriter())
-            {
-                var unitTestAssemblies = new PerAssemblyTestIds(
-                    rd.testsPerAssembly.ToDictionary(
-                        kvp => kvp.Key,
-                        kvp => kvp.Value.Select(
-                            tc => new TestId(
-                                FilePath.NewFilePath(tc.Source),
-                                FilePath.NewFilePath(tc.CodeFilePath),
-                                DocumentCoordinate.NewDocumentCoordinate(tc.LineNumber))).ToList()));
-
-                PerAssemblyTestIds.Serializer.Serialize(writer, unitTestAssemblies);
-                var discoveredUnitTestsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
-                File.WriteAllText(discoveredUnitTestsStore, writer.ToString());
-                Logger.I.LogInfo("Written discovered unit tests to {0}.", discoveredUnitTestsStore);
-            }
-
             var retRd = CreateRunDataForInstrumentationStep(rd, dict);
 
             return retRd.ToRSR(name, kind, RunStepStatus.Succeeded, "Binaries Instrumented - which ones - TBD");
         }
 
-        private static RunData CreateRunDataForInstrumentationStep(RunData rd, PerAssemblySequencePoints sequencePoints)
+        private static RunData CreateRunDataForInstrumentationStep(RunData rd, PerDocumentSequencePoints sequencePoints)
         {
             return new RunData(
                 rd.startTime,
@@ -245,7 +212,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 rd.solutionSnapshotPath,
                 rd.solutionBuildRoot,
                 rd.testsPerAssembly,
-                new FSharpOption<PerAssemblySequencePoints>(sequencePoints),
+                new FSharpOption<PerDocumentSequencePoints>(sequencePoints),
                 rd.codeCoverageResults,
                 rd.executedTests);
         }

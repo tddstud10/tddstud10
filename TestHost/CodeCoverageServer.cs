@@ -56,13 +56,8 @@ namespace Server
 
         public void SaveTestCases(string codeCoverageStore)
         {
-            StringWriter writer = new StringWriter();
-
-            serializer.Serialize(writer, store);
-            File.WriteAllText(codeCoverageStore, writer.ToString());
+            store.Serialize(codeCoverageStore);
         }
-
-        private static XmlSerializer serializer = new XmlSerializer(typeof(PerAssemblySequencePointsCoverage));
 
         #region ICodeCoverageServer Members
 

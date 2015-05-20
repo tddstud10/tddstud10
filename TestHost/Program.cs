@@ -71,7 +71,7 @@ namespace R4nd0mApps.TddStud10.TestHost
             LogInfo("TestHost executing tests...");
             stopWatch.Start();
             var testResults = new PerTestIdResults();
-            var utAssemblies = LoadUnitTestAssemblies();
+            var utAssemblies = PerAssemblyTestIds.Deserialize(discoveredUnitTestsStore);
             foreach (var asm in utAssemblies.Keys)
             {
                 LogInfo("Executing tests in {0}.", asm);
@@ -81,7 +81,7 @@ namespace R4nd0mApps.TddStud10.TestHost
                 exec.ExecuteTests(asm);
             }
 
-            SaveTestResults(testResults);
+            testResults.Serialize(testResultsStore);
 
             stopWatch.Stop();
             ts = stopWatch.Elapsed;
@@ -104,30 +104,6 @@ namespace R4nd0mApps.TddStud10.TestHost
                 DocumentCoordinate.NewDocumentCoordinate(ea.TestCase.LineNumber));
 
             testResults.TryAdd(testId, ea.Outcome);
-        }
-
-        private static PerAssemblyTestIds LoadUnitTestAssemblies()
-        {
-            var testCases = File.ReadAllText(discoveredUnitTestsStore);
-            StringReader reader = new StringReader(testCases);
-            XmlTextReader xmlReader = new XmlTextReader(reader);
-            try
-            {
-                return PerAssemblyTestIds.Serializer.Deserialize(xmlReader) as PerAssemblyTestIds;
-            }
-            finally
-            {
-                xmlReader.Close();
-                reader.Close();
-            }
-        }
-
-        private static void SaveTestResults(PerTestIdResults testDetails)
-        {
-            StringWriter writer = new StringWriter();
-
-            PerTestIdResults.Serializer.Serialize(writer, testDetails);
-            File.WriteAllText(testResultsStore, writer.ToString());
         }
     }
 }

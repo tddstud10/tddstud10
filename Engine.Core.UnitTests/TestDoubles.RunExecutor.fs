@@ -16,7 +16,7 @@ type public TestHost(cancelStep : int) =
 
 let getRss rss = 
     fun n k rd ->
-        let retRd = { rd with sequencePoints = Some(new PerAssemblySequencePoints()) }
+        let retRd = { rd with sequencePoints = Some(new PerDocumentSequencePoints()) }
         { rss with name = n
                    kind = k
                    status = Failed
@@ -34,7 +34,7 @@ type StepFunc(behavior) =
         match behavior with
         | DoesNotThrow -> ()
         | Throws(ex) -> raise ex
-        let retRd = { rd with sequencePoints = Some(new PerAssemblySequencePoints()) }
+        let retRd = { rd with sequencePoints = Some(new PerDocumentSequencePoints()) }
         t.ReturningWith <- Some(retRd.GetHashCode())
         { name = name
           kind = kind

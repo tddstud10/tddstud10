@@ -26,9 +26,9 @@ namespace R4nd0mApps.TddStud10.Engine
 
         public PerTestIdResults TestDetails { get; set; }
 
-        public PerAssemblySequencePoints SequencePointSession { get; set; }
+        public PerDocumentSequencePoints SequencePointSession { get; set; }
 
-        public void UpdateCoverageResults(PerAssemblySequencePoints seqPtSession, PerAssemblySequencePointsCoverage data, PerTestIdResults testDetails)
+        public void UpdateCoverageResults(PerDocumentSequencePoints seqPtSession, PerAssemblySequencePointsCoverage data, PerTestIdResults testDetails)
         {
             SequencePointSession = seqPtSession;
             CoverageSession = data;
@@ -60,7 +60,7 @@ namespace R4nd0mApps.TddStud10.Engine
         {
             var unitTests = from kvp in CoverageSession
                             from chi in kvp.Value
-                            where chi.methodId.assemblyId == sequencePoint.assemblyId && chi.methodId.mdTokenRid == sequencePoint.methodId
+                            where chi.methodId == sequencePoint.methodId
                             select chi.testId;
             return unitTests.Distinct();
         }

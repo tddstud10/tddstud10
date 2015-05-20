@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Xml.Serialization;
 
 namespace R4nd0mApps.TddStud10
 {
     [XmlRoot("dictionary")]
+    [Serializable]
     public class SerializableDictionary<TKey, TValue>
         : ConcurrentDictionary<TKey, TValue>, IXmlSerializable
     {
@@ -17,6 +21,24 @@ namespace R4nd0mApps.TddStud10
         public SerializableDictionary(IEnumerable<KeyValuePair<TKey, TValue>> collection)
             : base(collection)
         {
+        }
+
+        public void Serialize(string file)
+        {
+            IFormatter formatter = new BinaryFormatter();
+            using (Stream stream = new FileStream(file, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                formatter.Serialize(stream, this);
+            }
+        }
+
+        protected static T Deserialize<T>(string file) where T : SerializableDictionary<TKey, TValue>
+        {
+            var formatter = new BinaryFormatter();
+            using (var stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                return formatter.Deserialize(stream) as T;
+            }
         }
 
         #region IXmlSerializable Members

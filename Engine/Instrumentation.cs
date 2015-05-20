@@ -17,7 +17,7 @@ namespace R4nd0mApps.TddStud10
 {
     internal class Instrumentation
     {
-        public static PerAssemblySequencePoints GenerateSequencePointInfo(DateTime timeFilter, string buildOutputRoot)
+        public static PerDocumentSequencePoints GenerateSequencePointInfo(DateTime timeFilter, string buildOutputRoot)
         {
             try
             {
@@ -31,14 +31,14 @@ namespace R4nd0mApps.TddStud10
             return null;
         }
 
-        public static PerAssemblySequencePoints GenerateSequencePointInfoImpl(DateTime timeFilter, string buildOutputRoot)
+        public static PerDocumentSequencePoints GenerateSequencePointInfoImpl(DateTime timeFilter, string buildOutputRoot)
         {
             Logger.I.LogInfo(
                 "Generating sequence point info: Time filter - {0}, Build output root - {1}.",
                 timeFilter.ToLocalTime(),
                 buildOutputRoot);
 
-            var dict = new PerAssemblySequencePoints();
+            var dict = new PerDocumentSequencePoints();
             var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".dll", ".exe" };
             foreach (var assemblyPath in Directory.EnumerateFiles(buildOutputRoot, "*").Where(s => extensions.Contains(Path.GetExtension(s))))
             {
@@ -77,8 +77,7 @@ namespace R4nd0mApps.TddStud10
 
                     dict[fp].Add(new R4nd0mApps.TddStud10.Common.Domain.SequencePoint
                     {
-                        assemblyId = AssemblyId.NewAssemblyId(sp.mod.Mvid),
-                        methodId = MdTokenRid.NewMdTokenRid(sp.m.MetadataToken.RID),
+                        methodId = new MethodId(AssemblyId.NewAssemblyId(sp.mod.Mvid), MdTokenRid.NewMdTokenRid(sp.m.MetadataToken.RID)),
                         id = SequencePointId.NewSequencePointId(id++),
                         document = fp,
                         startLine = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.StartLine),

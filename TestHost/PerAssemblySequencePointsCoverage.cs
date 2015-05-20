@@ -7,8 +7,12 @@ using R4nd0mApps.TddStud10.Common.Domain;
 
 namespace R4nd0mApps.TddStud10.Engine
 {
+    [Serializable]
     public class PerAssemblySequencePointsCoverage : SerializableDictionary<AssemblyId, List<SequencePointCoverage>>
     {
-        public static readonly XmlSerializer Serializer = new XmlSerializer(typeof(PerAssemblySequencePointsCoverage));
+        public static PerAssemblySequencePointsCoverage Deserialize(string file)
+        {
+            return Deserialize<PerAssemblySequencePointsCoverage>(file);
+        }
     }
 }

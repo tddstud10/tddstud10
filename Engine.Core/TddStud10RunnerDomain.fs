@@ -15,7 +15,7 @@ type RunData =
       solutionSnapshotPath : FilePath
       solutionBuildRoot : FilePath
       testsPerAssembly : PerAssemblyTestCases 
-      sequencePoints : PerAssemblySequencePoints option
+      sequencePoints : PerDocumentSequencePoints option
       codeCoverageResults : PerAssemblySequencePointsCoverage option
       executedTests : PerTestIdResults option }
 
