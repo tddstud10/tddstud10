@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 using System.ServiceModel;
-using System.Xml;
-using System.Xml.Serialization;
 using Microsoft.FSharp.Control;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using R4nd0mApps.TddStud10.Common.Domain;
@@ -37,7 +32,7 @@ namespace R4nd0mApps.TddStud10.TestHost
         [LoaderOptimization(LoaderOptimization.MultiDomain)]
         public static int Main(string[] args)
         {
-            Logger.I.LogError("TestHost: Entering Main");
+            Logger.I.LogInfo("TestHost: Entering Main.");
             bool runFailed = true;
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomainUnhandledException);
             codeCoverageStore = args[2];
@@ -46,38 +41,20 @@ namespace R4nd0mApps.TddStud10.TestHost
             var ccServer = new CoverageDataCollector();
             using (ServiceHost serviceHost = new ServiceHost(ccServer))
             {
-                Logger.I.LogError("TestHost: Created Service Host.");
-                string address = string.Format(
-                    "net.pipe://localhost/gorillacoding/IPCTest/{0}",
-                    Process.GetCurrentProcess().Id.ToString());
+                Logger.I.LogInfo("TestHost: Created Service Host.");
+                string address = Marker.CreateCodeCoverageDataCollectorEndpointAddress();
                 NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
                 serviceHost.AddServiceEndpoint(typeof(ICoverageDataCollector), binding, address);
                 serviceHost.Open();
-                Logger.I.LogError("TestHost: Opened channel.");
+                Logger.I.LogInfo("TestHost: Opened channel.");
 
                 runFailed = RunTests();
-                Logger.I.LogError("TestHost: Finished test cases.");
+                Logger.I.LogInfo("TestHost: Finished running test cases.");
             }
             ccServer.SaveTestCases(codeCoverageStore);
 
-            Logger.I.LogError("TestHost: Done. Exiting process.");
+            Logger.I.LogInfo("TestHost: Exiting Main.");
             return runFailed ? 1 : 0;
-        }
-
-        private static ICoverageDataCollector CreateChannel()
-        {
-            string address = string.Format(
-                "net.pipe://localhost/gorillacoding/IPCTest/{0}",
-                Process.GetCurrentProcess().Id.ToString());
-
-            Logger.I.LogInfo("Marker: Initiating connection to {0} ...", address);
-            NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
-            EndpointAddress ep = new EndpointAddress(address);
-            var ret = ChannelFactory<ICoverageDataCollector>.CreateChannel(binding, ep);
-            ret.Ping();
-            Logger.I.LogInfo("Marker: Connected to server.", address);
-
-            return ret;
         }
 
         private static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -122,8 +99,8 @@ namespace R4nd0mApps.TddStud10.TestHost
             LogInfo("Test: {0} - {1}", ea.DisplayName, ea.Outcome);
 
             var testId = new TestId(
-                FilePath.NewFilePath(ea.TestCase.Source), 
-                FilePath.NewFilePath(ea.TestCase.CodeFilePath), 
+                FilePath.NewFilePath(ea.TestCase.Source),
+                FilePath.NewFilePath(ea.TestCase.CodeFilePath),
                 DocumentCoordinate.NewDocumentCoordinate(ea.TestCase.LineNumber));
 
             testResults.TryAdd(testId, ea.Outcome);

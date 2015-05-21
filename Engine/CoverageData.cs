@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using R4nd0mApps.TddStud10.Common.Domain;
-using R4nd0mApps.TddStud10.TestHost;
 
 namespace R4nd0mApps.TddStud10.Engine
 {

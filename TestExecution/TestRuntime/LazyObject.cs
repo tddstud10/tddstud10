@@ -7,7 +7,7 @@ namespace R4nd0mApps.TddStud10.TestRuntime
     /// Provides support for lazy initialization.
     /// </summary>
     /// <typeparam name="T">Specifies the type of object that is being lazily initialized.</typeparam>
-    public sealed class Lazy<T>
+    public sealed class LazyObject<T>
     {
         private readonly object padlock = new object();
         private readonly Func<T> createValue;
@@ -55,7 +55,7 @@ namespace R4nd0mApps.TddStud10.TestRuntime
         /// Initializes a new instance of the Lazy{T} class.
         /// </summary>
         /// <param name="createValue">The delegate that produces the value when it is needed.</param>
-        public Lazy(Func<T> createValue)
+        public LazyObject(Func<T> createValue)
         {
             if (createValue == null) throw new ArgumentNullException("createValue");
 

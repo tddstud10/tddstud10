@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICoverageDataCollector.cs" />
-    <Compile Include="Lazy.cs" />
+    <Compile Include="LazyObject.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Marker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

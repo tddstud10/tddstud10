@@ -22,23 +22,25 @@ namespace R4nd0mApps.TddStud10
     //     v client side
     //     v server side
     //   v "R4nd0mApps-TddStud10-TestRuntime" in etw listener
-    //   - TODO: Remove this DRY violation - the URL formation
+    //   v TODO: Remove this DRY violation - the URL formation
+    //   v test ide e2e
     //   - unit test for dependencies
-    //   - test ide e2e
-    // - FixUp logging
-    //   - Marker side
-    //   - TestHost.exe side
+    //   - Channel is getting created twice for the library1 project - appears harmless though.
+    // v FixUp logging
+    //   v Marker side
+    //   v TestHost.exe side
     // - Perf fix
     //   v Add logger to time
     //   v Profile what is taking the extra 7 seconds
     //   v Make parallel + fix single threadedness of server
-    //   - SxS compare with NCrunch on test completion times
+    //   - SxS compare with NCrunch on [a]test completion times [b] behavior of dots for 3 projects
     //   - make pipeline per assembly
     //   x enter sequence point - once for each distince seq point
     //   x type/method.IsCompilerGenerated()
     // - Theory fix
     //   v Introduce difference between TestId and TestRunId
     //   - verify scenarios
+    //   - list of tests shoudl be the full list - include repetations of theories
     internal static class Instrumentation
     {
         public static PerDocumentSequencePoints GenerateSequencePointInfo(DateTime timeFilter, string buildOutputRoot)

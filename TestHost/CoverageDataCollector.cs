@@ -17,7 +17,7 @@ namespace Server
 
         public CoverageDataCollector()
         {
-            Logger.I.LogError("CoverageDataCollector: Instance is being created");
+            Logger.I.LogInfo("CoverageDataCollector: Instance is being created");
         }
 
         public void SaveTestCases(string codeCoverageStore)
@@ -56,9 +56,8 @@ namespace Server
             if (!tempStore.TryRemove(testRunId, out sequencePoint))
             {
                 Logger.I.LogError("CoverageDataCollector: ExitUnitTest: Did not have any sequence points in thread {0} for {1},{2},{3}.", testRunId, source, document, line);
+                return;
             }
-
-            Logger.I.LogError("CoverageDataCollector: ExitUnitTest: Exiting unit test {0},{1},{2}. Sequence Points = {3}", source, document, line, sequencePoint.Value.Count);
 
             if (source == null || document == null || line == null || sequencePoint == null)
             {
@@ -105,6 +104,8 @@ namespace Server
                             }
                         });
                 });
+
+            Logger.I.LogInfo("CoverageDataCollector: Servicing ExitUnitTest: {0},{1},{2}. Sequence Points = {3}", source, document, line, sequencePoint.Value.Count);
         }
 
         #endregion
