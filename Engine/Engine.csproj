@@ -96,6 +96,10 @@
       <Project>{e5fb2292-1833-4c4c-800e-a31ac891a931}</Project>
       <Name>Engine.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestExecution\TestRuntime\TestRuntime.csproj">
+      <Project>{0fea2e86-4ee0-4fd8-949d-c74189b855d9}</Project>
+      <Name>TestRuntime</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestHost.Core\TestHost.Core.fsproj">
       <Project>{84693096-cba0-407a-900a-3b48d21c5459}</Project>
       <Name>TestHost.Core</Name>

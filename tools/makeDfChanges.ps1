@@ -20,6 +20,7 @@ namespace R4nd0mApps.TddStud10
         public const string EtwProviderNameHostsConsole = "R4nd0mApps-TddStud10-Hosts-Console-df";
         public const string EtwProviderNameTestHost = "R4nd0mApps-TddStud10-TestHost-df";
         public const string EtwProviderNameEngine = "R4nd0mApps-TddStud10-Engine-df";
+        public const string EtwProviderNameTestRuntime = "R4nd0mApps-TddStud10-TestRuntime-df";
 
         public const string SnapshotRoot = "d:\\tddstud10.df";
     }
@@ -43,6 +44,8 @@ module internal Constants =
     let EtwProviderNameTestHost = "R4nd0mApps-TddStud10-TestHost-df";
     [<Literal>]
     let EtwProviderNameEngine = "R4nd0mApps-TddStud10-Engine-df";
+    [<Literal>]
+    let EtwProviderNameTestRuntime = "R4nd0mApps-TddStud10-TestRuntime-df";
 
     [<Literal>]
     let SnapshotRoot = "d:\\tddstud10.df";

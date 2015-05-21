@@ -43,9 +43,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
         }
 
         /// <summary>
-        /// Opens the file in Visual Studio.
+        /// Opens the src in Visual Studio.
         /// </summary>
-        /// <param name="file">The file path.</param>
+        /// <param name="src">The src path.</param>
         internal static void OpenFile(EnvDTE.DTE DTE, string file)
         {
             try
@@ -62,10 +62,10 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
         }
 
         /// <summary>
-        /// Closes the file.
+        /// Closes the src.
         /// </summary>
         /// <param name="DTE">The DTE.</param>
-        /// <param name="fileName">Name of the file.</param>
+        /// <param name="fileName">Name of the src.</param>
         internal static void CloseFile(EnvDTE.DTE DTE, string fileName)
         {
             foreach (EnvDTE.Document document in DTE.Documents)
@@ -133,7 +133,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
         }
 
         /// <summary>
-        /// Search for a class + meth in the opened _solution. When found, the corresponding file will
+        /// Search for a class + meth in the opened _solution. When found, the corresponding src will
         /// be opened, and the specified meth will be shown.
         /// </summary>
         /// <param name="fullyQualifiedMethodName">Fully qualified meth to search for.</param>
@@ -180,7 +180,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
                         {
                             var filepath = (string)projectItem.Properties.Item("FullPath").Value;
 
-                            Logger.I.LogInfo("methodId '{0}' found, opening file: '{1}'", fullyQualifiedMethodName, filepath);
+                            Logger.I.LogInfo("methodId '{0}' found, opening src: '{1}'", fullyQualifiedMethodName, filepath);
                             OpenFile(DTE, filepath);
 
                             int methodStartLine = discoveredMethodElement.StartPoint.Line;
@@ -336,7 +336,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
 
 
         /// <summary>
-        /// Returns the document file name of the text view.
+        /// Returns the document src name of the text view.
         /// </summary>
         /// <param name="view">The view instance.</param>
         /// <returns></returns>
@@ -384,7 +384,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helpers
         }
 
         ///// <summary>
-        ///// Refreshes/Repaints the active file in Visual Studio.
+        ///// Refreshes/Repaints the active src in Visual Studio.
         ///// </summary>
         //internal static void RefreshActiveDocument(EnvDTE.DTE DTE)
         //{

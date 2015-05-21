@@ -56,12 +56,12 @@ namespace R4nd0mApps.TddStud10.Engine
                    select sps;
         }
 
-        public IEnumerable<TestId> GetUnitTestsCoveringSequencePoint(SequencePoint sequencePoint)
+        public IEnumerable<TestRunId> GetUnitTestsCoveringSequencePoint(SequencePoint sequencePoint)
         {
             var unitTests = from kvp in CoverageSession
                             from chi in kvp.Value
                             where chi.methodId.Equals(sequencePoint.methodId)
-                            select chi.testId;
+                            select chi.testRunId;
             return unitTests.Distinct();
         }
     }

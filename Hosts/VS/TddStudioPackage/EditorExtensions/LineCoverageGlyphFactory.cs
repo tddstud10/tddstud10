@@ -136,7 +136,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
                 }
 
                 var results = allTrackedMethods
-                    .Select(tm => CoverageData.Instance.TestDetails[tm]);
+                    .Select(tm => CoverageData.Instance.TestDetails[tm.testId]);
 
                 if (results.Any(r => r == TestOutcome.Failed))
                 {

@@ -35,7 +35,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
         /// <summary>
         /// Coverage info for spans.
         /// </summary>
-        protected readonly Dictionary<SnapshotSpan, IEnumerable<TestId>> _spanCoverage;
+        protected readonly Dictionary<SnapshotSpan, IEnumerable<TestRunId>> _spanCoverage;
 
         /// <summary>
         /// Span for current editor content.
@@ -60,7 +60,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
 
             _textView = view;
 
-            _spanCoverage = new Dictionary<SnapshotSpan, IEnumerable<TestId>>();
+            _spanCoverage = new Dictionary<SnapshotSpan, IEnumerable<TestRunId>>();
 
             _currentSpans = GetWordSpans(_textView.TextSnapshot);
 
@@ -155,7 +155,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
         /// <param name="startColumn">The start column.</param>
         /// <param name="totalCharacters">The total characters.</param>
         /// <param name="covered">if set to <c>true</c> [covered].</param>
-        protected void AddWordSpan(List<SnapshotSpan> wordSpans, ITextSnapshot snapshot, int startColumn, int totalCharacters, IEnumerable<TestId> trackedMethods)
+        protected void AddWordSpan(List<SnapshotSpan> wordSpans, ITextSnapshot snapshot, int startColumn, int totalCharacters, IEnumerable<TestRunId> trackedMethods)
         {
             var snapshotPoint = new SnapshotSpan(snapshot, new Span(startColumn, totalCharacters));
             wordSpans.Add(snapshotPoint);
@@ -169,7 +169,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
         /// <summary>
         /// Returns the word spans based on covered lines.
         /// </summary>
-        /// <param name="snapshot">The text snapshot of file being opened.</param>
+        /// <param name="snapshot">The text snapshot of src being opened.</param>
         /// <returns>Collection of word spans</returns>
         protected List<SnapshotSpan> GetWordSpans(ITextSnapshot snapshot)
         {
@@ -230,7 +230,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
                                                                         SequencePoint sequencePoint,
                                                                         int sequencePointStartLine,
                                                                         int sequencePointEndLine,
-                                                                        IEnumerable<TestId> trackedMethods)
+                                                                        IEnumerable<TestRunId> trackedMethods)
         {
             int totalCharacters = 0;
 
@@ -287,7 +287,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
         /// <returns></returns>
         protected IEnumerable<SequencePoint> GetSequencePointsForActiveDocument()
         {
-            // Get the sequence points of the current file
+            // Get the sequence points of the current src
             if (CoverageData.Instance.CoverageSession != null)
                 return GetSequencePoints(CoverageData.Instance, IDEHelper.GetFileName(_textView));
             else

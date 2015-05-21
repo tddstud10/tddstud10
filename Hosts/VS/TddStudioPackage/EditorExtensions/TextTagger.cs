@@ -80,7 +80,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
         /// Generates tags based on Coverage information.
         /// </summary>
         /// <param name="spans">The spans.</param>
-        /// <returns>Tags for the current file based on coverage information</returns>
+        /// <returns>Tags for the current src based on coverage information</returns>
         //public IEnumerable<ITagSpan<ClassificationTag>> GetTags(NormalizedSnapshotSpanCollection spans)
         //{
         //    if (_currentSpans == null || _currentSpans.Count == 0 || (!TddStud10Package.Instance.Settings.ShowLinesColored && _lineSpans == null))

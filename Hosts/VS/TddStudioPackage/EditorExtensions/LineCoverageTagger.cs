@@ -59,7 +59,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
         /// Generates tags based on Coverage information.
         /// </summary>
         /// <param name="spans">The spans.</param>
-        /// <returns>Tags for the current file based on coverage information</returns>
+        /// <returns>Tags for the current src based on coverage information</returns>
         IEnumerable<ITagSpan<LineCoverageTag>> ITagger<LineCoverageTag>.GetTags(NormalizedSnapshotSpanCollection spans)
         {
             foreach (SnapshotSpan span in spans)

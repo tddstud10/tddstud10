@@ -48,11 +48,19 @@ type SequencePointId =
 type DocumentCoordinate =
     | DocumentCoordinate of int
 
+type TestRunInstanceId =
+    | TestRunInstanceId of int
+
 [<CLIMutable>]
 type TestId = 
     { source : FilePath
       document : FilePath
       line : DocumentCoordinate }
+
+[<CLIMutable>]
+type TestRunId = 
+    { testId : TestId
+      testRunInstanceId : TestRunInstanceId }
 
 [<CLIMutable>]
 type MethodId = 
@@ -73,7 +81,7 @@ type SequencePoint =
 type SequencePointCoverage = 
     { methodId : MethodId
       sequencePointId : SequencePointId 
-      testId : TestId }
+      testRunId : TestRunId }
 
 // =================================================
 

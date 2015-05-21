@@ -72,6 +72,7 @@ namespace RealTimeEtwListener
             session.EnableProvider(Constants.EtwProviderNameHostsConsole);
             session.EnableProvider(Constants.EtwProviderNameTestHost);
             session.EnableProvider(Constants.EtwProviderNameEngine);
+            session.EnableProvider(Constants.EtwProviderNameTestRuntime);
         }
 
         private static void ProcessTraceEvent(TraceEvent data)

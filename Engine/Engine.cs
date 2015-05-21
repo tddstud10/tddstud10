@@ -13,6 +13,7 @@ using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
 using R4nd0mApps.TddStud10.TestExecution.Adapters;
+using R4nd0mApps.TddStud10.TestRuntime;
 
 namespace R4nd0mApps.TddStud10.Engine
 {
@@ -24,11 +25,19 @@ namespace R4nd0mApps.TddStud10.Engine
             {
                 TddStud10Runner.CreateRunStep(RunStepKind.Build, "Creating Solution Snapshot".ToRSN(), TakeSolutionSnapshot)
                 , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Deleting Build Output".ToRSN(), DeleteBuildOutput)
+                , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Refresh Test Runtime".ToRSN(), RefreshTestRuntime)
                 , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Building Solution Snapshot".ToRSN(), BuildSolutionSnapshot)
                 , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Discover Unit Tests".ToRSN(), DiscoverUnitTests)
                 , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Instrument Binaries".ToRSN(), InstrumentBinaries)
                 , TddStud10Runner.CreateRunStep(RunStepKind.Test, "Running Tests".ToRSN(), RunTests)
             };
+        }
+
+        private static RunStepResult RefreshTestRuntime(IRunExecutorHost host, RunStepName name, RunStepKind kind, RunData rd)
+        {
+            var output = TestRunTimeInstaller.Install(rd.solutionBuildRoot.Item);
+
+            return rd.ToRSR(name, kind, RunStepStatus.Succeeded, string.Format("Copied Test Runtime: {0}", output));
         }
 
         private static RunStepName ToRSN(this string name)
@@ -51,7 +60,7 @@ namespace R4nd0mApps.TddStud10.Engine
             var coverageSessionStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_coverageresults.xml");
             var testResultsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_testresults.xml");
             var discoveredUnitTestsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
-            string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Marker).Assembly.Location);
+            string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Program).Assembly.Location);
             var output = ExecuteProcess(
                 testRunnerPath,
                 string.Format(
@@ -188,7 +197,6 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private static RunStepResult BuildSolutionSnapshot(IRunExecutorHost host, RunStepName name, RunStepKind kind, RunData rd)
         {
-            string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Marker).Assembly.Location);
             var output = ExecuteProcess(
                 @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe",
                 string.Format(
@@ -196,12 +204,6 @@ namespace R4nd0mApps.TddStud10.Engine
                     rd.solutionBuildRoot.Item,
                     rd.solutionSnapshotPath.Item)
             );
-
-            if (File.Exists(Path.Combine(rd.solutionBuildRoot.Item, Path.GetFileName(testRunnerPath))))
-            {
-                File.Delete(Path.Combine(rd.solutionBuildRoot.Item, Path.GetFileName(testRunnerPath)));
-            }
-            File.Copy(testRunnerPath, Path.Combine(rd.solutionBuildRoot.Item, Path.GetFileName(testRunnerPath)));
 
             RunStepStatus rss = RunStepStatus.Succeeded;
             if (output.Item1 != 0)

@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.TestExecution.Adapters;
 using R4nd0mApps.TddStud10.TestHost.Diagnostics;
+using R4nd0mApps.TddStud10.TestRuntime;
 using Server;
 
 namespace R4nd0mApps.TddStud10.TestHost
@@ -33,28 +34,50 @@ namespace R4nd0mApps.TddStud10.TestHost
             Console.WriteLine(format, args);
         }
 
+        [LoaderOptimization(LoaderOptimization.MultiDomain)]
         public static int Main(string[] args)
         {
+            Logger.I.LogError("TestHost: Entering Main");
             bool runFailed = true;
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomainUnhandledException);
             codeCoverageStore = args[2];
             testResultsStore = args[3];
             discoveredUnitTestsStore = args[4];
-            var ccServer = new CodeCoverageServer();
+            var ccServer = new CoverageDataCollector();
             using (ServiceHost serviceHost = new ServiceHost(ccServer))
             {
+                Logger.I.LogError("TestHost: Created Service Host.");
                 string address = string.Format(
                     "net.pipe://localhost/gorillacoding/IPCTest/{0}",
                     Process.GetCurrentProcess().Id.ToString());
                 NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
-                serviceHost.AddServiceEndpoint(typeof(ICodeCoverageServer), binding, address);
+                serviceHost.AddServiceEndpoint(typeof(ICoverageDataCollector), binding, address);
                 serviceHost.Open();
+                Logger.I.LogError("TestHost: Opened channel.");
 
                 runFailed = RunTests();
+                Logger.I.LogError("TestHost: Finished test cases.");
             }
             ccServer.SaveTestCases(codeCoverageStore);
 
+            Logger.I.LogError("TestHost: Done. Exiting process.");
             return runFailed ? 1 : 0;
+        }
+
+        private static ICoverageDataCollector CreateChannel()
+        {
+            string address = string.Format(
+                "net.pipe://localhost/gorillacoding/IPCTest/{0}",
+                Process.GetCurrentProcess().Id.ToString());
+
+            Logger.I.LogInfo("Marker: Initiating connection to {0} ...", address);
+            NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
+            EndpointAddress ep = new EndpointAddress(address);
+            var ret = ChannelFactory<ICoverageDataCollector>.CreateChannel(binding, ep);
+            ret.Ping();
+            Logger.I.LogInfo("Marker: Connected to server.", address);
+
+            return ret;
         }
 
         private static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
