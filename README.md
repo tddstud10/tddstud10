@@ -85,7 +85,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
       - ☑ red markers werent getting shown
     - ☑ generate dogfood build
     - ☑ test dogfood build
-  - ☐ v0.3.2 - Test Host design online
+  - ☑ v0.3.2 - Test Host design online
     - ☑ version number update - 3 places
     - ☑ Move to VS Test Adapter
       - ☑ Only move - with no change in domain model
@@ -106,6 +106,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
         - ☑ Current design treats all theory tests as the same - UnitTestName is the same
         - ☑ in libraray1 project - failing a fact marks the theories also failed
     - ☑ Move domain to seperate assembly + divide domain into core+subdomains[move types into that]
+  - ☐ v0.3.2 - Test Host design online
+    - ☐ version number update - 3 places
     - ☐ UI Markers
       - ☐ seperate margin in editor for TDD Studio
       - ☐ Establish realtime wire up for discovered tests

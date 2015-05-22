@@ -105,7 +105,7 @@ namespace R4nd0mApps.TddStud10.TestHost
 
         private static void NoteTestResults(PerTestIdResults testResults, TestResult ea)
         {
-            LogInfo("Test: {0} - {1}", ea.DisplayName, ea.Outcome);
+            Console.WriteLine("Test: {0} - {1}", ea.DisplayName, ea.Outcome);
 
             var testId = new TestId(
                 FilePath.NewFilePath(ea.TestCase.Source),

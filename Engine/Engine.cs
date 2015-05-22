@@ -61,6 +61,8 @@ namespace R4nd0mApps.TddStud10.Engine
             var testResultsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_testresults.xml");
             var discoveredUnitTestsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
             string testRunnerPath = Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestHost.Program).Assembly.Location);
+            // NOTE: We dont have a better option. VSIX does support installing non-assembly dependencies.
+            File.WriteAllText(testRunnerPath + ".config", Properties.Resources.TestHostAppConfig);
             var output = ExecuteProcess(
                 testRunnerPath,
                 string.Format(

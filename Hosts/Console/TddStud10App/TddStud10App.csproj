@@ -109,10 +109,6 @@
     <Compile Include="..\..\..\Common\Constants.cs">
       <Link>Constants.cs</Link>
     </Compile>
-    <None Include="..\..\..\TestHost\App.Config">
-      <Link>TddStud10.TestHost.exe.config</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="MainWindow.xaml">
