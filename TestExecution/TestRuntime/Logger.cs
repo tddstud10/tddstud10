@@ -2,7 +2,7 @@
 
 namespace R4nd0mApps.TddStud10.TestRuntime.Diagnostics
 {
-    [EventSource(Name = "R4nd0mApps-TddStud10-TestRuntime")]
+    [EventSource(Name = Constants.EtwProviderNameTestRuntime)]
     internal sealed class Logger : EventSource
     {
         public static Logger I = new Logger();

@@ -21,8 +21,7 @@ let ``Should have restricted dependencies``() =
           ("System.Core", "3.5.0.0")
           ("System.ServiceModel", "3.0.0.0")
           ("System", "2.0.0.0")
-          ("TddStud10.TestHost.df", "1.0.0.0")
-          ("mscorlib", "4.0.0.0") ]
+          ("R4nd0mApps.TddStud10.TestRuntime.df", "1.0.0.0") ]
     
     let deps = 
         (new Uri(typedefof<R4nd0mApps.TddStud10.TestRuntime.Marker>.Assembly.CodeBase)).LocalPath
