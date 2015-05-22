@@ -8,13 +8,13 @@ open System.Collections.Generic
 
 [<Serializable>]
 type PerAssemblyTestIds = 
-    inherit DataStoreBase<FilePath, List<TestId>>
+    inherit DataStoreBase<FilePath, ConcurrentBag<TestId>>
     
     new() = 
         { inherit DataStoreBase<_, _>() }
         then ()
     
-    new(collection : IEnumerable<KeyValuePair<FilePath, List<TestId>>>) = 
+    new(collection : IEnumerable<KeyValuePair<FilePath, ConcurrentBag<TestId>>>) = 
         { inherit DataStoreBase<_, _>(collection) }
         then ()
     

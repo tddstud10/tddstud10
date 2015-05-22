@@ -21,17 +21,17 @@ namespace R4nd0mApps.TddStud10.Engine
             }
         }
 
-        public PerAssemblySequencePointsCoverage CoverageSession { get; set; }
+        public PerAssemblySequencePointsCoverage PerAssemblySequencePointsCoverage { get; set; }
 
-        public PerTestIdResults TestDetails { get; set; }
+        public PerTestIdResults PerTestIdResults { get; set; }
 
-        public PerDocumentSequencePoints SequencePointSession { get; set; }
+        public PerDocumentSequencePoints PerDocumentSequencePoints { get; set; }
 
         public void UpdateCoverageResults(PerDocumentSequencePoints seqPtSession, PerAssemblySequencePointsCoverage data, PerTestIdResults testDetails)
         {
-            SequencePointSession = seqPtSession;
-            CoverageSession = data;
-            TestDetails = testDetails;
+            PerDocumentSequencePoints = seqPtSession;
+            PerAssemblySequencePointsCoverage = data;
+            PerTestIdResults = testDetails;
 
             var handler = NewCoverageDataAvailable;
             if (NewCoverageDataAvailable != null)
@@ -44,20 +44,20 @@ namespace R4nd0mApps.TddStud10.Engine
 
         public IEnumerable<FilePath> GetFiles()
         {
-            return from kvp in SequencePointSession
+            return from kvp in PerDocumentSequencePoints
                    select kvp.Key;
         }
 
         public IEnumerable<SequencePoint> GetSequencePoints()
         {
-            return from kvp in SequencePointSession
+            return from kvp in PerDocumentSequencePoints
                    from sps in kvp.Value
                    select sps;
         }
 
         public IEnumerable<TestRunId> GetUnitTestsCoveringSequencePoint(SequencePoint sequencePoint)
         {
-            var unitTests = from kvp in CoverageSession
+            var unitTests = from kvp in PerAssemblySequencePointsCoverage
                             from chi in kvp.Value
                             where chi.methodId.Equals(sequencePoint.methodId)
                             select chi.testRunId;

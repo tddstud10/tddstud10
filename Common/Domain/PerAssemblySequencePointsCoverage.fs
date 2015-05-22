@@ -8,7 +8,7 @@ open System.Collections.Generic
 
 [<Serializable>]
 type PerAssemblySequencePointsCoverage = 
-    inherit DataStoreBase<AssemblyId, List<SequencePointCoverage>>
+    inherit DataStoreBase<AssemblyId, ConcurrentBag<SequencePointCoverage>>
     
     new() = 
         { inherit DataStoreBase<_, _>() }

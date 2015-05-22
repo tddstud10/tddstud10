@@ -87,48 +87,45 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
     - ☑ test dogfood build
   - ☐ v0.3.2 - Test Host design online
     - ☑ version number update - 3 places
-    - ☐ Move to VS Test Adapter
+    - ☑ Move to VS Test Adapter
       - ☑ Only move - with no change in domain model
         - ☑ Pull in vstest adapter stubs
         - ☑ Unify data model
         - ☑ Use discoverer to discover unit tests, instead of custom cecil based logic
       - ☑ Refactor to move datamodel and break assembly dependency
+      - ☑ Marker/code cooverage server/client ned to be multi threaded - lazy kvp with valuefactory - http://arbel.net/2013/02/03/best-practices-for-using-concurrentdictionary/
       - ☑ AutoFixes
         - ☑ Unit test name comparision is through simple text - will fail for generics e.g.
         - ☑ incorrect comparision between cecil and xunit: crash
             from cecil: R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests/ITestServiceInterface R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests::Service Provider returns service interface if service is found
             from xunit: R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests+ITestServiceInterface R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.ServicesTests::Service Provider returns service interface if service is found      
-      - ☐ speed up the unit tests
-      - ☐ Establish realtime wire up for discovered tests
-      - ☐ Refactor Test runtime assembly
-        - ☐ Put logger calls into marker
-      - ☐ Support theory
-        - ☐ Current design treats all theory tests as the same - UnitTestName is the same
-        - ☐ in libraray1 project - failing a fact marks the theories also failed
-    - ☐ Ideas: make the stages assembly parallel 
-      - ☐ Marker/code cooverage server/client ned to be multi threaded - lazy kvp with valuefactory - http://arbel.net/2013/02/03/best-practices-for-using-concurrentdictionary/
-      - ☐ Run pipeline assembly by assembly
-    - ☐ fix fsunit
+      - ☑ speed up the unit tests
+      - ☑ Refactor Test runtime assembly
+        - ☑ Put logger calls into marker
+      - ☑ Support theory
+        - ☑ Current design treats all theory tests as the same - UnitTestName is the same
+        - ☑ in libraray1 project - failing a fact marks the theories also failed
+    - ☑ Move domain to seperate assembly + divide domain into core+subdomains[move types into that]
     - ☐ UI Markers
+      - ☐ seperate margin in editor for TDD Studio
+      - ☐ Establish realtime wire up for discovered tests
       - ☐ Mark unit tests in the editor
       - ☐ What is the exception thrown and the point of faiure?
+      - ☐ Show test details for each covered lines
+    - ☐ SxS compare with NCrunch on [a] test completion times [b] behavior of dots for 3 projects [c] for 2 large projects
     - ☐ Debug
       - ☐ Test host can run individual tests
       - ☐ debug test is needed - right click on one of the green, set bp, launch db
         - ☐ for test failures
         - ☐ and for comparing the coverage
-    - ☐ Move domain to seperate assembly + divide domain into core+subdomains[move types into that]
     - ☐ Host in out-of-proc WCF server
       - ☐ WCF server, launch, communicate
       - ☐ Move data carriers to common assembly
       - ☐ Spew z_ files for diagnostics
+    - ☐ Ideas: make the stages assembly parallel 
+      - ☐ Run pipeline assembly by assembly
+    - ☐ fix fsunit
     - ☐ Send test execution status to toolwindow
-  - Defects: If last line doenst have a newline - 
-      12:56.581-07808-09328:    at Microsoft.VisualStudio.Text.SnapshotSpan..ctor(ITextSnapshot snapshot, Span span)
-       at R4nd0mApps.TddStud10.Hosts.VS.Helper.TextViewCoverageProviderBase.AddWordSpan(List`1 wordSpans, ITextSnapshot snapshot, Int32 startColumn, Int32 totalCharacters
-    , CovData covered) in d:\src\r4nd0mapps\tddstud10\Hosts\VS\TddStudioPackage\EditorExtensions\TextViewCoverageProviderBase.cs:line 159
-       at R4nd0mApps.TddStud10.Hosts.VS.Helper.TextViewCoverageProviderBase.GetWordSpans(ITextSnapshot snapshot) in d:\src\r4nd0mapps\tddstud10\Hosts\VS\TddStudioPackage\
-    EditorExtensions\TextViewCoverageProviderBase.cs:line 206
   - ☐☐ FxCop, StyleCop, FSharpLint and AppVeyor
   - ☐☐ Possible corner cases
     - ☐ xunit 1.9 tests when mixed with xunit 2.0 projects (in same solution) doesn't execute
@@ -140,12 +137,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
       - ☐ progress of individual steps
       - ☐ true cancellation semantics
         - ☐ Cancellation token can be passed to rundata 
-      - ☐ Show test details for each covered lines
       - ☐ Bring back partial covered lines
       - ☐ Editor discrepancies
         - ☐ first time markers are not gettign shown - on scroll up and then down, they get shown
         - ☐ [permanent fix] Editor crashes as unit test name doesnt ge registered sometime through Maker
         - ☐ markers are getting created on the fly adn a new line is added
+        - ☐ Defects: If last line doenst have a newline - 
+            at Microsoft.VisualStudio.Text.SnapshotSpan..ctor(ITextSnapshot snapshot, Span span)
+            at R4nd0mApps.TddStud10.Hosts.VS.Helper.TextViewCoverageProviderBase.AddWordSpan(List`1 wordSpans, ITextSnapshot snapshot, Int32 startColumn, Int32 totalCharacters, CovData covered) in d:\src\r4nd0mapps\tddstud10\Hosts\VS\TddStudioPackage\EditorExtensions\TextViewCoverageProviderBase.cs:line 159
+            at R4nd0mApps.TddStud10.Hosts.VS.Helper.TextViewCoverageProviderBase.GetWordSpans(ITextSnapshot snapshot) in d:\src\r4nd0mapps\tddstud10\Hosts\VS\TddStudioPackage\EditorExtensions\TextViewCoverageProviderBase.cs:line 206
     - ☐ Toolwindow
           - ☐ write errors in toolwindow, clean for every session
           - ☐ click on the status icon should open the toolwindow

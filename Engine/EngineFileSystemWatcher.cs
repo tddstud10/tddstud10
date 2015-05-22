@@ -23,7 +23,8 @@ namespace R4nd0mApps.TddStud10.Engine
             efsWatcher.fsWatcher = new FileSystemWatcher();
             efsWatcher.fsWatcher.Filter = "*";
             efsWatcher.fsWatcher.Path = Path.GetDirectoryName(solutionPath);
-            efsWatcher.fsWatcher.IncludeSubdirectories = true;
+            // NOTE: Too many events otherwise. Let it be this way till we have figured out the right trigger mechanism.
+            efsWatcher.fsWatcher.IncludeSubdirectories = false; 
 
             efsWatcher.SubscribeToEvents();
 

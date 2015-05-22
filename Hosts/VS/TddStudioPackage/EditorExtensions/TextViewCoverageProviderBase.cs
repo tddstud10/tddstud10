@@ -288,7 +288,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
         protected IEnumerable<SequencePoint> GetSequencePointsForActiveDocument()
         {
             // Get the sequence points of the current src
-            if (CoverageData.Instance.CoverageSession != null)
+            if (CoverageData.Instance.PerAssemblySequencePointsCoverage != null)
                 return GetSequencePoints(CoverageData.Instance, IDEHelper.GetFileName(_textView));
             else
                 return new List<SequencePoint>();

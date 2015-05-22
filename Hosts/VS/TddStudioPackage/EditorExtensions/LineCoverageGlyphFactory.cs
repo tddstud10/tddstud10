@@ -135,15 +135,16 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
                     return LineCoverageState.Uncovered;
                 }
 
-                var results = allTrackedMethods
-                    .Select(tm => CoverageData.Instance.TestDetails[tm.testId]);
+                var results = from tm in allTrackedMethods
+                              from tr in CoverageData.Instance.PerTestIdResults[tm.testId]
+                              select tr;
 
-                if (results.Any(r => r == TestOutcome.Failed))
+                if (results.Any(r => r.result == TestOutcome.Failed))
                 {
                     return LineCoverageState.CoveredWithAtleastOneFailedTest;
                 }
 
-                if (results.All(r => r == TestOutcome.Passed))
+                if (results.All(r => r.result == TestOutcome.Passed))
                 {
                     return LineCoverageState.CoveredWithPassingTests;
                 }

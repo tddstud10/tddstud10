@@ -139,11 +139,13 @@ namespace R4nd0mApps.TddStud10.Engine
             var unitTestAssemblies = new PerAssemblyTestIds(
                 testsPerAssembly.ToDictionary(
                     kvp => kvp.Key,
-                    kvp => kvp.Value.Select(
-                        tc => new TestId(
-                            FilePath.NewFilePath(tc.Source),
-                            FilePath.NewFilePath(tc.CodeFilePath),
-                            DocumentCoordinate.NewDocumentCoordinate(tc.LineNumber))).ToList()));
+                    kvp =>
+                        new ConcurrentBag<TestId>(
+                            kvp.Value.Select(
+                                tc => new TestId(
+                                    FilePath.NewFilePath(tc.Source),
+                                    FilePath.NewFilePath(tc.CodeFilePath),
+                                    DocumentCoordinate.NewDocumentCoordinate(tc.LineNumber))))));
 
             var discoveredUnitTestsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
             unitTestAssemblies.Serialize(discoveredUnitTestsStore);
@@ -308,6 +310,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 {
                     // append the new data to the data already read-in
                     consoleOutput.Enqueue(e.Data);
+                    Logger.I.LogInfo(e.Data);
                 }
             );
             process.ErrorDataReceived += new DataReceivedEventHandler
@@ -316,6 +319,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 {
                     // append the new data to the data already read-in
                     consoleOutput.Enqueue(e.Data);
+                    Logger.I.LogError(e.Data);
                 }
             );
             // start the process

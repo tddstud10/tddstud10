@@ -9,7 +9,7 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
 [<Serializable>]
 type PerTestIdResults = 
-    inherit DataStoreBase<TestId, TestOutcome>
+    inherit DataStoreBase<TestId, ConcurrentBag<TestRunResult>>
     
     new() = 
         { inherit DataStoreBase<_, _>() }

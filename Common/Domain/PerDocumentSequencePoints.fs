@@ -8,7 +8,7 @@ open System.Collections.Generic
 
 [<Serializable>]
 type PerDocumentSequencePoints = 
-    inherit DataStoreBase<FilePath, List<SequencePoint>>
+    inherit DataStoreBase<FilePath, ConcurrentBag<SequencePoint>>
     
     new() = 
         { inherit DataStoreBase<_, _>() }

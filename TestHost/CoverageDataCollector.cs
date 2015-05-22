@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ServiceModel;
+using System.Threading.Tasks;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.TestHost.Diagnostics;
 using R4nd0mApps.TddStud10.TestRuntime;
@@ -13,7 +14,7 @@ namespace Server
     {
         private PerAssemblySequencePointsCoverage store = new PerAssemblySequencePointsCoverage();
 
-        private static ConcurrentDictionary<string, System.Lazy<List<string[]>>> tempStore = new ConcurrentDictionary<string, System.Lazy<List<string[]>>>();
+        private ConcurrentDictionary<string, ConcurrentBag<string[]>> tempStore = new ConcurrentDictionary<string, ConcurrentBag<string[]>>();
 
         public CoverageDataCollector()
         {
@@ -46,27 +47,27 @@ namespace Server
                 return;
             }
 
-            var list = tempStore.GetOrAdd(testRunId, new System.Lazy<List<string[]>>(() => new List<string[]>())).Value;
+            var list = tempStore.GetOrAdd(testRunId, new ConcurrentBag<string[]>());
             list.Add(new[] { assemblyId, methodMdRid, spId });
         }
 
         public void ExitUnitTest(string testRunId, string source, string document, string line)
         {
-            System.Lazy<List<string[]>> sequencePoint = null;
-            if (!tempStore.TryRemove(testRunId, out sequencePoint))
+            ConcurrentBag<string[]> sequencePoints = null;
+            if (!tempStore.TryRemove(testRunId, out sequencePoints))
             {
                 Logger.I.LogError("CoverageDataCollector: ExitUnitTest: Did not have any sequence points in thread {0} for {1},{2},{3}.", testRunId, source, document, line);
                 return;
             }
 
-            if (source == null || document == null || line == null || sequencePoint == null)
+            if (source == null || document == null || line == null || sequencePoints == null)
             {
                 Logger.I.LogError(
                     "CoverageDataCollector: ExitUnitTest: Unexpected payload in ExitUnitTest: {0} {1} {2} {3}",
                     source ?? "<null>",
                     document ?? "<null>",
                     line ?? "<null>",
-                    sequencePoint == null ? "<null>" : "<not null>");
+                    sequencePoints == null ? "<null>" : "<not null>");
                 return;
             }
 
@@ -77,11 +78,12 @@ namespace Server
                 line = DocumentCoordinate.NewDocumentCoordinate(int.Parse(line))
             };
 
-            sequencePoint.Value.ForEach(
+            Parallel.ForEach(
+                sequencePoints,
                 sp =>
                 {
                     var assemId = AssemblyId.NewAssemblyId(Guid.Parse(sp[0]));
-                    var list = store.GetOrAdd(assemId, _ => new List<SequencePointCoverage>());
+                    var list = store.GetOrAdd(assemId, _ => new ConcurrentBag<SequencePointCoverage>());
 
                     list.Add(
                         new SequencePointCoverage
@@ -105,7 +107,7 @@ namespace Server
                         });
                 });
 
-            Logger.I.LogInfo("CoverageDataCollector: Servicing ExitUnitTest: {0},{1},{2}. Sequence Points = {3}", source, document, line, sequencePoint.Value.Count);
+            Logger.I.LogInfo("CoverageDataCollector: Servicing ExitUnitTest: {0},{1},{2}. Sequence Points = {3}", source, document, line, sequencePoints.Count);
         }
 
         #endregion

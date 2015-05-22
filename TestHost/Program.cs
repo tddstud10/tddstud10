@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Linq;
 using System.ServiceModel;
+using System.Threading.Tasks;
 using Microsoft.FSharp.Control;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using R4nd0mApps.TddStud10.Common.Domain;
@@ -20,20 +23,18 @@ namespace R4nd0mApps.TddStud10.TestHost
         private static void LogInfo(string format, params object[] args)
         {
             Logger.I.LogInfo(format, args);
-            Console.WriteLine(format, args);
         }
 
         private static void LogError(string format, params object[] args)
         {
             Logger.I.LogError(format, args);
-            Console.WriteLine(format, args);
         }
 
         [LoaderOptimization(LoaderOptimization.MultiDomain)]
         public static int Main(string[] args)
         {
-            Logger.I.LogInfo("TestHost: Entering Main.");
-            bool runFailed = true;
+            LogInfo("TestHost: Entering Main.");
+            bool allTestsPassed = true;
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomainUnhandledException);
             codeCoverageStore = args[2];
             testResultsStore = args[3];
@@ -41,20 +42,20 @@ namespace R4nd0mApps.TddStud10.TestHost
             var ccServer = new CoverageDataCollector();
             using (ServiceHost serviceHost = new ServiceHost(ccServer))
             {
-                Logger.I.LogInfo("TestHost: Created Service Host.");
+                LogInfo("TestHost: Created Service Host.");
                 string address = Marker.CreateCodeCoverageDataCollectorEndpointAddress();
                 NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
                 serviceHost.AddServiceEndpoint(typeof(ICoverageDataCollector), binding, address);
                 serviceHost.Open();
-                Logger.I.LogInfo("TestHost: Opened channel.");
+                LogInfo("TestHost: Opened channel.");
 
-                runFailed = RunTests();
-                Logger.I.LogInfo("TestHost: Finished running test cases.");
+                allTestsPassed = RunTests();
+                LogInfo("TestHost: Finished running test cases.");
             }
             ccServer.SaveTestCases(codeCoverageStore);
 
-            Logger.I.LogInfo("TestHost: Exiting Main.");
-            return runFailed ? 1 : 0;
+            LogInfo("TestHost: Exiting Main.");
+            return allTestsPassed ? 0 : 1;
         }
 
         private static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -72,14 +73,16 @@ namespace R4nd0mApps.TddStud10.TestHost
             stopWatch.Start();
             var testResults = new PerTestIdResults();
             var utAssemblies = PerAssemblyTestIds.Deserialize(discoveredUnitTestsStore);
-            foreach (var asm in utAssemblies.Keys)
-            {
-                LogInfo("Executing tests in {0}.", asm);
-
-                var exec = new XUnitTestExecutor();
-                exec.TestExecuted.AddHandler(new FSharpHandler<Microsoft.VisualStudio.TestPlatform.ObjectModel.TestResult>((o, ea) => NoteTestResults(testResults, ea)));
-                exec.ExecuteTests(asm);
-            }
+            Parallel.ForEach(
+                utAssemblies.Keys,
+                asm =>
+                {
+                    LogInfo("Executing tests in {0}: Start.", asm);
+                    var exec = new XUnitTestExecutor();
+                    exec.TestExecuted.AddHandler(new FSharpHandler<TestResult>((o, ea) => NoteTestResults(testResults, ea)));
+                    exec.ExecuteTests(asm);
+                    LogInfo("Executing tests in {0}: Done.", asm);
+                });
 
             testResults.Serialize(testResultsStore);
 
@@ -91,10 +94,16 @@ namespace R4nd0mApps.TddStud10.TestHost
             LogInfo("Done TestHost executing tests! [" + elapsedTime + "]");
             LogInfo("");
 
-            return testResults.Values.Contains(TestOutcome.Failed);
+            var rrs =
+                from tr in testResults
+                from rr in tr.Value
+                where rr.result == TestOutcome.Failed
+                select rr;
+
+            return rrs.FirstOrDefault() == null;
         }
 
-        private static void NoteTestResults(PerTestIdResults testResults, Microsoft.VisualStudio.TestPlatform.ObjectModel.TestResult ea)
+        private static void NoteTestResults(PerTestIdResults testResults, TestResult ea)
         {
             LogInfo("Test: {0} - {1}", ea.DisplayName, ea.Outcome);
 
@@ -103,7 +112,9 @@ namespace R4nd0mApps.TddStud10.TestHost
                 FilePath.NewFilePath(ea.TestCase.CodeFilePath),
                 DocumentCoordinate.NewDocumentCoordinate(ea.TestCase.LineNumber));
 
-            testResults.TryAdd(testId, ea.Outcome);
+            var results = testResults.GetOrAdd(testId, _ => new ConcurrentBag<TestRunResult>());
+
+            results.Add(new TestRunResult(ea.Outcome));
         }
     }
 }

@@ -66,6 +66,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="app.config" />
+    <Compile Include="TestRuntime\DependencyTests.fs" />
     <None Include="..\TestExecution\TestData\bins\XUnit20FSPortable\FSharp.Core.dll">
       <Link>TestData\bins\XUnit20FSPortable\FSharp.Core.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -133,6 +134,22 @@
     <Reference Include="Microsoft.VisualStudio.TestPlatform.ObjectModel">
       <HintPath>..\packages\Microsoft.VisualStudio.TestPlatform.ObjectModel.12.0\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.0\lib\net40\Mono.Cecil.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.0\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.0\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.0\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
@@ -143,6 +160,11 @@
     <ProjectReference Include="..\Common\Domain\Domain.fsproj">
       <Name>Domain</Name>
       <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\TestExecution\TestRuntime\TestRuntime.csproj">
+      <Name>TestRuntime</Name>
+      <Project>{0fea2e86-4ee0-4fd8-949d-c74189b855d9}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\TestHost.Core\TestHost.Core.fsproj">

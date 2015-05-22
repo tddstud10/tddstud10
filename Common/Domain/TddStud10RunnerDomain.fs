@@ -2,6 +2,7 @@
 
 open System
 open System.Collections
+open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
 [<CustomEquality; CustomComparison>]
 type FilePath = 
@@ -63,9 +64,14 @@ type TestRunId =
       testRunInstanceId : TestRunInstanceId }
 
 [<CLIMutable>]
+type TestRunResult =
+    { result : TestOutcome }
+
+[<CLIMutable>]
 type MethodId = 
     { assemblyId : AssemblyId
       mdTokenRid : MdTokenRid }
+
 
 [<CLIMutable>]
 type SequencePoint = 
