@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.FSharp.Control;
 using Microsoft.FSharp.Core;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
@@ -25,12 +25,38 @@ namespace R4nd0mApps.TddStud10.Engine
             {
                 TddStud10Runner.CreateRunStep(RunStepKind.Build, "Creating Solution Snapshot".ToRSN(), TakeSolutionSnapshot)
                 , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Deleting Build Output".ToRSN(), DeleteBuildOutput)
-                , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Refresh Test Runtime".ToRSN(), RefreshTestRuntime)
                 , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Building Solution Snapshot".ToRSN(), BuildSolutionSnapshot)
+                , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Refresh Test Runtime".ToRSN(), RefreshTestRuntime)
                 , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Discover Unit Tests".ToRSN(), DiscoverUnitTests)
                 , TddStud10Runner.CreateRunStep(RunStepKind.Build, "Instrument Binaries".ToRSN(), InstrumentBinaries)
                 , TddStud10Runner.CreateRunStep(RunStepKind.Test, "Running Tests".ToRSN(), RunTests)
             };
+        }
+
+        public static void FindAndExecuteForEachAssembly(IRunExecutorHost host, string buildOutputRoot, DateTime timeFilter, Action<string> action, int? maxThreads = null)
+        {
+            int madDegreeOfParallelism = maxThreads.HasValue ? maxThreads.Value : Environment.ProcessorCount;
+            Logger.I.LogInfo("FindAndExecuteForEachAssembly: Running with {0} threads.", madDegreeOfParallelism);
+            var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".dll", ".exe" };
+            Parallel.ForEach(
+                Directory.EnumerateFiles(buildOutputRoot, "*").Where(s => extensions.Contains(Path.GetExtension(s))),
+                new ParallelOptions { MaxDegreeOfParallelism = madDegreeOfParallelism },
+                assemblyPath =>
+                {
+                    if (!File.Exists(Path.ChangeExtension(assemblyPath, ".pdb")))
+                    {
+                        return;
+                    }
+
+                    var lastWriteTime = File.GetLastWriteTimeUtc(assemblyPath);
+                    if (lastWriteTime < timeFilter)
+                    {
+                        return;
+                    }
+
+                    Logger.I.LogInfo("FindAndExecuteForEachAssembly: Running for assembly {0}. LastWriteTime: {1}.", assemblyPath, lastWriteTime.ToLocalTime());
+                    action(assemblyPath);
+                });
         }
 
         private static RunStepResult RefreshTestRuntime(IRunExecutorHost host, RunStepName name, RunStepKind kind, RunData rd)
@@ -110,33 +136,19 @@ namespace R4nd0mApps.TddStud10.Engine
 
             var buildOutputRoot = rd.solutionBuildRoot.Item;
             var timeFilter = rd.startTime;
-            var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".dll", ".exe" };
 
             var testsPerAssembly = new PerAssemblyTestCases();
-            foreach (var assemblyPath in Directory.EnumerateFiles(buildOutputRoot, "*").Where(s => extensions.Contains(Path.GetExtension(s))))
-            {
-                if (!File.Exists(Path.ChangeExtension(assemblyPath, ".pdb")))
+            Engine.FindAndExecuteForEachAssembly(
+                host,
+                buildOutputRoot,
+                timeFilter,
+                (string assemblyPath) =>
                 {
-                    continue;
-                }
-
-                var lastWriteTime = File.GetLastWriteTimeUtc(assemblyPath);
-                if (lastWriteTime < timeFilter)
-                {
-                    continue;
-                }
-
-                Logger.I.LogInfo("Discovering unit tests for {0}. Last write time: {1}.", assemblyPath, lastWriteTime.ToLocalTime());
-
-                var tests = new ConcurrentBag<TestCase>();
-                var disc = new XUnitTestDiscoverer();
-                disc.TestDiscovered.AddHandler(new FSharpHandler<TestCase>((o, ea) => tests.Add(ea)));
-                disc.DiscoverTests(FilePath.NewFilePath(assemblyPath));
-                if (tests.Count > 0)
-                {
-                    testsPerAssembly.TryAdd(FilePath.NewFilePath(assemblyPath), tests);
-                }
-            }
+                    var tests = testsPerAssembly.GetOrAdd(FilePath.NewFilePath(assemblyPath), _ => new ConcurrentBag<TestCase>());
+                    var disc = new XUnitTestDiscoverer();
+                    disc.TestDiscovered.AddHandler(new FSharpHandler<TestCase>((o, ea) => tests.Add(ea)));
+                    disc.DiscoverTests(FilePath.NewFilePath(assemblyPath));
+                });
 
             var discoveredUnitTestsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
             testsPerAssembly.Serialize(FilePath.NewFilePath(discoveredUnitTestsStore));
@@ -154,10 +166,11 @@ namespace R4nd0mApps.TddStud10.Engine
                 rd.executedTests).ToRSR(name, kind, RunStepStatus.Succeeded, "Unit Tests Discovered - which ones - TBD");
         }
 
+
         private static RunStepResult InstrumentBinaries(IRunExecutorHost host, RunStepName name, RunStepKind kind, RunData rd)
         {
             var sequencePointStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_sequencePointStore.xml");
-            var dict = Instrumentation.GenerateSequencePointInfo(rd.startTime, rd.solutionBuildRoot.Item);
+            var dict = Instrumentation.GenerateSequencePointInfo(host, rd.startTime, rd.solutionBuildRoot.Item);
             if (dict != null)
             {
                 dict.Serialize(FilePath.NewFilePath(sequencePointStore));
@@ -168,7 +181,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 throw new OperationCanceledException();
             }
 
-            Instrumentation.Instrument(rd.startTime, Path.GetDirectoryName(rd.solutionPath.Item), rd.solutionBuildRoot.Item, rd.testsPerAssembly.Value);
+            Instrumentation.Instrument(host, rd.startTime, Path.GetDirectoryName(rd.solutionPath.Item), rd.solutionBuildRoot.Item, rd.testsPerAssembly.Value);
 
             var retRd = CreateRunDataForInstrumentationStep(rd, dict);
 

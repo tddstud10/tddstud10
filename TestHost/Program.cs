@@ -75,8 +75,14 @@ namespace R4nd0mApps.TddStud10.TestHost
             var perAssemblyTestIds = PerAssemblyTestCases.Deserialize(FilePath.NewFilePath(discoveredUnitTestsStore));
             Parallel.ForEach(
                 perAssemblyTestIds.Keys,
+                new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount },
                 asm =>
                 {
+                    if (perAssemblyTestIds[asm].Count == 0)
+                    {
+                        return;
+                    }
+
                     LogInfo("Executing tests in {0}: Start.", asm);
                     var exec = new XUnitTestExecutor();
                     exec.TestExecuted.AddHandler(new FSharpHandler<TestResult>((o, ea) => NoteTestResults(testResults, ea)));
