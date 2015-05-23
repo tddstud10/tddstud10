@@ -1,0 +1,370 @@
+<ArrayOfTestCase xmlns="http://schemas.datacontract.org/2004/07/Microsoft.VisualStudio.TestPlatform.ObjectModel" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+  <TestCase>
+    <store xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.FullyQualifiedName</_id>
+          <_label>FullyQualifiedName</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">XUnit20FSPortable.UnitTests.Fact Test 2</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.ExecutorUri</_id>
+          <_label>Executor Uri</_label>
+          <_strValueType>System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:anyURI" xmlns:b="http://www.w3.org/2001/XMLSchema">executor://xunit/VsTestRunner2</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.Source</_id>
+          <_label>Source</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">D:\src\r4nd0mapps\tddstud10\TestExecution\TestData\bins\XUnit20FSPortable\XUnit20FSPortable.dll</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.DisplayName</_id>
+          <_label>Name</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">XUnit20FSPortable.UnitTests.Fact Test 2</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>XunitTestCase</_id>
+          <_label>xUnit.net Test Case</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">Xunit.Sdk.XunitTestCase, xunit.execution.{Platform}:VGVzdE1ldGhvZDpYdW5pdC5TZGsuVGVzdE1ldGhvZCwgeHVuaXQuZXhlY3V0aW9uLntQbGF0Zm9ybX06VFdWMGFHOWtUbUZ0WlRwVGVYTjBaVzB1VTNSeWFXNW5PbEp0Um1wa1EwSlZXbGhPTUVsRVNUMEtWR1Z6ZEVOc1lYTnpPbGgxYm1sMExsTmtheTVVWlhOMFEyeGhjM01zSUhoMWJtbDBMbVY0WldOMWRHbHZiaTU3VUd4aGRHWnZjbTE5T2xaSFZucGtSVTUyWWtkNGJGa3pVbkJpTWpRMlYwaFdkV0ZZVVhWVk1sSnlUR3hTYkdNelVrUmlNbmh6V2xkT01HRlhPWFZNUTBJMFpGYzFjR1JETld4bFIxWnFaRmhTY0dJeU5IVmxNVUp6V1ZoU2JXSXpTblJtVkhCVFVqSjRObGt3WkRSaFIxWldUbGRvYVZZeFZUSldWRTV6WlcxU1NGWnVVazFpUlRSM1dUSXhjMlJXY0RaalJtUlRUVlp2TWxkclZrOVJNa1owVTFoc2JGTkZOV2hXYWtFd1pERnNWMWw2Vm10V1YzaEpWakkxWVdGdFJsWlRiSEJYWWtkTmVGa3daRk5TVms1WldrWk9hVkpVVmxOWFYzQlBVekF4UjJKR2FGUmlhelZvVmxod1YxWXhiSFJOV0U1T1VteHdTVlp0TlhkaE1VNUdUVVJzUkdKR1NuTlplazVUVVcxTmVsUnRlR2xXTUhCNldsWlNkMWRYVWxoT1dFSnJVWHBXVlZkclpIcGtWbHBJVm01d2ExSlZXalpaZWtwWFpFWnNkR1ZFVmsxUk1Fa3dXa1pqTVdOSFVrUk9WM2hzVWpGYWNWcEdhRk5qUjBsNVRraFdiRTFWU25wWFZtaFRZbGRKZWxOdVVtMVdTRUpUVmpCVk1VNXNaSE5aTTJob1ZqQndTbGxyV2tkWGJHUkhVMjVhVlUxdWFGQlViR1JPWld4V2RHVkhiRlpsYkZwV1YydFdiMU15VGtoVGJsSmFaV3h3VjFsVVJrdE5NV1JWVTJzMWJHSkZOVEJaTUZwelZrWktXR1JFVGxoV2VrSTBWbGN4VW1WV1RuTmhSazVwWWxaS2VGWlVRbFpOVjBaelkwVmFZVkpyTlc5VVYzTjRUbXhhV0dORlpGcFdhM0JIVm0xd1QxZEdTbGRqUmxKYVlUSlNUMXBYZUZkamJHUjBaVVpPVGxadVFqUldNblJoWWpGVmVWUnJhRlJYUjNoUVZtcEJNVmRHVm5GU2JVWlBZa2hDUjFadGVFOWhSa2w0VTJ0c1ZtSlVSbEJXTWpGTFYwZFdSVkpzY0d4aE1XdDNWbXBHWVZsV1pFWk9WbXhTWWxoU1ZGVnNaRE5sYkZwWVRWUlNWVTFXV2xsVk1XaDNWa2RHY2xOdFJsZGhhMG96V2xkNGEyTXhaSEZWYkdoWFlraENXbFpIZUc5Uk1rVjRVMnRhYVZKRk5WZFpiR2h2VlVaYVYxcEZjR3hpUlRWNFZWZDRkMVl3TVVsUmFscFhUVzVvVDFSV1drdFdNVlp5VjIxMGJHRnJTazFXVmxKS1RsZFNWMk5JVW1sU2VsWlVXV3hrTkdWc1pITldWRVpvVWpCd1dWWnNVbUZXYXpCNVpVUmFZVkpYVWxoYVJWWTBZekZTY1ZGdGNHbFdNMmQ0VmpJMWQyUXhWWGhUYTJ4U1lsaENZVnBYY3pGVVJteFlaVWM1VkZack5WWlZWekZ6WVZaYWNsZFljRmhXTTJoeVZXcEtVbVZXVW5KaVJsWnBWbFJXV1ZaWGNFZFpWVFZ6WTBWYVYySlViSEpaYkZWNFRteGFXR1ZGWkdoaVZYQldXVlJPYTFkdFJuSk9WbEpWWWtkU1VGVXdXbUZrUmxKelkwZHNWMDB5WkRSV2FrSlhWakZWZVZOclpHbFRSbHBZV1d4U1YxZHNWblJsUlhScVRWZDNNbFpIZUU5V1JsbDNZa1JhVjFJelFrUldiWGhQVW0xT1JWTnRSbE5XTURCNFZrWldhMVl4WkZkU2JsSnNVbFJHY0ZscmFFSk5iR1JYVm0xd1QxWXhXakJXVjNSVFZERlplbUZJVGxaaGExcFlWRlphVjFaV1RsVldiWFJYWW10SmQxZFhkR3BOUmtKU1kwWmFhV0pYZURSYVJtUlhVMnhLUldOR1VteFhSVFIzVjJ4amQyUldWWHBWYm14b1ZucFdkVlF5Y3pGWFJrcFZVV3h3YVZaWGREUldSM1JyVTIxU1JrOVZhRmhpV0doaFZsaHdRbVF4WkZoTlZUbG9WbGhvVmxsclpITlZSbHBJWkVSQ1dGWkZjRlJaVjNoelpFWldXVnBHUWxkTlJFVXdWako0VTFkck1XNWpSVlpoVmpBMWVsZFdhRXRoUjFKSVlraGFhV0V3V2paWmVrcFhaRVpzZEdWRVZsVmlWVm93VjJ4U2QxWkhWbGxVYWtKaFZucENNVlpFU2t0alZuQllWR3BDUkdFeFNuTlhWRW8wWVVkT2RGSnFRbWhXZW13eFZtdG9jMlF4Y0ZaT1YyaHBWakZWTWxaVVRuTmxiVkpJVm01U1RXRjZiSEJaVnpGWFlXMVNRbEJVTUV0Uk1uaG9Zek5PUW1NelRteGlWMHB6WlZVMWFHSlhWVFpWTTJ4NlpFZFdkRXhzVGpCamJXeDFXbnB3V0ZKc1dqRlpWbWhTWlZVeFJsZHNVbFpTZW13MVdrVmtSMkZYU2toV1dFNUtVbXh3YzFreU5VOWpSMGw1VGtSc1RsRjZVak5VUjNCQ1pGVXhSR1F5WkZKTk1WcDZXa1ZvVjJWV2NGVk5XRlpoVjBaWmQxa3lNVWRqTUhoRVVXeEdhMVl3Y0hwWlZtUlBWRVp3V1dKR1ZtbE5ibEp6V1cxdmVHUlhVbGhsU0UxTFVUSjRhR016VGxWbFdFSnNWRzFHZEZwVWNGUmxXRTR3V2xjd2RWVXpVbmxoVnpWdVQyeGtSMVp1Vm1oWFJrWTFWRlZXWVZaR1ZraFBXR3hyVWpCYWNGbHJaRlprVmxwWVRsaENhMUpzU25OWmVrNVRaV2M5UFE9PQpUZXN0TWV0aG9kQXJndW1lbnRzOlN5c3RlbS5PYmplY3QKRGVmYXVsdE1ldGhvZERpc3BsYXk6U3lzdGVtLlN0cmluZzpRMnhoYzNOQmJtUk5aWFJvYjJRPQ==</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.Id</_id>
+          <_label>Id</_label>
+          <_strValueType>System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:guid" xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/">5b5f78a0-c439-b088-df18-e26ac76caf34</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.CodeFilePath</_id>
+          <_label>File Path</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">D:\src\r4nd0mapps\tddstud10\TestExecution\TestData\UnitTestProjects\XUnit20FSPortable\PortableLibrary1.fs</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.LineNumber</_id>
+          <_label>Line Number</_label>
+          <_strValueType>System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:int" xmlns:b="http://www.w3.org/2001/XMLSchema">17</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+    </store>
+  </TestCase>
+  <TestCase>
+    <store xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.FullyQualifiedName</_id>
+          <_label>FullyQualifiedName</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">XUnit20FSPortable.UnitTests.Fact Test 1</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.ExecutorUri</_id>
+          <_label>Executor Uri</_label>
+          <_strValueType>System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:anyURI" xmlns:b="http://www.w3.org/2001/XMLSchema">executor://xunit/VsTestRunner2</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.Source</_id>
+          <_label>Source</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">D:\src\r4nd0mapps\tddstud10\TestExecution\TestData\bins\XUnit20FSPortable\XUnit20FSPortable.dll</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.DisplayName</_id>
+          <_label>Name</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">XUnit20FSPortable.UnitTests.Fact Test 1</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>XunitTestCase</_id>
+          <_label>xUnit.net Test Case</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">Xunit.Sdk.XunitTestCase, xunit.execution.{Platform}:VGVzdE1ldGhvZDpYdW5pdC5TZGsuVGVzdE1ldGhvZCwgeHVuaXQuZXhlY3V0aW9uLntQbGF0Zm9ybX06VFdWMGFHOWtUbUZ0WlRwVGVYTjBaVzB1VTNSeWFXNW5PbEp0Um1wa1EwSlZXbGhPTUVsRVJUMEtWR1Z6ZEVOc1lYTnpPbGgxYm1sMExsTmtheTVVWlhOMFEyeGhjM01zSUhoMWJtbDBMbVY0WldOMWRHbHZiaTU3VUd4aGRHWnZjbTE5T2xaSFZucGtSVTUyWWtkNGJGa3pVbkJpTWpRMlYwaFdkV0ZZVVhWVk1sSnlUR3hTYkdNelVrUmlNbmh6V2xkT01HRlhPWFZNUTBJMFpGYzFjR1JETld4bFIxWnFaRmhTY0dJeU5IVmxNVUp6V1ZoU2JXSXpTblJtVkhCVFVqSjRObGt3WkRSaFIxWldUbGRvYVZZeFZUSldWRTV6WlcxU1NGWnVVazFpUlRSM1dUSXhjMlJXY0RaalJtUlRUVlp2TWxkclZrOVJNa1owVTFoc2JGTkZOV2hXYWtFd1pERnNWMWw2Vm10V1YzaEpWakkxWVdGdFJsWlRiSEJYWWtkTmVGa3daRk5TVms1WldrWk9hVkpVVmxOWFYzQlBVekF4UjJKR2FGUmlhelZvVmxod1YxWXhiSFJOV0U1T1VteHdTVlp0TlhkaE1VNUdUVVJzUkdKR1NuTlplazVUVVcxTmVsUnRlR2xXTUhCNldsWlNkMWRYVWxoT1dFSnJVWHBXVlZkclpIcGtWbHBJVm01d2ExSlZXalpaZWtwWFpFWnNkR1ZFVmsxUk1Fa3dXa1pqTVdOSFVrUk9WM2hzVWpGYWNWcEdhRk5qUjBsNVRraFdiRTFWU25wWFZtaFRZbGRKZWxOdVVtMVdTRUpUVmpCVk1VNXNaSE5aTTJob1ZqQndTbGxyV2tkWGJHUkhVMjVhVlUxdWFGQlViR1JPWld4V2RHVkhiRlpsYkZwV1YydFdiMU15VGtoVGJsSmFaV3h3VjFsVVJrdE5NV1JWVTJzMWJHSkZOVEJaTUZwelZrWktXR1JFVGxoV2VrSTBWbGN4VW1WV1RuTmhSazVwWWxaS2VGWlVRbFpOVjBaelkwVmFZVkpyTlc5VVYzTjRUbXhhV0dORlpGcFdhM0JIVm0xd1QxZEdTbGRqUmxKYVlUSlNUMXBYZUZkamJHUjBaVVpPVGxadVFqUldNblJoWWpGVmVWUnJhRlJYUjNoUVZtcEJNVmRHVm5GU2JVWlBZa2hDUjFadGVFOWhSa2w0VTJ0c1ZtSlVSbEJXTWpGTFYwZFdSVkpzY0d4aE1XdDNWbXBHWVZsV1pFWk9WbXhTWWxoU1ZGVnNaRE5sYkZwWVRWUlNWVTFXV2xsVk1XaDNWa2RHY2xOdFJsZGhhMG96V2xkNGEyTXhaSEZWYkdoWFlraENXbFpIZUc5Uk1rVjRVMnRhYVZKRk5WZFpiR2h2VlVaYVYxcEZjR3hpUlRWNFZWZDRkMVl3TVVsUmFscFhUVzVvVDFSV1drdFdNVlp5VjIxMGJHRnJTazFXVmxKS1RsZFNWMk5JVW1sU2VsWlVXV3hrTkdWc1pITldWRVpvVWpCd1dWWnNVbUZXYXpCNVpVUmFZVkpYVWxoYVJWWTBZekZTY1ZGdGNHbFdNMmQ0VmpJMWQyUXhWWGhUYTJ4U1lsaENZVnBYY3pGVVJteFlaVWM1VkZack5WWlZWekZ6WVZaYWNsZFljRmhXTTJoeVZXcEtVbVZXVW5KaVJsWnBWbFJXV1ZaWGNFZFpWVFZ6WTBWYVYySlViSEpaYkZWNFRteGFXR1ZGWkdoaVZYQldXVlJPYTFkdFJuSk9WbEpWWWtkU1VGVXdXbUZrUmxKelkwZHNWMDB5WkRSV2FrSlhWakZWZVZOclpHbFRSbHBZV1d4U1YxZHNWblJsUlhScVRWZDNNbFpIZUU5V1JsbDNZa1JhVjFJelFrUldiWGhQVW0xT1JWTnRSbE5XTURCNFZrWldhMVl4WkZkU2JsSnNVbFJHY0ZscmFFSk5iR1JYVm0xd1QxWXhXakJXVjNSVFZERlplbUZJVGxaaGExcFlWRlphVjFaV1RsVldiWFJYWW10SmQxZFhkR3BOUmtKU1kwWmFhV0pYZURSYVJtUlhVMnhLUldOR1VteFhSVFIzVjJ4amQyUldWWHBWYm14b1ZucFdkVlF5Y3pGWFJrcFZVV3h3YVZaWGREUldSM1JyVTIxU1JrOVZhRmhpV0doaFZsaHdRbVF4WkZoTlZUbG9WbGhvVmxsclpITlZSbHBJWkVSQ1dGWkZjRlJaVjNoelpFWldXVnBHUWxkTlJFVXdWako0VTFkck1XNWpSVlpoVmpBMWVsZFdhRXRoUjFKSVlraGFhV0V3V2paWmVrcFhaRVpzZEdWRVZsVmlWVm93VjJ4U2QxWkhWbGxVYWtKaFZucENNVlpFU2t0alZuQllWR3BDUkdFeFNuTlhWRW8wWVVkT2RGSnFRbWhXZW13eFZtdG9jMlF4Y0ZaT1YyaHBWakZWTWxaVVRuTmxiVkpJVm01U1RXRjZiSEJaVnpGWFlXMVNRbEJVTUV0Uk1uaG9Zek5PUW1NelRteGlWMHB6WlZVMWFHSlhWVFpWTTJ4NlpFZFdkRXhzVGpCamJXeDFXbnB3V0ZKc1dqRlpWbWhTWlZVeFJsZHNVbFpTZW13MVdrVmtSMkZYU2toV1dFNUtVbXh3YzFreU5VOWpSMGw1VGtSc1RsRjZVak5VUjNCQ1pGVXhSR1F5WkZKTk1WcDZXa1ZvVjJWV2NGVk5XRlpoVjBaWmQxa3lNVWRqTUhoRVVXeEdhMVl3Y0hwWlZtUlBWRVp3V1dKR1ZtbE5ibEp6V1cxdmVHUlhVbGhsU0UxTFVUSjRhR016VGxWbFdFSnNWRzFHZEZwVWNGUmxXRTR3V2xjd2RWVXpVbmxoVnpWdVQyeGtSMVp1Vm1oWFJrWTFWRlZXWVZaR1ZraFBXR3hyVWpCYWNGbHJaRlprVmxwWVRsaENhMUpzU25OWmVrNVRaV2M5UFE9PQpUZXN0TWV0aG9kQXJndW1lbnRzOlN5c3RlbS5PYmplY3QKRGVmYXVsdE1ldGhvZERpc3BsYXk6U3lzdGVtLlN0cmluZzpRMnhoYzNOQmJtUk5aWFJvYjJRPQ==</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.Id</_id>
+          <_label>Id</_label>
+          <_strValueType>System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:guid" xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/">3b1b0fb3-b877-a13f-c232-604f9763134f</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.CodeFilePath</_id>
+          <_label>File Path</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">D:\src\r4nd0mapps\tddstud10\TestExecution\TestData\UnitTestProjects\XUnit20FSPortable\PortableLibrary1.fs</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.LineNumber</_id>
+          <_label>Line Number</_label>
+          <_strValueType>System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:int" xmlns:b="http://www.w3.org/2001/XMLSchema">13</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+    </store>
+  </TestCase>
+  <TestCase>
+    <store xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.FullyQualifiedName</_id>
+          <_label>FullyQualifiedName</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">XUnit20FSPortable.UnitTests.Theory Tests (b8fd193983d2a702bf14e9659633be80f74ceda6)</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.ExecutorUri</_id>
+          <_label>Executor Uri</_label>
+          <_strValueType>System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:anyURI" xmlns:b="http://www.w3.org/2001/XMLSchema">executor://xunit/VsTestRunner2</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.Source</_id>
+          <_label>Source</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">D:\src\r4nd0mapps\tddstud10\TestExecution\TestData\bins\XUnit20FSPortable\XUnit20FSPortable.dll</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.DisplayName</_id>
+          <_label>Name</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">XUnit20FSPortable.UnitTests.Theory Tests(input: 2)</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>XunitTestCase</_id>
+          <_label>xUnit.net Test Case</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">Xunit.Sdk.XunitTestCase, xunit.execution.{Platform}:VGVzdE1ldGhvZDpYdW5pdC5TZGsuVGVzdE1ldGhvZCwgeHVuaXQuZXhlY3V0aW9uLntQbGF0Zm9ybX06VFdWMGFHOWtUbUZ0WlRwVGVYTjBaVzB1VTNSeWFXNW5PbFpIYUd4aU0wbzFTVVpTYkdNelVub0tWR1Z6ZEVOc1lYTnpPbGgxYm1sMExsTmtheTVVWlhOMFEyeGhjM01zSUhoMWJtbDBMbVY0WldOMWRHbHZiaTU3VUd4aGRHWnZjbTE5T2xaSFZucGtSVTUyWWtkNGJGa3pVbkJpTWpRMlYwaFdkV0ZZVVhWVk1sSnlUR3hTYkdNelVrUmlNbmh6V2xkT01HRlhPWFZNUTBJMFpGYzFjR1JETld4bFIxWnFaRmhTY0dJeU5IVmxNVUp6V1ZoU2JXSXpTblJtVkhCVFVqSjRObGt3WkRSaFIxWldUbGRvYVZZeFZUSldWRTV6WlcxU1NGWnVVazFpUlRSM1dUSXhjMlJXY0RaalJtUlRUVlp2TWxkclZrOVJNa1owVTFoc2JGTkZOV2hXYWtFd1pERnNWMWw2Vm10V1YzaEpWakkxWVdGdFJsWlRiSEJYWWtkTmVGa3daRk5TVms1WldrWk9hVkpVVmxOWFYzQlBVekF4UjJKR2FGUmlhelZvVmxod1YxWXhiSFJOV0U1T1VteHdTVlp0TlhkaE1VNUdUVVJzUkdKR1NuTlplazVUVVcxTmVsUnRlR2xXTUhCNldsWlNkMWRYVWxoT1dFSnJVWHBXVlZkclpIcGtWbHBJVm01d2ExSlZXalpaZWtwWFpFWnNkR1ZFVmsxUk1Fa3dXa1pqTVdOSFVrUk9WM2hzVWpGYWNWcEdhRk5qUjBsNVRraFdiRTFWU25wWFZtaFRZbGRKZWxOdVVtMVdTRUpUVmpCVk1VNXNaSE5aTTJob1ZqQndTbGxyV2tkWGJHUkhVMjVhVlUxdWFGQlViR1JPWld4V2RHVkhiRlpsYkZwV1YydFdiMU15VGtoVGJsSmFaV3h3VjFsVVJrdE5NV1JWVTJzMWJHSkZOVEJaTUZwelZrWktXR1JFVGxoV2VrSTBWbGN4VW1WV1RuTmhSazVwWWxaS2VGWlVRbFpOVjBaelkwVmFZVkpyTlc5VVYzTjRUbXhhV0dORlpGcFdhM0JIVm0xd1QxZEdTbGRqUmxKYVlUSlNUMXBYZUZkamJHUjBaVVpPVGxadVFqUldNblJoWWpGVmVWUnJhRlJYUjNoUVZtcEJNVmRHVm5GU2JVWlBZa2hDUjFadGVFOWhSa2w0VTJ0c1ZtSlVSbEJXTWpGTFYwZFdSVkpzY0d4aE1XdDNWbXBHWVZsV1pFWk9WbXhTWWxoU1ZGVnNaRE5sYkZwWVRWUlNWVTFXV2xsVk1XaDNWa2RHY2xOdFJsZGhhMG96V2xkNGEyTXhaSEZWYkdoWFlraENXbFpIZUc5Uk1rVjRVMnRhYVZKRk5WZFpiR2h2VlVaYVYxcEZjR3hpUlRWNFZWZDRkMVl3TVVsUmFscFhUVzVvVDFSV1drdFdNVlp5VjIxMGJHRnJTazFXVmxKS1RsZFNWMk5JVW1sU2VsWlVXV3hrTkdWc1pITldWRVpvVWpCd1dWWnNVbUZXYXpCNVpVUmFZVkpYVWxoYVJWWTBZekZTY1ZGdGNHbFdNMmQ0VmpJMWQyUXhWWGhUYTJ4U1lsaENZVnBYY3pGVVJteFlaVWM1VkZack5WWlZWekZ6WVZaYWNsZFljRmhXTTJoeVZXcEtVbVZXVW5KaVJsWnBWbFJXV1ZaWGNFZFpWVFZ6WTBWYVYySlViSEpaYkZWNFRteGFXR1ZGWkdoaVZYQldXVlJPYTFkdFJuSk9WbEpWWWtkU1VGVXdXbUZrUmxKelkwZHNWMDB5WkRSV2FrSlhWakZWZVZOclpHbFRSbHBZV1d4U1YxZHNWblJsUlhScVRWZDNNbFpIZUU5V1JsbDNZa1JhVjFJelFrUldiWGhQVW0xT1JWTnRSbE5XTURCNFZrWldhMVl4WkZkU2JsSnNVbFJHY0ZscmFFSk5iR1JYVm0xd1QxWXhXakJXVjNSVFZERlplbUZJVGxaaGExcFlWRlphVjFaV1RsVldiWFJYWW10SmQxZFhkR3BOUmtKU1kwWmFhV0pYZURSYVJtUlhVMnhLUldOR1VteFhSVFIzVjJ4amQyUldWWHBWYm14b1ZucFdkVlF5Y3pGWFJrcFZVV3h3YVZaWGREUldSM1JyVTIxU1JrOVZhRmhpV0doaFZsaHdRbVF4WkZoTlZUbG9WbGhvVmxsclpITlZSbHBJWkVSQ1dGWkZjRlJaVjNoelpFWldXVnBHUWxkTlJFVXdWako0VTFkck1XNWpSVlpoVmpBMWVsZFdhRXRoUjFKSVlraGFhV0V3V2paWmVrcFhaRVpzZEdWRVZsVmlWVm93VjJ4U2QxWkhWbGxVYWtKaFZucENNVlpFU2t0alZuQllWR3BDUkdFeFNuTlhWRW8wWVVkT2RGSnFRbWhXZW13eFZtdG9jMlF4Y0ZaT1YyaHBWakZWTWxaVVRuTmxiVkpJVm01U1RXRjZiSEJaVnpGWFlXMVNRbEJVTUV0Uk1uaG9Zek5PUW1NelRteGlWMHB6WlZVMWFHSlhWVFpWTTJ4NlpFZFdkRXhzVGpCamJXeDFXbnB3V0ZKc1dqRlpWbWhTWlZVeFJsZHNVbFpTZW13MVdrVmtSMkZYU2toV1dFNUtVbXh3YzFreU5VOWpSMGw1VGtSc1RsRjZVak5VUjNCQ1pGVXhSR1F5WkZKTk1WcDZXa1ZvVjJWV2NGVk5XRlpoVjBaWmQxa3lNVWRqTUhoRVVXeEdhMVl3Y0hwWlZtUlBWRVp3V1dKR1ZtbE5ibEp6V1cxdmVHUlhVbGhsU0UxTFVUSjRhR016VGxWbFdFSnNWRzFHZEZwVWNGUmxXRTR3V2xjd2RWVXpVbmxoVnpWdVQyeGtSMVp1Vm1oWFJrWTFWRlZXWVZaR1ZraFBXR3hyVWpCYWNGbHJaRlprVmxwWVRsaENhMUpzU25OWmVrNVRaV2M5UFE9PQpUZXN0TWV0aG9kQXJndW1lbnRzOlN5c3RlbS5PYmplY3RbXTpUR1Z1WjNSb09sTjVjM1JsYlM1SmJuUXpNam94Q2tWc1pXMWxiblJVZVhCbE9sTjVjM1JsYlM1VGRISnBibWM2VlROc2VtUkhWblJNYXpscFlXMVdhbVJCUFQwS1NYUmxiVEE2VTNsemRHVnRMa2x1ZERNeU9qST0KRGVmYXVsdE1ldGhvZERpc3BsYXk6U3lzdGVtLlN0cmluZzpRMnhoYzNOQmJtUk5aWFJvYjJRPQ==</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.Id</_id>
+          <_label>Id</_label>
+          <_strValueType>System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:guid" xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/">fbab4d29-d507-889b-2852-6fb1dc41a8f7</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.CodeFilePath</_id>
+          <_label>File Path</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">D:\src\r4nd0mapps\tddstud10\TestExecution\TestData\UnitTestProjects\XUnit20FSPortable\PortableLibrary1.fs</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.LineNumber</_id>
+          <_label>Line Number</_label>
+          <_strValueType>System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:int" xmlns:b="http://www.w3.org/2001/XMLSchema">9</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+    </store>
+  </TestCase>
+  <TestCase>
+    <store xmlns:a="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.FullyQualifiedName</_id>
+          <_label>FullyQualifiedName</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">XUnit20FSPortable.UnitTests.Theory Tests (a27d53f68c13b1f8dcee800f59f53efefd224fb3)</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.ExecutorUri</_id>
+          <_label>Executor Uri</_label>
+          <_strValueType>System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:anyURI" xmlns:b="http://www.w3.org/2001/XMLSchema">executor://xunit/VsTestRunner2</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.Source</_id>
+          <_label>Source</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">D:\src\r4nd0mapps\tddstud10\TestExecution\TestData\bins\XUnit20FSPortable\XUnit20FSPortable.dll</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.DisplayName</_id>
+          <_label>Name</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">XUnit20FSPortable.UnitTests.Theory Tests(input: 1)</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>XunitTestCase</_id>
+          <_label>xUnit.net Test Case</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">Xunit.Sdk.XunitTestCase, xunit.execution.{Platform}:VGVzdE1ldGhvZDpYdW5pdC5TZGsuVGVzdE1ldGhvZCwgeHVuaXQuZXhlY3V0aW9uLntQbGF0Zm9ybX06VFdWMGFHOWtUbUZ0WlRwVGVYTjBaVzB1VTNSeWFXNW5PbFpIYUd4aU0wbzFTVVpTYkdNelVub0tWR1Z6ZEVOc1lYTnpPbGgxYm1sMExsTmtheTVVWlhOMFEyeGhjM01zSUhoMWJtbDBMbVY0WldOMWRHbHZiaTU3VUd4aGRHWnZjbTE5T2xaSFZucGtSVTUyWWtkNGJGa3pVbkJpTWpRMlYwaFdkV0ZZVVhWVk1sSnlUR3hTYkdNelVrUmlNbmh6V2xkT01HRlhPWFZNUTBJMFpGYzFjR1JETld4bFIxWnFaRmhTY0dJeU5IVmxNVUp6V1ZoU2JXSXpTblJtVkhCVFVqSjRObGt3WkRSaFIxWldUbGRvYVZZeFZUSldWRTV6WlcxU1NGWnVVazFpUlRSM1dUSXhjMlJXY0RaalJtUlRUVlp2TWxkclZrOVJNa1owVTFoc2JGTkZOV2hXYWtFd1pERnNWMWw2Vm10V1YzaEpWakkxWVdGdFJsWlRiSEJYWWtkTmVGa3daRk5TVms1WldrWk9hVkpVVmxOWFYzQlBVekF4UjJKR2FGUmlhelZvVmxod1YxWXhiSFJOV0U1T1VteHdTVlp0TlhkaE1VNUdUVVJzUkdKR1NuTlplazVUVVcxTmVsUnRlR2xXTUhCNldsWlNkMWRYVWxoT1dFSnJVWHBXVlZkclpIcGtWbHBJVm01d2ExSlZXalpaZWtwWFpFWnNkR1ZFVmsxUk1Fa3dXa1pqTVdOSFVrUk9WM2hzVWpGYWNWcEdhRk5qUjBsNVRraFdiRTFWU25wWFZtaFRZbGRKZWxOdVVtMVdTRUpUVmpCVk1VNXNaSE5aTTJob1ZqQndTbGxyV2tkWGJHUkhVMjVhVlUxdWFGQlViR1JPWld4V2RHVkhiRlpsYkZwV1YydFdiMU15VGtoVGJsSmFaV3h3VjFsVVJrdE5NV1JWVTJzMWJHSkZOVEJaTUZwelZrWktXR1JFVGxoV2VrSTBWbGN4VW1WV1RuTmhSazVwWWxaS2VGWlVRbFpOVjBaelkwVmFZVkpyTlc5VVYzTjRUbXhhV0dORlpGcFdhM0JIVm0xd1QxZEdTbGRqUmxKYVlUSlNUMXBYZUZkamJHUjBaVVpPVGxadVFqUldNblJoWWpGVmVWUnJhRlJYUjNoUVZtcEJNVmRHVm5GU2JVWlBZa2hDUjFadGVFOWhSa2w0VTJ0c1ZtSlVSbEJXTWpGTFYwZFdSVkpzY0d4aE1XdDNWbXBHWVZsV1pFWk9WbXhTWWxoU1ZGVnNaRE5sYkZwWVRWUlNWVTFXV2xsVk1XaDNWa2RHY2xOdFJsZGhhMG96V2xkNGEyTXhaSEZWYkdoWFlraENXbFpIZUc5Uk1rVjRVMnRhYVZKRk5WZFpiR2h2VlVaYVYxcEZjR3hpUlRWNFZWZDRkMVl3TVVsUmFscFhUVzVvVDFSV1drdFdNVlp5VjIxMGJHRnJTazFXVmxKS1RsZFNWMk5JVW1sU2VsWlVXV3hrTkdWc1pITldWRVpvVWpCd1dWWnNVbUZXYXpCNVpVUmFZVkpYVWxoYVJWWTBZekZTY1ZGdGNHbFdNMmQ0VmpJMWQyUXhWWGhUYTJ4U1lsaENZVnBYY3pGVVJteFlaVWM1VkZack5WWlZWekZ6WVZaYWNsZFljRmhXTTJoeVZXcEtVbVZXVW5KaVJsWnBWbFJXV1ZaWGNFZFpWVFZ6WTBWYVYySlViSEpaYkZWNFRteGFXR1ZGWkdoaVZYQldXVlJPYTFkdFJuSk9WbEpWWWtkU1VGVXdXbUZrUmxKelkwZHNWMDB5WkRSV2FrSlhWakZWZVZOclpHbFRSbHBZV1d4U1YxZHNWblJsUlhScVRWZDNNbFpIZUU5V1JsbDNZa1JhVjFJelFrUldiWGhQVW0xT1JWTnRSbE5XTURCNFZrWldhMVl4WkZkU2JsSnNVbFJHY0ZscmFFSk5iR1JYVm0xd1QxWXhXakJXVjNSVFZERlplbUZJVGxaaGExcFlWRlphVjFaV1RsVldiWFJYWW10SmQxZFhkR3BOUmtKU1kwWmFhV0pYZURSYVJtUlhVMnhLUldOR1VteFhSVFIzVjJ4amQyUldWWHBWYm14b1ZucFdkVlF5Y3pGWFJrcFZVV3h3YVZaWGREUldSM1JyVTIxU1JrOVZhRmhpV0doaFZsaHdRbVF4WkZoTlZUbG9WbGhvVmxsclpITlZSbHBJWkVSQ1dGWkZjRlJaVjNoelpFWldXVnBHUWxkTlJFVXdWako0VTFkck1XNWpSVlpoVmpBMWVsZFdhRXRoUjFKSVlraGFhV0V3V2paWmVrcFhaRVpzZEdWRVZsVmlWVm93VjJ4U2QxWkhWbGxVYWtKaFZucENNVlpFU2t0alZuQllWR3BDUkdFeFNuTlhWRW8wWVVkT2RGSnFRbWhXZW13eFZtdG9jMlF4Y0ZaT1YyaHBWakZWTWxaVVRuTmxiVkpJVm01U1RXRjZiSEJaVnpGWFlXMVNRbEJVTUV0Uk1uaG9Zek5PUW1NelRteGlWMHB6WlZVMWFHSlhWVFpWTTJ4NlpFZFdkRXhzVGpCamJXeDFXbnB3V0ZKc1dqRlpWbWhTWlZVeFJsZHNVbFpTZW13MVdrVmtSMkZYU2toV1dFNUtVbXh3YzFreU5VOWpSMGw1VGtSc1RsRjZVak5VUjNCQ1pGVXhSR1F5WkZKTk1WcDZXa1ZvVjJWV2NGVk5XRlpoVjBaWmQxa3lNVWRqTUhoRVVXeEdhMVl3Y0hwWlZtUlBWRVp3V1dKR1ZtbE5ibEp6V1cxdmVHUlhVbGhsU0UxTFVUSjRhR016VGxWbFdFSnNWRzFHZEZwVWNGUmxXRTR3V2xjd2RWVXpVbmxoVnpWdVQyeGtSMVp1Vm1oWFJrWTFWRlZXWVZaR1ZraFBXR3hyVWpCYWNGbHJaRlprVmxwWVRsaENhMUpzU25OWmVrNVRaV2M5UFE9PQpUZXN0TWV0aG9kQXJndW1lbnRzOlN5c3RlbS5PYmplY3RbXTpUR1Z1WjNSb09sTjVjM1JsYlM1SmJuUXpNam94Q2tWc1pXMWxiblJVZVhCbE9sTjVjM1JsYlM1VGRISnBibWM2VlROc2VtUkhWblJNYXpscFlXMVdhbVJCUFQwS1NYUmxiVEE2VTNsemRHVnRMa2x1ZERNeU9qRT0KRGVmYXVsdE1ldGhvZERpc3BsYXk6U3lzdGVtLlN0cmluZzpRMnhoYzNOQmJtUk5aWFJvYjJRPQ==</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.Id</_id>
+          <_label>Id</_label>
+          <_strValueType>System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:guid" xmlns:b="http://schemas.microsoft.com/2003/10/Serialization/">fba3014c-d8d5-6da7-6802-c354f365406c</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>None</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.CodeFilePath</_id>
+          <_label>File Path</_label>
+          <_strValueType>System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:string" xmlns:b="http://www.w3.org/2001/XMLSchema">D:\src\r4nd0mapps\tddstud10\TestExecution\TestData\UnitTestProjects\XUnit20FSPortable\PortableLibrary1.fs</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+      <a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+        <a:Key>
+          <_attributes>Hidden</_attributes>
+          <_category/>
+          <_description/>
+          <_id>TestCase.LineNumber</_id>
+          <_label>Line Number</_label>
+          <_strValueType>System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</_strValueType>
+        </a:Key>
+        <a:Value i:type="b:int" xmlns:b="http://www.w3.org/2001/XMLSchema">9</a:Value>
+      </a:KeyValueOfTestPropertyanyTypeGfygfmPv>
+    </store>
+  </TestCase>
+</ArrayOfTestCase>

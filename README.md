@@ -115,6 +115,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
       - ☐ What is the exception thrown and the point of faiure?
       - ☐ Show test details for each covered lines
     - ☐ SxS compare with NCrunch on [a] test completion times [b] behavior of dots for 3 projects [c] for 2 large projects
+      - ☐ Test discover failure with incorrect memberdata name - what happens?
     - ☐ Debug
       - ☐ Test host can run individual tests
       - ☐ debug test is needed - right click on one of the green, set bp, launch db
