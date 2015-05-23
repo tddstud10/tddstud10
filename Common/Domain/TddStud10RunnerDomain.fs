@@ -65,13 +65,12 @@ type TestRunId =
 
 [<CLIMutable>]
 type TestRunResult =
-    { result : TestOutcome }
+    { result : TestResult }
 
 [<CLIMutable>]
 type MethodId = 
     { assemblyId : AssemblyId
       mdTokenRid : MdTokenRid }
-
 
 [<CLIMutable>]
 type SequencePoint = 

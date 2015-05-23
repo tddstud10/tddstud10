@@ -15,4 +15,6 @@ type PerTestIdResults =
         { inherit DataStoreBase<_, _>() }
         then ()
     
-    static member public Deserialize path = DataStoreBase<_, _>.Deserialize<PerTestIdResults> (path)
+    member public t.Serialize path = DataStore.Serialize<PerTestIdResults> path t
+
+    static member public Deserialize path = DataStore.Deserialize<PerTestIdResults> (path)

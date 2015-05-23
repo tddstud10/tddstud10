@@ -89,7 +89,7 @@ namespace R4nd0mApps.TddStud10
             return dict;
         }
 
-        public static void Instrument(DateTime timeFilter, string solutionRoot, string buildOutputRoot, IReadOnlyDictionary<FilePath, IEnumerable<TestCase>> testsPerAssembly)
+        public static void Instrument(DateTime timeFilter, string solutionRoot, string buildOutputRoot, PerAssemblyTestCases testsPerAssembly)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        public static void InstrumentImpl(DateTime timeFilter, string solutionRoot, string buildOutputRoot, IReadOnlyDictionary<FilePath, IEnumerable<TestCase>> testsPerAssembly)
+        public static void InstrumentImpl(DateTime timeFilter, string solutionRoot, string buildOutputRoot, PerAssemblyTestCases testsPerAssembly)
         {
             Logger.I.LogInfo(
                 "Instrumenting: Time filter - {0}, Build output root - {1}.",
@@ -424,7 +424,7 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        private static Tuple<bool, TestId> IsSequencePointAtStartOfAUnitTest(Mono.Cecil.Cil.SequencePoint sp, FilePath assemblyPath, IReadOnlyDictionary<FilePath, IEnumerable<TestCase>> testsPerAssembly)
+        private static Tuple<bool, TestId> IsSequencePointAtStartOfAUnitTest(Mono.Cecil.Cil.SequencePoint sp, FilePath assemblyPath, PerAssemblyTestCases testsPerAssembly)
         {
             if (sp == null)
             {

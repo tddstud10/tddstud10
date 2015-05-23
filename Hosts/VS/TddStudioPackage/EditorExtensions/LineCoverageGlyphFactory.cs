@@ -139,12 +139,12 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
                               from tr in CoverageData.Instance.PerTestIdResults[tm.testId]
                               select tr;
 
-                if (results.Any(r => r.result == TestOutcome.Failed))
+                if (results.Any(r => r.result.Outcome == TestOutcome.Failed))
                 {
                     return LineCoverageState.CoveredWithAtleastOneFailedTest;
                 }
 
-                if (results.All(r => r.result == TestOutcome.Passed))
+                if (results.All(r => r.result.Outcome == TestOutcome.Passed))
                 {
                     return LineCoverageState.CoveredWithPassingTests;
                 }

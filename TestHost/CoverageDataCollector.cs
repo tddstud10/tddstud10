@@ -23,7 +23,7 @@ namespace Server
 
         public void SaveTestCases(string codeCoverageStore)
         {
-            store.Serialize(codeCoverageStore);
+            store.Serialize(FilePath.NewFilePath(codeCoverageStore));
         }
 
         #region ICoverageDataCollector Members

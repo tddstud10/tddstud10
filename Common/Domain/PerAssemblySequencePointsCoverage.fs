@@ -14,4 +14,6 @@ type PerAssemblySequencePointsCoverage =
         { inherit DataStoreBase<_, _>() }
         then ()
     
-    static member public Deserialize path = DataStoreBase<_, _>.Deserialize<PerAssemblySequencePointsCoverage> (path)
+    member public t.Serialize path = DataStore.Serialize<PerAssemblySequencePointsCoverage> path t
+
+    static member public Deserialize path = DataStore.Deserialize<PerAssemblySequencePointsCoverage> (path)

@@ -72,19 +72,19 @@ namespace R4nd0mApps.TddStud10.TestHost
             LogInfo("TestHost executing tests...");
             stopWatch.Start();
             var testResults = new PerTestIdResults();
-            var utAssemblies = PerAssemblyTestIds.Deserialize(discoveredUnitTestsStore);
+            var perAssemblyTestIds = PerAssemblyTestCases.Deserialize(FilePath.NewFilePath(discoveredUnitTestsStore));
             Parallel.ForEach(
-                utAssemblies.Keys,
+                perAssemblyTestIds.Keys,
                 asm =>
                 {
                     LogInfo("Executing tests in {0}: Start.", asm);
                     var exec = new XUnitTestExecutor();
                     exec.TestExecuted.AddHandler(new FSharpHandler<TestResult>((o, ea) => NoteTestResults(testResults, ea)));
-                    exec.ExecuteTests(asm);
+                    exec.ExecuteTests(perAssemblyTestIds[asm]);
                     LogInfo("Executing tests in {0}: Done.", asm);
                 });
 
-            testResults.Serialize(testResultsStore);
+            testResults.Serialize(FilePath.NewFilePath(testResultsStore));
 
             stopWatch.Stop();
             ts = stopWatch.Elapsed;
@@ -97,7 +97,7 @@ namespace R4nd0mApps.TddStud10.TestHost
             var rrs =
                 from tr in testResults
                 from rr in tr.Value
-                where rr.result == TestOutcome.Failed
+                where rr.result.Outcome == TestOutcome.Failed
                 select rr;
 
             return rrs.FirstOrDefault() == null;
@@ -114,7 +114,7 @@ namespace R4nd0mApps.TddStud10.TestHost
 
             var results = testResults.GetOrAdd(testId, _ => new ConcurrentBag<TestRunResult>());
 
-            results.Add(new TestRunResult(ea.Outcome));
+            results.Add(new TestRunResult(ea));
         }
     }
 }

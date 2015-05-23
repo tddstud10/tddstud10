@@ -1,6 +1,5 @@
 ﻿module R4nd0mApps.TddStud10.TestExecution.Adapters.XUnitTestDiscovererTests
 
-open System.Collections.Generic
 open System.Collections.Concurrent
 open Xunit
 open System.IO
@@ -8,12 +7,13 @@ open System
 open System.Reflection
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open R4nd0mApps.TddStud10.Common.Domain
+open System.Runtime.Serialization
+open System.Text
+open System.Xml
 
 let expectedTests = 
-    [ "XUnit20FSPortable.UnitTests.Fact Test 1"
-      "XUnit20FSPortable.UnitTests.Fact Test 2"
-      "XUnit20FSPortable.UnitTests.Theory Tests(input: 1)"
-      "XUnit20FSPortable.UnitTests.Theory Tests(input: 2)" ]
+    [ "XUnit20FSPortable.UnitTests.Fact Test 1"; "XUnit20FSPortable.UnitTests.Fact Test 2"; 
+      "XUnit20FSPortable.UnitTests.Theory Tests(input: 1)"; "XUnit20FSPortable.UnitTests.Theory Tests(input: 2)" ]
 
 let testBin = 
     (new Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath
@@ -24,7 +24,7 @@ let testBin =
 
 let createDiscoverer() = 
     let td = new XUnitTestDiscoverer()
-    let tcs = new List<TestCase>()
+    let tcs = new ConcurrentBag<TestCase>()
     td.TestDiscovered |> Observable.add tcs.Add
     td, tcs
 

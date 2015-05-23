@@ -5,8 +5,20 @@ open System.Runtime.Serialization.Formatters.Binary
 open System.IO
 open System
 open System.Collections.Generic
+open System.Runtime.Serialization
 
-[<Serializable>]
+type DataStore = 
+    
+    static member public Serialize<'T> (FilePath path) (t : 'T) = 
+        let serializer = new DataContractSerializer(typeof<'T>)
+        use stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None)
+        serializer.WriteObject(stream, t)
+    
+    static member public Deserialize<'T>(FilePath path) = 
+        let serializer = new DataContractSerializer(typeof<'T>)
+        use stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read)
+        serializer.ReadObject(stream) :?> 'T
+
 type DataStoreBase<'TKey, 'TValue> = 
     inherit ConcurrentDictionary<'TKey, 'TValue>
     
@@ -17,13 +29,3 @@ type DataStoreBase<'TKey, 'TValue> =
     new(collection : IEnumerable<KeyValuePair<'TKey, 'TValue>>) = 
         { inherit ConcurrentDictionary<'TKey, 'TValue>(collection) }
         then ()
-    
-    member public t.Serialize path = 
-        let fmter = new BinaryFormatter()
-        use s = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None)
-        fmter.Serialize(s, t)
-    
-    static member public Deserialize<'T> path = 
-        let fmter = new BinaryFormatter()
-        use s = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read)
-        fmter.Deserialize(s) :?> 'T

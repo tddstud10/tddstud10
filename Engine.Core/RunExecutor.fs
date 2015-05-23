@@ -40,7 +40,7 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
           solutionPath = solutionPath
           solutionSnapshotPath = PathBuilder.makeSlnSnapshotPath solutionPath
           solutionBuildRoot = PathBuilder.makeSlnBuildRoot solutionPath
-          testsPerAssembly = new Dictionary<_, _>()
+          testsPerAssembly = None
           sequencePoints = None
           codeCoverageResults = None
           executedTests = None }

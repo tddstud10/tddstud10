@@ -61,7 +61,7 @@
     <Content Include="packages.config" />
     <Compile Include="TddStud10RunnerDomain.fs" />
     <Compile Include="DataStoreBase.fs" />
-    <Compile Include="PerAssemblyTestIds.fs" />
+    <Compile Include="PerAssemblyTestCases.fs" />
     <Compile Include="PerAssemblySequencePointsCoverage.fs" />
     <Compile Include="PerDocumentSequencePoints.fs" />
     <Compile Include="PerTestIdResults.fs" />
@@ -81,7 +81,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

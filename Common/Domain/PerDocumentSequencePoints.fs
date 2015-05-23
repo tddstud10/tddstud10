@@ -14,4 +14,6 @@ type PerDocumentSequencePoints =
         { inherit DataStoreBase<_, _>() }
         then ()
     
-    static member public Deserialize path = DataStoreBase<_, _>.Deserialize<PerDocumentSequencePoints> (path)
+    member public t.Serialize path = DataStore.Serialize<PerDocumentSequencePoints> path t
+
+    static member public Deserialize path = DataStore.Deserialize<PerDocumentSequencePoints> (path)

@@ -4,14 +4,12 @@ open System
 open System.Collections.Generic
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
-type PerAssemblyTestCases = IReadOnlyDictionary<FilePath, TestCase seq>
-
 type RunData = 
     { startTime : DateTime
       solutionPath : FilePath
       solutionSnapshotPath : FilePath
       solutionBuildRoot : FilePath
-      testsPerAssembly : PerAssemblyTestCases 
+      testsPerAssembly : PerAssemblyTestCases option
       sequencePoints : PerDocumentSequencePoints option
       codeCoverageResults : PerAssemblySequencePointsCoverage option
       executedTests : PerTestIdResults option }

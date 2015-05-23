@@ -86,9 +86,9 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private static RunData CreateRunDataForRunTest(RunData rd, string coverageSessionStore, string testResultsStore, string discoveredUnitTestsStore)
         {
-            PerTestIdResults testResults = PerTestIdResults.Deserialize(testResultsStore);
+            PerTestIdResults testResults = PerTestIdResults.Deserialize(FilePath.NewFilePath(testResultsStore));
 
-            PerAssemblySequencePointsCoverage coverageSession = PerAssemblySequencePointsCoverage.Deserialize(coverageSessionStore);
+            PerAssemblySequencePointsCoverage coverageSession = PerAssemblySequencePointsCoverage.Deserialize(FilePath.NewFilePath(coverageSessionStore));
 
             return new RunData(
                 rd.startTime,
@@ -112,7 +112,7 @@ namespace R4nd0mApps.TddStud10.Engine
             var timeFilter = rd.startTime;
             var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".dll", ".exe" };
 
-            var testsPerAssembly = new ConcurrentDictionary<FilePath, IEnumerable<TestCase>>();
+            var testsPerAssembly = new PerAssemblyTestCases();
             foreach (var assemblyPath in Directory.EnumerateFiles(buildOutputRoot, "*").Where(s => extensions.Contains(Path.GetExtension(s))))
             {
                 if (!File.Exists(Path.ChangeExtension(assemblyPath, ".pdb")))
@@ -138,19 +138,8 @@ namespace R4nd0mApps.TddStud10.Engine
                 }
             }
 
-            var unitTestAssemblies = new PerAssemblyTestIds(
-                testsPerAssembly.ToDictionary(
-                    kvp => kvp.Key,
-                    kvp =>
-                        new ConcurrentBag<TestId>(
-                            kvp.Value.Select(
-                                tc => new TestId(
-                                    FilePath.NewFilePath(tc.Source),
-                                    FilePath.NewFilePath(tc.CodeFilePath),
-                                    DocumentCoordinate.NewDocumentCoordinate(tc.LineNumber))))));
-
             var discoveredUnitTestsStore = Path.Combine(rd.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
-            unitTestAssemblies.Serialize(discoveredUnitTestsStore);
+            testsPerAssembly.Serialize(FilePath.NewFilePath(discoveredUnitTestsStore));
 
             Logger.I.LogInfo("Written discovered unit tests to {0}.", discoveredUnitTestsStore);
 
@@ -159,7 +148,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 rd.solutionPath,
                 rd.solutionSnapshotPath,
                 rd.solutionBuildRoot,
-                new ReadOnlyDictionary<FilePath, IEnumerable<TestCase>>(testsPerAssembly),
+                new FSharpOption<PerAssemblyTestCases>(testsPerAssembly),
                 rd.sequencePoints,
                 rd.codeCoverageResults,
                 rd.executedTests).ToRSR(name, kind, RunStepStatus.Succeeded, "Unit Tests Discovered - which ones - TBD");
@@ -171,7 +160,7 @@ namespace R4nd0mApps.TddStud10.Engine
             var dict = Instrumentation.GenerateSequencePointInfo(rd.startTime, rd.solutionBuildRoot.Item);
             if (dict != null)
             {
-                dict.Serialize(sequencePointStore);
+                dict.Serialize(FilePath.NewFilePath(sequencePointStore));
             }
 
             if (!host.CanContinue())
@@ -179,7 +168,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 throw new OperationCanceledException();
             }
 
-            Instrumentation.Instrument(rd.startTime, Path.GetDirectoryName(rd.solutionPath.Item), rd.solutionBuildRoot.Item, rd.testsPerAssembly);
+            Instrumentation.Instrument(rd.startTime, Path.GetDirectoryName(rd.solutionPath.Item), rd.solutionBuildRoot.Item, rd.testsPerAssembly.Value);
 
             var retRd = CreateRunDataForInstrumentationStep(rd, dict);
 
