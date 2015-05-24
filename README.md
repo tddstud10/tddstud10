@@ -204,6 +204,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
     - ☐ todo List
     - ☐ *hotspot
 
+# Acceptance Tests
+  - ☐ Help About - icon, version, name
+  - ☐ Extensions and Updates - icon, version, name
+  - ☐ Glyph & Tooltip
+    - ☐ no lines on open
+    - ☐ green lines on build
+    - ☐ red lines on test failure
+    - ☐ tooltip
+    - ☐ red lines on theory failure
+    - ☐ green line on build
+    - ☐ tooltip
+  - ☐ Notification Icon
+    - ☐ status icon on build failure
+    - ☐ status icon on test failure
+    - ☐ status icon on both
+    - ☐ status icon on close project
+
 # Miscellenous notes
 
   - ☐ Progress/Notification Bar ideas

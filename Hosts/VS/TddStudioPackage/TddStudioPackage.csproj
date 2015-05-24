@@ -204,7 +204,6 @@
     <Compile Include="EditorExtensions\LineCoverageTag.cs" />
     <Compile Include="EditorExtensions\LineCoverageTagger.cs" />
     <Compile Include="EditorExtensions\LineCoverageTaggerProvider.cs" />
-    <Compile Include="EditorExtensions\TextTagger.cs" />
     <Compile Include="EditorExtensions\TextViewCoverageProviderBase.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

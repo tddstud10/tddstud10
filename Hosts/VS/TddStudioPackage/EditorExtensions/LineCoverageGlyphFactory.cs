@@ -39,10 +39,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
 
         public UIElement GenerateGlyph(IWpfTextViewLine line, IGlyphTag tag)
         {
-            // get the coverage info for the current message
             LineCoverageState state = GetLineCoverageState(line);
 
-            // no coverage info found -> exit here
             if (state == LineCoverageState.Unknown)
                 return null;
 
@@ -57,13 +55,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
             ellipse.Width = _glyphSize;
 
             ellipse.ToolTip = GetToolTipText(state);
-
-            if (state == LineCoverageState.Uncovered)
-            {
-                ellipse.MouseEnter += OnGlyphMouseEnter;
-                ellipse.MouseLeave += OnGlyphMouseLeave;
-                ellipse.Tag = line;
-            }
 
             return ellipse;
         }
@@ -131,23 +122,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
         public static IEnumerable<SnapshotSpan> GetSpansForLine(ITextViewLine line, IEnumerable<SnapshotSpan> spanContainer)
         {
             return spanContainer.Where(s => (s.Snapshot == line.Snapshot) && ((s.Start >= line.Start && s.Start <= line.End) || (s.Start < line.Start && s.End >= line.Start)));
-        }
-
-        void OnGlyphMouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            TextTagger tagger = TextTagger.GetTagger(_textView);
-
-            if (tagger != null)
-                tagger.RemoveLineRestriction();
-        }
-
-        void OnGlyphMouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            IWpfTextViewLine line = (IWpfTextViewLine)((System.Windows.Shapes.Ellipse)sender).Tag;
-            TextTagger tagger = TextTagger.GetTagger(_textView);
-
-            if (tagger != null)
-                tagger.ShowForLine(line);
         }
     }
 }
