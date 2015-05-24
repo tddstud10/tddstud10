@@ -15,7 +15,7 @@ using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
 using R4nd0mApps.TddStud10.Engine;
 
-namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
+namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 {
     public sealed class LineCoverageTagger : ITagger<LineCoverageTag>, IDisposable
     {

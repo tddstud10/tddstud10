@@ -12,16 +12,15 @@ using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
-using R4nd0mApps.TddStud10.Hosts.VS.Tagger;
 
-namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
+namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 {
     [Export(typeof(IGlyphFactoryProvider))]
-    [Name(Constants.ProductName + "Code Coverage Glyph")]
+    [Name(Constants.ProductName + " Code Coverage Glyph")]
     [Order(After = "VsTextMarker")]
     [ContentType("code")]
     [TagType(typeof(LineCoverageTag))]
-    internal sealed class LineCoverageGlyphFactoryProvider : IGlyphFactoryProvider
+    public sealed class LineCoverageGlyphFactoryProvider : IGlyphFactoryProvider
     {
         public IGlyphFactory GetGlyphFactory(IWpfTextView view, IWpfTextViewMargin margin)
         {

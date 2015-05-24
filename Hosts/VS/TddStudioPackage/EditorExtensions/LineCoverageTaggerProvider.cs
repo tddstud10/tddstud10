@@ -15,7 +15,7 @@ using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 
-namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
+namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 {
     [Export(typeof(ITaggerProvider))]
     [ContentType("code")]
@@ -28,7 +28,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
             if (buffer == null)
+            {
                 throw new ArgumentNullException("buffer");
+            }
 
             return new LineCoverageTagger(buffer, AggregatorService.GetClassifier(buffer)) as ITagger<T>;
         }
