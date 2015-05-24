@@ -22,35 +22,16 @@ using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
 {
-    /// <summary>
-    /// Base class to provide coverage information for the text view.
-    /// </summary>
     public class TextViewCoverageProviderBase : IDisposable
     {
-        /// <summary>
-        /// The current editor view.
-        /// </summary>
         protected ITextView _textView;
 
-        /// <summary>
-        /// Coverage info for spans.
-        /// </summary>
         protected readonly Dictionary<SnapshotSpan, IEnumerable<TestRunId>> _spanCoverage;
 
-        /// <summary>
-        /// Span for current editor content.
-        /// </summary>
         protected List<SnapshotSpan> _currentSpans;
 
-        /// <summary>
-        /// Occurs when tags are changed.
-        /// </summary>
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged = delegate { };
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TextViewCoverageProviderBase"/> class.
-        /// </summary>
-        /// <param name="view">The view.</param>
         public TextViewCoverageProviderBase(ITextView view)
         {
             if (TddStud10Package.Instance == null)
@@ -68,19 +49,12 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
             CoverageData.Instance.NewCoverageDataAvailable += OnNewCoverageDataAvailable;
         }
 
-        /// <summary>
-        /// Disposes the base class
-        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        /// <summary>
-        /// Disposes the base class
-        /// <param name="disposing">True for clean up managed ressources.</param>
-        /// </summary>
         protected virtual void Dispose(bool disposing)
         {
             if (_textView != null)
@@ -96,11 +70,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
             _currentSpans.Clear();
         }
 
-        /// <summary>
-        /// Setups the selection changed listener.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void SetupSelectionChangedListener(object sender, EventArgs e)
         {
             if (_textView != null)
@@ -110,11 +79,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
             }
         }
 
-        /// <summary>
-        /// Updates tags when the view layout is changed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="TextViewLayoutChangedEventArgs"/> instance containing the event data.</param>
         private void ViewLayoutChanged(object sender, TextViewLayoutChangedEventArgs e)
         {
             if (e.OldSnapshot != e.NewSnapshot)
@@ -124,20 +88,12 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
             }
         }
 
-        /// <summary>
-        /// Tell the editor that the tags in the whole buffer changed. It will call back into GetTags().
-        /// </summary>
         protected void RaiseAllTagsChanged()
         {
             if (TagsChanged != null)
                 TagsChanged(this, new SnapshotSpanEventArgs(new SnapshotSpan(_textView.TextBuffer.CurrentSnapshot, 0, _textView.TextBuffer.CurrentSnapshot.Length)));
         }
 
-        /// <summary>
-        /// Will be called when new data is available
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         protected virtual void OnNewCoverageDataAvailable(object sender, EventArgs e)
         {
             // update spans
@@ -147,14 +103,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
             RaiseAllTagsChanged();
         }
 
-        /// <summary>
-        /// Adds the word span.
-        /// </summary>
-        /// <param name="wordSpans">The word spans.</param>
-        /// <param name="snapshot">The snapshot.</param>
-        /// <param name="startColumn">The start column.</param>
-        /// <param name="totalCharacters">The total characters.</param>
-        /// <param name="covered">if set to <c>true</c> [covered].</param>
         protected void AddWordSpan(List<SnapshotSpan> wordSpans, ITextSnapshot snapshot, int startColumn, int totalCharacters, IEnumerable<TestRunId> trackedMethods)
         {
             var snapshotPoint = new SnapshotSpan(snapshot, new Span(startColumn, totalCharacters));
@@ -166,16 +114,10 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
             }
         }
 
-        /// <summary>
-        /// Returns the word spans based on covered lines.
-        /// </summary>
-        /// <param name="snapshot">The text snapshot of src being opened.</param>
-        /// <returns>Collection of word spans</returns>
         protected List<SnapshotSpan> GetWordSpans(ITextSnapshot snapshot)
         {
             var wordSpans = new List<SnapshotSpan>();
 
-            // Get covered sequence points
             try
             {
                 var sequencePoints = GetSequencePointsForActiveDocument();
@@ -199,7 +141,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
                         }
                         else
                         {
-                            // Get selected lines
                             AddWordSpansForSequencePointsCoveringMultipleLines(snapshot, wordSpans, sequencePoint,
                                                                                 sequencePointStartLine, sequencePointEndLine, trackedMethods);
                         }
@@ -216,15 +157,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
             return (wordSpans);
         }
 
-        /// <summary>
-        /// Adds the word spans for sequence points covering multiple lines.
-        /// </summary>
-        /// <param name="snapshot">The snapshot.</param>
-        /// <param name="wordSpans">The word spans.</param>
-        /// <param name="sequencePoint">The sequence point.</param>
-        /// <param name="sequencePointStartLine">The sequence point start message.</param>
-        /// <param name="sequencePointEndLine">The sequence point end message.</param>
-        /// <param name="trackedMethods">if set to <c>true</c> [trackedMethods].</param>
         protected void AddWordSpansForSequencePointsCoveringMultipleLines(ITextSnapshot snapshot,
                                                                         List<SnapshotSpan> wordSpans,
                                                                         SequencePoint sequencePoint,
@@ -271,7 +203,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
                 // NOTE: fileName comes out NULL sometimes. i.e. ITextBuffer does not have the ITextDocument property.
                 // Not sure why that happens, but it doesnt seem to impact anything. TB fixed later once we finalize the
                 // design for this layer.
-                var selectedFile = allFiles.FirstOrDefault(file => fileName != null && PathBuilder.arePathsTheSame(IDEHelper.GetSolutionPath(), file.Item, fileName));
+                var selectedFile = allFiles.FirstOrDefault(file => fileName != null && PathBuilder.arePathsTheSame(TddStud10Package.Instance.GetSolutionPath(), file.Item, fileName));
                 if (selectedFile != null)
                 {
                     sequencePoints = allSequencePoints.Where(sp => sp.document.Equals(selectedFile));
@@ -281,17 +213,40 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
             return sequencePoints;
         }
 
-        /// <summary>
-        /// Gets the coverage infor (sequence points) for the editor's document
-        /// </summary>
-        /// <returns></returns>
         protected IEnumerable<SequencePoint> GetSequencePointsForActiveDocument()
         {
-            // Get the sequence points of the current src
             if (CoverageData.Instance.PerAssemblySequencePointsCoverage != null)
-                return GetSequencePoints(CoverageData.Instance, IDEHelper.GetFileName(_textView));
+                return GetSequencePoints(CoverageData.Instance, GetFileName(_textView));
             else
                 return new List<SequencePoint>();
+        }
+
+        public static string GetFileName(ITextView view)
+        {
+            ITextBuffer TextBuffer = view.TextBuffer;
+
+            ITextDocument TextDocument = GetTextDocument(TextBuffer);
+
+            if (TextDocument == null || TextDocument.FilePath == null || TextDocument.FilePath.Equals("Temp.txt"))
+            {
+                return null;
+            }
+
+            return TextDocument.FilePath;
+        }
+
+        private static ITextDocument GetTextDocument(ITextBuffer TextBuffer)
+        {
+            if (TextBuffer == null)
+                return null;
+
+            ITextDocument textDoc;
+            var rc = TextBuffer.Properties.TryGetProperty<ITextDocument>(typeof(ITextDocument), out textDoc);
+
+            if (rc == true)
+                return textDoc;
+            else
+                return null;
         }
     }
 }

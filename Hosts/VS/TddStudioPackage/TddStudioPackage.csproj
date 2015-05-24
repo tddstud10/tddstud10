@@ -195,7 +195,6 @@
     <Reference Include="System.Xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EditorExtensions\IDEHelper.cs" />
     <Compile Include="EditorExtensions\LineCoverageGlyphFactory.cs" />
     <Compile Include="EditorExtensions\LineCoverageGlyphFactoryProvider.cs" />
     <Compile Include="EditorExtensions\LineCoverageState.cs" />
@@ -245,7 +244,6 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images.png" />
     <Content Include="..\..\..\LICENSE.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

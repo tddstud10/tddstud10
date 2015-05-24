@@ -17,7 +17,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 {
     [ProvideBindingPath]
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("#110", "#112", "0.3.3.0", IconResourceID = 400)]
+    [InstalledProductRegistration("#110", "#112", "0.3.4.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
     [Guid(GuidList.GuidTddStud10Pkg)]
@@ -44,6 +44,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         public void InvokeOnUIThread(Action action)
         {
             _uiThreadInvoker.Dispatcher.Invoke(action);
+        }
+
+        public string GetSolutionPath()
+        {
+            return _dte.Solution.FullName;
         }
 
         #region Package Members
@@ -175,7 +180,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsSolutionEvents.OnAfterOpenSolution(object pUnkReserved, int fNewSolution)
         {
-            EngineLoader.Load(this, _dte.Solution.FullName, DateTime.UtcNow);
+            EngineLoader.Load(this, GetSolutionPath(), DateTime.UtcNow);
             EngineLoader.EnableEngine();
 
             return VSConstants.S_OK;
