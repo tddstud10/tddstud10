@@ -6,12 +6,12 @@ open Microsoft.VisualStudio.Utilities
 open System.ComponentModel.Composition
 
 [<Export(typeof<IWpfTextViewMarginProvider>)>]
-[<Name(TddStud10MarginConstants.Name)>]
+[<Name(MarginConstants.Name)>]
 [<Order(After = PredefinedMarginNames.Outlining)>]
 [<MarginContainer(PredefinedMarginNames.Left)>]
 [<ContentType("code")>]
 [<TextViewRole(PredefinedTextViewRoles.Interactive)>]
-type TddStud10MarginFactory = 
+type MarginFactory = 
     interface IWpfTextViewMarginProvider with
         member x.CreateMargin(wpfTextViewHost : IWpfTextViewHost, marginContainer : IWpfTextViewMargin) : IWpfTextViewMargin = 
-            new TddStud10Margin(wpfTextViewHost.TextView) :> IWpfTextViewMargin
+            new Margin(wpfTextViewHost.TextView) :> IWpfTextViewMargin

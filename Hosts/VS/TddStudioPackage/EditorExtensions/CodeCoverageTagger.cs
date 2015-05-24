@@ -17,14 +17,14 @@ using R4nd0mApps.TddStud10.Engine;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 {
-    public sealed class LineCoverageTagger : ITagger<LineCoverageTag>, IDisposable
+    public sealed class CodeCoverageTagger : ITagger<CodeCoverageTag>, IDisposable
     {
         private IClassifier _classifier;
         private ITextBuffer _buffer;
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged = delegate { };
 
-        public LineCoverageTagger(ITextBuffer buffer, IClassifier classifier)
+        public CodeCoverageTagger(ITextBuffer buffer, IClassifier classifier)
         {
             _classifier = classifier;
             _buffer = buffer;
@@ -40,7 +40,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
             CoverageData.Instance.NewCoverageDataAvailable -= OnNewCoverageDataAvailable;
         }
 
-        IEnumerable<ITagSpan<LineCoverageTag>> ITagger<LineCoverageTag>.GetTags(NormalizedSnapshotSpanCollection spans)
+        IEnumerable<ITagSpan<CodeCoverageTag>> ITagger<CodeCoverageTag>.GetTags(NormalizedSnapshotSpanCollection spans)
         {
             foreach (SnapshotSpan span in spans)
             {
@@ -49,7 +49,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
                     var classificationString = classification.ClassificationType.Classification.ToLower();
                     if (!classificationString.Contains("xml doc") && !classificationString.Contains("comment"))
                     {
-                        yield return new TagSpan<LineCoverageTag>(new SnapshotSpan(classification.Span.Start, 1), new LineCoverageTag());
+                        yield return new TagSpan<CodeCoverageTag>(new SnapshotSpan(classification.Span.Start, 1), new CodeCoverageTag());
                     }
                 }
             }

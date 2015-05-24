@@ -3,11 +3,11 @@
 open Microsoft.VisualStudio.Text.Editor
 open System
 
-module TddStud10MarginConstants = 
+module MarginConstants = 
     [<Literal>]
     let Name = R4nd0mApps.TddStud10.Constants.ProductName + " Margin"
 
-type TddStud10Margin(textView : IWpfTextView) = 
+type Margin(textView : IWpfTextView) = 
     let mutable disposed = false
     override x.Finalize() = x.Dispose(false)
     
@@ -19,7 +19,7 @@ type TddStud10Margin(textView : IWpfTextView) =
     
     member private x.ThrowIfDisposed() =
         if disposed then
-            raise (new ObjectDisposedException(TddStud10MarginConstants.Name))
+            raise (new ObjectDisposedException(MarginConstants.Name))
 
     interface IDisposable with
         member x.Dispose() : unit = 
@@ -32,7 +32,7 @@ type TddStud10Margin(textView : IWpfTextView) =
             false
         
         member x.GetTextViewMargin(marginName : string) : ITextViewMargin = 
-            if marginName = TddStud10MarginConstants.Name then x :> ITextViewMargin
+            if marginName = MarginConstants.Name then x :> ITextViewMargin
             else null
         
         member x.MarginSize : float = 

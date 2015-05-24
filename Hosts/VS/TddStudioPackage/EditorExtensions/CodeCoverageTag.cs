@@ -8,31 +8,11 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using System;
-using System.ComponentModel.Composition;
-using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Text.Tagging;
-using Microsoft.VisualStudio.Utilities;
+using Microsoft.VisualStudio.Text.Editor;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 {
-    [Export(typeof(ITaggerProvider))]
-    [ContentType("code")]
-    [TagType(typeof(LineCoverageTag))]
-    public class LineCoverageTaggerProvider : ITaggerProvider
+    public class CodeCoverageTag : IGlyphTag
     {
-        [Import]
-        public IClassifierAggregatorService AggregatorService;
-
-        public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
-        {
-            if (buffer == null)
-            {
-                throw new ArgumentNullException("buffer");
-            }
-
-            return new LineCoverageTagger(buffer, AggregatorService.GetClassifier(buffer)) as ITagger<T>;
-        }
     }
 }

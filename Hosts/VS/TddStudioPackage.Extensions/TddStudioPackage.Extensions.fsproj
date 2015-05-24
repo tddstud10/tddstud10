@@ -61,8 +61,8 @@
     <Content Include="packages.config" />
     <Compile Include="VsUIShellExtensions.fs" />
     <Compile Include="ErrorHandlerExtensions.fs" />
-    <Compile Include="Editor\TddStud10Margin.fs" />
-    <Compile Include="Editor\TddStud10MarginFactory.fs" />
+    <Compile Include="Editor\Margin.fs" />
+    <Compile Include="Editor\MarginFactory.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">

@@ -198,12 +198,12 @@
     <Compile Include="..\..\..\Common\Constants.cs">
       <Link>Constants.cs</Link>
     </Compile>
-    <Compile Include="EditorExtensions\LineCoverageGlyphFactory.cs" />
-    <Compile Include="EditorExtensions\LineCoverageGlyphFactoryProvider.cs" />
-    <Compile Include="EditorExtensions\LineCoverageState.cs" />
-    <Compile Include="EditorExtensions\LineCoverageTag.cs" />
-    <Compile Include="EditorExtensions\LineCoverageTagger.cs" />
-    <Compile Include="EditorExtensions\LineCoverageTaggerProvider.cs" />
+    <Compile Include="EditorExtensions\GlyphFactory.cs" />
+    <Compile Include="EditorExtensions\GlyphFactoryProvider.cs" />
+    <Compile Include="EditorExtensions\CodeCoverageState.cs" />
+    <Compile Include="EditorExtensions\CodeCoverageTag.cs" />
+    <Compile Include="EditorExtensions\CodeCoverageTagger.cs" />
+    <Compile Include="EditorExtensions\CodeCoverageTaggerProvider.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

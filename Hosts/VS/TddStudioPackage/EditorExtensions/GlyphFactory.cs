@@ -26,7 +26,7 @@ using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 {
-    public class LineCoverageGlyphFactory : IGlyphFactory
+    public class GlyphFactory : IGlyphFactory
     {
         const double _glyphSize = 8.0;
 
@@ -42,7 +42,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged = delegate { };
 
-        public LineCoverageGlyphFactory(IWpfTextView view)
+        public GlyphFactory(IWpfTextView view)
         {
             if (TddStud10Package.Instance == null)
             {
@@ -67,9 +67,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 
         public UIElement GenerateGlyph(IWpfTextViewLine line, IGlyphTag tag)
         {
-            LineCoverageState state = GetLineCoverageState(line);
+            CodeCoverageState state = GetLineCoverageState(line);
 
-            if (state == LineCoverageState.Unknown)
+            if (state == CodeCoverageState.Unknown)
                 return null;
 
             var brush = GetBrushForState(state);
@@ -87,37 +87,37 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
             return ellipse;
         }
 
-        private Brush GetBrushForState(LineCoverageState state)
+        private Brush GetBrushForState(CodeCoverageState state)
         {
             switch (state)
             {
-                case LineCoverageState.CoveredWithPassingTests:
+                case CodeCoverageState.CoveredWithPassingTests:
                     return _coveredWithPassingTestBrush;
-                case LineCoverageState.CoveredWithAtleastOneFailedTest:
+                case CodeCoverageState.CoveredWithAtleastOneFailedTest:
                     return _coveredWithFailedTestBrush;
-                case LineCoverageState.Uncovered:
+                case CodeCoverageState.Uncovered:
                     return _uncoveredBrush;
             }
 
             return null;
         }
 
-        private string GetToolTipText(LineCoverageState state)
+        private string GetToolTipText(CodeCoverageState state)
         {
             switch (state)
             {
-                case LineCoverageState.CoveredWithPassingTests:
+                case CodeCoverageState.CoveredWithPassingTests:
                     return "This message is covered by passing tests.";
-                case LineCoverageState.CoveredWithAtleastOneFailedTest:
+                case CodeCoverageState.CoveredWithAtleastOneFailedTest:
                     return "This message is covered by at least one failing test.";
-                case LineCoverageState.Uncovered:
+                case CodeCoverageState.Uncovered:
                     return "This message is not covered by any test.";
             }
 
             return null;
         }
 
-        private LineCoverageState GetLineCoverageState(ITextViewLine line)
+        private CodeCoverageState GetLineCoverageState(ITextViewLine line)
         {
             var spans = GetSpansForLine(line, _currentSpans);
 
@@ -126,7 +126,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
                 var allTrackedMethods = spans.SelectMany(s => _spanCoverage[s]);
                 if (!allTrackedMethods.Any())
                 {
-                    return LineCoverageState.Uncovered;
+                    return CodeCoverageState.Uncovered;
                 }
 
                 var results = from tm in allTrackedMethods
@@ -135,16 +135,16 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 
                 if (results.Any(r => r.result.Outcome == TestOutcome.Failed))
                 {
-                    return LineCoverageState.CoveredWithAtleastOneFailedTest;
+                    return CodeCoverageState.CoveredWithAtleastOneFailedTest;
                 }
 
                 if (results.All(r => r.result.Outcome == TestOutcome.Passed))
                 {
-                    return LineCoverageState.CoveredWithPassingTests;
+                    return CodeCoverageState.CoveredWithPassingTests;
                 }
             }
 
-            return LineCoverageState.Unknown;
+            return CodeCoverageState.Unknown;
         }
 
         public static IEnumerable<SnapshotSpan> GetSpansForLine(ITextViewLine line, IEnumerable<SnapshotSpan> spanContainer)

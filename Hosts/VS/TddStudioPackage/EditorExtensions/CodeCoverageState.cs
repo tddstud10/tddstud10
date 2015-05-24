@@ -8,23 +8,17 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using System.ComponentModel.Composition;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Text.Tagging;
-using Microsoft.VisualStudio.Utilities;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 {
-    [Export(typeof(IGlyphFactoryProvider))]
-    [Name(Constants.ProductName + " Code Coverage Glyph")]
-    [Order(After = "VsTextMarker")]
-    [ContentType("code")]
-    [TagType(typeof(LineCoverageTag))]
-    public sealed class LineCoverageGlyphFactoryProvider : IGlyphFactoryProvider
+    public enum CodeCoverageState
     {
-        public IGlyphFactory GetGlyphFactory(IWpfTextView view, IWpfTextViewMargin margin)
-        {
-            return new LineCoverageGlyphFactory(view);
-        }
+        Unknown = 0,
+
+        CoveredWithPassingTests = 1,
+
+        CoveredWithAtleastOneFailedTest = 2,
+
+        Uncovered = 3
     }
 }
