@@ -19,15 +19,11 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Hosts.VS.Helper;
-//using R4nd0mApps.TddStud10.Hosts.VS.Views;
 using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
 using R4nd0mApps.TddStud10.Hosts.VS.Tagger;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
 {
-    /// <summary>
-    /// Factory for creating the message covergage glyphs.
-    /// </summary>
     public class LineCoverageGlyphFactory : TextViewCoverageProviderBase, IGlyphFactory
     {
         const double _glyphSize = 8.0;
@@ -36,21 +32,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
         private static Brush _coveredWithPassingTestBrush = new SolidColorBrush(Color.FromRgb(0, 171, 0));
         private static Brush _coveredWithFailedTestBrush = new SolidColorBrush(Color.FromRgb(255, 0, 0));
 
-        /// <summary>
-        /// Initializes a new instance.
-        /// </summary>
-        /// <param name="view">The current text editor.</param>
         public LineCoverageGlyphFactory(IWpfTextView view)
             : base(view)
         {
         }
 
-        /// <summary>
-        /// Create the glyph element.
-        /// </summary>
-        /// <param name="message">Editor message to create the glyph for.</param>
-        /// <param name="tag">The corresponding tag.</param>
-        /// <returns></returns>
         public UIElement GenerateGlyph(IWpfTextViewLine line, IGlyphTag tag)
         {
             // get the coverage info for the current message
@@ -82,11 +68,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
             return ellipse;
         }
 
-        /// <summary>
-        /// Determines the correct brush for the coverage state.
-        /// </summary>
-        /// <param name="state">The message coverage state.</param>
-        /// <returns></returns>
         private Brush GetBrushForState(LineCoverageState state)
         {
             switch (state)
@@ -102,11 +83,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
             return null;
         }
 
-        /// <summary>
-        /// Determines the tooltip text the coverage state.
-        /// </summary>
-        /// <param name="state">The message coverage state.</param>
-        /// <returns></returns>
         private string GetToolTipText(LineCoverageState state)
         {
             switch (state)
@@ -124,7 +100,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
 
         private LineCoverageState GetLineCoverageState(ITextViewLine line)
         {
-            // get cover state for all spans included in this message
             var spans = GetSpansForLine(line, _currentSpans);
 
             if (spans.Any())
@@ -153,22 +128,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
             return LineCoverageState.Unknown;
         }
 
-        /// <summary>
-        /// Calculates the spans covered by the given message
-        /// </summary>
-        /// <param name="message">Line to retrieve the spans for.</param>
-        /// <param name="spanContainer">container of all spans</param>
-        /// <returns></returns>
         public static IEnumerable<SnapshotSpan> GetSpansForLine(ITextViewLine line, IEnumerable<SnapshotSpan> spanContainer)
         {
             return spanContainer.Where(s => (s.Snapshot == line.Snapshot) && ((s.Start >= line.Start && s.Start <= line.End) || (s.Start < line.Start && s.End >= line.Start)));
         }
 
-        /// <summary>
-        /// Hide the colored message
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         void OnGlyphMouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             TextTagger tagger = TextTagger.GetTagger(_textView);
@@ -177,11 +141,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
                 tagger.RemoveLineRestriction();
         }
 
-        /// <summary>
-        /// Shows the message colors
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         void OnGlyphMouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             IWpfTextViewLine line = (IWpfTextViewLine)((System.Windows.Shapes.Ellipse)sender).Tag;

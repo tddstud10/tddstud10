@@ -18,7 +18,6 @@ using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
-using R4nd0mApps.TddStud10.Hosts.VS.Helpers;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
 {
@@ -96,7 +95,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Helper
 
         protected virtual void OnNewCoverageDataAvailable(object sender, EventArgs e)
         {
-            // update spans
             _spanCoverage.Clear();
             _currentSpans = GetWordSpans(_textView.TextBuffer.CurrentSnapshot);
 

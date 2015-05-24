@@ -17,26 +17,14 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
 {
-    /// <summary>
-    /// Line coverage glyph tag provider
-    /// </summary>
     [Export(typeof(ITaggerProvider))]
     [ContentType("code")]
     [TagType(typeof(LineCoverageTag))]
     public class LineCoverageTaggerProvider : ITaggerProvider
     {
-        /// <summary>
-        /// Gets the <see cref="IClassifier"/> helper.
-        /// </summary>
         [Import]
-        internal IClassifierAggregatorService AggregatorService;
+        public IClassifierAggregatorService AggregatorService;
 
-        /// <summary>
-        /// Creates the tagger.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="buffer">The buffer.</param>
-        /// <returns></returns>
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
             if (buffer == null)

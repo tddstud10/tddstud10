@@ -8,41 +8,21 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Shapes;
-using System.Windows.Media;
-using System.Windows.Controls;
-using Microsoft.VisualStudio.Text;
+using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Text.Formatting;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
-using System.ComponentModel.Composition;
 using R4nd0mApps.TddStud10.Hosts.VS.Tagger;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.Glyphs
-{    
-    /// <summary>
-    /// Creates the <see cref="LineCoverageGlyphFactory"/> instance.
-    /// </summary>
+{
     [Export(typeof(IGlyphFactoryProvider))]
-    [Name("TDD Studio Code Coverage Glyph")]
+    [Name(Constants.ProductName + "Code Coverage Glyph")]
     [Order(After = "VsTextMarker")]
     [ContentType("code")]
     [TagType(typeof(LineCoverageTag))]
     internal sealed class LineCoverageGlyphFactoryProvider : IGlyphFactoryProvider
     {
-        /// <summary>
-        /// Creates the factory instance for the glyphs.
-        /// </summary>
-        /// <param name="view">The editor view.</param>
-        /// <param name="margin">The editor margin instance.</param>
-        /// <returns></returns>
         public IGlyphFactory GetGlyphFactory(IWpfTextView view, IWpfTextViewMargin margin)
         {
             return new LineCoverageGlyphFactory(view);

@@ -12,9 +12,6 @@ using Microsoft.VisualStudio.Text.Editor;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.Tagger
 {
-    /// <summary>
-    /// Tag used as indicator for the message coverage glyph 
-    /// </summary>
     public class LineCoverageTag : IGlyphTag
     {
     }

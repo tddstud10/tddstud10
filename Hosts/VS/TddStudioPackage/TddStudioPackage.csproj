@@ -195,6 +195,9 @@
     <Reference Include="System.Xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Common\Constants.cs">
+      <Link>Constants.cs</Link>
+    </Compile>
     <Compile Include="EditorExtensions\LineCoverageGlyphFactory.cs" />
     <Compile Include="EditorExtensions\LineCoverageGlyphFactoryProvider.cs" />
     <Compile Include="EditorExtensions\LineCoverageState.cs" />
