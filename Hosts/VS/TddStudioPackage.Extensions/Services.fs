@@ -2,7 +2,6 @@
 
 open System
 open System.Runtime.CompilerServices
-open Microsoft.Diagnostics.Tracing
 open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 open Microsoft.VisualStudio.Shell
 

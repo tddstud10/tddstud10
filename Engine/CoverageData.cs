@@ -21,17 +21,20 @@ namespace R4nd0mApps.TddStud10.Engine
             }
         }
 
+        public FilePath SolutionPath { get; set; }
+
         public PerAssemblySequencePointsCoverage PerAssemblySequencePointsCoverage { get; set; }
 
         public PerTestIdResults PerTestIdResults { get; set; }
 
         public PerDocumentSequencePoints PerDocumentSequencePoints { get; set; }
 
-        public void UpdateCoverageResults(PerDocumentSequencePoints seqPtSession, PerAssemblySequencePointsCoverage data, PerTestIdResults testDetails)
+        public void UpdateCoverageResults(RunData rd)
         {
-            PerDocumentSequencePoints = seqPtSession;
-            PerAssemblySequencePointsCoverage = data;
-            PerTestIdResults = testDetails;
+            SolutionPath = rd.solutionPath;
+            PerDocumentSequencePoints = rd.sequencePoints == Microsoft.FSharp.Core.FSharpOption<PerDocumentSequencePoints>.None ? new PerDocumentSequencePoints() : rd.sequencePoints.Value;
+            PerAssemblySequencePointsCoverage = rd.codeCoverageResults == Microsoft.FSharp.Core.FSharpOption<PerAssemblySequencePointsCoverage>.None ? new PerAssemblySequencePointsCoverage() : rd.codeCoverageResults.Value;
+            PerTestIdResults = rd.executedTests == Microsoft.FSharp.Core.FSharpOption<PerTestIdResults>.None ? new PerTestIdResults() : rd.executedTests.Value;
 
             var handler = NewCoverageDataAvailable;
             if (NewCoverageDataAvailable != null)
@@ -42,13 +45,13 @@ namespace R4nd0mApps.TddStud10.Engine
 
         public event EventHandler NewCoverageDataAvailable;
 
-        public IEnumerable<FilePath> GetFiles()
+        public IEnumerable<FilePath> GetAllFiles()
         {
             return from kvp in PerDocumentSequencePoints
                    select kvp.Key;
         }
 
-        public IEnumerable<SequencePoint> GetSequencePoints()
+        public IEnumerable<SequencePoint> GetAllSequencePoints()
         {
             return from kvp in PerDocumentSequencePoints
                    from sps in kvp.Value

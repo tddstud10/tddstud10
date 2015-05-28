@@ -1,17 +1,69 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Text;
+using System.Windows;
 using System.Windows.Media;
+using EditorUtils;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
-using R4nd0mApps.TddStud10.Engine;
-using R4nd0mApps.TddStud10.Engine.Core;
+using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Classification;
+using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.Win32;
 using R4nd0mApps.TddStud10.Common.Domain;
+using R4nd0mApps.TddStud10.Engine;
+
+/*
+v restructure ui
+v menu, open file
+v tab mvvm
+v host control
+v wire up opn file command
+v replace stringproperty names with linq expressions
+v load file
+v wireup composition container
+v shortcut keys
+v wireup events
+v wire up new margin
+v e2e light up test
+v content type to f#
+- reload solution logic
+- save file command
+- reduce view model class size
+  - remove openfiledialog from vm
+  - remove unwanted methods - esp. from the editor creation
+- move tddpackageextension one level up
+- keyboard input
+- dont reload file if it exists
+- implement sort/remove using in fsharppowertools
+
+*/
 
 namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
 {
+    public class EditorTabViewModel
+    {
+        public EditorTabViewModel(string tabName, IWpfTextViewHost textViewHost)
+        {
+            TabName = tabName;
+            TextViewHost = textViewHost;
+        }
+
+        public string TabName { get; private set; }
+
+        public IWpfTextViewHost TextViewHost { get; private set; }
+
+        public object TabData { get { return TextViewHost.HostControl; } }
+    }
+
+    public static class Constants
+    {
+        public static readonly FontFamily FontFamily = new FontFamily("Consolas");
+        public static readonly double FontSize = 9;
+    }
+
     public class MainWindowViewModel : ViewModelBase, IEngineHost
     {
         private RunState _runState;
@@ -30,8 +82,33 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             }
         }
 
-        private bool _currentRunCancelled;
-        private Dictionary<string, StringBuilder> sbMap;
+        private EditorTabViewModel _selectedTab;
+        public EditorTabViewModel SelectedTab
+        {
+            get { return _selectedTab; }
+            set
+            {
+                if (_selectedTab == value)
+                {
+                    return;
+                }
+
+                _selectedTab = value;
+                RaisePropertyChanged(() => SelectedTab);
+            }
+        }
+
+        public ObservableCollection<EditorTabViewModel> Tabs { get; set; }
+
+        public RelayCommand OpenFileCommand { get; set; }
+
+        public RelayCommand OpenSolutionCommand { get; set; }
+
+        public RelayCommand SaveFileCommand { get; set; }
+
+        public RelayCommand EnableDisableTddStud10Command { get; set; }
+
+        public RelayCommand CancelRunCommand { get; set; }
 
         public string SolutionPath { get; set; }
 
@@ -53,10 +130,6 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                 return _stepResultAddendum.ToString();
             }
         }
-
-        public RelayCommand EnableDisableTddStud10Command { get; set; }
-
-        public RelayCommand CancelRunCommand { get; set; }
 
         public string EngineState
         {
@@ -81,28 +154,102 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             }
         }
 
+        private bool _currentRunCancelled;
+        private readonly EditorHostLoader _editorHostLoader;
+        private readonly EditorHost _editorHost;
+        private IClassificationFormatMapService _classificationFormatMapService;
+
         public MainWindowViewModel()
         {
             RunState = RunState.Initial;
 
+            Tabs = new ObservableCollection<EditorTabViewModel>();
+
             SolutionPath = @"d:\src\r4nd0mkatas\fizzbuzz\FizzBuzz.sln";
+
             EnableDisableTddStud10Command = new RelayCommand(
                 EnableOrDisable,
                 () =>
                 {
                     return !string.IsNullOrWhiteSpace(SolutionPath);
                 });
+
             CancelRunCommand = new RelayCommand(
                 () =>
                 {
                     _currentRunCancelled = true;
-                    RaisePropertyChanged("IsRunInProgress");
+                    RaisePropertyChanged(() => IsRunInProgress);
                 });
-            sbMap = new Dictionary<string, StringBuilder>
+
+            OpenFileCommand = new RelayCommand(ExecuteOpenFileCommand);
+
+            OpenSolutionCommand = new RelayCommand(ExecuteOpenSolutionCommand);
+
+            SaveFileCommand = new RelayCommand(ExecuteSaveFileCommand);
+
+            _editorHostLoader = new EditorHostLoader();
+            _editorHost = _editorHostLoader.EditorHost;
+            _classificationFormatMapService = _editorHostLoader.CompositionContainer.GetExportedValue<IClassificationFormatMapService>();
+        }
+
+        private void ExecuteOpenFileCommand()
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.CheckFileExists = true;
+            if ((bool)openFileDialog.ShowDialog())
             {
-                {"ConsoleContents", _consoleContents},
-                {"StepResultAddendum", _stepResultAddendum},
-            };
+                // TODO: Get a real content type
+                var filePath = openFileDialog.FileName;
+                var fileName = Path.GetFileName(filePath);
+                var textDocumentFactoryService = _editorHost.CompositionContainer.GetExportedValue<ITextDocumentFactoryService>();
+                var textDocument = textDocumentFactoryService.CreateAndLoadTextDocument(filePath, _editorHost.ContentTypeRegistryService.GetContentType("code"));
+                var wpfTextView = CreateTextView(textDocument.TextBuffer);
+
+                var newTab = new EditorTabViewModel(fileName, CreateTextViewHost(wpfTextView));
+                Tabs.Add(newTab);
+                RaisePropertyChanged(() => Tabs);
+                SelectedTab = newTab;
+                RaisePropertyChanged(() => SelectedTab);
+            }
+        }
+
+        private IWpfTextView CreateTextView(ITextBuffer textBuffer)
+        {
+            return CreateTextView(
+                textBuffer,
+                PredefinedTextViewRoles.PrimaryDocument,
+                PredefinedTextViewRoles.Document,
+                PredefinedTextViewRoles.Editable,
+                PredefinedTextViewRoles.Interactive,
+                PredefinedTextViewRoles.Structured,
+                PredefinedTextViewRoles.Analyzable);
+        }
+
+        private IWpfTextView CreateTextView(ITextBuffer textBuffer, params string[] roles)
+        {
+            var textViewRoleSet = _editorHostLoader.EditorHost.TextEditorFactoryService.CreateTextViewRoleSet(roles);
+            var textView = _editorHostLoader.EditorHost.TextEditorFactoryService.CreateTextView(
+                textBuffer,
+                textViewRoleSet);
+
+            return textView;
+        }
+
+        private IWpfTextViewHost CreateTextViewHost(IWpfTextView textView)
+        {
+            var textViewHost = _editorHost.TextEditorFactoryService.CreateTextViewHost(textView, setFocus: true);
+
+            return textViewHost;
+        }
+
+        private void ExecuteOpenSolutionCommand()
+        {
+            MessageBox.Show("Open Solution");
+        }
+
+        private void ExecuteSaveFileCommand()
+        {
+            MessageBox.Show("Save File");
         }
 
         private void EnableOrDisable()
@@ -110,7 +257,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             if (EngineLoader.IsEngineEnabled())
             {
                 EngineLoader.DisableEngine();
-                RaisePropertyChanged("EngineState");
+                RaisePropertyChanged(() => EngineState);
                 return;
             }
 
@@ -123,32 +270,32 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             EngineLoader.Load(this, slnPath, DateTime.UtcNow);
 
             EngineLoader.EnableEngine();
-            RaisePropertyChanged("EngineState");
+            RaisePropertyChanged(() => EngineState);
         }
 
-        private void PrependTextToConsole(Action<StringBuilder> textAdder, string field)
+        private void AddTextToStepResultAddendum(Action<StringBuilder> textAdder)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>
                 {
-                    string oldStr = sbMap[field].ToString();
-                    sbMap[field].Clear();
-                    textAdder(sbMap[field]);
-                    string newStr = sbMap[field].ToString();
-                    sbMap[field].Clear();
-                    sbMap[field].AppendFormat("{0}{1}{2}", newStr, Environment.NewLine, oldStr);
-                    RaisePropertyChanged(field);
+                    string oldStr = _stepResultAddendum.ToString();
+                    _stepResultAddendum.Clear();
+                    textAdder(_stepResultAddendum);
+                    string newStr = _stepResultAddendum.ToString();
+                    _stepResultAddendum.Clear();
+                    _stepResultAddendum.AppendFormat("{0}{1}{2}", newStr, Environment.NewLine, oldStr);
+                    RaisePropertyChanged(() => StepResultAddendum);
                 });
         }
 
-        private void AddTextToConsole(Action<StringBuilder> textAdder, string field)
+        private void AddTextToConsole(Action<StringBuilder> textAdder)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>
                 {
-                    textAdder(sbMap[field]);
-                    sbMap[field].AppendLine();
-                    RaisePropertyChanged(field);
+                    textAdder(_consoleContents);
+                    _consoleContents.AppendLine();
+                    RaisePropertyChanged(() => ConsoleContents);
                 });
         }
 
@@ -158,9 +305,9 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                 () =>
                 {
                     _consoleContents.Clear();
-                    RaisePropertyChanged("ConsoleContents");
+                    RaisePropertyChanged(() => ConsoleContents);
                     _stepResultAddendum.Clear();
-                    RaisePropertyChanged("StepResultAddendum");
+                    RaisePropertyChanged(() => StepResultAddendum);
                 });
         }
 
@@ -185,11 +332,10 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>
                 {
-                    RaisePropertyChanged("IsRunInProgress");
+                    RaisePropertyChanged(() => IsRunInProgress);
                     ClearTextFields();
                     AddTextToConsole(
-                        sb => sb.AppendFormat("### Starting new run..."),
-                        "ConsoleContents");
+                        sb => sb.AppendFormat("### Starting new run..."));
                 });
         }
 
@@ -201,8 +347,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                     AddTextToConsole(
                         sb => sb.AppendFormat(
                             "### ### Starting run step : {0}...",
-                            rsea.name.Item),
-                        "ConsoleContents");
+                            rsea.name.Item));
                 });
         }
 
@@ -215,8 +360,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                         sb => sb.AppendFormat(
                             "### ### Error in step: {0}, {1}",
                             rss.name.ToString(),
-                            rss.kind.ToString()),
-                        "ConsoleContents");
+                            rss.kind.ToString()));
                 });
         }
 
@@ -228,16 +372,14 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                     AddTextToConsole(
                         sb => sb.AppendFormat(
                             "### ### Finished run step : {0}...",
-                            rss.name.Item),
-                        "ConsoleContents");
-                    PrependTextToConsole(
+                            rss.name.Item));
+                    AddTextToStepResultAddendum(
                         sb => sb.AppendFormat(
                             "### ### Additional run step info: {0}, {1}:{2}{3}",
                             rss.name.ToString(),
                             rss.kind.ToString(),
                             Environment.NewLine,
-                            rss.addendum.ToString()),
-                        "StepResultAddendum");
+                            rss.addendum.ToString()));
                 });
         }
 
@@ -249,8 +391,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                     AddTextToConsole(
                         sb => sb.AppendFormat(
                             "### Run had error : {0}...",
-                            e),
-                        "ConsoleContents");
+                            e));
                 });
         }
 
@@ -259,8 +400,9 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>
                 {
-                    AddTextToConsole(sb => sb.AppendFormat("### Ended run."),
-                        "ConsoleContents");
+                    AddTextToConsole(sb => sb.AppendFormat("### Ended run."));
+
+                    CoverageData.Instance.UpdateCoverageResults(rd);
                 });
         }
 

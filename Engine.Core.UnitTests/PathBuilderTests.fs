@@ -3,6 +3,8 @@
 open R4nd0mApps.TddStud10.Common.Domain
 open Xunit
 
+let inline (~~) s = FilePath s
+
 [<Theory>]
 [<InlineData("c:\\folder\\file.sln", "d:\\tddstud10\\folder\\file.sln")>]
 [<InlineData("x:\\file.sln", "d:\\tddstud10\\file\\file.sln")>]
@@ -24,5 +26,5 @@ let ``Tests for makeSlnBuildRoot`` (slnPath, buildRoot) =
 [<InlineData("c:\\f1\\f2.sln", "c:\\folder\\fldr2\\file.xyz", "d:\\tddstud10\\folder\\fldr2\\file.xyz", true)>]
 // NOTE: We dont support cases where the sln file is at drive level.
 let ``Tests for arePathsTheSame`` (slnPath, path1, path2, same) = 
-    let result = PathBuilder.arePathsTheSame slnPath path1 path2
+    let result = PathBuilder.arePathsTheSame ~~slnPath ~~path1 ~~path2
     Assert.Equal(same, result)

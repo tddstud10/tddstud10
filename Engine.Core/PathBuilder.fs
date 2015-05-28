@@ -1,7 +1,6 @@
 ﻿namespace R4nd0mApps.TddStud10.Engine.Core
 
 open System
-open R4nd0mApps.TddStud10.Engine.Diagnostics
 open System.IO
 open R4nd0mApps.TddStud10
 open R4nd0mApps.TddStud10.Common.Domain
@@ -24,13 +23,13 @@ module PathBuilder =
         let slnParentDirName = makeSlnParentDirName slnPath
         FilePath(Path.Combine(snapShotRoot, slnParentDirName + ".out"))
     
-    let private normalizeAndCompare slnPath (path1 : string) (path2 : string) = 
-        let d = Path.GetDirectoryName(Path.GetDirectoryName(slnPath))
+    let private normalizeAndCompare (FilePath slnPath) (FilePath path1) (FilePath path2) = 
+        let d = slnPath |> Path.GetDirectoryName |> Path.GetDirectoryName
         path1.ToUpperInvariant().Replace(snapShotRoot.ToUpperInvariant(), "").Trim('\\')
             .Equals(path2.ToUpperInvariant().Replace(d.ToUpperInvariant(), "").Trim('\\'), 
                     StringComparison.InvariantCultureIgnoreCase)
 
-    let arePathsTheSame slnPath (path1 : string) (path2 : string) = 
-        path1.ToUpperInvariant().Equals(path2.ToUpperInvariant(), StringComparison.InvariantCultureIgnoreCase) 
+    let arePathsTheSame slnPath path1 path2 = 
+        path1 = path2 
         || normalizeAndCompare slnPath path1 path2
         || normalizeAndCompare slnPath path2 path1

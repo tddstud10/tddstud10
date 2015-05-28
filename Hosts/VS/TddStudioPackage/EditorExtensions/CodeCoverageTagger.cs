@@ -14,19 +14,18 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
 using R4nd0mApps.TddStud10.Engine;
+using System.Linq;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 {
     public sealed class CodeCoverageTagger : ITagger<CodeCoverageTag>, IDisposable
     {
-        private IClassifier _classifier;
         private ITextBuffer _buffer;
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged = delegate { };
 
-        public CodeCoverageTagger(ITextBuffer buffer, IClassifier classifier)
+        public CodeCoverageTagger(ITextBuffer buffer)
         {
-            _classifier = classifier;
             _buffer = buffer;
 
             CoverageData.Instance.NewCoverageDataAvailable += OnNewCoverageDataAvailable;
@@ -34,7 +33,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 
         public void Dispose()
         {
-            _classifier = null;
             _buffer = null;
 
             CoverageData.Instance.NewCoverageDataAvailable -= OnNewCoverageDataAvailable;
@@ -42,17 +40,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 
         IEnumerable<ITagSpan<CodeCoverageTag>> ITagger<CodeCoverageTag>.GetTags(NormalizedSnapshotSpanCollection spans)
         {
-            foreach (SnapshotSpan span in spans)
-            {
-                foreach (ClassificationSpan classification in _classifier.GetClassificationSpans(span))
-                {
-                    var classificationString = classification.ClassificationType.Classification.ToLower();
-                    if (!classificationString.Contains("xml doc") && !classificationString.Contains("comment"))
-                    {
-                        yield return new TagSpan<CodeCoverageTag>(new SnapshotSpan(classification.Span.Start, 1), new CodeCoverageTag());
-                    }
-                }
-            }
+            return from span in spans
+                   where !span.IsEmpty
+                   select new TagSpan<CodeCoverageTag>(new SnapshotSpan(span.Start, 1), new CodeCoverageTag());
         }
 
         private void RaiseAllTagsChanged()

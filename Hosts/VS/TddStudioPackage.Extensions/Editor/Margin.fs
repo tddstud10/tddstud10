@@ -3,43 +3,42 @@
 open Microsoft.VisualStudio.Text.Editor
 open System
 
-module MarginConstants = 
-    [<Literal>]
-    let Name = R4nd0mApps.TddStud10.Constants.ProductName + " Margin"
-
 type Margin(textView : IWpfTextView) = 
     let mutable disposed = false
+    let canvas = new MarginCanvas(MarginConstants.Width)
+    let textViewLayoutChanged o ea = ()
+    let lceh = new EventHandler<_>(textViewLayoutChanged)
+    do textView.LayoutChanged.AddHandler(lceh)
     override x.Finalize() = x.Dispose(false)
     
     member private x.Dispose(disposing : bool) = 
         if not disposed then 
-            if (disposing) then 
-                ()
+            if (disposing) then textView.LayoutChanged.RemoveHandler(lceh)
             disposed <- true
     
-    member private x.ThrowIfDisposed() =
-        if disposed then
-            raise (new ObjectDisposedException(MarginConstants.Name))
-
+    member private x.ThrowIfDisposed() = 
+        if disposed then raise (new ObjectDisposedException(MarginConstants.Name))
+    
     interface IDisposable with
         member x.Dispose() : unit = 
             x.Dispose(true)
             GC.SuppressFinalize(x)
     
     interface ITextViewMargin with
+        
         member x.Enabled : bool = 
             x.ThrowIfDisposed()
-            false
+            true
         
         member x.GetTextViewMargin(marginName : string) : ITextViewMargin = 
-            if marginName = MarginConstants.Name then x :> ITextViewMargin
+            if marginName = MarginConstants.Name then x :> _
             else null
         
         member x.MarginSize : float = 
             x.ThrowIfDisposed()
-            failwith "Not implemented yet"
+            canvas.ActualWidth
     
     interface IWpfTextViewMargin with
         member x.VisualElement : Windows.FrameworkElement = 
             x.ThrowIfDisposed()
-            failwith "Not implemented yet"
+            canvas :> _

@@ -32,7 +32,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
                 throw new ArgumentNullException("buffer");
             }
 
-            return new CodeCoverageTagger(buffer, AggregatorService.GetClassifier(buffer)) as ITagger<T>;
+            return new CodeCoverageTagger(buffer) as ITagger<T>;
         }
     }
 }

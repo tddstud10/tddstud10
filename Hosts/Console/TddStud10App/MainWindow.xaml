@@ -8,7 +8,8 @@
   xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:Common="clr-namespace:R4nd0mApps.TddStud10.Hosts.Common;assembly=R4nd0mApps.TddStud10.Hosts.CommonUI"
-  Title="MainWindow" Height="350" Width="721.575"
+  Title="TddStud10 Console" Height="350" Width="721.575"
+  WindowState="Maximized"
   DataContext="{Binding Path=Main, Source={StaticResource Locator}}">
 
   <Window.Resources>
@@ -17,6 +18,12 @@
     <Common:RunStateToIconTextConverter x:Key="RunStateToIconTextConverter" />
   </Window.Resources>
 
+  <Window.InputBindings>
+    <KeyBinding Command="{Binding OpenFileCommand}" Gesture="CTRL+O" />
+    <KeyBinding Command="{Binding OpenSolutionCommand}" Gesture="CTRL+SHIFT+O" />
+    <KeyBinding Command="{Binding SaveFileCommand}" Gesture="CTRL+S" />
+  </Window.InputBindings>
+
   <Grid Background="DarkGray">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto"/>
@@ -24,49 +31,107 @@
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition Height="5*"/>
       <RowDefinition Height="2*"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <TextBox 
-      TextWrapping="Wrap" 
-      Grid.ColumnSpan="3"
-      ScrollViewer.CanContentScroll="True" 
-      ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-      ScrollViewer.VerticalScrollBarVisibility="Auto" 
-      Text="{Binding Mode=OneWay, Path=ConsoleContents}"/>
-    <TextBox 
-      TextWrapping="Wrap" 
-      Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1"
-      ScrollViewer.CanContentScroll="True" 
-      ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-      ScrollViewer.VerticalScrollBarVisibility="Auto" 
-      Text="{Binding Mode=OneWay, Path=StepResultAddendum}" />
-    <Common:StatusBarNotificationIcon
-      Grid.Column="0" Grid.Row="1"  
-      Animate="{Binding RunState, Converter={StaticResource RunStateToAnimationStateConverter}}" 
-      IconColor="{Binding RunState, Converter={StaticResource RunStateToIconColorConverter}}"
-      IconText="{Binding RunState, Converter={StaticResource RunStateToIconTextConverter}}"/>
-    <Button 
-      Grid.Row="2" Grid.Column="0"
-      Width="75" Height="20" 
-      HorizontalAlignment="Right" VerticalAlignment="Top" 
-      Command="{Binding EnableDisableTddStud10Command}" 
-      Content="{Binding Path=EngineState}"
-    />
-    <TextBox 
-      Grid.Row="2" Grid.Column="1"
-      Margin="0,0,0,-3" 
-      TextWrapping="Wrap" 
-      VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-      Text="{Binding Mode=TwoWay, Path=SolutionPath}" Grid.ColumnSpan="2"/>
-    <Button 
-      Grid.Row="2" Grid.Column="2"
-      Width="75" Height="20" 
-      HorizontalAlignment="Right" VerticalAlignment="Top" 
-      Command="{Binding CancelRunCommand}"
-      IsEnabled="{Binding Mode=OneWay, Path=IsRunInProgress}"
-      Content="Cancel Run"
-    />
+    <Menu 
+      Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="1"
+      IsMainMenu="True"
+    >
+      <MenuItem Header="_File">
+        <MenuItem Header="_Open File" Command="{Binding OpenFileCommand}" />
+        <MenuItem Header="_Open Solution" Command="{Binding OpenSolutionCommand}" />
+        <Separator />
+        <MenuItem Header="_Save File" Command="{Binding SaveFileCommand}" />
+      </MenuItem>
+    </Menu>
+    <Grid
+      Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="1"
+    >
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Button 
+        Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+        Width="75" Height="20" 
+        HorizontalAlignment="Right" VerticalAlignment="Top" 
+        Command="{Binding EnableDisableTddStud10Command}" 
+        Content="{Binding Path=EngineState}"
+      />
+      <Button 
+        Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+        Width="75" Height="20" 
+        HorizontalAlignment="Right" VerticalAlignment="Top" 
+        Command="{Binding CancelRunCommand}"
+        IsEnabled="{Binding Mode=OneWay, Path=IsRunInProgress}"
+        Content="Cancel Run"
+      />
+      <TextBox 
+        Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="1"
+        Margin="0,0,0,0" 
+        TextWrapping="Wrap" 
+        VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+        Text="{Binding Mode=TwoWay, Path=SolutionPath}" IsReadOnly="False" />
+    </Grid>
+    <TabControl
+      Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="1"
+      ItemsSource="{Binding Path=Tabs}" 
+      SelectedItem="{Binding Path=SelectedTab}"
+    >
+      <TabControl.ItemContainerStyle>
+        <Style TargetType="TabItem">
+          <Setter Property="Header" Value="{Binding Path=TabName}"></Setter>
+        </Style>
+      </TabControl.ItemContainerStyle>
+      <TabControl.ContentTemplate>
+        <DataTemplate>
+          <Grid>
+            <ContentControl Content="{Binding Path=TabData}"></ContentControl>
+          </Grid>
+        </DataTemplate>
+      </TabControl.ContentTemplate>
+    </TabControl>
+    <Grid
+      Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="1"
+    >
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <TextBox 
+        TextWrapping="Wrap" 
+        Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+        ScrollViewer.CanContentScroll="True" 
+        ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+        ScrollViewer.VerticalScrollBarVisibility="Auto" 
+        Text="{Binding Mode=OneWay, Path=ConsoleContents}"/>
+      <TextBox 
+        TextWrapping="Wrap" 
+        Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+        ScrollViewer.CanContentScroll="True" 
+        ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+        ScrollViewer.VerticalScrollBarVisibility="Auto" 
+        Text="{Binding Mode=OneWay, Path=StepResultAddendum}" />
+    </Grid>
+    <Grid
+      Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan="1"
+    >
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+      <Common:StatusBarNotificationIcon
+        Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Grid.RowSpan="1"
+        Margin="2"
+        Animate="{Binding RunState, Converter={StaticResource RunStateToAnimationStateConverter}}" 
+        IconColor="{Binding RunState, Converter={StaticResource RunStateToIconColorConverter}}"
+        IconText="{Binding RunState, Converter={StaticResource RunStateToIconTextConverter}}"/>
+    </Grid>
   </Grid>
 </Window>

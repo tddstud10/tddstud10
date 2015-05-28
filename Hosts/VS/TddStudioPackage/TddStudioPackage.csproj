@@ -38,9 +38,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DeployExtension>True</DeployExtension>
-    <CopyVsixExtensionFiles>True</CopyVsixExtensionFiles>
-    <CreateVsixContainer>True</CreateVsixContainer>
+    <DeployExtension>False</DeployExtension>
+    <CopyVsixExtensionFiles>False</CopyVsixExtensionFiles>
+    <CreateVsixContainer>False</CreateVsixContainer>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -204,6 +204,7 @@
     <Compile Include="EditorExtensions\CodeCoverageTag.cs" />
     <Compile Include="EditorExtensions\CodeCoverageTagger.cs" />
     <Compile Include="EditorExtensions\CodeCoverageTaggerProvider.cs" />
+    <Compile Include="EditorExtensions\MarginFactory.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
