@@ -1,8 +1,6 @@
 ﻿namespace R4nd0mApps.TddStud10.Engine.Core
 
-open System
 open R4nd0mApps.TddStud10.Engine.Diagnostics
-open System.IO
 open System.Threading
 open System.Threading.Tasks
 
@@ -68,11 +66,11 @@ type StaleMessageIgnoringAgent<'T>(f) =
         agent
     
     let agent = createAgent f
-    member this.OnError = errorEvent.Publish
-    member this.SendMessage(m : 'T) = agent.PostAndReply(fun rc -> Data(m, rc))
-    member this.SendMessageAsync (m : 'T) token = 
+    member __.OnError = errorEvent.Publish
+    member __.SendMessage(m : 'T) = agent.PostAndReply(fun rc -> Data(m, rc))
+    member __.SendMessageAsync (m : 'T) token = 
         Async.StartAsTask(agent.PostAndAsyncReply(fun rc -> Data(m, rc)), TaskCreationOptions.None, token)
-    member this.PauseAsync(t : int<ms>) = agent.Post(Pause(Duration t))
-    member this.Stop() = agent.PostAndReply(fun rc -> Stop(rc))
-    member this.StopAsync(token) = 
+    member __.PauseAsync(t : int<ms>) = agent.Post(Pause(Duration t))
+    member __.Stop() = agent.PostAndReply(fun rc -> Stop(rc))
+    member __.StopAsync(token) = 
         Async.StartAsTask(agent.PostAndAsyncReply(fun rc -> Stop(rc)), TaskCreationOptions.None, token)

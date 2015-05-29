@@ -12,10 +12,10 @@ type Logger() =
     static member I = i
     
     [<Event(1, Level = EventLevel.Informational)>]
-    member public this.LogInfo(message : string) = base.WriteEvent(1, message)
+    member public __.LogInfo(message : string) = base.WriteEvent(1, message)
     
     [<Event(2, Level = EventLevel.Error)>]
-    member public this.LogError(message : string) = base.WriteEvent(2, message)
+    member public __.LogError(message : string) = base.WriteEvent(2, message)
     
     [<NonEvent>]
     member public this.LogInfo(format : string, [<ParamArray>] args : Object array) = 

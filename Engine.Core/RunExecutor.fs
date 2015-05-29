@@ -2,8 +2,6 @@
 
 open System
 open R4nd0mApps.TddStud10.Common.Domain
-open R4nd0mApps.TddStud10.Engine.Diagnostics
-open System.Collections.Generic
 
 type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, stepWrapper : RunStepFuncWrapper) = 
     let runStarting = new Event<RunData>()
@@ -26,14 +24,12 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
                 | ex -> acc, Some ex
             else acc, Some(new OperationCanceledException() :> Exception)
     
-    member private this.host = host
-    member private this.runSteps = runSteps
-    member public this.RunStarting = runStarting.Publish
-    member public this.RunEnded = runEnded.Publish
-    member public this.OnRunError = onRunError.Publish
-    member public this.RunStepStarting = runStepStarting.Publish
-    member public this.OnRunStepError = onRunStepError.Publish
-    member public this.RunStepEnded = runStepEnded.Publish
+    member public __.RunStarting = runStarting.Publish
+    member public __.RunEnded = runEnded.Publish
+    member public __.OnRunError = onRunError.Publish
+    member public __.RunStepStarting = runStepStarting.Publish
+    member public __.OnRunStepError = onRunStepError.Publish
+    member public __.RunStepEnded = runStepEnded.Publish
     
     static member public makeRunData startTime solutionPath = 
         { startTime = startTime
@@ -54,7 +50,7 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
               onError = onRunStepError
               onFinish = runStepEnded }
         
-        let rd, err = runSteps |> Seq.fold (executeStep this.host rses) (rd, None)
+        let rd, err = runSteps |> Seq.fold (executeStep host rses) (rd, None)
         match err with
         | None -> ()
         | Some e -> Common.safeExec (fun () -> onRunError.Trigger(e))

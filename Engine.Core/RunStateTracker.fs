@@ -63,13 +63,13 @@ type RunStateTracker() =
         Logger.logInfof "Run Tracker State Machine: Trasition (%A, %A) -> %A" oldState ev state
         Common.safeExec (fun () -> runStateChanged.Trigger(state))
     
-    member t.State = state
-    member public t.RunStateChanged = runStateChanged.Publish
-    member public t.OnRunStarting(ea : RunData) = transitionStateAndRaiseEvent RunStarting
-    member public t.OnRunStepStarting(ea : RunStepEventArg) = transitionStateAndRaiseEvent (RunStepStarting ea.kind)
-    member public t.OnRunStepError(ea : RunStepEndEventArg) = 
+    member __.State = state
+    member public __.RunStateChanged = runStateChanged.Publish
+    member public __.OnRunStarting(_ : RunData) = transitionStateAndRaiseEvent RunStarting
+    member public __.OnRunStepStarting(ea : RunStepEventArg) = transitionStateAndRaiseEvent (RunStepStarting ea.kind)
+    member public __.OnRunStepError(ea : RunStepEndEventArg) = 
         transitionStateAndRaiseEvent (RunStepError(ea.kind, ea.status))
-    member public t.OnRunStepEnd(ea : RunStepEndEventArg) = 
+    member public __.OnRunStepEnd(ea : RunStepEndEventArg) = 
         transitionStateAndRaiseEvent (RunStepEnded(ea.kind, ea.status))
-    member public t.OnRunError(ea : Exception) = transitionStateAndRaiseEvent (RunError ea)
-    member public t.OnRunEnd(ea : RunData) = ()
+    member public __.OnRunError(ea : Exception) = transitionStateAndRaiseEvent (RunError ea)
+    member public __.OnRunEnd(_ : RunData) = ()
