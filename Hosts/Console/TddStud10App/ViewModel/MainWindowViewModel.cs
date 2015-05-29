@@ -15,32 +15,6 @@ using Microsoft.Win32;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine;
 
-/*
-v restructure ui
-v menu, open file
-v tab mvvm
-v host control
-v wire up opn file command
-v replace stringproperty names with linq expressions
-v load file
-v wireup composition container
-v shortcut keys
-v wireup events
-v wire up new margin
-v e2e light up test
-v content type to f#
-- reload solution logic
-- save file command
-- reduce view model class size
-  - remove openfiledialog from vm
-  - remove unwanted methods - esp. from the editor creation
-- move tddpackageextension one level up
-- keyboard input
-- dont reload file if it exists
-- implement sort/remove using in fsharppowertools
-
-*/
-
 namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
 {
     public class EditorTabViewModel

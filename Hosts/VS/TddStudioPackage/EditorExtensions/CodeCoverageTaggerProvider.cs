@@ -11,7 +11,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using System;
 using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 
@@ -22,9 +21,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
     [TagType(typeof(CodeCoverageTag))]
     public class CodeCoverageTaggerProvider : ITaggerProvider
     {
-        [Import]
-        public IClassifierAggregatorService AggregatorService;
-
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
             if (buffer == null)

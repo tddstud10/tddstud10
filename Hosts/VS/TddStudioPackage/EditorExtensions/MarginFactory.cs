@@ -86,7 +86,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
     [Order(After = PredefinedMarginNames.Outlining)]
     [MarginContainer(PredefinedMarginNames.Left)]
     [ContentType("code")]
-    [TextViewRole(PredefinedTextViewRoles.Interactive)]
+    [TextViewRole(PredefinedTextViewRoles.PrimaryDocument)]
     public sealed class MarginFactory : IWpfTextViewMarginProvider
     {
         public IWpfTextViewMargin CreateMargin(IWpfTextViewHost textViewHost, IWpfTextViewMargin containerMargin)

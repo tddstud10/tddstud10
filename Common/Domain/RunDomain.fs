@@ -1,8 +1,6 @@
 ﻿namespace R4nd0mApps.TddStud10.Common.Domain
 
 open System
-open System.Collections.Generic
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
 type RunData = 
     { startTime : DateTime
