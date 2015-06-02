@@ -1,7 +1,6 @@
 ﻿namespace R4nd0mApps.TddStud10.Common.Domain
 
 open System
-open System.Collections
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
 [<CustomEquality; CustomComparison>]
@@ -90,6 +89,7 @@ type SequencePointCoverage =
 
 // =================================================
 
+// NOTE: Adding any new cases will break RunStateTracker.
 type RunStepKind = 
     | Build
     | Test

@@ -29,6 +29,7 @@ namespace R4nd0mApps.TddStud10.Engine
     {
         private static EngineFileSystemWatcher _efsWatcher;
         private static IEngineHost _host;
+        private static IDataStore _dataStore;
         private static TddStud10Runner _runner;
         private static Task _currentRun;
         private static CancellationTokenSource _currentRunCts;
@@ -41,17 +42,23 @@ namespace R4nd0mApps.TddStud10.Engine
         public static FSharpHandler<Exception> _onRunErrorHandler;
         public static FSharpHandler<RunData> _runEndedHandler;
 
-        public static void Load(IEngineHost host, string solutionPath, DateTime sessionStartTimestamp)
+        public static void Load(IEngineHost host, IDataStore dataStore, string solutionPath, DateTime sessionStartTimestamp)
         {
             Logger.I.LogInfo("Loading Engine with solution {0}", solutionPath);
 
             _host = host;
+            _dataStore = dataStore;
 
             _runStateChangedHandler = new FSharpHandler<RunState>((s, ea) => _host.RunStateChanged(ea));
             _runStartingHandler = new FSharpHandler<RunData>((s, ea) => _host.RunStarting(ea));
             _runStepStartingHandler = new FSharpHandler<RunStepEventArg>((s, ea) => _host.RunStepStarting(ea));
             _onRunStepErrorHandler = new FSharpHandler<RunStepResult>((s, ea) => _host.OnRunStepError(ea));
-            _runStepEndedHandler = new FSharpHandler<RunStepResult>((s, ea) => _host.RunStepEnded(ea));
+            _runStepEndedHandler = new FSharpHandler<RunStepResult>(
+                (s, ea) =>
+                {
+                    _host.RunStepEnded(ea);
+                    _dataStore.UpdateData(ea);
+                });
             _onRunErrorHandler = new FSharpHandler<Exception>((s, ea) => _host.OnRunError(ea));
             _runEndedHandler = new FSharpHandler<RunData>((s, ea) => _host.RunEnded(ea));
 

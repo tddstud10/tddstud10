@@ -2,42 +2,20 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
-using System.Windows;
-using System.Windows.Media;
+using System.Windows.Input;
 using EditorUtils;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Threading;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.Win32;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine;
+using R4nd0mApps.TddStud10.Engine.Core;
 
 namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
 {
-    public class EditorTabViewModel
-    {
-        public EditorTabViewModel(string tabName, IWpfTextViewHost textViewHost)
-        {
-            TabName = tabName;
-            TextViewHost = textViewHost;
-        }
-
-        public string TabName { get; private set; }
-
-        public IWpfTextViewHost TextViewHost { get; private set; }
-
-        public object TabData { get { return TextViewHost.HostControl; } }
-    }
-
-    public static class Constants
-    {
-        public static readonly FontFamily FontFamily = new FontFamily("Consolas");
-        public static readonly double FontSize = 9;
-    }
-
     public class MainWindowViewModel : ViewModelBase, IEngineHost
     {
         private RunState _runState;
@@ -56,6 +34,8 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             }
         }
 
+        public ObservableCollection<EditorTabViewModel> Tabs { get; set; }
+
         private EditorTabViewModel _selectedTab;
         public EditorTabViewModel SelectedTab
         {
@@ -72,19 +52,31 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             }
         }
 
-        public ObservableCollection<EditorTabViewModel> Tabs { get; set; }
-
         public RelayCommand OpenFileCommand { get; set; }
 
         public RelayCommand OpenSolutionCommand { get; set; }
 
-        public RelayCommand SaveFileCommand { get; set; }
+        public RelayCommand SaveAllCommand { get; set; }
 
         public RelayCommand EnableDisableTddStud10Command { get; set; }
 
         public RelayCommand CancelRunCommand { get; set; }
 
-        public string SolutionPath { get; set; }
+        private string _solutionPath;
+        public string SolutionPath
+        {
+            get { return _solutionPath; }
+            set
+            {
+                if (_solutionPath == value)
+                {
+                    return;
+                }
+
+                _solutionPath = value;
+                RaisePropertyChanged(() => SolutionPath);
+            }
+        }
 
         private StringBuilder _consoleContents = new StringBuilder();
         public string ConsoleContents
@@ -132,14 +124,21 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
         private readonly EditorHostLoader _editorHostLoader;
         private readonly EditorHost _editorHost;
         private IClassificationFormatMapService _classificationFormatMapService;
+        private IUIServices _uiServices;
 
         public MainWindowViewModel()
+            : this(new UIServices())
         {
-            RunState = RunState.Initial;
+        }
 
-            Tabs = new ObservableCollection<EditorTabViewModel>();
+        protected MainWindowViewModel(IUIServices uiServices)
+        {
+            _uiServices = uiServices;
+            _editorHostLoader = new EditorHostLoader();
+            _editorHost = _editorHostLoader.EditorHost;
+            _classificationFormatMapService = _editorHostLoader.CompositionContainer.GetExportedValue<IClassificationFormatMapService>();
 
-            SolutionPath = @"d:\src\r4nd0mkatas\fizzbuzz\FizzBuzz.sln";
+            InitializeViewModelState();
 
             EnableDisableTddStud10Command = new RelayCommand(
                 EnableOrDisable,
@@ -159,71 +158,108 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
 
             OpenSolutionCommand = new RelayCommand(ExecuteOpenSolutionCommand);
 
-            SaveFileCommand = new RelayCommand(ExecuteSaveFileCommand);
+            SaveAllCommand = new RelayCommand(ExecuteSaveAllCommand);
+        }
 
-            _editorHostLoader = new EditorHostLoader();
-            _editorHost = _editorHostLoader.EditorHost;
-            _classificationFormatMapService = _editorHostLoader.CompositionContainer.GetExportedValue<IClassificationFormatMapService>();
+        private void InitializeViewModelState()
+        {
+            RunState = RunState.Initial;
+
+            SolutionPath = null;
+
+            Tabs = new ObservableCollection<EditorTabViewModel>();
+            RaisePropertyChanged(() => Tabs);
+
+            SelectedTab = null;
+
+            RaisePropertyChanged(() => EngineState);
+
+            _consoleContents.Clear();
+            RaisePropertyChanged(() => ConsoleContents);
+            _stepResultAddendum.Clear();
+            RaisePropertyChanged(() => StepResultAddendum);
         }
 
         private void ExecuteOpenFileCommand()
         {
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.CheckFileExists = true;
-            if ((bool)openFileDialog.ShowDialog())
+            var file = _uiServices.OpenFile("All Files|*.*");
+            if (file == null)
             {
-                // TODO: Get a real content type
-                var filePath = openFileDialog.FileName;
-                var fileName = Path.GetFileName(filePath);
-                var textDocumentFactoryService = _editorHost.CompositionContainer.GetExportedValue<ITextDocumentFactoryService>();
-                var textDocument = textDocumentFactoryService.CreateAndLoadTextDocument(filePath, _editorHost.ContentTypeRegistryService.GetContentType("code"));
-                var wpfTextView = CreateTextView(textDocument.TextBuffer);
-
-                var newTab = new EditorTabViewModel(fileName, CreateTextViewHost(wpfTextView));
-                Tabs.Add(newTab);
-                RaisePropertyChanged(() => Tabs);
-                SelectedTab = newTab;
-                RaisePropertyChanged(() => SelectedTab);
+                return;
             }
+
+            OpenFile(file);
         }
 
-        private IWpfTextView CreateTextView(ITextBuffer textBuffer)
+        private void OpenFile(string filePath)
         {
-            return CreateTextView(
-                textBuffer,
-                PredefinedTextViewRoles.PrimaryDocument,
-                PredefinedTextViewRoles.Document,
-                PredefinedTextViewRoles.Editable,
-                PredefinedTextViewRoles.Interactive,
-                PredefinedTextViewRoles.Structured,
-                PredefinedTextViewRoles.Analyzable);
+            var textViewHost = CreateEditorForFile(filePath);
+
+            var newTab = new EditorTabViewModel(filePath, textViewHost);
+            Tabs.Add(newTab);
+            RaisePropertyChanged(() => Tabs);
+            SelectedTab = newTab;
+            RaisePropertyChanged(() => SelectedTab);
         }
 
-        private IWpfTextView CreateTextView(ITextBuffer textBuffer, params string[] roles)
+        private IWpfTextViewHost CreateEditorForFile(string filePath)
         {
+            var textDocumentFactoryService = _editorHost.CompositionContainer.GetExportedValue<ITextDocumentFactoryService>();
+            var textDocument = textDocumentFactoryService.CreateAndLoadTextDocument(filePath, _editorHost.ContentTypeRegistryService.GetContentType("code"));
+            var roles = new[] 
+                {
+                    PredefinedTextViewRoles.PrimaryDocument,
+                    PredefinedTextViewRoles.Document,
+                    PredefinedTextViewRoles.Editable,
+                    PredefinedTextViewRoles.Interactive,
+                    PredefinedTextViewRoles.Structured,
+                    PredefinedTextViewRoles.Analyzable,
+                };
             var textViewRoleSet = _editorHostLoader.EditorHost.TextEditorFactoryService.CreateTextViewRoleSet(roles);
-            var textView = _editorHostLoader.EditorHost.TextEditorFactoryService.CreateTextView(
-                textBuffer,
+            var wpfTextView = _editorHostLoader.EditorHost.TextEditorFactoryService.CreateTextView(
+                textDocument.TextBuffer,
                 textViewRoleSet);
-
-            return textView;
-        }
-
-        private IWpfTextViewHost CreateTextViewHost(IWpfTextView textView)
-        {
-            var textViewHost = _editorHost.TextEditorFactoryService.CreateTextViewHost(textView, setFocus: true);
-
+            var textViewHost = _editorHost.TextEditorFactoryService.CreateTextViewHost(wpfTextView, setFocus: true);
             return textViewHost;
         }
 
         private void ExecuteOpenSolutionCommand()
         {
-            MessageBox.Show("Open Solution");
+            if (SolutionPath != null)
+            {
+                if (EngineLoader.IsRunInProgress())
+                {
+                    _uiServices.ShowMessageBox("Cannot close solution as a run is in progress");
+                    return;
+                }
+
+                EngineLoader.DisableEngine();
+                EngineLoader.Unload();
+                InitializeViewModelState();
+            }
+
+            var slnPath = _uiServices.OpenFile("Solution Files|*.sln");
+            if (slnPath == null)
+            {
+                return;
+            }
+
+            SolutionPath = slnPath;
+            EngineLoader.Load(this, DataStoreXXX.Instance, slnPath, DateTime.UtcNow);
+            EngineLoader.EnableEngine();
+            RaisePropertyChanged(() => EngineState);
+            CommandManager.InvalidateRequerySuggested();
+
+            OpenFile(slnPath);
         }
 
-        private void ExecuteSaveFileCommand()
+        private void ExecuteSaveAllCommand()
         {
-            MessageBox.Show("Save File");
+            foreach (var tab in Tabs)
+            {
+                var contents = tab.TextViewHost.TextView.TextBuffer.CurrentSnapshot.GetText();
+                File.WriteAllText(tab.FilePath, contents);
+            }
         }
 
         private void EnableOrDisable()
@@ -231,19 +267,12 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             if (EngineLoader.IsEngineEnabled())
             {
                 EngineLoader.DisableEngine();
-                RaisePropertyChanged(() => EngineState);
-                return;
             }
-
-            var slnPath = SolutionPath;
-            if (EngineLoader.IsEngineLoaded())
+            else
             {
-                EngineLoader.DisableEngine();
-                EngineLoader.Unload();
+                EngineLoader.EnableEngine();
             }
-            EngineLoader.Load(this, slnPath, DateTime.UtcNow);
 
-            EngineLoader.EnableEngine();
             RaisePropertyChanged(() => EngineState);
         }
 
@@ -377,6 +406,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                     AddTextToConsole(sb => sb.AppendFormat("### Ended run."));
 
                     CoverageData.Instance.UpdateCoverageResults(rd);
+                    _currentRunCancelled = false;
                 });
         }
 

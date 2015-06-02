@@ -8,4 +8,3 @@ type MarginCanvas(width : float) as t =
     do 
         t.Width <- width
         t.ClipToBounds <- true
-        t.Background <- new SolidColorBrush(Colors.Brown)

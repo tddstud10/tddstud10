@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine;
+using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
 using EventHandlerPair = System.Tuple<System.EventHandler, System.EventHandler>;
@@ -180,7 +181,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsSolutionEvents.OnAfterOpenSolution(object pUnkReserved, int fNewSolution)
         {
-            EngineLoader.Load(this, GetSolutionPath(), DateTime.UtcNow);
+            EngineLoader.Load(this, DataStoreXXX.Instance, GetSolutionPath(), DateTime.UtcNow);
             EngineLoader.EnableEngine();
 
             return VSConstants.S_OK;

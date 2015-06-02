@@ -121,9 +121,14 @@
     <Compile Include="..\..\..\Common\Constants.cs">
       <Link>Constants.cs</Link>
     </Compile>
+    <Compile Include="DefaultKeyProcessorProvider.cs" />
+    <Compile Include="ViewModel\EditorTabViewModel.cs" />
+    <Compile Include="IUIServices.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="UIServices.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="EditorHostLoader.cs" />
+    <Compile Include="DefaultKeyProcessor.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

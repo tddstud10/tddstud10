@@ -21,7 +21,7 @@
   <Window.InputBindings>
     <KeyBinding Command="{Binding OpenFileCommand}" Gesture="CTRL+O" />
     <KeyBinding Command="{Binding OpenSolutionCommand}" Gesture="CTRL+SHIFT+O" />
-    <KeyBinding Command="{Binding SaveFileCommand}" Gesture="CTRL+S" />
+    <KeyBinding Command="{Binding SaveAllCommand}" Gesture="CTRL+SHIFT+S" />
   </Window.InputBindings>
 
   <Grid Background="DarkGray">
@@ -43,9 +43,9 @@
     >
       <MenuItem Header="_File">
         <MenuItem Header="_Open File" Command="{Binding OpenFileCommand}" />
-        <MenuItem Header="_Open Solution" Command="{Binding OpenSolutionCommand}" />
+        <MenuItem Header="Open _Project/Solution" Command="{Binding OpenSolutionCommand}" />
         <Separator />
-        <MenuItem Header="_Save File" Command="{Binding SaveFileCommand}" />
+        <MenuItem Header="Save _All Files" Command="{Binding SaveFileCommand}" />
       </MenuItem>
     </Menu>
     <Grid
@@ -76,7 +76,7 @@
         Margin="0,0,0,0" 
         TextWrapping="Wrap" 
         VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-        Text="{Binding Mode=TwoWay, Path=SolutionPath}" IsReadOnly="False" />
+        Text="{Binding Mode=TwoWay, Path=SolutionPath}" IsReadOnly="True" />
     </Grid>
     <TabControl
       Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="1"

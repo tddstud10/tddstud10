@@ -1,9 +1,72 @@
 ﻿using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Text.Editor;
+using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 
 #if DONT_COMPILE
+
+
+Goal: Update test start markers as soon as test discovery is done
+
+Strategy:
+TestDiscovery completes [usual stuff]
+[datastore subscribes to the test discovery step] -> Datastore updates itself 
+Datastore fires DataStore update event
+TestMarkerTagger catches that event and fires TagsUpdated
+Margin catches that event and?
+- Caches new copy of the tags for that file
+- Updates the glyphs
+
+
+
+Tactics:
+v Make DataStore threadsafe Singleton 
+v New field to datastore PerAssemblyTestCases
+v Update DataStore once testdiscovery is done
+v Fire DataStore updated event when tests are updated
+
+- New method in datastore get all test for a given file
+- GetUnitTestsInDocument - pull in all the logic here. build a map
+-------------------
+- Cannot check by str = "Discover Unit Tests" in datastore events
+- Change in eventing infra 
+  - RunStartEA, RunErrorEA, RunEndEA - make i tconsistent with runexecutor
+  - RunErrorEA contains RSR
+  - RunEndEA contains RSR and data
+  - Engine steps don't update datastore
+- datastore entities must be non-null always
+- rename datastorexxx
+- For new runs - we should merge right - when is the right time to pull that in?
+- Engine events wire up - exception in one handler should not affect the others
+  - Combine attach/detach between EnginerLoader and TddStudi10Runner
+  - Move to disposable model where we detach on dispose.
+  - Get methods to attach from outside - dont expose events.
+  - EngineHost, RunState, DataStore, ConsoleApp, [TBD:ToolWindow], etc.
+- Move to async tagging
+
+- Infra questions
+  - Should the tagger be disposable, if so who will call the IDispose?
+  - Should I not be unsubscribing from the eventhanders in Margin
+  - NormalizedSnapshotSpanCollection
+    - Normalized means [a] sorted [b] overlaps combined [c] but not necessarily consecutive
+    - Arg to GetTags - will never contain SnapshotSpan spanning multiple TextSnapshotLine-s
+  - Span == Eucleadean Line Segment
+  - SnapshotSpan == Span but within a text snapshot [not neessarily in the same text line]
+  - SnapshotPoint == Point in a SnapshotSpan, also in a TextSnapshotLine
+  - In Margin.TagsChangedEventArgs we are refetching all tags is that OK?
+  - Ok to hold reference to ITextSnapshotLine in Tag?
+  - Jared thinks LayoutEvent is too costly - what is the option?
+  - s.Start.GetContainingLine().LineNumber - in GetTags is obviously not valid - as the snap could be the entire document.
+
+==================
+
+- reload solution logic
+- save file command
+- reduce view model class size
+  - remove openfiledialog from vm
+  - remove unwanted methods - esp. from the editor creation
+
 
 datastore
 state [potentially corresponding to >1 state per line]
@@ -14,14 +77,57 @@ MarginFactory -> Margin -> Canvas
 [CreateMargin] -> WpfTextViewHost -> WpfTextViewHost 
 - lines
 
-spans
-
-tags
+tagger trio
 
 events:
 - datastoreupdated
 - layoutchanged
 - tagschanged
+
+
+----
+[Discovery Test Finishes]
+- E:RunStepEnded [RunStepKind = DiscoveryUnitTests, RunStepStatus, RunData]
+  - If not Succeeded then ()
+  - Else DataStore.Update PerAssemblyTestCases
+  [Each open TextBuffers have associated Taggers which have subscribed to E:DataStoreUpdated] 
+    - M:xTagger_OnDataStoreUpdated
+      - raise E:TagsChanged
+      [??? Each open document has Margin which subscribes to E:xTagsChanged]
+        - M:Margin_xTagsChanged
+          - Locate the glyph corresponding that line, clear it
+          - Add new glyph if needed
+      [??? Will M:Margin_xTagsChanged and M:Margin_LayoutChanged collide]
+
+[File Open]
+[??? How does M:Margin_xTagsChanged get called?]
+
+[File Scroll]
+[??? How does M:Margin_xTagsChanged get called?]
+
+
+[??? How do we deal with edited text [a] edit on a given line [b] shift lines up/down]
+
+
+http://stackoverflow.com/questions/17167423/creating-a-tagger-that-has-more-than-one-tag-type-for-vs-extension/24923127#24923127	
+https://github.com/qwertie/Loyc/blob/master/Visual%20Studio%20Integration/LoycExtensionForVs/SampleLanguage.cs
+
+
+
+Datastore
+- E:Updated
+
+Tagger trio
+- M:GetTags
+- E:TagsChanged
+
+Margin
+- M: Ctor
+- M: TextView_LayoutChanged
+- M: Dispose
+
+TextView
+- E: LayoutChanged
 
 
 
@@ -77,6 +183,14 @@ myltiple tag attr
 - check if textview is not closed
 - viewchange module
 
+
+Enhance Test App
+- move tddpackageextension one level up - refactor the projects
+- keyboard input
+- implement sort/remove using in fsharppowertools
+- compress datastore size - esp the last one where unit tests are repeated
+
+
 #endif
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
@@ -89,9 +203,12 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
     [TextViewRole(PredefinedTextViewRoles.PrimaryDocument)]
     public sealed class MarginFactory : IWpfTextViewMarginProvider
     {
+        [Import]
+        private IBufferTagAggregatorFactoryService AggregatorFactory = null;
+
         public IWpfTextViewMargin CreateMargin(IWpfTextViewHost textViewHost, IWpfTextViewMargin containerMargin)
         {
-            return new Margin(textViewHost.TextView);
+            return new Margin(textViewHost.TextView, AggregatorFactory.CreateTagAggregator<TestMarkerTag>(textViewHost.TextView.TextBuffer));
         }
     }
 }

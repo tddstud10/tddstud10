@@ -21,6 +21,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App
         internal EditorHostLoader()
         {
             var editorHostFactory = new EditorHostFactory();
+            editorHostFactory.Add(new AssemblyCatalog(typeof(DefaultKeyProcessorProvider).Assembly));
             editorHostFactory.Add(new AssemblyCatalog(typeof(MarginFactory).Assembly));
             _editorHost = editorHostFactory.CreateEditorHost();
         }
