@@ -6,53 +6,52 @@ open Microsoft.VisualStudio.Text.Tagging
 open System.Windows.Shapes
 open System.Windows.Controls
 open System.Windows.Media
-open Microsoft.VisualStudio.Text
 
 type Margin(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>) = 
     let mutable disposed = false
     let canvas = new MarginCanvas(MarginConstants.Width)
-    let buffer = textView.TextBuffer
-    let textViewLayoutChanged _ (ea : TextViewLayoutChangedEventArgs) = 
+    let textViewLayoutChanged _ _ = 
         canvas.Children.Clear()
         textView.TextViewLines
-        |> Seq.map (fun l -> l.Extent)
-        |> Seq.filter (fun ss -> not ss.IsEmpty)
-        |> Seq.map (fun ss -> tmta.GetTags(ss))
-        |> Seq.collect id
+        |> Seq.map (fun l -> l, l.Extent)
+        |> Seq.filter (fun (_, ss) -> not ss.IsEmpty)
+        |> Seq.map (fun (l, ss) -> l, tmta.GetTags(ss))
         |> Seq.iter 
-            (fun t -> 
-                //System.Diagnostics.Debug.WriteLine(sprintf "#### " t.Span.)
-                let line = textView.TextViewLines.[t.Tag.testCase.LineNumber - 1]
-                let ellipse = new Ellipse()
-                ellipse.Stroke <- new SolidColorBrush(Colors.Green);
-                ellipse.StrokeThickness <- 1.5;
-                ellipse.Height <- 8.0;
-                ellipse.Width <- 8.0;
-                ellipse.SetValue(Canvas.TopProperty, (line.Top + line.Bottom) / 2.0 - 4.0 - textView.ViewportTop);
-                ellipse.SetValue(Canvas.LeftProperty, 1.0);
-                canvas.Children.Add(ellipse) |> ignore)
-    let lceh = new EventHandler<_>(textViewLayoutChanged)
-    
-    let testMarkerTagsChanged _ (ea : TagsChangedEventArgs) =
-        canvas.Dispatcher.Invoke(
-            fun () ->
-                canvas.Children.Clear()
-                textView.TextViewLines
-                |> Seq.map (fun l -> l.Extent)
-                |> Seq.filter (fun ss -> not ss.IsEmpty)
-                |> Seq.map (fun ss -> tmta.GetTags(ss))
-                |> Seq.collect id
-                |> Seq.iter 
+            (fun (l, ts) ->
+                ts 
+                |> Seq.iter
                     (fun t -> 
-                        let line = textView.TextViewLines.[t.Tag.testCase.LineNumber - 1]
                         let ellipse = new Ellipse()
                         ellipse.Stroke <- new SolidColorBrush(Colors.Green);
                         ellipse.StrokeThickness <- 1.5;
                         ellipse.Height <- 8.0;
                         ellipse.Width <- 8.0;
-                        ellipse.SetValue(Canvas.TopProperty, (line.Top + line.Bottom) / 2.0 - 4.0 - textView.ViewportTop);
+                        ellipse.SetValue(Canvas.TopProperty, (l.Top + l.Bottom) / 2.0 - 4.0 - textView.ViewportTop);
                         ellipse.SetValue(Canvas.LeftProperty, 1.0);
                         canvas.Children.Add(ellipse) |> ignore))
+    let lceh = new EventHandler<_>(textViewLayoutChanged)
+    
+    let testMarkerTagsChanged _ _ =
+        canvas.Dispatcher.Invoke(
+            fun () ->
+                canvas.Children.Clear()
+                textView.TextViewLines
+                |> Seq.map (fun l -> l, l.Extent)
+                |> Seq.filter (fun (_, ss) -> not ss.IsEmpty)
+                |> Seq.map (fun (l, ss) -> l, tmta.GetTags(ss))
+                |> Seq.iter 
+                    (fun (l, ts) ->
+                        ts 
+                        |> Seq.iter
+                            (fun t -> 
+                                let ellipse = new Ellipse()
+                                ellipse.Stroke <- new SolidColorBrush(Colors.Green);
+                                ellipse.StrokeThickness <- 1.5;
+                                ellipse.Height <- 8.0;
+                                ellipse.Width <- 8.0;
+                                ellipse.SetValue(Canvas.TopProperty, (l.Top + l.Bottom) / 2.0 - 4.0 - textView.ViewportTop);
+                                ellipse.SetValue(Canvas.LeftProperty, 1.0);
+                                canvas.Children.Add(ellipse) |> ignore)))
     
     let tmtceh = new EventHandler<_>(testMarkerTagsChanged)
     

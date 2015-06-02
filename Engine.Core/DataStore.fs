@@ -2,8 +2,8 @@
 
 open R4nd0mApps.TddStud10.Common.Domain
 
-type DataStoreXXX() = 
-    static let instance = Lazy.Create(fun () -> DataStoreXXX())
+type DataStore() = 
+    static let instance = Lazy.Create(fun () -> DataStore())
     let mutable slnPath = FilePath "" // crap
     let mutable testCases = new PerAssemblyTestCases()
     let testCasesUpdated = new Event<PerAssemblyTestCases>()

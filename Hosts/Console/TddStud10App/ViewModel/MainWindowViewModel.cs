@@ -245,7 +245,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             }
 
             SolutionPath = slnPath;
-            EngineLoader.Load(this, DataStoreXXX.Instance, slnPath, DateTime.UtcNow);
+            EngineLoader.Load(this, DataStore.Instance, slnPath, DateTime.UtcNow);
             EngineLoader.EnableEngine();
             RaisePropertyChanged(() => EngineState);
             CommandManager.InvalidateRequerySuggested();

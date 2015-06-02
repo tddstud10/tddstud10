@@ -6,28 +6,16 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 
 #if DONT_COMPILE
 
-
-Goal: Update test start markers as soon as test discovery is done
-
-Strategy:
-TestDiscovery completes [usual stuff]
-[datastore subscribes to the test discovery step] -> Datastore updates itself 
-Datastore fires DataStore update event
-TestMarkerTagger catches that event and fires TagsUpdated
-Margin catches that event and?
-- Caches new copy of the tags for that file
-- Updates the glyphs
-
-
-
-Tactics:
-v Make DataStore threadsafe Singleton 
-v New field to datastore PerAssemblyTestCases
-v Update DataStore once testdiscovery is done
-v Fire DataStore updated event when tests are updated
-
-- New method in datastore get all test for a given file
-- GetUnitTestsInDocument - pull in all the logic here. build a map
+TODO:
+- DataStore code
+  - Move into
+  - Unit tests
+- Margin code
+  - Move into
+  - Unit tests
+  - DRY removal
+- Canvas code
+  - Move into
 -------------------
 - Cannot check by str = "Discover Unit Tests" in datastore events
 - Change in eventing infra 

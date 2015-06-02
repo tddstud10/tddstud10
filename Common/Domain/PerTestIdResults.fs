@@ -5,12 +5,12 @@ open System
 
 [<Serializable>]
 type PerTestIdResults = 
-    inherit DataStoreBase<TestId, ConcurrentBag<TestRunResult>>
+    inherit DataStoreEntityBase<TestId, ConcurrentBag<TestRunResult>>
     
     new() = 
-        { inherit DataStoreBase<_, _>() }
+        { inherit DataStoreEntityBase<_, _>() }
         then ()
     
-    member public t.Serialize path = DataStore.Serialize<PerTestIdResults> path t
+    member public t.Serialize path = DataStoreEntityExtensions.Serialize<PerTestIdResults> path t
 
-    static member public Deserialize path = DataStore.Deserialize<PerTestIdResults> (path)
+    static member public Deserialize path = DataStoreEntityExtensions.Deserialize<PerTestIdResults> (path)

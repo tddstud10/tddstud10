@@ -60,7 +60,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Compile Include="TddStud10RunnerDomain.fs" />
-    <Compile Include="DataStoreBase.fs" />
+    <Compile Include="DataStoreEntityBase.fs" />
     <Compile Include="PerAssemblyTestCases.fs" />
     <Compile Include="PerAssemblySequencePointsCoverage.fs" />
     <Compile Include="PerDocumentSequencePoints.fs" />

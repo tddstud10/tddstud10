@@ -7,16 +7,16 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
 [<Serializable>]
 type PerAssemblyTestCases = 
-    inherit DataStoreBase<FilePath, ConcurrentBag<TestCase>>
+    inherit DataStoreEntityBase<FilePath, ConcurrentBag<TestCase>>
     
     new() = 
-        { inherit DataStoreBase<_, _>() }
+        { inherit DataStoreEntityBase<_, _>() }
         then ()
     
     new(collection : IEnumerable<KeyValuePair<_, _>>) = 
-        { inherit DataStoreBase<_, _>(collection) }
+        { inherit DataStoreEntityBase<_, _>(collection) }
         then ()
     
-    member public t.Serialize path = DataStore.Serialize<PerAssemblyTestCases> path t
+    member public t.Serialize path = DataStoreEntityExtensions.Serialize<PerAssemblyTestCases> path t
     
-    static member public Deserialize path = DataStore.Deserialize<PerAssemblyTestCases> (path)
+    static member public Deserialize path = DataStoreEntityExtensions.Deserialize<PerAssemblyTestCases> (path)

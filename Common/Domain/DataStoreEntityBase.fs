@@ -5,7 +5,7 @@ open System.IO
 open System.Collections.Generic
 open System.Runtime.Serialization
 
-type DataStore = 
+type DataStoreEntityExtensions = 
     
     static member public Serialize<'T> (FilePath path) (t : 'T) = 
         let serializer = new DataContractSerializer(typeof<'T>)
@@ -17,7 +17,7 @@ type DataStore =
         use stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read)
         serializer.ReadObject(stream) :?> 'T
 
-type DataStoreBase<'TKey, 'TValue> = 
+type DataStoreEntityBase<'TKey, 'TValue> = 
     inherit ConcurrentDictionary<'TKey, 'TValue>
     
     new() = 

@@ -14,7 +14,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
     {
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
-            return new TestMarkerTagger(buffer, DataStoreXXX.Instance) as ITagger<T>;
+            return new TestMarkerTagger(buffer, DataStore.Instance) as ITagger<T>;
         }
     }
 }

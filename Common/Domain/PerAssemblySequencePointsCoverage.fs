@@ -5,12 +5,12 @@ open System
 
 [<Serializable>]
 type PerAssemblySequencePointsCoverage = 
-    inherit DataStoreBase<AssemblyId, ConcurrentBag<SequencePointCoverage>>
+    inherit DataStoreEntityBase<AssemblyId, ConcurrentBag<SequencePointCoverage>>
     
     new() = 
-        { inherit DataStoreBase<_, _>() }
+        { inherit DataStoreEntityBase<_, _>() }
         then ()
     
-    member public t.Serialize path = DataStore.Serialize<PerAssemblySequencePointsCoverage> path t
+    member public t.Serialize path = DataStoreEntityExtensions.Serialize<PerAssemblySequencePointsCoverage> path t
 
-    static member public Deserialize path = DataStore.Deserialize<PerAssemblySequencePointsCoverage> (path)
+    static member public Deserialize path = DataStoreEntityExtensions.Deserialize<PerAssemblySequencePointsCoverage> (path)
