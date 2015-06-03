@@ -3,23 +3,16 @@
 open Microsoft.VisualStudio.Text.Formatting
 open Microsoft.VisualStudio.Text.Editor
 open Microsoft.VisualStudio.Text.Tagging
-open System.Windows
-open System.Windows.Shapes
 open System
-open System.Windows.Media
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
+open System.Windows
 
-type Margin(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>) = 
+type GlpyhPainter() =
+    do ()
+
+type Margin(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>, glyphCreator : TestMarkerTag -> FrameworkElement) =
     let mutable disposed = false
     let canvas = new MarginCanvas()
-    
-    // Move to Glyph Factory
-    let createGlyph t = 
-        let ellipse = new Ellipse()
-        ellipse.Stroke <- new SolidColorBrush(Colors.Green)
-        ellipse.StrokeThickness <- 1.5
-        ellipse.Tag <- t
-        ellipse :> FrameworkElement
     
     let getBoundsAndTags (lines : ITextViewLine seq) = 
         lines
@@ -31,7 +24,7 @@ type Margin(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>) =
     let refreshMargin() = 
         textView.TextViewLines
         |> getBoundsAndTags
-        |> Seq.map (fun (b, t) -> b, t |> createGlyph)
+        |> Seq.map (fun (b, t) -> b, t |> glyphCreator)
         |> canvas.Refresh (textView.ViewportLocation)
     
     let textViewLayoutChanged _ _ = refreshMargin()
@@ -45,6 +38,8 @@ type Margin(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>) =
     
     let throwIfDisposed() = 
         if disposed then raise (new ObjectDisposedException(MarginConstants.Name))
+
+    new (textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>) = new Margin (textView, tmta, GlyphFactory.create) 
     
     override x.Finalize() = x.Dispose(false)
     
@@ -64,7 +59,7 @@ type Margin(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>) =
     interface ITextViewMargin with
         
         // TT
-        member x.Enabled : _ = 
+        member __.Enabled : _ = 
             throwIfDisposed()
             true
         
@@ -74,12 +69,17 @@ type Margin(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>) =
             else null
         
         // TT
-        member x.MarginSize : _ = 
+        member __.MarginSize : _ = 
             throwIfDisposed()
             canvas.ActualWidth
     
     // TT
     interface IWpfTextViewMargin with
-        member x.VisualElement : _ = 
+        member __.VisualElement : _ = 
             throwIfDisposed()
             canvas :> _
+
+#if DONT_COMPILE
+- ctor: 
+
+#endif

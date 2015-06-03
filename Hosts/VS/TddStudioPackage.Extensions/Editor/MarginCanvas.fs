@@ -20,9 +20,18 @@ type MarginCanvas() as self =
         e
     
     let addChild _ e = self.Children.Add(e) |> ignore
-    // TT
+
     member public self.Refresh (topLeft : Point) (newChildren : ChildEntry seq) = 
         self.Children.Clear()
         newChildren
         |> Seq.map (positionChild topLeft)
         |> Seq.fold addChild ()
+
+#if DONT_COMPILE
+- Ctor - width, cliptobounds, no children
+
+- Refresh
+  - old children cleared, only new children present
+  - Height/Width, TopProp, LeftProp set
+
+#endif

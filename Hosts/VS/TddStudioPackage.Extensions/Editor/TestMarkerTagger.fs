@@ -13,7 +13,6 @@ type TestMarkerTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
     do dataStore.TestCasesUpdated.Add fireTagsChanged
     interface ITagger<TestMarkerTag> with
         
-        // TT
         member __.GetTags(spans : _) : _ = 
             let getMarkerTags _ path = 
                 spans
@@ -28,3 +27,14 @@ type TestMarkerTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
         
         [<CLIEvent>]
         member __.TagsChanged = tagsChanged.Publish
+
+#if DONT_COMPILE
+DataStore.TestCasesUpdated 
+- fires tagsChanged
+
+GetTags
+- If span is empty, return empty
+- two spans (one in datstore and one not in datastore) - returns 1 tagspan with testcase, snapshotspan of start/length
+- if filepath not found return empty
+ 
+#endif

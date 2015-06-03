@@ -8,8 +8,8 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 
 TODO:
 - Unit Test
-  - TestMarkerTagger code
   - DataStore code
+  - TestMarkerTagger code
   - Margin code
   - Canvas code
 -------------------
@@ -20,14 +20,18 @@ TODO:
   - RunEndEA contains RSR and data
   - Engine steps don't update datastore
 - datastore entities must be non-null always
-- rename datastorexxx
 - For new runs - we should merge right - when is the right time to pull that in?
-- Engine events wire up - exception in one handler should not affect the others
+- Engine events wire up 
+  - Custom Trigger mechanism with 3 goals: exception in one handler should not affect the others
   - Combine attach/detach between EnginerLoader and TddStudi10Runner
   - Move to disposable model where we detach on dispose.
   - Get methods to attach from outside - dont expose events.
   - EngineHost, RunState, DataStore, ConsoleApp, [TBD:ToolWindow], etc.
 - Move to async tagging
+
+- Spec questions
+  - How do we deal with edited text [a] edit on a given line [b] shift lines up/down] 
+  - if a sequence point is changed, its coverage data should be unknown: how does ncruch handle this?
 
 - Infra questions
   - Should the tagger be disposable, if so who will call the IDispose?
@@ -45,74 +49,12 @@ TODO:
 
 ==================
 
-- reload solution logic
-- save file command
-- reduce view model class size
-  - remove openfiledialog from vm
-  - remove unwanted methods - esp. from the editor creation
-
-
 datastore
 state [potentially corresponding to >1 state per line]
-
-MarginFactory -> Margin -> Canvas
-- canvas
-
-[CreateMargin] -> WpfTextViewHost -> WpfTextViewHost 
-- lines
-
-tagger trio
-
-events:
-- datastoreupdated
-- layoutchanged
-- tagschanged
-
-
-----
-[Discovery Test Finishes]
-- E:RunStepEnded [RunStepKind = DiscoveryUnitTests, RunStepStatus, RunData]
-  - If not Succeeded then ()
-  - Else DataStore.Update PerAssemblyTestCases
-  [Each open TextBuffers have associated Taggers which have subscribed to E:DataStoreUpdated] 
-    - M:xTagger_OnDataStoreUpdated
-      - raise E:TagsChanged
-      [??? Each open document has Margin which subscribes to E:xTagsChanged]
-        - M:Margin_xTagsChanged
-          - Locate the glyph corresponding that line, clear it
-          - Add new glyph if needed
-      [??? Will M:Margin_xTagsChanged and M:Margin_LayoutChanged collide]
-
-[File Open]
-[??? How does M:Margin_xTagsChanged get called?]
-
-[File Scroll]
-[??? How does M:Margin_xTagsChanged get called?]
-
-
-[??? How do we deal with edited text [a] edit on a given line [b] shift lines up/down]
 
 
 http://stackoverflow.com/questions/17167423/creating-a-tagger-that-has-more-than-one-tag-type-for-vs-extension/24923127#24923127	
 https://github.com/qwertie/Loyc/blob/master/Visual%20Studio%20Integration/LoycExtensionForVs/SampleLanguage.cs
-
-
-
-Datastore
-- E:Updated
-
-Tagger trio
-- M:GetTags
-- E:TagsChanged
-
-Margin
-- M: Ctor
-- M: TextView_LayoutChanged
-- M: Dispose
-
-TextView
-- E: LayoutChanged
-
 
 
 
@@ -134,18 +76,7 @@ Potentials:
 https://github.com/EWSoftware/VSSpellChecker
 
 
-what is the nssc passed to gettags? who calls it? when?
-- what is the nssc a collection of?
-when do i fire the tags changed?
-- is it that once extension detects that tags may be out of dat, it fires it -> gettags is called?
-how do other use the TagSpan returned from gettags
-
-spec
-- if a sequence point is changed, its coverage data should be unknown: how does ncruch handle this?
-
 ===================
-
-
 
   mouse
 - https://github.com/tunnelvisionlabs/InheritanceMargin/blob/f9f47148c7eb3de15fc92ca2ff372d266af63d4f/Tvl.VisualStudio.InheritanceMargin/InheritanceGlyphFactory.cs
@@ -164,11 +95,6 @@ myltiple tag attr
     [Import(typeof(Microsoft.VisualStudio.Shell.SVsServiceProvider))]
     internal IServiceProvider _serviceProvider = null;
 
-- check if textview is not closed
-- viewchange module
-
-
-Enhance Test App
 - move tddpackageextension one level up - refactor the projects
 - keyboard input
 - implement sort/remove using in fsharppowertools
@@ -188,11 +114,13 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
     public sealed class MarginFactory : IWpfTextViewMarginProvider
     {
         [Import]
-        private IBufferTagAggregatorFactoryService AggregatorFactory = null;
+        private IBufferTagAggregatorFactoryService aggregatorFactory = null;
 
         public IWpfTextViewMargin CreateMargin(IWpfTextViewHost textViewHost, IWpfTextViewMargin containerMargin)
         {
-            return new Margin(textViewHost.TextView, AggregatorFactory.CreateTagAggregator<TestMarkerTag>(textViewHost.TextView.TextBuffer));
+            return new Margin(
+                textViewHost.TextView,
+                aggregatorFactory.CreateTagAggregator<TestMarkerTag>(textViewHost.TextView.TextBuffer));
         }
     }
 }
