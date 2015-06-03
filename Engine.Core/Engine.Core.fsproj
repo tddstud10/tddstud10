@@ -64,6 +64,7 @@
     <Compile Include="..\Common\Constants.fs">
       <Link>Constants.fs</Link>
     </Compile>
+    <Compile Include="AssemblyAttributes.fs" />
     <Compile Include="Logger.fs" />
     <Compile Include="SafeExec.fs" />
     <Compile Include="StaleMessageIgnoringAgent.fs" />

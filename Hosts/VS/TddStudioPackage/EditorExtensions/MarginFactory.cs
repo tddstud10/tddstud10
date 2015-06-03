@@ -7,15 +7,11 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 #if DONT_COMPILE
 
 TODO:
-- DataStore code
-  - Move into
-  - Unit tests
-- Margin code
-  - Move into
-  - Unit tests
-  - DRY removal
-- Canvas code
-  - Move into
+- Unit Test
+  - TestMarkerTagger code
+  - DataStore code
+  - Margin code
+  - Canvas code
 -------------------
 - Cannot check by str = "Discover Unit Tests" in datastore events
 - Change in eventing infra 

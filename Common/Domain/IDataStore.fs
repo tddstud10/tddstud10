@@ -5,4 +5,4 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel
 type IDataStore = 
     abstract TestCasesUpdated : IEvent<PerAssemblyTestCases>
     abstract UpdateData : RunStepResult -> unit
-    abstract GetUnitTestsInDocument : FilePath -> TestCase seq
+    abstract FindTestByDocumentAndLineNumber : FilePath -> DocumentCoordinate -> TestCase option

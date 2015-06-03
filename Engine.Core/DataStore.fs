@@ -1,6 +1,7 @@
 ﻿namespace R4nd0mApps.TddStud10.Engine.Core
 
 open R4nd0mApps.TddStud10.Common.Domain
+open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
 type DataStore() = 
     static let instance = Lazy.Create(fun () -> DataStore())
@@ -11,6 +12,7 @@ type DataStore() =
     interface IDataStore with
         member __.TestCasesUpdated : IEvent<PerAssemblyTestCases> = testCasesUpdated.Publish
         
+        // TT
         member __.UpdateData(rsr : RunStepResult) : unit = 
             slnPath <- rsr.runData.solutionPath
             match rsr.name with
@@ -22,10 +24,12 @@ type DataStore() =
                 | None -> ()
             | _ -> ()
         
-        member __.GetUnitTestsInDocument(path : _) = 
+        // TT
+        member __.FindTestByDocumentAndLineNumber path (DocumentCoordinate line) : TestCase option = 
             testCases.Values
             |> Seq.collect id
             |> Seq.where (fun t -> PathBuilder.arePathsTheSame slnPath path (FilePath t.CodeFilePath))
+            |> Seq.tryFind (fun t -> t.LineNumber = line)
     
     static member Instance 
         with public get () = instance.Value

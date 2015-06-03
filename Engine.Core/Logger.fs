@@ -6,7 +6,7 @@ open R4nd0mApps.TddStud10
 
 [<Sealed>]
 [<EventSource(Name = Constants.EtwProviderNameEngine)>]
-type Logger() = 
+type internal Logger() = 
     inherit EventSource()
     static let i = new Logger()
     static member I = i

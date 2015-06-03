@@ -56,11 +56,13 @@
     <Compile Include="..\..\..\Common\Constants.fs">
       <Link>Constants.fs</Link>
     </Compile>
+    <Compile Include="AssemblyAttributes.fs" />
     <Compile Include="Logger.fs" />
     <Compile Include="Services.fs" />
     <Content Include="packages.config" />
     <Compile Include="VsUIShellExtensions.fs" />
     <Compile Include="ErrorHandlerExtensions.fs" />
+    <Compile Include="EditorFrameworkExtensions.fs" />
     <Compile Include="Editor\TestMarkerTag.fs" />
     <Compile Include="Editor\TestMarkerTagger.fs" />
     <Compile Include="Editor\MarginConstants.fs" />

@@ -64,6 +64,7 @@
     <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.2.0.0\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.2.0.0\build\net20\xunit.runner.visualstudio.props'))" />
   </Target>
   <ItemGroup>
+    <Compile Include="AssemblyAttributes.fs" />
     <Content Include="packages.config" />
     <None Include="..\packages\xunit.runner.visualstudio.2.0.0\build\_common\xunit.abstractions.dll">
       <Link>xunit20\xunit.abstractions.dll</Link>
