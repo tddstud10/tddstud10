@@ -29,6 +29,9 @@ TODO:
   - Get methods to attach from outside - dont expose events.
   - EngineHost, RunState, DataStore, ConsoleApp, [TBD:ToolWindow], etc.
 - Move to async tagging
+- Use SyncContext in Package class also
+- SnapshotlineRange - tagger implementation assumes we we ask line by line and not for spans across multiplelines
+
 
 - Spec questions
   - How do we deal with edited text [a] edit on a given line [b] shift lines up/down] 

@@ -31,16 +31,3 @@ type DataStore() =
     
     static member Instance 
         with public get () = instance.Value
-
-#if DONT_COMPILE
-UpdateData
-- fire event with expected data
-- doesnt crash one xception 
-
-FindTestByDocumentAndLineNumber
-- none - after an update
-- some - after an update
-- after fire event doesnt have old data, works off new data
-- slnpath test
-
-#endif

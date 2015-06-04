@@ -67,6 +67,10 @@
     <Compile Include="TestDoubles.ServiceProvider.fs" />
     <Compile Include="ServicesTest.fs" />
     <Content Include="packages.config" />
+    <Content Include="Editor\TestMarkerTaggerTests.fs" />
+    <Content Include="Editor\MarginGlyphPainterTests.fs" />
+    <Content Include="Editor\MarginCanvasTests.fs" />
+    <Content Include="Editor\MarginTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">

@@ -8,7 +8,14 @@ open System.Windows
 
 type Margin(textView : IWpfTextView, tmta : ITagAggregator<_>, painter, getMarginSize, getVisualElement) = 
     let mutable disposed = false
-    let paintGlyphs() = (textView.ViewportLocation, textView.TextViewLines) ||> painter
+    
+    let throwIfDisposed() = 
+        if disposed then raise (new ObjectDisposedException(MarginConstants.Name))
+    
+    let paintGlyphs() = 
+        throwIfDisposed()
+        (textView.ViewportLocation, textView.TextViewLines) ||> painter
+    
     let textViewLayoutChanged _ _ = paintGlyphs()
     let lceh = new EventHandler<_>(textViewLayoutChanged)
     let testMarkerTagsChanged _ _ = paintGlyphs()
@@ -17,9 +24,6 @@ type Margin(textView : IWpfTextView, tmta : ITagAggregator<_>, painter, getMargi
     do 
         textView.LayoutChanged.AddHandler(lceh)
         tmta.TagsChanged.AddHandler(tmtceh)
-    
-    let throwIfDisposed() = 
-        if disposed then raise (new ObjectDisposedException(MarginConstants.Name))
     
     new(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>) = 
         new Margin(textView, tmta, 
@@ -48,8 +52,9 @@ type Margin(textView : IWpfTextView, tmta : ITagAggregator<_>, painter, getMargi
             true
         
         // TT
-        member x.GetTextViewMargin(marginName : _) : _ = 
-            if marginName = MarginConstants.Name then x :> _
+        member self.GetTextViewMargin(marginName : _) : _ = 
+            throwIfDisposed()
+            if marginName = MarginConstants.Name then self :> _
             else null
         
         // TT
@@ -62,16 +67,3 @@ type Margin(textView : IWpfTextView, tmta : ITagAggregator<_>, painter, getMargi
         member __.VisualElement : _ = 
             throwIfDisposed()
             getVisualElement()
-
-
-
-#if DONT_COMPILE
-- TODO: 
-  - Should invoke in UIthread not be in the entrypoint? ie. tagger? Use SyncContext
-  - Use SyncContext in Package class also
-  - SnapshotlineRange - tagger implementation assumes we we ask line by line and not for spans across multiplelines
-
-- ctor: 
-
-#endif
-
