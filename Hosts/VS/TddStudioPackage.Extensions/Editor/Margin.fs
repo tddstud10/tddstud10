@@ -1,35 +1,17 @@
 ﻿namespace R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor
 
-open Microsoft.VisualStudio.Text.Formatting
 open Microsoft.VisualStudio.Text.Editor
 open Microsoft.VisualStudio.Text.Tagging
 open System
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 open System.Windows
 
-type GlpyhPainter() =
-    do ()
-
-type Margin(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>, glyphCreator : TestMarkerTag -> FrameworkElement) =
+type Margin(textView : IWpfTextView, tmta : ITagAggregator<_>, painter, getMarginSize, getVisualElement) = 
     let mutable disposed = false
-    let canvas = new MarginCanvas()
-    
-    let getBoundsAndTags (lines : ITextViewLine seq) = 
-        lines
-        |> Seq.map (fun l -> l, l.Extent)
-        |> Seq.filter (fun (_, ss) -> not ss.IsEmpty)
-        |> Seq.collect (fun (l, ss) -> tmta.GetTags(ss) |> Seq.map (fun t -> l, t))
-        |> Seq.map (fun (l, mts) -> l.Bounds, mts.Tag)
-    
-    let refreshMargin() = 
-        textView.TextViewLines
-        |> getBoundsAndTags
-        |> Seq.map (fun (b, t) -> b, t |> glyphCreator)
-        |> canvas.Refresh (textView.ViewportLocation)
-    
-    let textViewLayoutChanged _ _ = refreshMargin()
+    let paintGlyphs() = (textView.ViewportLocation, textView.TextViewLines) ||> painter
+    let textViewLayoutChanged _ _ = paintGlyphs()
     let lceh = new EventHandler<_>(textViewLayoutChanged)
-    let testMarkerTagsChanged _ _ = canvas.Dispatcher.Invoke(refreshMargin)
+    let testMarkerTagsChanged _ _ = paintGlyphs()
     let tmtceh = new EventHandler<_>(testMarkerTagsChanged)
     
     do 
@@ -38,9 +20,11 @@ type Margin(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>, glyph
     
     let throwIfDisposed() = 
         if disposed then raise (new ObjectDisposedException(MarginConstants.Name))
-
-    new (textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>) = new Margin (textView, tmta, GlyphFactory.create) 
     
+    new(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>) = 
+        new Margin(textView, tmta, 
+                   (new GlpyhPainter<FrameworkElement>(tmta.GetTags, GlyphFactory.create, MarginCanvas.Instance.Refresh)).Paint, 
+                   (fun () -> MarginCanvas.Instance.ActualWidth), (fun () -> MarginCanvas.Instance :> FrameworkElement))
     override x.Finalize() = x.Dispose(false)
     
     // TT
@@ -71,15 +55,23 @@ type Margin(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>, glyph
         // TT
         member __.MarginSize : _ = 
             throwIfDisposed()
-            canvas.ActualWidth
+            getMarginSize()
     
     // TT
     interface IWpfTextViewMargin with
         member __.VisualElement : _ = 
             throwIfDisposed()
-            canvas :> _
+            getVisualElement()
+
+
 
 #if DONT_COMPILE
+- TODO: 
+  - Should invoke in UIthread not be in the entrypoint? ie. tagger? Use SyncContext
+  - Use SyncContext in Package class also
+  - SnapshotlineRange - tagger implementation assumes we we ask line by line and not for spans across multiplelines
+
 - ctor: 
 
 #endif
+

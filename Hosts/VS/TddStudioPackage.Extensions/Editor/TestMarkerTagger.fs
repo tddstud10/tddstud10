@@ -4,12 +4,18 @@ open Microsoft.VisualStudio.Text
 open Microsoft.VisualStudio.Text.Tagging
 open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
+open System.Threading
 
 type TestMarkerTagger(buffer : ITextBuffer, dataStore : IDataStore) as self = 
+    let uiContext = SynchronizationContext.Current
     let tagsChanged = Event<_, _>()
     let fireTagsChanged _ = 
-        tagsChanged.Trigger
-            (self, new SnapshotSpanEventArgs(new SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length)))
+        uiContext.Send
+            (new SendOrPostCallback(fun _ -> 
+             tagsChanged.Trigger
+                 (self, 
+                  new SnapshotSpanEventArgs(new SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length)))), 
+             null)
     do dataStore.TestCasesUpdated.Add fireTagsChanged
     interface ITagger<TestMarkerTag> with
         
@@ -27,6 +33,7 @@ type TestMarkerTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
         
         [<CLIEvent>]
         member __.TagsChanged = tagsChanged.Publish
+
 
 #if DONT_COMPILE
 DataStore.TestCasesUpdated 

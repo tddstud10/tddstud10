@@ -3,16 +3,16 @@
 open System.Windows.Controls
 open System.Windows
 
-type ChildEntry = Rect * FrameworkElement
-
 type MarginCanvas() as self = 
     inherit Canvas()
+
+    static let instance = Lazy.Create(fun () -> MarginCanvas())
     
     do 
         self.Width <- MarginConstants.Width
         self.ClipToBounds <- true
     
-    let positionChild (topLeft : Point) ((r, e) : ChildEntry) = 
+    let positionChild (topLeft : Point) ((r, e) : MarginGlyphEntry<FrameworkElement>) = 
         e.Height <- MarginConstants.Width * 0.8
         e.Width <- e.Height
         e.SetValue(Canvas.TopProperty, (r.Top + r.Bottom) / 2.0 - 4.0 - topLeft.Y)
@@ -21,11 +21,14 @@ type MarginCanvas() as self =
     
     let addChild _ e = self.Children.Add(e) |> ignore
 
-    member public self.Refresh (topLeft : Point) (newChildren : ChildEntry seq) = 
+    member public self.Refresh (topLeft : Point) (newChildren : MarginGlyphEntry<_> seq) = 
         self.Children.Clear()
         newChildren
         |> Seq.map (positionChild topLeft)
         |> Seq.fold addChild ()
+    
+    static member Instance 
+        with public get () = instance.Value
 
 #if DONT_COMPILE
 - Ctor - width, cliptobounds, no children

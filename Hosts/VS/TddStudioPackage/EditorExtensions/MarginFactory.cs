@@ -9,6 +9,7 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 TODO:
 - Unit Test
   - DataStore code
+  - Margin Glyph painter
   - TestMarkerTagger code
   - Margin code
   - Canvas code
