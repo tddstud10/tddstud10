@@ -3,7 +3,6 @@
 open Xunit
 open System
 open R4nd0mApps.TddStud10.Common.Domain
-open R4nd0mApps.TddStud10.TestHost
 open R4nd0mApps.TddStud10.Engine.TestDoubles
 open R4nd0mApps.TddStud10.Engine.TestFramework
 
@@ -13,14 +12,14 @@ let I = fun f -> f
 let ex = (new InvalidOperationException("A mock method threw")) :> Exception
 
 let createSteps n = 
-    [| for i in 1..n do
+    [| for _ in 1..n do
            yield (new StepFunc()) |]
 
 let toRSF : StepFunc array -> RunStep array = Array.map (fun s -> RS s)
 let createHandlers() = (new CallSpy<RunData>(), new CallSpy<Exception>(), new CallSpy<RunData>())
 let createRE h ss f = RunExecutor.Create h (ss |> toRSF) f
 
-let createRE2 h ss f (sh : CallSpy<RunData>, erh : CallSpy<Exception>, eh : CallSpy<RunData>) = 
+let createRE2 h ss _ (sh : CallSpy<RunData>, erh : CallSpy<Exception>, eh : CallSpy<RunData>) = 
     let re = createRE h ss I
     re.RunStarting.Add(sh.Func >> ignore)
     re.OnRunError.Add(erh.Func >> ignore)
@@ -62,7 +61,7 @@ let ``Executor allows injection of behavior for each step``() =
     let ss = createSteps 1
     let injSpy = new CallSpy<RunStepFunc>()
     let re = createRE host ss injSpy.Func
-    let rd, err = startRE re
+    let _ = startRE re
     Assert.True(injSpy.Called, "Injector should have been executed")
 
 [<Fact>]
@@ -81,7 +80,7 @@ let ``Exception in handler - Errored and Ended are raised even if Starting throw
     let ss = createSteps 2
     let (sh, erh, eh) = new CallSpy<RunData>(Throws(ex)), new CallSpy<Exception>(), new CallSpy<RunData>()
     let re = createRE2 (new TestHost(1)) ss I (sh, erh, eh)
-    let rd, err = startRE re
+    let _ = startRE re
     Assert.True(sh.Called && erh.Called && eh.Called, "Only Errored and Ended should have been called")
 
 [<Fact>]
@@ -89,7 +88,7 @@ let ``Exception in handler - Starting and Ended are raised even if Errored throw
     let ss = createSteps 2
     let (sh, erh, eh) = new CallSpy<RunData>(), new CallSpy<Exception>(Throws(ex)), new CallSpy<RunData>()
     let re = createRE2 (new TestHost(1)) ss I (sh, erh, eh)
-    let rd, err = startRE re
+    let _ = startRE re
     Assert.True(sh.Called && erh.Called && eh.Called, "Only Started and Ended should have been called")
 
 [<Fact>]
@@ -97,7 +96,7 @@ let ``Exception in handler - Starting and Errored are raised even if Ended throw
     let ss = createSteps 2
     let (sh, erh, eh) = new CallSpy<RunData>(), new CallSpy<Exception>(), new CallSpy<RunData>(Throws(ex))
     let re = createRE2 (new TestHost(1)) ss I (sh, erh, eh)
-    let rd, err = startRE re
+    let _ = startRE re
     Assert.True(sh.Called && erh.Called && eh.Called, "Only Started and Errored should have been called")
 
 [<Fact>]
@@ -117,7 +116,7 @@ let ``Step fails - Random Exception - Executor raises all 3 events and stops exe
     let ss = Array.append [| new StepFunc(Throws(ex)) |] (createSteps 2)
     let (sh, erh, eh) = createHandlers()
     let re = createRE2 host ss I (sh, erh, eh)
-    let rd, err = startRE re
+    let _, err = startRE re
     Assert.True(ss.[0].Called && not ss.[1].Called && not ss.[2].Called, "Only step 1 should have been executed")
     Assert.True(sh.Called && erh.Called && eh.Called, "All handlers should have been called")
     Assert.True(err = (Some ex) && erh.CalledWith = (Some ex), "Error returned should also have been passed to error handler")
@@ -133,7 +132,7 @@ let ``Step fails - RunStepFailedException - Executor raises all 3 events, stops 
     let ss = Array.append [| new StepFunc(Throws(rsfe)) |] (createSteps 2)
     let (sh, erh, eh) = createHandlers()
     let re = createRE2 host ss I (sh, erh, eh)
-    let rd, err = startRE re
+    let _ = startRE re
     Assert.True(ss.[0].Called && not ss.[1].Called && not ss.[2].Called, "Only step 1 should have been executed")
     Assert.True(sh.Called && erh.Called && eh.Called, "All handlers should have been called")
     Assert.Equal(eh.CalledWith, Some rss.runData)
