@@ -6,9 +6,9 @@ module GlyphFactory =
     open System.Windows.Shapes
     open System.Windows.Media
 
-    let create t =
-        let ellipse = new Ellipse()
-        ellipse.Stroke <- new SolidColorBrush(Colors.Green)
-        ellipse.StrokeThickness <- 1.5
-        ellipse.Tag <- t
-        ellipse :> FrameworkElement
+    let createGlyphForTag ((t, r) : TestMarkerTag * Rect) =
+        let e = new Ellipse()
+        e.Stroke <- new SolidColorBrush(Colors.Green)
+        e.StrokeThickness <- 1.5
+        e.Tag <- t
+        e :> FrameworkElement, r

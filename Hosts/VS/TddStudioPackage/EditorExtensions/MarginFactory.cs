@@ -8,11 +8,12 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 
 TODO:
 - Unit Test
-  - DataStore code
-  - Margin Glyph painter
+  x Glyph Factory - we will wait till the remaining come online
+  x Canvas code - WPF code cannot be tested easily
+  v DataStore code
+  v Margin code
+  v Margin Glyph painter
   - TestMarkerTagger code
-  - Margin code
-  - Canvas code
 -------------------
 - Cannot check by str = "Discover Unit Tests" in datastore events
 - Change in eventing infra 
@@ -104,6 +105,28 @@ myltiple tag attr
 - implement sort/remove using in fsharppowertools
 - compress datastore size - esp the last one where unit tests are repeated
 
+
+glyphs 
+- test start, red/green, exception point 
+- debug first failing tests, debug all tests
+toolwindow - build breaks, list of test, error details
+click on icon takes to toolwindow
+misc
+- c#, vb, fsharp
+- signing
+- solution folder
+- IN_TDDSTUDIO + move tddstudio
+2 x katas
+perf
+- disable components
+- fail gracefully on large projects
+- vsvim, xunit
+diagnostics
+-------------------------------------
+- incremental build
+- nunit support
+- cpp
+- sublime text
 
 #endif
 

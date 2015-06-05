@@ -69,8 +69,7 @@
     <Compile Include="ServicesTest.fs" />
     <Content Include="packages.config" />
     <Compile Include="Editor\TestMarkerTaggerTests.fs" />
-    <Compile Include="Editor\MarginGlyphPainterTests.fs" />
-    <Compile Include="Editor\MarginCanvasTests.fs" />
+    <Compile Include="Editor\MarginGlpyhTagAndBoundGeneratorTests.fs" />
     <Compile Include="Editor\MarginTests.fs" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +79,9 @@
     </Reference>
     <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.ObjectModel">
+      <HintPath>..\..\..\packages\Microsoft.VisualStudio.TestPlatform.ObjectModel.12.0\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.Text.Data, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.Text.Logic, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.Text.UI, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />

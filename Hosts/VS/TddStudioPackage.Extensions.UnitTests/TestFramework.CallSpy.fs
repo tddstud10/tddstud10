@@ -7,13 +7,13 @@ type CallSpyBehavior =
     | Throws of Exception
 
 // TODO: Move this along with CallSpy in a common location
-type CallSpy2<'T1, 'T2>(behavior) = 
-    new() = CallSpy2<'T1, 'T2>(DoesNotThrow)
+type CallSpy1<'T>(behavior) =
+    new() = CallSpy1<'T>(DoesNotThrow) 
     member val Called = false with get, set
     member val CalledWith = None with get, set
-    member public t.Func (arg1 : 'T1) (arg2 : 'T2) = 
+    member public t.Func(arg : 'T) = 
         t.Called <- true
-        t.CalledWith <- Some(arg1, arg2)
+        t.CalledWith <- Some arg
         match behavior with
         | DoesNotThrow -> ()
         | Throws(ex) -> raise ex

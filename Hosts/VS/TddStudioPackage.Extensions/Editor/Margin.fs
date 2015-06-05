@@ -5,6 +5,7 @@ open Microsoft.VisualStudio.Text.Tagging
 open System
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 open System.Windows
+open Microsoft.VisualStudio.Text.Formatting
 
 type Margin(textView : IWpfTextView, tmta : ITagAggregator<_>, painter, getMarginSize, getVisualElement) = 
     let mutable disposed = false
@@ -14,13 +15,14 @@ type Margin(textView : IWpfTextView, tmta : ITagAggregator<_>, painter, getMargi
     
     let paintGlyphs() = 
         throwIfDisposed()
-        (textView.ViewportLocation, textView.TextViewLines) ||> painter
+        (textView.ViewportLocation, textView.TextViewLines :> ITextViewLine seq) |> painter
     
     let lcSub = textView.LayoutChanged.Subscribe(fun _ -> paintGlyphs())
     let tcSub = tmta.TagsChanged.Subscribe(fun _ -> paintGlyphs())
+
     new(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>) = 
         new Margin(textView, tmta, 
-                   (new GlpyhPainter<FrameworkElement>(tmta.GetTags, GlyphFactory.create, MarginCanvas.Instance.Refresh)).Paint, 
+                   (new MarginGlpyhTagAndBoundGenerator(tmta.GetTags)).Generate >> Seq.map GlyphFactory.createGlyphForTag >> MarginCanvas.Instance.Refresh,
                    (fun () -> MarginCanvas.Instance.ActualWidth), (fun () -> MarginCanvas.Instance :> FrameworkElement))
     override x.Finalize() = x.Dispose(false)
     

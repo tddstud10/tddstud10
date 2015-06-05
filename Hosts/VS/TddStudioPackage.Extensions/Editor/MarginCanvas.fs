@@ -3,38 +3,29 @@
 open System.Windows.Controls
 open System.Windows
 
+// NOTE: This class should not contain any business other than the l/t/w/h set + seq -> UIElementCollction copy.
+// Hence this class is not covered by unit tests  
 type MarginCanvas() as self = 
     inherit Canvas()
-
     static let instance = Lazy.Create(fun () -> MarginCanvas())
     
     do 
         self.Width <- MarginConstants.Width
         self.ClipToBounds <- true
     
-    let positionChild (topLeft : Point) ((r, e) : MarginGlyphEntry<FrameworkElement>) = 
-        e.Height <- MarginConstants.Width * 0.8
-        e.Width <- e.Height
-        e.SetValue(Canvas.TopProperty, (r.Top + r.Bottom) / 2.0 - 4.0 - topLeft.Y)
-        e.SetValue(Canvas.LeftProperty, 1.0)
-        e
-    
-    let addChild _ e = self.Children.Add(e) |> ignore
+    member public self.Refresh(newChildren : (FrameworkElement * Rect) seq) = 
+        let addChild (acc : UIElementCollection) ((e, r) : (FrameworkElement * Rect)) = 
+            e.Height <- r.Height
+            e.Width <- r.Width
+            e.SetValue(Canvas.TopProperty, r.Top)
+            e.SetValue(Canvas.LeftProperty, r.Left)
+            acc.Add(e) |> ignore
+            acc
 
-    member public self.Refresh (topLeft : Point) (newChildren : MarginGlyphEntry<_> seq) = 
         self.Children.Clear()
         newChildren
-        |> Seq.map (positionChild topLeft)
-        |> Seq.fold addChild ()
+        |> Seq.fold addChild self.Children
+        |> ignore
     
     static member Instance 
         with public get () = instance.Value
-
-#if DONT_COMPILE
-- Ctor - width, cliptobounds, no children
-
-- Refresh
-  - old children cleared, only new children present
-  - Height/Width, TopProp, LeftProp set
-
-#endif

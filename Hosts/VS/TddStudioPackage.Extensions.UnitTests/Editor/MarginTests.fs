@@ -7,19 +7,14 @@ open System
 open System.Windows
 open R4nd0mApps.TddStud10.Common.TestFramework
 
-let createMargin2 p ls = 
-    let tv = new StubWpfTextView(p, ls)
+let createMargin2 p t = 
+    let tv = new StubWpfTextView(p, 0.0, t)
     let ta = new StubTagAggregator<_>()
-    let s = new CallSpy2<_, _>()
+    let s = new CallSpy1<_>()
     let m = new Margin(tv, ta, s.Func, (fun () -> Double.MaxValue), (fun () -> null))
     m, tv, ta, s
 
-let createMargin() = createMargin2 (new Point(0.0, 0.0)) (new StubWpfTextViewLineCollection())
-
-let createPainterArgs() = 
-    let lines = new StubWpfTextViewLineCollection() :> IWpfTextViewLineCollection
-    let loc = new Point(Double.MinValue, Double.MaxValue)
-    lines, loc
+let createMargin() = createMargin2 (new Point(0.0, 0.0)) ""
 
 [<Fact>]
 let ``Basic properties and simple methods work as expected``() = 
@@ -44,22 +39,22 @@ let ``Basic properties and simple methods throw if object is disposed``() =
 
 [<Fact>]
 let ``Painter is called on LayoutChanged event``() = 
-    let lines, loc = createPainterArgs()
-    let _, tv, _, s = createMargin2 loc lines
+    let loc = new Point(Double.MinValue, Double.MaxValue)
+    let _, tv, _, s = createMargin2 loc ""
     tv.FireLayoutChangedEvent()
-    Assert.True(s.CalledWith |> Option.exists (fun (p, ls) -> p.Equals(box loc) && ls = lines))
+    Assert.True(s.CalledWith |> Option.exists (fun (p, ls) -> p.Equals(box loc) && ls.Equals(tv.TextViewLines)))
 
 [<Fact>]
 let ``Painter is called on TagsChanged event``() = 
-    let lines, loc = createPainterArgs()
-    let _, _, ta, s = createMargin2 loc lines
+    let loc = new Point(Double.MinValue, Double.MaxValue)
+    let _, tv, ta, s = createMargin2 loc ""
     ta.FireTagsChangedEvent()
-    Assert.True(s.CalledWith |> Option.exists (fun (p, ls) -> p.Equals(box loc) && ls = lines))
+    Assert.True(s.CalledWith |> Option.exists (fun (p, ls) -> p.Equals(box loc) && ls.Equals(tv.TextViewLines)))
 
 [<Fact>]
 let ``Painter is not called if object is disposed``() = 
-    let lines, loc = createPainterArgs()
-    let m, tv, ta, s = createMargin2 loc lines
+    let loc = new Point(Double.MinValue, Double.MaxValue)
+    let m, tv, ta, s = createMargin2 loc ""
     (m :> IDisposable).Dispose()
     tv.FireLayoutChangedEvent()
     ta.FireTagsChangedEvent()

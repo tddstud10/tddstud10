@@ -67,7 +67,7 @@
     <Compile Include="Editor\TestMarkerTagger.fs" />
     <Compile Include="Editor\MarginConstants.fs" />
     <Compile Include="Editor\MarginGlyphFactory.fs" />
-    <Compile Include="Editor\MarginGlyphPainter.fs" />
+    <Compile Include="Editor\MarginGlpyhTagAndBoundGenerator.fs" />
     <Compile Include="Editor\MarginCanvas.fs" />
     <Compile Include="Editor\Margin.fs" />
   </ItemGroup>

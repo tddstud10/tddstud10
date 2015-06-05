@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using Microsoft.VisualStudio.Text.Editor;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
@@ -6,12 +9,28 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
     public class StubWpfTextView : IWpfTextView
     {
         private Point _vpLocation;
-        private IWpfTextViewLineCollection _lines;
 
-        public StubWpfTextView(Point vpLocation, IWpfTextViewLineCollection lines)
+        private StubTextSnapshot _textSnapshot;
+        
+        private StubWpfTextViewLineCollection _textViewLineCollection;
+
+        public StubWpfTextView(Point vpLocation, double lineHeight, string text)
         {
             _vpLocation = vpLocation;
-            _lines = lines;
+            _textSnapshot = new StubTextSnapshot(text);
+            _textViewLineCollection = new StubWpfTextViewLineCollection(
+                text
+                .Split(new[] { Environment.NewLine }, StringSplitOptions.None)
+                .Aggregate(
+                    new Tuple<List<StubWpfTextViewLine>, int, Point>(new List<StubWpfTextViewLine>(), 0, _vpLocation),
+                    (acc, e) =>
+                    {
+                        acc.Item1.Add(new StubWpfTextViewLine(_textSnapshot, new Rect(acc.Item3, new Size(0, lineHeight)), acc.Item2, e + Environment.NewLine));
+                        return new Tuple<List<StubWpfTextViewLine>, int, Point>(
+                            acc.Item1, 
+                            acc.Item2 + e.Length + Environment.NewLine.Length, 
+                            new Point(acc.Item3.X, acc.Item3.Y + lineHeight));
+                    }).Item1);
         }
 
         #region IWpfTextView Members
@@ -61,7 +80,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 
         public IWpfTextViewLineCollection TextViewLines
         {
-            get { return _lines; }
+            get { return _textViewLineCollection; }
         }
 
         public System.Windows.FrameworkElement VisualElement
@@ -231,7 +250,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 
         ITextViewLineCollection ITextView.TextViewLines
         {
-            get { throw new System.NotImplementedException(); }
+            get { return _textViewLineCollection; }
         }
 
         public ITextViewModel TextViewModel
