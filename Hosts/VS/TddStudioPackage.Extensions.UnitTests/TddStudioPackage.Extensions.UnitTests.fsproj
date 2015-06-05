@@ -64,33 +64,52 @@
   </Target>
   <ItemGroup>
     <Content Include="app.config" />
+    <Compile Include="TestFramework.CallSpy.fs" />
     <Compile Include="TestDoubles.ServiceProvider.fs" />
     <Compile Include="ServicesTest.fs" />
     <Content Include="packages.config" />
-    <Content Include="Editor\TestMarkerTaggerTests.fs" />
-    <Content Include="Editor\MarginGlyphPainterTests.fs" />
-    <Content Include="Editor\MarginCanvasTests.fs" />
-    <Content Include="Editor\MarginTests.fs" />
+    <Compile Include="Editor\TestMarkerTaggerTests.fs" />
+    <Compile Include="Editor\MarginGlyphPainterTests.fs" />
+    <Compile Include="Editor\MarginCanvasTests.fs" />
+    <Compile Include="Editor\MarginTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
       <HintPath>..\..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.0.26\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Text.Data, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Text.Logic, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Text.UI, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Text.UI.Wpf, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <ProjectReference Include="..\..\..\Common\Domain\Domain.fsproj">
+      <Name>Domain</Name>
+      <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\CommonUI\CommonUI.csproj">
+      <Name>CommonUI</Name>
+      <Project>{c578a684-2fff-4100-8620-c1220d05ea3e}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\TddStudioPackage.Extensions\TddStudioPackage.Extensions.fsproj">
       <Name>TddStudioPackage.Extensions</Name>
       <Project>{0055b0cc-39ba-4dea-ad3e-231cffe4ed58}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
     <Reference Include="xunit.abstractions">
       <HintPath>..\..\..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
       <Private>True</Private>

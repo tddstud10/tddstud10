@@ -16,27 +16,19 @@ type Margin(textView : IWpfTextView, tmta : ITagAggregator<_>, painter, getMargi
         throwIfDisposed()
         (textView.ViewportLocation, textView.TextViewLines) ||> painter
     
-    let textViewLayoutChanged _ _ = paintGlyphs()
-    let lceh = new EventHandler<_>(textViewLayoutChanged)
-    let testMarkerTagsChanged _ _ = paintGlyphs()
-    let tmtceh = new EventHandler<_>(testMarkerTagsChanged)
-    
-    do 
-        textView.LayoutChanged.AddHandler(lceh)
-        tmta.TagsChanged.AddHandler(tmtceh)
-    
+    let lcSub = textView.LayoutChanged.Subscribe(fun _ -> paintGlyphs())
+    let tcSub = tmta.TagsChanged.Subscribe(fun _ -> paintGlyphs())
     new(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>) = 
         new Margin(textView, tmta, 
                    (new GlpyhPainter<FrameworkElement>(tmta.GetTags, GlyphFactory.create, MarginCanvas.Instance.Refresh)).Paint, 
                    (fun () -> MarginCanvas.Instance.ActualWidth), (fun () -> MarginCanvas.Instance :> FrameworkElement))
     override x.Finalize() = x.Dispose(false)
     
-    // TT
     member private __.Dispose(disposing : _) = 
         if not disposed then 
             if (disposing) then 
-                tmta.TagsChanged.RemoveHandler(tmtceh)
-                textView.LayoutChanged.RemoveHandler(lceh)
+                lcSub.Dispose()
+                tcSub.Dispose()
             disposed <- true
     
     interface IDisposable with
@@ -46,23 +38,19 @@ type Margin(textView : IWpfTextView, tmta : ITagAggregator<_>, painter, getMargi
     
     interface ITextViewMargin with
         
-        // TT
         member __.Enabled : _ = 
             throwIfDisposed()
             true
         
-        // TT
         member self.GetTextViewMargin(marginName : _) : _ = 
             throwIfDisposed()
-            if marginName = MarginConstants.Name then self :> _
+            if marginName = MarginConstants.Name then upcast self
             else null
         
-        // TT
         member __.MarginSize : _ = 
             throwIfDisposed()
             getMarginSize()
     
-    // TT
     interface IWpfTextViewMargin with
         member __.VisualElement : _ = 
             throwIfDisposed()
