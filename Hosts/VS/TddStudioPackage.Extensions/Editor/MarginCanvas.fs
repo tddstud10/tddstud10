@@ -2,12 +2,12 @@
 
 open System.Windows.Controls
 open System.Windows
+open System.Windows.Media
 
 // NOTE: This class should not contain any business other than the l/t/w/h set + seq -> UIElementCollction copy.
 // Hence this class is not covered by unit tests  
 type MarginCanvas() as self = 
     inherit Canvas()
-    static let instance = Lazy.Create(fun () -> MarginCanvas())
     
     do 
         self.Width <- MarginConstants.Width
@@ -27,5 +27,3 @@ type MarginCanvas() as self =
         |> Seq.fold addChild self.Children
         |> ignore
     
-    static member Instance 
-        with public get () = instance.Value

@@ -21,9 +21,10 @@ type Margin(textView : IWpfTextView, tmta : ITagAggregator<_>, painter, getMargi
     let tcSub = tmta.TagsChanged.Subscribe(fun _ -> paintGlyphs())
 
     new(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>) = 
+        let canvas = MarginCanvas()
         new Margin(textView, tmta, 
-                   (new MarginGlpyhTagAndBoundGenerator(tmta.GetTags)).Generate >> Seq.map GlyphFactory.createGlyphForTag >> MarginCanvas.Instance.Refresh,
-                   (fun () -> MarginCanvas.Instance.ActualWidth), (fun () -> MarginCanvas.Instance :> FrameworkElement))
+                   (new MarginGlpyhTagAndBoundGenerator(tmta.GetTags)).Generate >> Seq.map GlyphFactory.createGlyphForTag >> canvas.Refresh,
+                   (fun () -> canvas.ActualWidth), (fun () -> canvas :> FrameworkElement))
     override x.Finalize() = x.Dispose(false)
     
     member private __.Dispose(disposing : _) = 
