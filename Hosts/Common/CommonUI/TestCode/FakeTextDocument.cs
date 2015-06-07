@@ -4,13 +4,13 @@ using Microsoft.VisualStudio.Text;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 {
-    public class StubTextDocument : ITextDocument
+    public class FakeTextDocument : ITextDocument
     {
         private string _filePath;
 
         private ITextBuffer _textBuffer;
 
-        public StubTextDocument(string filePath, ITextBuffer textBuffer)
+        public FakeTextDocument(string filePath, ITextBuffer textBuffer)
         {
             _filePath = filePath;
             _textBuffer = textBuffer;
@@ -18,7 +18,18 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 
         #region ITextDocument Members
 
-        public event EventHandler DirtyStateChanged;
+        public event EventHandler DirtyStateChanged
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public Encoding Encoding
         {
@@ -32,9 +43,31 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
             }
         }
 
-        public event EventHandler<EncodingChangedEventArgs> EncodingChanged;
+        public event EventHandler<EncodingChangedEventArgs> EncodingChanged
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
 
-        public event EventHandler<TextDocumentFileActionEventArgs> FileActionOccurred;
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public event EventHandler<TextDocumentFileActionEventArgs> FileActionOccurred
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public string FilePath
         {

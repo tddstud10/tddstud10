@@ -5,7 +5,6 @@ open R4nd0mApps.TddStud10.Engine.Core
 open R4nd0mApps.TddStud10.Common.Domain
 open System
 open R4nd0mApps.TddStud10.Common.TestFramework
-open Foq
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open System.Collections.Concurrent
 open R4nd0mApps.TddStud10.Hosts.Common.TestCode
@@ -22,7 +21,7 @@ let createRSS slnPath tpa =
 
 let createTMT p t = 
     let ds = DataStore() :> IDataStore
-    let tb = StubTextBuffer(p, t) :> ITextBuffer
+    let tb = FakeTextBuffer(p, t) :> ITextBuffer
     let tmt = TestMarkerTagger(tb, ds) :> ITagger<_>
     let spy = CallSpy1<SnapshotSpanEventArgs>(Throws(new Exception()))
     tmt.TagsChanged.Add(spy.Func >> ignore)

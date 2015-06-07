@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Text.Tagging;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 {
-    public class StubMappingTagSpan<T> : IMappingTagSpan<T> where T : ITag
+    public class FakeMappingTagSpan<T> : IMappingTagSpan<T> where T : ITag
     {
         #region IMappingTagSpan<T> Members
 

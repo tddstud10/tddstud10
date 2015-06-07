@@ -7,15 +7,15 @@ using Microsoft.VisualStudio.Text.Formatting;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 {
-    public class StubWpfTextViewLine : IWpfTextViewLine
+    public class FakeWpfTextViewLine : IWpfTextViewLine
     {
-        private StubTextSnapshot _textSnapshot;
+        private FakeTextSnapshot _textSnapshot;
 
-        private StubTextSnapshotLine _textSnapshotLine;
+        private FakeTextSnapshotLine _textSnapshotLine;
 
         private Rect _bounds;
 
-        public StubWpfTextViewLine(StubTextSnapshot textSnapshot, StubTextSnapshotLine textSnapshotLine, Rect bounds)
+        public FakeWpfTextViewLine(FakeTextSnapshot textSnapshot, FakeTextSnapshotLine textSnapshotLine, Rect bounds)
         {
             _textSnapshot = textSnapshot;
             _textSnapshotLine = textSnapshotLine;
@@ -297,11 +297,11 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
         #endregion
     }
 
-    public class StubWpfTextViewLineCollection : IWpfTextViewLineCollection
+    public class FakeWpfTextViewLineCollection : IWpfTextViewLineCollection
     {
         IEnumerable<IWpfTextViewLine> _textViewLines;
 
-        public StubWpfTextViewLineCollection(IEnumerable<IWpfTextViewLine> textViewLines)
+        public FakeWpfTextViewLineCollection(IEnumerable<IWpfTextViewLine> textViewLines)
         {
             _textViewLines = textViewLines;
         }

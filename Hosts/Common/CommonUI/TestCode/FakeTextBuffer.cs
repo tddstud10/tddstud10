@@ -4,18 +4,18 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 {
-    public class StubTextBuffer : ITextBuffer
+    public class FakeTextBuffer : ITextBuffer
     {
         private PropertyCollection _propertyCollection;
 
-        private StubTextSnapshot _textSnapshot;
+        private FakeTextSnapshot _textSnapshot;
 
-        public StubTextBuffer(string filePath, string text)
+        public FakeTextBuffer(string filePath, string text)
         {
             _propertyCollection = new PropertyCollection();
-            _propertyCollection.AddProperty(typeof(ITextDocument), new StubTextDocument(filePath, this));
+            _propertyCollection.AddProperty(typeof(ITextDocument), new FakeTextDocument(filePath, this));
 
-            _textSnapshot = new StubTextSnapshot(text);
+            _textSnapshot = new FakeTextSnapshot(text);
         }
 
         #region ITextBuffer Members
@@ -25,13 +25,57 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
             throw new NotImplementedException();
         }
 
-        public event EventHandler<TextContentChangedEventArgs> Changed;
+        public event EventHandler<TextContentChangedEventArgs> Changed
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
 
-        public event EventHandler<TextContentChangedEventArgs> ChangedHighPriority;
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        public event EventHandler<TextContentChangedEventArgs> ChangedLowPriority;
+        public event EventHandler<TextContentChangedEventArgs> ChangedHighPriority
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
 
-        public event EventHandler<TextContentChangingEventArgs> Changing;
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public event EventHandler<TextContentChangedEventArgs> ChangedLowPriority
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public event EventHandler<TextContentChangingEventArgs> Changing
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public bool CheckEditAccess()
         {
@@ -43,7 +87,18 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
             get { throw new NotImplementedException(); }
         }
 
-        public event EventHandler<ContentTypeChangedEventArgs> ContentTypeChanged;
+        public event EventHandler<ContentTypeChangedEventArgs> ContentTypeChanged
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public ITextEdit CreateEdit()
         {
@@ -105,9 +160,31 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
             throw new NotImplementedException();
         }
 
-        public event EventHandler PostChanged;
+        public event EventHandler PostChanged
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
 
-        public event EventHandler<SnapshotSpanEventArgs> ReadOnlyRegionsChanged;
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public event EventHandler<SnapshotSpanEventArgs> ReadOnlyRegionsChanged
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public ITextSnapshot Replace(Span replaceSpan, string replaceWith)
         {

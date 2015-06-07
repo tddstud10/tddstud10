@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.Text.Tagging;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 {
-    public class StubTagAggregator<T> : ITagAggregator<T> where T : ITag
+    public class FakeTagAggregator<T> : ITagAggregator<T> where T : ITag
     {
         #region ITagAggregator<T> Members
 

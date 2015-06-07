@@ -12,7 +12,7 @@ open Microsoft.VisualStudio.Text
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 
 let getMTSForline (ss : SnapshotSpan) : IMappingTagSpan<_> seq = 
-    let mts = StubMappingTagSpan<TestMarkerTag>()
+    let mts = FakeMappingTagSpan<TestMarkerTag>()
     mts.Tag <- { testCase = TestCase("FQN:" + ss.GetText(), Uri("ext://test"), "source") }
     upcast [ mts :> IMappingTagSpan<_> ]
 
@@ -27,7 +27,7 @@ let ``Enumeration with 2 tags returned if there is 1 empty line and 2 non empty 
     let content = """first non-empty line
 
 third non-empty line"""
-    let tv = StubWpfTextView(Point(100.0, 50.0), 25.0, content)
+    let tv = FakeWpfTextView(Point(100.0, 50.0), 25.0, content)
     let lines = (tv :> ITextView).TextViewLines :> ITextViewLine seq
     let gp = MarginGlpyhTagAndBoundGenerator(getMTSForline)
     let es = ((tv :> IWpfTextView).ViewportLocation, lines) |> gp.Generate
@@ -40,7 +40,7 @@ let ``Check glyph positions returned when there is 1 empty line and 2 non empty 
     let content = """first non-empty line
 
 third non-empty line"""
-    let tv = StubWpfTextView(Point(100.0, 50.0), 25.0, content)
+    let tv = FakeWpfTextView(Point(100.0, 50.0), 25.0, content)
     let lines = (tv :> ITextView).TextViewLines :> ITextViewLine seq
     let gp = MarginGlpyhTagAndBoundGenerator(getMTSForline)
     let es = ((tv :> IWpfTextView).ViewportLocation, lines) |> gp.Generate

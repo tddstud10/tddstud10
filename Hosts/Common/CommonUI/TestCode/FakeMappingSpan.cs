@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Text;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 {
-    public class StubMappingSpan : IMappingSpan
+    public class FakeMappingSpan : IMappingSpan
     {
         #region IMappingSpan Members
 

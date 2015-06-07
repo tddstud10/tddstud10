@@ -6,26 +6,26 @@ using Microsoft.VisualStudio.Text.Editor;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 {
-    public class StubWpfTextView : IWpfTextView
+    public class FakeWpfTextView : IWpfTextView
     {
         private Point _vpLocation;
 
-        private StubTextSnapshot _textSnapshot;
+        private FakeTextSnapshot _textSnapshot;
 
-        private StubWpfTextViewLineCollection _textViewLineCollection;
+        private FakeWpfTextViewLineCollection _textViewLineCollection;
 
-        public StubWpfTextView(Point vpLocation, double lineHeight, string text)
+        public FakeWpfTextView(Point vpLocation, double lineHeight, string text)
         {
             _vpLocation = vpLocation;
-            _textSnapshot = new StubTextSnapshot(text);
-            _textViewLineCollection = new StubWpfTextViewLineCollection(
-                _textSnapshot.StubTextSnapshotLines
+            _textSnapshot = new FakeTextSnapshot(text);
+            _textViewLineCollection = new FakeWpfTextViewLineCollection(
+                _textSnapshot.FakeTextSnapshotLines
                 .Aggregate(
-                    new Tuple<List<StubWpfTextViewLine>, Point>(new List<StubWpfTextViewLine>(), _vpLocation),
+                    new Tuple<List<FakeWpfTextViewLine>, Point>(new List<FakeWpfTextViewLine>(), _vpLocation),
                     (acc, e) =>
                     {
-                        acc.Item1.Add(new StubWpfTextViewLine(_textSnapshot, e, new Rect(acc.Item2, new Size(0, lineHeight))));
-                        return new Tuple<List<StubWpfTextViewLine>, Point>(
+                        acc.Item1.Add(new FakeWpfTextViewLine(_textSnapshot, e, new Rect(acc.Item2, new Size(0, lineHeight))));
+                        return new Tuple<List<FakeWpfTextViewLine>, Point>(
                             acc.Item1,
                             new Point(acc.Item2.X, acc.Item2.Y + lineHeight));
                     }).Item1);

@@ -3,9 +3,9 @@ using Microsoft.VisualStudio.Text;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 {
-    public class StubTextSnapshotLine : ITextSnapshotLine
+    public class FakeTextSnapshotLine : ITextSnapshotLine
     {
-        private StubTextSnapshot _textSnapshot;
+        private FakeTextSnapshot _textSnapshot;
 
         private int _startPos;
 
@@ -13,7 +13,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 
         private int _lineNumber;
 
-        public StubTextSnapshotLine(StubTextSnapshot _textSnapshot, int startPos, string text, int lineNumber)
+        public FakeTextSnapshotLine(FakeTextSnapshot _textSnapshot, int startPos, string text, int lineNumber)
         {
             this._textSnapshot = _textSnapshot;
             this._startPos = startPos;

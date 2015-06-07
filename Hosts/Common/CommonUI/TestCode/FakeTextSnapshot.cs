@@ -1,36 +1,35 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.Text;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 {
-    public class StubTextSnapshot : ITextSnapshot
+    public class FakeTextSnapshot : ITextSnapshot
     {
         private string _text;
 
-        private IEnumerable<StubTextSnapshotLine> _textSnapshotLines;
+        private IEnumerable<FakeTextSnapshotLine> _textSnapshotLines;
 
-        public StubTextSnapshot(string text)
+        public FakeTextSnapshot(string text)
         {
             _text = text;
             _textSnapshotLines =
                 _text
                 .Split(new[] { Environment.NewLine }, StringSplitOptions.None)
                 .Aggregate(
-                    new Tuple<List<StubTextSnapshotLine>, int, int>(new List<StubTextSnapshotLine>(), 0, 0),
+                    new Tuple<List<FakeTextSnapshotLine>, int, int>(new List<FakeTextSnapshotLine>(), 0, 0),
                     (acc, e) =>
                     {
-                        acc.Item1.Add(new StubTextSnapshotLine(this, acc.Item2, e + Environment.NewLine, acc.Item3));
-                        return new Tuple<List<StubTextSnapshotLine>, int, int>(
+                        acc.Item1.Add(new FakeTextSnapshotLine(this, acc.Item2, e + Environment.NewLine, acc.Item3));
+                        return new Tuple<List<FakeTextSnapshotLine>, int, int>(
                             acc.Item1,
                             acc.Item2 + e.Length + Environment.NewLine.Length,
                             acc.Item3 + 1);
                     }).Item1;
         }
 
-        public IEnumerable<StubTextSnapshotLine> StubTextSnapshotLines
+        public IEnumerable<FakeTextSnapshotLine> FakeTextSnapshotLines
         {
             get { return _textSnapshotLines; }
         }
