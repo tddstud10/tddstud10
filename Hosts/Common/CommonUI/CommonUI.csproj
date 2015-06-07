@@ -94,7 +94,10 @@
     <Compile Include="TestCode\StubMappingSpan.cs" />
     <Compile Include="TestCode\StubMappingTagSpan.cs" />
     <Compile Include="TestCode\StubTagAggregator.cs" />
+    <Compile Include="TestCode\StubTextBuffer.cs" />
+    <Compile Include="TestCode\StubTextDocument.cs" />
     <Compile Include="TestCode\StubTextSnapshot.cs" />
+    <Compile Include="TestCode\StubTextSnapshotLine.cs" />
     <Compile Include="TestCode\StubWpfTextViewLine.cs" />
     <Compile Include="TestCode\StubWpfTextView.cs" />
   </ItemGroup>

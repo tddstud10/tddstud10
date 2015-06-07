@@ -12,14 +12,14 @@ open Microsoft.VisualStudio.Text
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 
 let getMTSForline (ss : SnapshotSpan) : IMappingTagSpan<_> seq = 
-    let mts = new StubMappingTagSpan<TestMarkerTag>()
-    mts.Tag <- { testCase = new TestCase("FQN:" + ss.GetText(), new Uri("ext://test"), "source") }
+    let mts = StubMappingTagSpan<TestMarkerTag>()
+    mts.Tag <- { testCase = TestCase("FQN:" + ss.GetText(), Uri("ext://test"), "source") }
     upcast [ mts :> IMappingTagSpan<_> ]
 
 [<Fact>]
 let ``Empty enumeration returned if there are no input lines``() = 
-    let gp = new MarginGlpyhTagAndBoundGenerator(fun _ -> [] :> IMappingTagSpan<TestMarkerTag> seq)
-    let es = (new Point(0.0, 0.0), [] :> ITextViewLine seq) |> gp.Generate
+    let gp = MarginGlpyhTagAndBoundGenerator(fun _ -> [] :> IMappingTagSpan<TestMarkerTag> seq)
+    let es = (Point(0.0, 0.0), [] :> ITextViewLine seq) |> gp.Generate
     Assert.Empty(es)
 
 [<Fact>]
@@ -27,9 +27,9 @@ let ``Enumeration with 2 tags returned if there is 1 empty line and 2 non empty 
     let content = """first non-empty line
 
 third non-empty line"""
-    let tv = new StubWpfTextView(new Point(100.0, 50.0), 25.0, content)
+    let tv = StubWpfTextView(Point(100.0, 50.0), 25.0, content)
     let lines = (tv :> ITextView).TextViewLines :> ITextViewLine seq
-    let gp = new MarginGlpyhTagAndBoundGenerator(getMTSForline)
+    let gp = MarginGlpyhTagAndBoundGenerator(getMTSForline)
     let es = ((tv :> IWpfTextView).ViewportLocation, lines) |> gp.Generate
     Assert.Equal
         ([| "FQN:first non-empty line"; "FQN:third non-empty line" |], 
@@ -40,9 +40,9 @@ let ``Check glyph positions returned when there is 1 empty line and 2 non empty 
     let content = """first non-empty line
 
 third non-empty line"""
-    let tv = new StubWpfTextView(new Point(100.0, 50.0), 25.0, content)
+    let tv = StubWpfTextView(Point(100.0, 50.0), 25.0, content)
     let lines = (tv :> ITextView).TextViewLines :> ITextViewLine seq
-    let gp = new MarginGlpyhTagAndBoundGenerator(getMTSForline)
+    let gp = MarginGlpyhTagAndBoundGenerator(getMTSForline)
     let es = ((tv :> IWpfTextView).ViewportLocation, lines) |> gp.Generate
-    Assert.Equal([| new Rect(1.0, 8.5, 8.0, 8.0)
-                    new Rect(1.0, 58.5, 8.0, 8.0) |], es |> Seq.map snd)
+    Assert.Equal([| Rect(1.0, 8.5, 8.0, 8.0)
+                    Rect(1.0, 58.5, 8.0, 8.0) |], es |> Seq.map snd)

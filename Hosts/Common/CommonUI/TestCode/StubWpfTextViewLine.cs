@@ -11,18 +11,15 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
     {
         private StubTextSnapshot _textSnapshot;
 
+        private StubTextSnapshotLine _textSnapshotLine;
+
         private Rect _bounds;
 
-        private int _startPos;
-
-        private string _text;
-
-        public StubWpfTextViewLine(StubTextSnapshot textSnapshot, Rect bounds, int startPos, string text)
+        public StubWpfTextViewLine(StubTextSnapshot textSnapshot, StubTextSnapshotLine textSnapshotLine, Rect bounds)
         {
             _textSnapshot = textSnapshot;
+            _textSnapshotLine = textSnapshotLine;
             _bounds = bounds;
-            _startPos = startPos;
-            _text = text;
         }
 
         #region ITextViewLine Members
@@ -76,9 +73,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
         {
             get
             {
-                return new SnapshotSpan(
-                    _textSnapshot,
-                    new Span(_startPos, _text.Length - Environment.NewLine.Length));
+                return _textSnapshotLine.Extent;
             }
         }
 
@@ -91,9 +86,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
         {
             get
             {
-                return new SnapshotSpan(
-                    _textSnapshot,
-                    new Span(_startPos, _text.Length));
+                return _textSnapshotLine.ExtentIncludingLineBreak;
             }
         }
 

@@ -7,6 +7,7 @@ type CallSpyBehavior =
     | Throws of Exception
 
 // TODO: Move this along with CallSpy in a common location
+// TODO: Consider basing this on Foq
 type CallSpy1<'T>(behavior) =
     new() = CallSpy1<'T>(DoesNotThrow) 
     member val Called = false with get, set

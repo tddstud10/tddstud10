@@ -292,7 +292,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 
             if (allFiles != null && allSequencePoints != null)
             {
-                // NOTE: fileName comes out NULL sometimes. i.e. ITextBuffer does not have the ITextDocument property.
+                // NOTE: filePath comes out NULL sometimes. i.e. ITextBuffer does not have the ITextDocument property.
                 // Not sure why that happens, but it doesnt seem to impact anything. TB fixed later once we finalize the
                 // design for this layer.
                 var selectedFile = allFiles.FirstOrDefault(file => fileName != null && PathBuilder.arePathsTheSame(coverageData.SolutionPath, file, FilePath.NewFilePath(fileName)));

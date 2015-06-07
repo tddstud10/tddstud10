@@ -11,7 +11,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
         private Point _vpLocation;
 
         private StubTextSnapshot _textSnapshot;
-        
+
         private StubWpfTextViewLineCollection _textViewLineCollection;
 
         public StubWpfTextView(Point vpLocation, double lineHeight, string text)
@@ -19,17 +19,15 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
             _vpLocation = vpLocation;
             _textSnapshot = new StubTextSnapshot(text);
             _textViewLineCollection = new StubWpfTextViewLineCollection(
-                text
-                .Split(new[] { Environment.NewLine }, StringSplitOptions.None)
+                _textSnapshot.StubTextSnapshotLines
                 .Aggregate(
-                    new Tuple<List<StubWpfTextViewLine>, int, Point>(new List<StubWpfTextViewLine>(), 0, _vpLocation),
+                    new Tuple<List<StubWpfTextViewLine>, Point>(new List<StubWpfTextViewLine>(), _vpLocation),
                     (acc, e) =>
                     {
-                        acc.Item1.Add(new StubWpfTextViewLine(_textSnapshot, new Rect(acc.Item3, new Size(0, lineHeight)), acc.Item2, e + Environment.NewLine));
-                        return new Tuple<List<StubWpfTextViewLine>, int, Point>(
-                            acc.Item1, 
-                            acc.Item2 + e.Length + Environment.NewLine.Length, 
-                            new Point(acc.Item3.X, acc.Item3.Y + lineHeight));
+                        acc.Item1.Add(new StubWpfTextViewLine(_textSnapshot, e, new Rect(acc.Item2, new Size(0, lineHeight))));
+                        return new Tuple<List<StubWpfTextViewLine>, Point>(
+                            acc.Item1,
+                            new Point(acc.Item2.X, acc.Item2.Y + lineHeight));
                     }).Item1);
         }
 

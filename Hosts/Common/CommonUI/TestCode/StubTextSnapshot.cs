@@ -1,19 +1,38 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.Text;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 {
     public class StubTextSnapshot : ITextSnapshot
     {
-        public string _text { get; set; }
+        private string _text;
+
+        private IEnumerable<StubTextSnapshotLine> _textSnapshotLines;
 
         public StubTextSnapshot(string text)
         {
             _text = text;
+            _textSnapshotLines =
+                _text
+                .Split(new[] { Environment.NewLine }, StringSplitOptions.None)
+                .Aggregate(
+                    new Tuple<List<StubTextSnapshotLine>, int, int>(new List<StubTextSnapshotLine>(), 0, 0),
+                    (acc, e) =>
+                    {
+                        acc.Item1.Add(new StubTextSnapshotLine(this, acc.Item2, e + Environment.NewLine, acc.Item3));
+                        return new Tuple<List<StubTextSnapshotLine>, int, int>(
+                            acc.Item1,
+                            acc.Item2 + e.Length + Environment.NewLine.Length,
+                            acc.Item3 + 1);
+                    }).Item1;
+        }
+
+        public IEnumerable<StubTextSnapshotLine> StubTextSnapshotLines
+        {
+            get { return _textSnapshotLines; }
         }
 
         #region ITextSnapshot Members
@@ -65,7 +84,9 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 
         public ITextSnapshotLine GetLineFromPosition(int position)
         {
-            throw new NotImplementedException();
+            return _textSnapshotLines
+                .Where(l => l.Start.Position <= position && position <= l.EndIncludingLineBreak.Position)
+                .FirstOrDefault();
         }
 
         public int GetLineNumberFromPosition(int position)
@@ -100,7 +121,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 
         public IEnumerable<ITextSnapshotLine> Lines
         {
-            get { throw new NotImplementedException(); }
+            get { return _textSnapshotLines; }
         }
 
         public ITextBuffer TextBuffer

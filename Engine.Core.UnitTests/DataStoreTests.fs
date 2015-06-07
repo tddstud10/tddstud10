@@ -36,7 +36,7 @@ let createTPA (ts : (string * string * string * int) list) =
 [<Fact>]
 let ``UpdateData causes event to be fired and crash in handler is ignored``() = 
     let ds, spy = createDS()
-    let tpa = createTPA []
+    let tpa = [] |> createTPA
     ds.UpdateData(tpa |> createRSS @"c:\a.sln")
     Assert.Equal(spy.CalledWith, Some tpa)
 
@@ -49,7 +49,7 @@ let ``FindTestByDocumentAndLineNumber returns None if it cannot find a match``()
 [<Fact>]
 let ``FindTestByDocumentAndLineNumber returns TestCase if it an find a match``() = 
     let ds, _ = createDS()
-    let tpa = createTPA [ (@"c:\adll.dll", "FQN#1", @"c:\a.cs", 10) ]
+    let tpa = [ (@"c:\adll.dll", "FQN#1", @"c:\a.cs", 10) ] |> createTPA
     ds.UpdateData(tpa |> createRSS @"c:\a.sln")
     let t = ds.FindTestByDocumentAndLineNumber (FilePath @"c:\a.cs") (DocumentCoordinate 10)
     Assert.Equal(t |> Option.map (fun t -> t.FullyQualifiedName), Some "FQN#1")
@@ -57,7 +57,7 @@ let ``FindTestByDocumentAndLineNumber returns TestCase if it an find a match``()
 [<Fact>]
 let ``FindTestByDocumentAndLineNumber returns TestCase if it an find a match after sln path normalization``() = 
     let ds, _ = createDS()
-    let tpa = createTPA [ (@"c:\adll.dll", "FQN#2", PathBuilder.snapShotRoot + @"sln\proj\a.cs", 10) ]
+    let tpa = [ (@"c:\adll.dll", "FQN#2", PathBuilder.snapShotRoot + @"sln\proj\a.cs", 10) ] |> createTPA
     ds.UpdateData(tpa |> createRSS @"c:\sln\a.sln")
     let t = ds.FindTestByDocumentAndLineNumber (FilePath @"c:\sln\proj\a.cs") (DocumentCoordinate 10)
     Assert.Equal(t |> Option.map (fun t -> t.FullyQualifiedName), Some "FQN#2")

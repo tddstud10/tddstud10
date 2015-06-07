@@ -32,7 +32,7 @@ TODO:
 - Move to async tagging
 - Use SyncContext in Package class also
 - SnapshotlineRange - tagger implementation assumes we we ask line by line and not for spans across multiplelines
-
+- getMarkerTags - can detect sequence points but we arent instrumenting it.
 
 - Spec questions
   - How do we deal with edited text [a] edit on a given line [b] shift lines up/down] 
@@ -116,6 +116,7 @@ misc
 - signing
 - solution folder
 - IN_TDDSTUDIO + move tddstudio
+- disable tdd should show '?' in the status bar
 2 x katas
 perf
 - disable components
@@ -123,7 +124,7 @@ perf
 - vsvim, xunit
 diagnostics
 -------------------------------------
-- incremental build
+- incremental build [per assembly pipeline]
 - nunit support
 - cpp
 - sublime text
