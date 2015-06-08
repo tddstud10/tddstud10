@@ -21,7 +21,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
             _textViewLineCollection = new FakeWpfTextViewLineCollection(
                 _textSnapshot.FakeTextSnapshotLines
                 .Aggregate(
-                    new Tuple<List<FakeWpfTextViewLine>, Point>(new List<FakeWpfTextViewLine>(), _vpLocation),
+                    new Tuple<List<FakeWpfTextViewLine>, Point>(new List<FakeWpfTextViewLine>(), new Point(_vpLocation.X + 2.0, _vpLocation.Y)),
                     (acc, e) =>
                     {
                         acc.Item1.Add(new FakeWpfTextViewLine(_textSnapshot, e, new Rect(acc.Item2, new Size(0, lineHeight))));
