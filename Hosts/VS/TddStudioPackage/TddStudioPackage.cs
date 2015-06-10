@@ -79,14 +79,14 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                 {
                     { PkgCmdIDList.ChangeTddStud10State, new EventHandlerPair(ExecuteChangeTddStud10State, OnBeforeQueryStatusChangeTddStud10State) },
                 }.Aggregate(
-                    new KeyValuePair<uint, EventHandlerPair>(),
+                    mcs,
                     (_, kvp) =>
                     {
                         CommandID menuCommandID = new CommandID(new Guid(GuidList.GuidProgressBarCmdSetString), (int)kvp.Key);
                         var menuItem = new OleMenuCommand(kvp.Value.Item1, menuCommandID);
                         menuItem.BeforeQueryStatus += kvp.Value.Item2;
                         mcs.AddCommand(menuItem);
-                        return kvp;
+                        return mcs;
                     });
             }
 

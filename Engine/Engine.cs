@@ -137,6 +137,10 @@ namespace R4nd0mApps.TddStud10.Engine
             var buildOutputRoot = rd.solutionBuildRoot.Item;
             var timeFilter = rd.startTime;
 
+            // Remove this duplication
+            Func<string, string> rebaseCodeFilePath = s => s.ToUpperInvariant().Replace(
+                Path.GetDirectoryName(rd.solutionSnapshotPath.Item).ToUpperInvariant(), Path.GetDirectoryName(rd.solutionPath.Item).ToUpperInvariant());
+
             var testsPerAssembly = new PerAssemblyTestCases();
             Engine.FindAndExecuteForEachAssembly(
                 host,
@@ -146,7 +150,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 {
                     var tests = testsPerAssembly.GetOrAdd(FilePath.NewFilePath(assemblyPath), _ => new ConcurrentBag<TestCase>());
                     var disc = new XUnitTestDiscoverer();
-                    disc.TestDiscovered.AddHandler(new FSharpHandler<TestCase>((o, ea) => tests.Add(ea)));
+                    disc.TestDiscovered.AddHandler(new FSharpHandler<TestCase>((o, ea) => { ea.CodeFilePath = rebaseCodeFilePath(ea.CodeFilePath); tests.Add(ea); }));
                     disc.DiscoverTests(FilePath.NewFilePath(assemblyPath));
                 });
 
@@ -181,7 +185,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 throw new OperationCanceledException();
             }
 
-            Instrumentation.Instrument(host, rd.startTime, Path.GetDirectoryName(rd.solutionPath.Item), rd.solutionBuildRoot.Item, rd.testsPerAssembly.Value);
+            Instrumentation.Instrument(host, rd.startTime, Path.GetDirectoryName(rd.solutionSnapshotPath.Item), Path.GetDirectoryName(rd.solutionPath.Item), rd.solutionBuildRoot.Item, rd.testsPerAssembly.Value);
 
             var retRd = CreateRunDataForInstrumentationStep(rd, dict);
 

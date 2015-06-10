@@ -11,7 +11,7 @@ let createMargin2 p t =
     let tv = FakeWpfTextView(p, 0.0, t)
     let ta = new FakeTagAggregator<_>()
     let s = CallSpy1<_>()
-    let m = new Margin(tv, ta, s.Func, (fun () -> Double.MaxValue), (fun () -> null))
+    let m = new Margin(tv, ta, null, s.Func, (fun () -> Double.MaxValue), (fun () -> null))
     m, tv, ta, s
 
 let createMargin() = createMargin2 (Point(0.0, 0.0)) ""

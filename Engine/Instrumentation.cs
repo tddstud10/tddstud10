@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
@@ -78,11 +76,11 @@ namespace R4nd0mApps.TddStud10
             return perDocSP;
         }
 
-        public static void Instrument(IRunExecutorHost host, DateTime timeFilter, string solutionRoot, string buildOutputRoot, PerAssemblyTestCases testsPerAssembly)
+        public static void Instrument(IRunExecutorHost host, DateTime timeFilter, string solutionRoot, string solutionSnapshotRoot, string buildOutputRoot, PerAssemblyTestCases testsPerAssembly)
         {
             try
             {
-                InstrumentImpl(host, timeFilter, solutionRoot, buildOutputRoot, testsPerAssembly);
+                InstrumentImpl(host, timeFilter, solutionRoot, solutionSnapshotRoot, buildOutputRoot, testsPerAssembly);
             }
             catch (Exception e)
             {
@@ -90,7 +88,7 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        public static void InstrumentImpl(IRunExecutorHost host, DateTime timeFilter, string solutionRoot, string buildOutputRoot, PerAssemblyTestCases testsPerAssembly)
+        public static void InstrumentImpl(IRunExecutorHost host, DateTime timeFilter, string solutionSnapshotRoot, string solutionRoot, string buildOutputRoot, PerAssemblyTestCases testsPerAssembly)
         {
             Logger.I.LogInfo(
                 "Instrumenting: Time filter - {0}, Build output root - {1}.",
@@ -126,6 +124,8 @@ namespace R4nd0mApps.TddStud10
                            from m in t.Methods
                            where m.Name == "ExitUnitTest"
                            select m;
+
+            Func<string, string> rebaseDocument = s => s.ToUpperInvariant().Replace(solutionSnapshotRoot.ToUpperInvariant(), solutionRoot.ToUpperInvariant());
 
             Engine.Engine.FindAndExecuteForEachAssembly(
                 host,
@@ -167,6 +167,14 @@ namespace R4nd0mApps.TddStud10
                                 var instructions = spi.ToArray();
                                 foreach (var sp in instructions)
                                 {
+                                    /**********************************************************************************/
+                                    /*                                PDB Path Replace                                */
+                                    /**********************************************************************************/
+                                    sp.SequencePoint.Document.Url = rebaseDocument(sp.SequencePoint.Document.Url);
+
+                                    /**********************************************************************************/
+                                    /*                            Inject Enter Sequence Point                         */
+                                    /**********************************************************************************/
                                     Instruction instrMarker = sp;
                                     Instruction instr = null;
                                     var ilProcessor = meth.Body.GetILProcessor();
@@ -189,6 +197,9 @@ namespace R4nd0mApps.TddStud10
                                     instrMarker = instr;
                                 }
 
+                                /*************************************************************************************/
+                                /*                            Inject Exit Unit Test                                  */
+                                /*************************************************************************************/
                                 var ret = IsSequencePointAtStartOfAUnitTest(spi.Select(i => i.SequencePoint).FirstOrDefault(), FilePath.NewFilePath(assemblyPath), testsPerAssembly);
                                 if (ret.Item1)
                                 {
@@ -380,7 +391,7 @@ namespace R4nd0mApps.TddStud10
                 return new Tuple<bool, TestId>(false, null);
             }
 
-            if (testsPerAssembly[assemblyPath].Any(tc => tc.CodeFilePath == sp.Document.Url && tc.LineNumber == sp.StartLine))
+            if (testsPerAssembly[assemblyPath].Any(tc => tc.CodeFilePath.ToUpperInvariant() == sp.Document.Url.ToUpperInvariant() && tc.LineNumber == sp.StartLine))
             {
                 return new Tuple<bool, TestId>(
                     true,

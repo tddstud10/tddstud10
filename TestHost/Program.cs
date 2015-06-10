@@ -16,10 +16,6 @@ namespace R4nd0mApps.TddStud10.TestHost
 {
     public class Program
     {
-        private static string codeCoverageStore;
-        private static string testResultsStore;
-        private static string discoveredUnitTestsStore;
-
         private static void LogInfo(string format, params object[] args)
         {
             Logger.I.LogInfo(format, args);
@@ -36,9 +32,10 @@ namespace R4nd0mApps.TddStud10.TestHost
             LogInfo("TestHost: Entering Main.");
             bool allTestsPassed = true;
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomainUnhandledException);
-            codeCoverageStore = args[2];
-            testResultsStore = args[3];
-            discoveredUnitTestsStore = args[4];
+            var command = args[1];
+            var codeCoverageStore = args[2];
+            var testResultsStore = args[3];
+            var discoveredUnitTestsStore = args[4];
             var ccServer = new CoverageDataCollector();
             using (ServiceHost serviceHost = new ServiceHost(ccServer))
             {
@@ -49,10 +46,13 @@ namespace R4nd0mApps.TddStud10.TestHost
                 serviceHost.Open();
                 LogInfo("TestHost: Opened channel.");
 
-                allTestsPassed = RunTests();
+                allTestsPassed = RunTests(command, testResultsStore, discoveredUnitTestsStore);
                 LogInfo("TestHost: Finished running test cases.");
             }
-            ccServer.SaveTestCases(codeCoverageStore);
+            if (command != "debug") 
+            {
+                ccServer.SaveTestCases(codeCoverageStore);
+            }
 
             LogInfo("TestHost: Exiting Main.");
             return allTestsPassed ? 0 : 1;
@@ -63,7 +63,7 @@ namespace R4nd0mApps.TddStud10.TestHost
             LogError("Exception thrown in InvokeEngine: {0}.", e.ExceptionObject);
         }
 
-        private static bool RunTests()
+        private static bool RunTests(string command, string testResultsStore, string discoveredUnitTestsStore)
         {
             Stopwatch stopWatch = new Stopwatch();
             TimeSpan ts;
@@ -90,7 +90,10 @@ namespace R4nd0mApps.TddStud10.TestHost
                     LogInfo("Executing tests in {0}: Done.", asm);
                 });
 
-            testResults.Serialize(FilePath.NewFilePath(testResultsStore));
+            if (command != "debug")
+            {
+                testResults.Serialize(FilePath.NewFilePath(testResultsStore));
+            }
 
             stopWatch.Stop();
             ts = stopWatch.Elapsed;

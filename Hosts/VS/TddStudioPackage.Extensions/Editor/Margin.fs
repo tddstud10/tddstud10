@@ -6,8 +6,10 @@ open System
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 open System.Windows
 open Microsoft.VisualStudio.Text.Formatting
+open Microsoft.VisualStudio.Shell.Interop
+open System.ComponentModel.Design
 
-type Margin(textView : IWpfTextView, tmta : ITagAggregator<_>, painter, getMarginSize, getVisualElement) = 
+type Margin(textView : IWpfTextView, tmta : ITagAggregator<_>, menuSvc : IMenuCommandService, painter, getMarginSize, getVisualElement) = 
     let mutable disposed = false
     
     let throwIfDisposed() = 
@@ -20,10 +22,10 @@ type Margin(textView : IWpfTextView, tmta : ITagAggregator<_>, painter, getMargi
     let lcSub = textView.LayoutChanged.Subscribe(fun _ -> paintGlyphs())
     let tcSub = tmta.TagsChanged.Subscribe(fun _ -> paintGlyphs())
 
-    new(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>) = 
+    new(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>, menuSvc : IMenuCommandService) = 
         let canvas = MarginCanvas()
-        new Margin(textView, tmta, 
-                   (new MarginGlpyhTagAndBoundGenerator(tmta.GetTags)).Generate >> Seq.map GlyphFactory.createGlyphForTag >> canvas.Refresh,
+        new Margin(textView, tmta, menuSvc,
+                   (new MarginGlpyhTagAndBoundGenerator(tmta.GetTags)).Generate >> Seq.map (GlyphFactory.createGlyphForTag menuSvc) >> canvas.Refresh,
                    (fun () -> canvas.ActualWidth), (fun () -> canvas :> FrameworkElement))
     override x.Finalize() = x.Dispose(false)
     

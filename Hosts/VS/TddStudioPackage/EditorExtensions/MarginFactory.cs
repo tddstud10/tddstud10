@@ -1,20 +1,25 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.Collections.Concurrent;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Design;
+using System.IO;
+using System.Linq;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
+using R4nd0mApps.TddStud10.Common.Domain;
+using R4nd0mApps.TddStud10.Engine.Core;
+using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 
 #if DONT_COMPILE
 
 TODO:
-- Unit Test
-  x Glyph Factory - we will wait till the remaining come online
-  x Canvas code - WPF code cannot be tested easily
-  v DataStore code
-  v Margin code
-  v Margin Glyph painter
-  - TestMarkerTagger code
--------------------
+- Service provider extensions should return None adn not null
+- Marging needs to scale up with the editor
 - Cannot check by str = "Discover Unit Tests" in datastore events
 - Change in eventing infra 
   - RunStartEA, RunErrorEA, RunEndEA - make i tconsistent with runexecutor
@@ -142,13 +147,77 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
     public sealed class MarginFactory : IWpfTextViewMarginProvider
     {
         [Import]
-        private IBufferTagAggregatorFactoryService aggregatorFactory = null;
+        private IBufferTagAggregatorFactoryService _aggregatorFactory = null;
+
+        [Import(typeof(SVsServiceProvider))]
+        private IServiceProvider _serviceProvider = null;
 
         public IWpfTextViewMargin CreateMargin(IWpfTextViewHost textViewHost, IWpfTextViewMargin containerMargin)
         {
+            // - Need to share these id's with package
+            // - Ensure - this code is executed just once.
+            var menuSvc = _serviceProvider.GetService<IMenuCommandService, IMenuCommandService>();
+            var g = new Guid("{1E198C22-5980-4E7E-92F3-F73168D1FB63}");
+
+            new[] { 
+                new CommandID(g, 0x502),
+                new CommandID(g, 0x503),
+                new CommandID(g, 0x504)
+            }.Aggregate(
+                menuSvc,
+                (mcs, e) =>
+                {
+                    if (mcs.FindCommand(e) == null)
+                    {
+                        mcs.AddCommand(new MenuCommand(ChangeColor, e));
+                    }
+                    return menuSvc;
+                });
+
             return new Margin(
                 textViewHost.TextView,
-                aggregatorFactory.CreateTagAggregator<TestMarkerTag>(textViewHost.TextView.TextBuffer));
+                _aggregatorFactory.CreateTagAggregator<TestMarkerTag>(textViewHost.TextView.TextBuffer),
+                // - Pass only func not the entire interface
+                // - Need another overload of GetService
+                _serviceProvider.GetService<IMenuCommandService, IMenuCommandService>());
+        }
+
+        // - Move this to FS
+        private void LaunchInBuiltinDebugger()
+        {
+            // v Generalize the exe, arg, curdir below
+            // v Pass the test being debugged
+            // - Set automatic breakpoint
+            // - The snapshot file is being opneed
+            // - Right click on glyphs in debug mode
+            // - While Debugging - [a] Dont write test result while debugging [b] dont collect coverage data [c] test results
+            // - Breakpoint - remove on debug stop, dont/add-remove if breakpoint already present
+            // - TestRunner path needs to come from datastore
+            // - what happens for multiple test cases
+
+            var tc = ContextMenuData.Instance.TestCase;
+            var tpa = new PerAssemblyTestCases();
+            var bag = new ConcurrentBag<TestCase>();
+            bag.Add(tc);
+            tpa.TryAdd(FilePath.NewFilePath(tc.Source), bag);
+            var duts = Path.Combine(DataStore.Instance.SolutionBuildRoot.Item, "Z_debug.xml");
+            tpa.Serialize(FilePath.NewFilePath(duts));
+
+            VsDebugTargetInfo3[] targets = new VsDebugTargetInfo3[1];
+            targets[0].dlo = (uint)DEBUG_LAUNCH_OPERATION.DLO_CreateProcess;
+            targets[0].guidLaunchDebugEngine = new Guid("449EC4CC-30D2-4032-9256-EE18EB41B62B");
+            targets[0].bstrExe = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(typeof(MarginFactory).Assembly.Location)), "TddStud10.TestHost.exe");
+            targets[0].bstrArg = string.Format(@"debug {0} {0}\Z_coverageresults.xml {0}\Z_testresults.xml {1}", DataStore.Instance.SolutionBuildRoot.Item, duts);
+            targets[0].bstrCurDir = DataStore.Instance.SolutionBuildRoot.Item;
+
+            VsDebugTargetProcessInfo[] results = new VsDebugTargetProcessInfo[targets.Length];
+
+            _serviceProvider.GetService<SVsShellDebugger, IVsDebugger3>().LaunchDebugTargets3((uint)targets.Length, targets, results);
+        }
+
+        private void ChangeColor(object sender, EventArgs e)
+        {
+            LaunchInBuiltinDebugger();
         }
     }
 }

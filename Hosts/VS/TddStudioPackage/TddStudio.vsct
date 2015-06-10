@@ -10,12 +10,24 @@
 
   <Commands package="guidTddStud10Pkg">
 
+    <Menus>
+      <Menu guid="guidTestCmdSet" id="ColorMenu" type="Context">
+        <Strings>
+          <ButtonText>Color change</ButtonText>
+          <CommandName>ColorChange</CommandName>
+        </Strings>
+      </Menu>
+    </Menus>
+
     <Groups>
 
       <Group guid="guidTddStud10CmdSet" id="tddStud10MenuGroup" priority="0x0600">
         <Parent guid="guidTestCmdSet" id="cmdIdTest"/>
       </Group>
 
+      <Group guid="guidTestCmdSet" id="ColorGroup">
+        <Parent guid="guidTestCmdSet" id="ColorMenu"/>
+      </Group>
     </Groups>
 
     <Buttons>
@@ -30,14 +42,44 @@
           <ButtonText>none</ButtonText>
         </Strings>
       </Button>
+
+
+      <Button guid="guidTestCmdSet" id="cmdidRed" priority="1" type="Button">
+        <Parent guid="guidTestCmdSet" id="ColorGroup" />
+        <Strings>
+          <ButtonText>Red</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidTestCmdSet" id="cmdidYellow" priority="3" type="Button">
+        <Parent guid="guidTestCmdSet" id="ColorGroup" />
+        <Strings>
+          <ButtonText>Yellow</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidTestCmdSet" id="cmdidBlue" priority="5" type="Button">
+        <Parent guid="guidTestCmdSet" id="ColorGroup" />
+        <Strings>
+          <ButtonText>Blue</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
 
   </Commands>
 
 
   <Symbols>
+    <!-- Change the guild to be sequential to the other guids -->
+    <!-- Create a new cmdset -->
     <GuidSymbol name="guidTestCmdSet" value="{1E198C22-5980-4E7E-92F3-F73168D1FB63}">
       <IDSymbol name="cmdIdTest" value="0x1" />
+
+      <IDSymbol name="ColorMenu" value="0x5000"/>
+      <IDSymbol name="ColorGroup" value="0x5100"/>
+      <IDSymbol name="cmdidRed" value="0x502"/>
+      <IDSymbol name="cmdidYellow" value="0x503"/>
+      <IDSymbol name="cmdidBlue" value="0x504"/>
     </GuidSymbol>
 
     <GuidSymbol name="guidTddStud10Pkg" value="{6C8E3EF7-58D8-44A6-B4EB-71BCCCC8F2E0}" />
