@@ -30,12 +30,23 @@ namespace R4nd0mApps.TddStud10.TestHost
         public static int Main(string[] args)
         {
             LogInfo("TestHost: Entering Main.");
-            bool allTestsPassed = true;
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomainUnhandledException);
             var command = args[1];
             var codeCoverageStore = args[2];
             var testResultsStore = args[3];
             var discoveredUnitTestsStore = args[4];
+
+            var allTestsPassed = Debugger.IsAttached
+                ? RunTests(command, testResultsStore, discoveredUnitTestsStore)
+                : ExecuteTestWithCoverageDataCollection(() => RunTests(command, testResultsStore, discoveredUnitTestsStore), codeCoverageStore);
+
+            LogInfo("TestHost: Exiting Main.");
+            return allTestsPassed ? 0 : 1;
+        }
+
+        private static bool ExecuteTestWithCoverageDataCollection(Func<bool> runTests, string codeCoverageStore)
+        {
+            bool allTestsPassed = true;
             var ccServer = new CoverageDataCollector();
             using (ServiceHost serviceHost = new ServiceHost(ccServer))
             {
@@ -46,16 +57,11 @@ namespace R4nd0mApps.TddStud10.TestHost
                 serviceHost.Open();
                 LogInfo("TestHost: Opened channel.");
 
-                allTestsPassed = RunTests(command, testResultsStore, discoveredUnitTestsStore);
+                allTestsPassed = runTests();
                 LogInfo("TestHost: Finished running test cases.");
             }
-            if (command != "debug") 
-            {
-                ccServer.SaveTestCases(codeCoverageStore);
-            }
-
-            LogInfo("TestHost: Exiting Main.");
-            return allTestsPassed ? 0 : 1;
+            ccServer.SaveTestCases(codeCoverageStore);
+            return allTestsPassed;
         }
 
         private static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -90,7 +96,7 @@ namespace R4nd0mApps.TddStud10.TestHost
                     LogInfo("Executing tests in {0}: Done.", asm);
                 });
 
-            if (command != "debug")
+            if (!Debugger.IsAttached)
             {
                 testResults.Serialize(FilePath.NewFilePath(testResultsStore));
             }

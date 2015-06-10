@@ -185,17 +185,17 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
         // - Move this to FS
         private void LaunchInBuiltinDebugger()
         {
-            // v Generalize the exe, arg, curdir below
-            // v Pass the test being debugged
-            // - Set automatic breakpoint
-            // - The snapshot file is being opneed
             // - Right click on glyphs in debug mode
-            // - While Debugging - [a] Dont write test result while debugging [b] dont collect coverage data [c] test results
-            // - Breakpoint - remove on debug stop, dont/add-remove if breakpoint already present
             // - TestRunner path needs to come from datastore
             // - what happens for multiple test cases
+            // - Unit tests for Marker & CoverageDataCollector + all public statuc methis need to have DebuggerStepThrough
+            // - Breakpoint - remove on debug stop, dont/add-remove if breakpoint already present
 
             var tc = ContextMenuData.Instance.TestCase;
+
+            var _dte = _serviceProvider.GetService<EnvDTE.DTE, EnvDTE.DTE>();
+            _dte.Debugger.Breakpoints.Add(null, tc.CodeFilePath, tc.LineNumber);
+
             var tpa = new PerAssemblyTestCases();
             var bag = new ConcurrentBag<TestCase>();
             bag.Add(tc);

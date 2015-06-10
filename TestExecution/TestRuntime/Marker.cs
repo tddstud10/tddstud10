@@ -18,8 +18,15 @@ namespace R4nd0mApps.TddStud10.TestRuntime
             set { CallContext.LogicalSetData(TESTRUNID_SLOTNAME, value); }
         }
 
+        [DebuggerStepThrough]
         public static void EnterSequencePoint(string assemblyId, string methodMdRid, string spId)
         {
+            if (Debugger.IsAttached)
+            {
+                Logger.I.LogError("Marker: Ignoring call as debugger is attached.");
+                return;
+            }
+
             if (TestRunId == null)
             {
                 TestRunId = new object().GetHashCode().ToString(CultureInfo.InvariantCulture);
@@ -28,8 +35,15 @@ namespace R4nd0mApps.TddStud10.TestRuntime
             channel.Value.EnterSequencePoint(TestRunId, assemblyId, methodMdRid, spId);
         }
 
+        [DebuggerStepThrough]
         public static void ExitUnitTest(string source, string document, string line)
         {
+            if (Debugger.IsAttached)
+            {
+                Logger.I.LogError("Marker: Ignoring call as debugger is attached.");
+                return;
+            }
+
             if (TestRunId == null)
             {
                 Logger.I.LogError("Marker: Appears we did not have any sequence points for {0},{1},{2}.", source, document, line);
