@@ -31,16 +31,18 @@ let startRE (re : RunExecutor) = re.Start(now, ~~"c:\\folder\\file.sln")
 let areRdsSimillar rd1 rd2 = 
     match rd1 with
     | None -> false
-    | Some rd1 -> rd1.solutionPath = rd2.solutionPath
+    | Some rd1 -> rd1.startParams.solutionPath = rd2.startParams.solutionPath
 
 [<Fact>]
 let ``Executor initialized RunData``() = 
     let re = RunExecutor.Create host [||] I
     let rd, err = startRE re
-    Assert.Equal(rd.startTime, now)
-    Assert.Equal(rd.solutionPath, ~~"c:\\folder\\file.sln")
-    Assert.Equal(rd.solutionSnapshotPath, ~~"d:\\tddstud10\\folder\\file.sln")
-    Assert.Equal(rd.solutionBuildRoot, ~~"d:\\tddstud10\\folder.out")
+    Assert.Equal(rd.startParams.startTime, now)
+    Assert.Equal(rd.startParams.solutionPath, ~~"c:\\folder\\file.sln")
+    Assert.Equal(rd.startParams.solutionSnapshotPath, ~~"d:\\tddstud10\\folder\\file.sln")
+    Assert.Equal(rd.startParams.solutionBuildRoot, ~~"d:\\tddstud10\\folder.out")
+    let (FilePath thPath) = rd.startParams.testHostPath
+    Assert.EndsWith("TddStud10.TestHost.exe", thPath, StringComparison.OrdinalIgnoreCase)  
     Assert.Equal(err, None)
 
 [<Fact>]

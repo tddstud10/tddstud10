@@ -7,17 +7,18 @@ using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
 using R4nd0mApps.TddStud10.Common.Domain;
+using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
 
 namespace R4nd0mApps.TddStud10
 {
     internal static class Instrumentation
     {
-        public static PerDocumentSequencePoints GenerateSequencePointInfo(IRunExecutorHost host, DateTime timeFilter, string buildOutputRoot)
+        public static PerDocumentSequencePoints GenerateSequencePointInfo(IRunExecutorHost host, RunStartParams rsp)
         {
             try
             {
-                return GenerateSequencePointInfoImpl(host, timeFilter, buildOutputRoot);
+                return GenerateSequencePointInfoImpl(host, rsp);
             }
             catch (Exception e)
             {
@@ -27,8 +28,10 @@ namespace R4nd0mApps.TddStud10
             return null;
         }
 
-        public static PerDocumentSequencePoints GenerateSequencePointInfoImpl(IRunExecutorHost host, DateTime timeFilter, string buildOutputRoot)
+        public static PerDocumentSequencePoints GenerateSequencePointInfoImpl(IRunExecutorHost host, RunStartParams rsp)
         {
+            var timeFilter = rsp.startTime;
+            var buildOutputRoot = rsp.solutionBuildRoot.Item;
             Logger.I.LogInfo(
                 "Generating sequence point info: Time filter - {0}, Build output root - {1}.",
                 timeFilter.ToLocalTime(),
@@ -76,11 +79,11 @@ namespace R4nd0mApps.TddStud10
             return perDocSP;
         }
 
-        public static void Instrument(IRunExecutorHost host, DateTime timeFilter, string solutionRoot, string solutionSnapshotRoot, string buildOutputRoot, PerAssemblyTestCases testsPerAssembly)
+        public static void Instrument(IRunExecutorHost host, RunStartParams rsp, PerAssemblyTestCases testsPerAssembly)
         {
             try
             {
-                InstrumentImpl(host, timeFilter, solutionRoot, solutionSnapshotRoot, buildOutputRoot, testsPerAssembly);
+                InstrumentImpl(host, rsp, testsPerAssembly);
             }
             catch (Exception e)
             {
@@ -88,8 +91,12 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        public static void InstrumentImpl(IRunExecutorHost host, DateTime timeFilter, string solutionSnapshotRoot, string solutionRoot, string buildOutputRoot, PerAssemblyTestCases testsPerAssembly)
+        public static void InstrumentImpl(IRunExecutorHost host, RunStartParams rsp, PerAssemblyTestCases testsPerAssembly)
         {
+            var timeFilter = rsp.startTime;
+            var solutionSnapshotRoot = Path.GetDirectoryName(rsp.solutionSnapshotPath.Item);
+            var solutionRoot = Path.GetDirectoryName(rsp.solutionPath.Item);
+            var buildOutputRoot = rsp.solutionBuildRoot.Item;
             Logger.I.LogInfo(
                 "Instrumenting: Time filter - {0}, Build output root - {1}.",
                 timeFilter.ToLocalTime(),
@@ -125,7 +132,7 @@ namespace R4nd0mApps.TddStud10
                            where m.Name == "ExitUnitTest"
                            select m;
 
-            Func<string, string> rebaseDocument = s => s.ToUpperInvariant().Replace(solutionSnapshotRoot.ToUpperInvariant(), solutionRoot.ToUpperInvariant());
+            Func<string, string> rebaseDocument = s => PathBuilder.rebaseCodeFilePath(rsp, FilePath.NewFilePath(s)).Item;
 
             Engine.Engine.FindAndExecuteForEachAssembly(
                 host,
@@ -289,7 +296,6 @@ namespace R4nd0mApps.TddStud10
             meth.Body.ExceptionHandlers.Add(handler);
         }
 
-        /// <nn />
         private static Instruction FindFirstInstructionSkipCtor(MethodDefinition med)
         {
             MethodBody body = med.Body;
@@ -301,7 +307,6 @@ namespace R4nd0mApps.TddStud10
             return body.Instructions.First();
         }
 
-        /// <nn />
         private static Instruction FixReturns(MethodDefinition med, ModuleDefinition mod)
         {
             MethodBody body = med.Body;
@@ -363,7 +368,6 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        /// <nn />
         private static void FixBranchTargets(
           Instruction lastLeaveInstruction,
           Instruction formallyLastRetInstruction,
@@ -391,7 +395,7 @@ namespace R4nd0mApps.TddStud10
                 return new Tuple<bool, TestId>(false, null);
             }
 
-            if (testsPerAssembly[assemblyPath].Any(tc => tc.CodeFilePath.ToUpperInvariant() == sp.Document.Url.ToUpperInvariant() && tc.LineNumber == sp.StartLine))
+            if (testsPerAssembly[assemblyPath].Any(tc => tc.CodeFilePath.Equals(sp.Document.Url, StringComparison.OrdinalIgnoreCase) && tc.LineNumber == sp.StartLine))
             {
                 return new Tuple<bool, TestId>(
                     true,

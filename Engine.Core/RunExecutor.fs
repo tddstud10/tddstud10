@@ -2,6 +2,8 @@
 
 open System
 open R4nd0mApps.TddStud10.Common.Domain
+open System.IO
+open System.Reflection
 
 type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, stepWrapper : RunStepFuncWrapper) = 
     let runStarting = new Event<RunData>()
@@ -24,6 +26,11 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
                 | ex -> acc, Some ex
             else acc, Some(new OperationCanceledException() :> Exception)
     
+    static let getLocalPath() = 
+        (new Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath
+        |> Path.GetFullPath
+        |> Path.GetDirectoryName
+
     member public __.RunStarting = runStarting.Publish
     member public __.RunEnded = runEnded.Publish
     member public __.OnRunError = onRunError.Publish
@@ -32,16 +39,17 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
     member public __.RunStepEnded = runStepEnded.Publish
     
     static member public makeRunData startTime solutionPath = 
-        { startTime = startTime
-          solutionPath = solutionPath
-          solutionSnapshotPath = PathBuilder.makeSlnSnapshotPath solutionPath
-          solutionBuildRoot = PathBuilder.makeSlnBuildRoot solutionPath
+        { startParams = { startTime = startTime
+                          testHostPath = Path.Combine(() |> getLocalPath, "TddStud10.TestHost.exe") |> FilePath
+                          solutionPath = solutionPath
+                          solutionSnapshotPath = PathBuilder.makeSlnSnapshotPath solutionPath
+                          solutionBuildRoot = PathBuilder.makeSlnBuildRoot solutionPath }
           testsPerAssembly = None
           sequencePoints = None
           codeCoverageResults = None
           executedTests = None }
     
-    member public this.Start(startTime, solutionPath) = 
+    member public __.Start(startTime, solutionPath) = 
         (* NOTE: Need to ensure the started/errored/ended events go out no matter what*)
         let rd = RunExecutor.makeRunData startTime solutionPath
         Common.safeExec (fun () -> runStarting.Trigger(rd))

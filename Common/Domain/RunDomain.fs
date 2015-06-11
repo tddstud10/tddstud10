@@ -2,16 +2,19 @@
 
 open System
 
-type RunData = 
+type RunStartParams = 
     { startTime : DateTime
+      testHostPath : FilePath
       solutionPath : FilePath
       solutionSnapshotPath : FilePath
-      solutionBuildRoot : FilePath
+      solutionBuildRoot : FilePath }
+
+type RunData = 
+    { startParams : RunStartParams
       testsPerAssembly : PerAssemblyTestCases option
       sequencePoints : PerDocumentSequencePoints option
       codeCoverageResults : PerAssemblySequencePointsCoverage option
       executedTests : PerTestIdResults option }
-
 
 type RunStepResult = 
     { name : RunStepName

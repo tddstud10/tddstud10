@@ -203,17 +203,16 @@
     <Compile Include="EditorExtensions\CodeCoverageTagger.cs" />
     <Compile Include="EditorExtensions\CodeCoverageTaggerProvider.cs" />
     <Compile Include="EditorExtensions\MarginFactory.cs" />
-    <Compile Include="Guids.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="PackageCommands.cs" />
     <Compile Include="VsStatusBarIconHost.cs" />
     <Compile Include="TddStudioPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PkgCmdID.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

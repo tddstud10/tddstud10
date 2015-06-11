@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Windows.Controls;
+using System.Threading;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -12,7 +9,6 @@ using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
-using EventHandlerPair = System.Tuple<System.EventHandler, System.EventHandler>;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
 {
@@ -21,10 +17,10 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
     [InstalledProductRegistration("#110", "#112", "0.3.4.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
-    [Guid(GuidList.GuidTddStud10Pkg)]
+    [Guid(PkgGuids.GuidTddStud10Pkg)]
     public sealed class TddStud10Package : Package, IVsSolutionEvents, IEngineHost
     {
-        private Control _uiThreadInvoker;
+        private SynchronizationContext syncContext = SynchronizationContext.Current;
 
         private bool _disposed;
 
@@ -38,13 +34,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         public static TddStud10Package Instance { get; private set; }
 
-        public TddStud10Package()
-        {
-        }
-
         public void InvokeOnUIThread(Action action)
         {
-            _uiThreadInvoker.Dispatcher.Invoke(action);
+            syncContext.Send(new SendOrPostCallback(_ => action()), null);
         }
 
         public string GetSolutionPath()
@@ -58,8 +50,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
             base.Initialize();
 
-            _uiThreadInvoker = new Control();
-
             _solution = Services.GetService<SVsSolution, IVsSolution2>();
             if (_solution != null)
             {
@@ -70,74 +60,13 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             _dte = Services.GetService<EnvDTE.DTE>();
 
-            // TODO: Move to fs: This needs to be moved out to another method and another class responsible for
-            // providing commands.
-            OleMenuCommandService mcs = this.GetService<IMenuCommandService, OleMenuCommandService>();
-            if (null != mcs)
-            {
-                new Dictionary<uint, EventHandlerPair>
-                {
-                    { PkgCmdIDList.ChangeTddStud10State, new EventHandlerPair(ExecuteChangeTddStud10State, OnBeforeQueryStatusChangeTddStud10State) },
-                }.Aggregate(
-                    mcs,
-                    (_, kvp) =>
-                    {
-                        CommandID menuCommandID = new CommandID(new Guid(GuidList.GuidProgressBarCmdSetString), (int)kvp.Key);
-                        var menuItem = new OleMenuCommand(kvp.Value.Item1, menuCommandID);
-                        menuItem.BeforeQueryStatus += kvp.Value.Item2;
-                        mcs.AddCommand(menuItem);
-                        return mcs;
-                    });
-            }
+            new PackageCommands(this).AddCommands();
 
             _iconHost = VsStatusBarIconHost.CreateAndInjectIntoVsStatusBar();
 
             Instance = this;
 
             Logger.I.LogInfo("Initialized Package successfully.");
-        }
-
-        private void ExecuteChangeTddStud10State(object sender, EventArgs e)
-        {
-            Logger.I.LogInfo("Changing TddStud10 state...");
-
-            if (EngineLoader.IsEngineEnabled())
-            {
-                EngineLoader.DisableEngine();
-            }
-            else
-            {
-                EngineLoader.EnableEngine();
-            }
-        }
-
-        private void OnBeforeQueryStatusChangeTddStud10State(object sender, EventArgs e)
-        {
-            Logger.I.LogInfo("Querying for TddStud10 state...");
-
-            var cmd = sender as OleMenuCommand;
-            if (cmd == null)
-            {
-                Logger.I.LogError("sender should have been an OleMenuCommand. This is unexpected.");
-                return;
-            }
-
-            if (!_dte.Solution.IsOpen)
-            {
-                Logger.I.LogInfo("Solution is not open.");
-                cmd.Visible = false;
-                return;
-            }
-
-            cmd.Visible = true;
-            if (EngineLoader.IsEngineEnabled())
-            {
-                cmd.Text = Properties.Resources.DisableTddStud10State;
-            }
-            else
-            {
-                cmd.Text = Properties.Resources.EnableTddStud10State;
-            }
         }
 
         protected override void Dispose(bool disposing)
@@ -222,7 +151,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             {
                 Logger.I.LogInfo("Run in progress. Denying request to close solution.");
                 Services.GetService<SVsUIShell, IVsUIShell>().DisplayMessageBox(Properties.Resources.ProductTitle, Properties.Resources.CannotCloseSolution);
-                pfCancel = 1; // Veto closing of solution.
+                pfCancel = 1; // 1 => Veto closing of solution.
             }
 
             return VSConstants.S_OK;

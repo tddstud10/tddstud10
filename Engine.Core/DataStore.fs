@@ -5,23 +5,16 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
 type DataStore() = 
     static let instance = Lazy.Create(fun () -> DataStore())
-    // Subscribe to runstart and update these properties
-    // Combine all 4 rundata members
-    // Change to none
-    let mutable slnPath = FilePath "" // crap
-    let mutable slnBuildRoot = FilePath "" // crap
+    let mutable runStartParams = None
     let mutable testCases = new PerAssemblyTestCases()
     let testCasesUpdated = new Event<PerAssemblyTestCases>()
     
     interface IDataStore with
-        member __.SolutionBuildRoot: FilePath = 
-            slnBuildRoot
-        
+        member __.RunStartParams : RunStartParams option = runStartParams
         member __.TestCasesUpdated : IEvent<PerAssemblyTestCases> = testCasesUpdated.Publish
         
         member __.UpdateData(rsr : RunStepResult) : unit = 
-            slnPath <- rsr.runData.solutionPath
-            slnBuildRoot <- rsr.runData.solutionBuildRoot
+            runStartParams <- rsr.runData.startParams |> Some
             match rsr.name with
             | RunStepName str when str = "Discover Unit Tests" -> 
                 match rsr.runData.testsPerAssembly with
@@ -32,10 +25,13 @@ type DataStore() =
             | _ -> ()
         
         member __.FindTestByDocumentAndLineNumber path (DocumentCoordinate line) : TestCase option = 
-            testCases.Values
-            |> Seq.collect id
-            |> Seq.where (fun t -> PathBuilder.arePathsTheSame slnPath path (FilePath t.CodeFilePath))
-            |> Seq.tryFind (fun t -> t.LineNumber = line)
+            runStartParams |> Option.bind (fun rsp -> 
+                                  testCases.Values
+                                  |> Seq.collect id
+                                  |> Seq.where 
+                                         (fun t -> 
+                                         PathBuilder.arePathsTheSame rsp.solutionPath path (FilePath t.CodeFilePath))
+                                  |> Seq.tryFind (fun t -> t.LineNumber = line))
     
     static member Instance 
         with public get () = instance.Value :> IDataStore

@@ -18,12 +18,12 @@ namespace R4nd0mApps.TddStud10.TestRuntime
             set { CallContext.LogicalSetData(TESTRUNID_SLOTNAME, value); }
         }
 
-        [DebuggerStepThrough]
+        [DebuggerNonUserCode]
         public static void EnterSequencePoint(string assemblyId, string methodMdRid, string spId)
         {
             if (Debugger.IsAttached)
             {
-                Logger.I.LogError("Marker: Ignoring call as debugger is attached.");
+                Logger.I.LogInfo("Marker: Ignoring call as debugger is attached.");
                 return;
             }
 
@@ -35,12 +35,12 @@ namespace R4nd0mApps.TddStud10.TestRuntime
             channel.Value.EnterSequencePoint(TestRunId, assemblyId, methodMdRid, spId);
         }
 
-        [DebuggerStepThrough]
+        [DebuggerNonUserCode]
         public static void ExitUnitTest(string source, string document, string line)
         {
             if (Debugger.IsAttached)
             {
-                Logger.I.LogError("Marker: Ignoring call as debugger is attached.");
+                Logger.I.LogInfo("Marker: Ignoring call as debugger is attached.");
                 return;
             }
 

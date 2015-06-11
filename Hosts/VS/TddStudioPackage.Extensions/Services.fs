@@ -19,7 +19,11 @@ type public Services =
         | _ -> 
             Logger.logErrorf "Cannot cast service '%s' to '%s'." typeof<'TS>.FullName typeof<'TI>.FullName
             null
-    
+
+    [<Extension>]
+    static member public GetService<'T when 'T : null>(sp : IServiceProvider) : 'T = 
+        Services.GetService<'T, 'T>(sp)
+
     static member public GetService<'T when 'T : null>() : 'T = 
         Services.GetService<'T, 'T>(ServiceProvider.GlobalProvider)
 
