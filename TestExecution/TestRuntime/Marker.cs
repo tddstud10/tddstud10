@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Remoting.Messaging;
 using System.ServiceModel;
@@ -6,22 +7,35 @@ using R4nd0mApps.TddStud10.TestRuntime.Diagnostics;
 
 namespace R4nd0mApps.TddStud10.TestRuntime
 {
-    public static class Marker
+    public class Marker
     {
         private const string TESTRUNID_SLOTNAME = "Marker.TestRunId";
 
-        private static LazyObject<ICoverageDataCollector> channel = new LazyObject<ICoverageDataCollector>(CreateChannel);
+        private static LazyObject<Marker> instance = new LazyObject<Marker>(
+            () => new Marker(CreateChannel, () => Debugger.IsAttached, CallContext.LogicalGetData, CallContext.LogicalSetData));
 
-        private static string TestRunId
+        private LazyObject<ICoverageDataCollector> _channel;
+        private Func<bool> _isDebuggerAttached;
+        private Func<string, object> _ccGetData;
+        private Action<string, object> _ccSetData;
+
+        private string TestRunId
         {
-            get { return CallContext.LogicalGetData(TESTRUNID_SLOTNAME) as string; }
-            set { CallContext.LogicalSetData(TESTRUNID_SLOTNAME, value); }
+            get { return _ccGetData(TESTRUNID_SLOTNAME) as string; }
+            set { _ccSetData(TESTRUNID_SLOTNAME, value); }
         }
 
-        [DebuggerNonUserCode]
-        public static void EnterSequencePoint(string assemblyId, string methodMdRid, string spId)
+        public Marker(Func<ICoverageDataCollector> channelCreator, Func<bool> isDebuggerAttached, Func<string, object> ccGetData, Action<string, object> ccSetData)
         {
-            if (Debugger.IsAttached)
+            _channel = new LazyObject<ICoverageDataCollector>(channelCreator);
+            _isDebuggerAttached = isDebuggerAttached;
+            _ccGetData = ccGetData;
+            _ccSetData = ccSetData;
+        }
+
+        public void RegisterEnterSequencePoint(string assemblyId, string methodMdRid, string spId)
+        {
+            if (_isDebuggerAttached())
             {
                 Logger.I.LogInfo("Marker: Ignoring call as debugger is attached.");
                 return;
@@ -32,13 +46,12 @@ namespace R4nd0mApps.TddStud10.TestRuntime
                 TestRunId = new object().GetHashCode().ToString(CultureInfo.InvariantCulture);
             }
 
-            channel.Value.EnterSequencePoint(TestRunId, assemblyId, methodMdRid, spId);
+            _channel.Value.EnterSequencePoint(TestRunId, assemblyId, methodMdRid, spId);
         }
 
-        [DebuggerNonUserCode]
-        public static void ExitUnitTest(string source, string document, string line)
+        public void RegisterExitUnitTest(string source, string document, string line)
         {
-            if (Debugger.IsAttached)
+            if (_isDebuggerAttached())
             {
                 Logger.I.LogInfo("Marker: Ignoring call as debugger is attached.");
                 return;
@@ -49,8 +62,20 @@ namespace R4nd0mApps.TddStud10.TestRuntime
                 Logger.I.LogError("Marker: Appears we did not have any sequence points for {0},{1},{2}.", source, document, line);
             }
 
-            channel.Value.ExitUnitTest(TestRunId, source, document, line);
+            _channel.Value.ExitUnitTest(TestRunId, source, document, line);
             TestRunId = null;
+        }
+
+        [DebuggerNonUserCode]
+        public static void EnterSequencePoint(string assemblyId, string methodMdRid, string spId)
+        {
+            Marker.instance.Value.RegisterEnterSequencePoint(assemblyId, methodMdRid, spId);
+        }
+
+        [DebuggerNonUserCode]
+        public static void ExitUnitTest(string source, string document, string line)
+        {
+            Marker.instance.Value.RegisterExitUnitTest(source, document, line);
         }
 
         public static string CreateCodeCoverageDataCollectorEndpointAddress()

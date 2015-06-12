@@ -5,6 +5,7 @@ open System.Runtime.CompilerServices
 open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 open Microsoft.VisualStudio.Shell
 
+// NOTE: We should ideally return Option<'T> from these functions. Do it when we get a chance next.
 [<Extension>]
 type public Services = 
     

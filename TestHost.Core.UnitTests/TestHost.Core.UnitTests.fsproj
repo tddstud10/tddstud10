@@ -124,10 +124,15 @@
       <Link>TestData\bins\XUnit20FSPortable\XUnit20FSPortable.XML</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="CoverageDataCollectorTests.fs" />
     <Compile Include="XUnitTestExecutorTests.fs" />
     <Compile Include="XUnitTestDiscovererTests.fs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Foq">
+      <HintPath>..\packages\Foq.1.7\Lib\net45\Foq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FSharp.Configuration">
       <HintPath>..\packages\FSharp.Configuration.0.5.1\lib\net40\FSharp.Configuration.dll</HintPath>
       <Private>True</Private>

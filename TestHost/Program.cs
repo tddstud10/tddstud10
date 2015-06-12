@@ -10,7 +10,6 @@ using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.TestExecution.Adapters;
 using R4nd0mApps.TddStud10.TestHost.Diagnostics;
 using R4nd0mApps.TddStud10.TestRuntime;
-using Server;
 
 namespace R4nd0mApps.TddStud10.TestHost
 {
@@ -37,8 +36,8 @@ namespace R4nd0mApps.TddStud10.TestHost
             var discoveredUnitTestsStore = args[4];
 
             var allTestsPassed = Debugger.IsAttached
-                ? RunTests(command, testResultsStore, discoveredUnitTestsStore)
-                : ExecuteTestWithCoverageDataCollection(() => RunTests(command, testResultsStore, discoveredUnitTestsStore), codeCoverageStore);
+                ? RunTests(testResultsStore, discoveredUnitTestsStore)
+                : ExecuteTestWithCoverageDataCollection(() => RunTests(testResultsStore, discoveredUnitTestsStore), codeCoverageStore);
 
             LogInfo("TestHost: Exiting Main.");
             return allTestsPassed ? 0 : 1;
@@ -55,12 +54,12 @@ namespace R4nd0mApps.TddStud10.TestHost
                 NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
                 serviceHost.AddServiceEndpoint(typeof(ICoverageDataCollector), binding, address);
                 serviceHost.Open();
-                LogInfo("TestHost: Opened channel.");
+                LogInfo("TestHost: Opened _channel.");
 
                 allTestsPassed = runTests();
                 LogInfo("TestHost: Finished running test cases.");
             }
-            ccServer.SaveTestCases(codeCoverageStore);
+            ccServer.CoverageData.Serialize(FilePath.NewFilePath(codeCoverageStore));
             return allTestsPassed;
         }
 
@@ -69,11 +68,9 @@ namespace R4nd0mApps.TddStud10.TestHost
             LogError("Exception thrown in InvokeEngine: {0}.", e.ExceptionObject);
         }
 
-        private static bool RunTests(string command, string testResultsStore, string discoveredUnitTestsStore)
+        private static bool RunTests(string testResultsStore, string discoveredUnitTestsStore)
         {
             Stopwatch stopWatch = new Stopwatch();
-            TimeSpan ts;
-            string elapsedTime;
 
             LogInfo("TestHost executing tests...");
             stopWatch.Start();
@@ -102,8 +99,8 @@ namespace R4nd0mApps.TddStud10.TestHost
             }
 
             stopWatch.Stop();
-            ts = stopWatch.Elapsed;
-            elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            var ts = stopWatch.Elapsed;
+            var elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                         ts.Hours, ts.Minutes, ts.Seconds,
                         ts.Milliseconds / 10);
             LogInfo("Done TestHost executing tests! [" + elapsedTime + "]");
@@ -128,7 +125,6 @@ namespace R4nd0mApps.TddStud10.TestHost
                 DocumentCoordinate.NewDocumentCoordinate(ea.TestCase.LineNumber));
 
             var results = testResults.GetOrAdd(testId, _ => new ConcurrentBag<TestRunResult>());
-
             results.Add(new TestRunResult(ea));
         }
     }

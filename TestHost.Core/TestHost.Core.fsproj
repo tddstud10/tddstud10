@@ -82,6 +82,7 @@
       <Link>Constants.fs</Link>
     </Compile>
     <Compile Include="Logger.fs" />
+    <Compile Include="CoverageDataCollector.fs" />
     <Compile Include="TestPlatformExtensions.fs" />
     <Compile Include="XUnitTestDiscoverer.fs" />
     <Compile Include="XUnitTestExecutor.fs" />
@@ -101,6 +102,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="xunit.abstractions">
       <HintPath>..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
       <Private>True</Private>
@@ -118,6 +120,11 @@
     <ProjectReference Include="..\Common\Domain\Domain.fsproj">
       <Name>Domain</Name>
       <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\TestExecution\TestRuntime\TestRuntime.csproj">
+      <Name>TestRuntime</Name>
+      <Project>{0fea2e86-4ee0-4fd8-949d-c74189b855d9}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

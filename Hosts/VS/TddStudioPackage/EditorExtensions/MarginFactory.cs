@@ -11,17 +11,17 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 #if DONT_COMPILE
 
 TODO:
-- Subscribe to runstart and update these properties in datastore
-- Service provider extensions should return None adn not null
-- Unit tests for Marker & CoverageDataCollector + all public statuc methis need to have DebuggerStepThrough
-- Marging needs to scale up with the editor
-- Cannot check by str = "Discover Unit Tests" in datastore events
 - Change in eventing infra 
   - RunStartEA, RunErrorEA, RunEndEA - make i tconsistent with runexecutor
   - RunErrorEA contains RSR
   - RunEndEA contains RSR and data
   - Engine steps don't update datastore
+- createCoverageData doesnt show coverage information - entersp markers are not injected looks like
+- Cannot check by str = "Discover Unit Tests" in datastore events
+- Subscribe to runstart and update these properties in datastore
 - datastore entities must be non-null always
+- switches
+- <deploy>
 - For new runs - we should merge right - when is the right time to pull that in?
 - Engine events wire up 
   - Custom Trigger mechanism with 3 goals: exception in one handler should not affect the others
@@ -31,7 +31,7 @@ TODO:
   - EngineHost, RunState, DataStore, ConsoleApp, [TBD:ToolWindow], etc.
 - Move to async tagging
 - SnapshotlineRange - tagger implementation assumes we we ask line by line and not for spans across multiplelines
-- getMarkerTags - can detect sequence points but we arent instrumenting it.
+- Marging needs to scale up with the editor
 - Breakpoint - remove on debug stop, dont/add-remove if breakpoint already present
 
 - Spec questions
