@@ -6,12 +6,12 @@ open System.IO
 open System.Reflection
 
 type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, stepWrapper : RunStepFuncWrapper) = 
-    let runStarting = new Event<RunData>()
-    let runEnded = new Event<RunData>()
-    let onRunError = new Event<Exception>()
-    let runStepStarting = new Event<RunStepEventArg>()
-    let onRunStepError = new Event<RunStepEndEventArg>()
-    let runStepEnded = new Event<RunStepEndEventArg>()
+    let runStarting = new Event<_>()
+    let runEnded = new Event<_>()
+    let onRunError = new Event<_>()
+    let runStepStarting = new Event<_>()
+    let onRunStepError = new Event<_>()
+    let runStepEnded = new Event<_>()
     
     let executeStep (host : IRunExecutorHost) events (acc, err) e = 
         match err with

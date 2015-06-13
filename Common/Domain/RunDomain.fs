@@ -2,6 +2,12 @@
 
 open System
 
+type RunData1 =
+    | TestCases of PerAssemblyTestCases
+    | SequencePoints of PerDocumentSequencePoints
+    | SequencePointsCoverage of PerAssemblySequencePointsCoverage 
+    | TestResults of PerTestIdResults
+
 type RunStartParams = 
     { startTime : DateTime
       testHostPath : FilePath
@@ -25,17 +31,21 @@ type RunStepResult =
 
 exception RunStepFailedException of RunStepResult
 
-type RunStepEventArg = 
+type RunStepStartingEventArg = 
     { name : RunStepName
       kind : RunStepKind
       runData : RunData }
 
 type RunStepEndEventArg = RunStepResult
 
+type RunStepErrorEventArg = RunStepResult
+
+type RunStepEndedEventArg = RunStepResult
+
 type RunStepEvents = 
-    { onStart : Event<RunStepEventArg>
-      onError : Event<RunStepEndEventArg>
-      onFinish : Event<RunStepEndEventArg> }
+    { onStart : Event<RunStepStartingEventArg>
+      onError : Event<RunStepErrorEventArg>
+      onFinish : Event<RunStepEndedEventArg> }
 
 type RunStepFunc = IRunExecutorHost -> RunStepName -> RunStepKind -> RunStepEvents -> RunData -> RunStepResult
 

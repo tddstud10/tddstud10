@@ -190,7 +190,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
         }
 
-        public void RunStepStarting(RunStepEventArg rsea)
+        public void RunStepStarting(RunStepStartingEventArg rsea)
         {
         }
 

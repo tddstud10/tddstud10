@@ -7,14 +7,14 @@ open R4nd0mApps.TddStud10.Engine.TestFramework
 
 let ex = new InvalidOperationException("A mock method threw")
 
-let makeSpies (sb, eb, fb) = 
-    new CallSpy<RunStepEventArg>(sb), new CallSpy<RunStepEndEventArg>(eb), new CallSpy<RunStepEndEventArg>(fb)
+let makeSpies (sb, erb, eb) = 
+    new CallSpy<RunStepStartingEventArg>(sb), new CallSpy<RunStepErrorEventArg>(erb), new CallSpy<RunStepEndedEventArg>(eb)
 
-let makeAndWireUpRSESpies2 (ss : CallSpy<RunStepEventArg>, se : CallSpy<RunStepEndEventArg>, sf : CallSpy<RunStepEndEventArg>) = 
+let makeAndWireUpRSESpies2 (ss : CallSpy<RunStepStartingEventArg>, se : CallSpy<RunStepErrorEventArg>, sf : CallSpy<RunStepEndedEventArg>) = 
     let rses = 
-        { onStart = new Event<RunStepEventArg>()
-          onError = new Event<RunStepEndEventArg>()
-          onFinish = new Event<RunStepEndEventArg>() }
+        { onStart = new Event<_>()
+          onError = new Event<_>()
+          onFinish = new Event<_>() }
     (rses.onStart.Publish).Add(ss.Func >> ignore)
     (rses.onError.Publish).Add(se.Func >> ignore)
     (rses.onFinish.Publish).Add(sf.Func >> ignore)
@@ -24,20 +24,20 @@ let makeAndWireUpRSESpies () =
     let (ss, se, sf) = makeSpies (DoesNotThrow, DoesNotThrow, DoesNotThrow)
     makeAndWireUpRSESpies2 (ss, se, sf)
 
-let isHandlerCalled (s : CallSpy<RunStepEventArg>) slnName stepName kind =
+let isHandlerCalled (s : CallSpy<RunStepStartingEventArg>) slnName stepName kind =
     s.CalledWith |> Option.map (fun r -> r.runData.startParams.solutionPath) = Some(~~slnName) 
     && s.CalledWith |> Option.map (fun r -> r.name) = Some(RunStepName stepName) 
     && s.CalledWith |> Option.map (fun r -> r.kind) = Some(kind) 
 
-let isEndHandlerCalled (se : CallSpy<RunStepEndEventArg>) slnName _ = 
+let isEndHandlerCalled (se : CallSpy<_>) slnName _ = 
     se.CalledWith |> Option.map (fun rss -> rss.runData.startParams.solutionPath) = Some(~~slnName) 
 
-let isEndHandlerCalled2 (se : CallSpy<RunStepEndEventArg>) slnName stepName status = 
-    isEndHandlerCalled (se : CallSpy<RunStepEndEventArg>) slnName stepName  
+let isEndHandlerCalled2 (se : CallSpy<_>) slnName stepName status = 
+    isEndHandlerCalled (se : CallSpy<_>) slnName stepName  
     && se.CalledWith |> Option.map (fun rss -> rss.status) = Some(status) 
 
-let isEndHandlerCalled3 (se : CallSpy<RunStepEndEventArg>) slnName stepName status addendum = 
-    isEndHandlerCalled2 (se : CallSpy<RunStepEndEventArg>) slnName stepName status
+let isEndHandlerCalled3 (se : CallSpy<_>) slnName stepName status addendum = 
+    isEndHandlerCalled2 (se : CallSpy<_>) slnName stepName status
     && se.CalledWith |> Option.map (fun rss -> rss.addendum) = Some(addendum) 
 
 [<Fact>]

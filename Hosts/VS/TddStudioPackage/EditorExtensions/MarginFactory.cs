@@ -11,10 +11,10 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 #if DONT_COMPILE
 
 TODO:
-- Run ATs
+v Run ATs
 - Data store consumes events from Engine
   - Prep 
-    - PipelineData union
+    v PipelineData union
     - Restructure 
       - RunErrorEA contains RSR
       - RunEndEA contains RSR and data

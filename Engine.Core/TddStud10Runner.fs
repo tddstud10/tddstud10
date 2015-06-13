@@ -32,8 +32,8 @@ type public TddStud10Runner private (re, agent, rst) =
         re.RunEnded.Add(rst.OnRunEnd)
         new TddStud10Runner(re, agent, rst)
     
-    member public __.AttachHandlers (rsc : Handler<RunState>) (sh : Handler<RunData>) (ssh : Handler<RunStepEventArg>) 
-           (serh : Handler<RunStepEndEventArg>) (seh : Handler<RunStepEndEventArg>) (erh : Handler<Exception>) 
+    member public __.AttachHandlers (rsc : Handler<RunState>) (sh : Handler<RunData>) (ssh : Handler<RunStepStartingEventArg>) 
+           (serh : Handler<RunStepErrorEventArg>) (seh : Handler<RunStepEndedEventArg>) (erh : Handler<Exception>) 
            (eh : Handler<RunData>) = 
         rst.RunStateChanged.AddHandler(rsc)
         re.RunStarting.AddHandler(sh)
@@ -43,8 +43,8 @@ type public TddStud10Runner private (re, agent, rst) =
         re.OnRunError.AddHandler(erh)
         re.RunEnded.AddHandler(eh)
 
-    member public __.DetachHandlers (eh : Handler<RunData>) (erh : Handler<Exception>) (seh : Handler<RunStepEndEventArg>) 
-           (serh : Handler<RunStepEndEventArg>) (ssh : Handler<RunStepEventArg>) (sh : Handler<RunData>) 
+    member public __.DetachHandlers (eh : Handler<RunData>) (erh : Handler<Exception>) (seh : Handler<RunStepEndedEventArg>) 
+           (serh : Handler<RunStepErrorEventArg>) (ssh : Handler<RunStepStartingEventArg>) (sh : Handler<RunData>) 
            (rsc : Handler<RunState>) = 
         re.RunEnded.RemoveHandler(eh)
         re.OnRunError.RemoveHandler(erh)

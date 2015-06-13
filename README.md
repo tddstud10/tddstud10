@@ -220,7 +220,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
   - ☐ Notification Icon
     - ☐ status icon on build failure
     - ☐ status icon on test failure
-    - ☐ status icon on both
+    - ☐ ? status icon on both
     - ☐ status icon on close project
   - ☐ Unit tests markers appear
     - ☐ Right click in design-mode -> breakpoint is inserted -> bp is hit

@@ -66,10 +66,10 @@ type RunStateTracker() =
     member __.State = state
     member public __.RunStateChanged = runStateChanged.Publish
     member public __.OnRunStarting(_ : RunData) = transitionStateAndRaiseEvent RunStarting
-    member public __.OnRunStepStarting(ea : RunStepEventArg) = transitionStateAndRaiseEvent (RunStepStarting ea.kind)
-    member public __.OnRunStepError(ea : RunStepEndEventArg) = 
+    member public __.OnRunStepStarting(ea : RunStepStartingEventArg) = transitionStateAndRaiseEvent (RunStepStarting ea.kind)
+    member public __.OnRunStepError(ea : RunStepErrorEventArg) = 
         transitionStateAndRaiseEvent (RunStepError(ea.kind, ea.status))
-    member public __.OnRunStepEnd(ea : RunStepEndEventArg) = 
+    member public __.OnRunStepEnd(ea : RunStepEndedEventArg) = 
         transitionStateAndRaiseEvent (RunStepEnded(ea.kind, ea.status))
     member public __.OnRunError(ea : Exception) = transitionStateAndRaiseEvent (RunError ea)
     member public __.OnRunEnd(_ : RunData) = ()

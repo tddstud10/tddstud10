@@ -342,7 +342,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                 });
         }
 
-        public void RunStepStarting(RunStepEventArg rsea)
+        public void RunStepStarting(RunStepStartingEventArg rsea)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>

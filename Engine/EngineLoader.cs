@@ -12,7 +12,7 @@ namespace R4nd0mApps.TddStud10.Engine
     {
         void RunStarting(RunData rd);
 
-        void RunStepStarting(RunStepEventArg rsea);
+        void RunStepStarting(RunStepStartingEventArg rsea);
 
         void OnRunStepError(RunStepResult rss);
 
@@ -36,7 +36,7 @@ namespace R4nd0mApps.TddStud10.Engine
 
         public static FSharpHandler<RunState> _runStateChangedHandler;
         public static FSharpHandler<RunData> _runStartingHandler;
-        public static FSharpHandler<RunStepEventArg> _runStepStartingHandler;
+        public static FSharpHandler<RunStepStartingEventArg> _runStepStartingHandler;
         public static FSharpHandler<RunStepResult> _onRunStepErrorHandler;
         public static FSharpHandler<RunStepResult> _runStepEndedHandler;
         public static FSharpHandler<Exception> _onRunErrorHandler;
@@ -51,7 +51,7 @@ namespace R4nd0mApps.TddStud10.Engine
 
             _runStateChangedHandler = new FSharpHandler<RunState>((s, ea) => _host.RunStateChanged(ea));
             _runStartingHandler = new FSharpHandler<RunData>((s, ea) => _host.RunStarting(ea));
-            _runStepStartingHandler = new FSharpHandler<RunStepEventArg>((s, ea) => _host.RunStepStarting(ea));
+            _runStepStartingHandler = new FSharpHandler<RunStepStartingEventArg>((s, ea) => _host.RunStepStarting(ea));
             _onRunStepErrorHandler = new FSharpHandler<RunStepResult>((s, ea) => _host.OnRunStepError(ea));
             _runStepEndedHandler = new FSharpHandler<RunStepResult>(
                 (s, ea) =>
