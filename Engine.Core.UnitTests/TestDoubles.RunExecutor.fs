@@ -6,10 +6,10 @@ open R4nd0mApps.TddStud10.Engine.TestFramework
 type public TestHost(cancelStep : int) = 
     let mutable callCount = 0
     interface IRunExecutorHost with
-        member this.CanContinue() = 
+        member __.CanContinue() = 
             callCount <- callCount + 1
             callCount <= cancelStep
-        member this.RunStateChanged rs =
+        member __.RunStateChanged _ =
             ()
 
 let getRss rss = 
@@ -26,7 +26,7 @@ type StepFunc(behavior) =
     member val Called = false with get, set
     member val CalledWith = None with get, set
     member val ReturningWith = None with get, set
-    member public t.Func (h : IRunExecutorHost) name kind subKind events (rd : RunData) : RunStepResult = 
+    member public t.Func (_ : IRunExecutorHost) sp name kind subKind _ (rd : RunData) : RunStepResult = 
         t.Called <- true
         t.CalledWith <- Some(rd.GetHashCode())
         match behavior with
@@ -34,7 +34,8 @@ type StepFunc(behavior) =
         | Throws(ex) -> raise ex
         let retRd = { rd with sequencePoints = Some(new PerDocumentSequencePoints()) }
         t.ReturningWith <- Some(retRd.GetHashCode())
-        { name = name
+        { startParams = sp
+          name = name
           kind = kind
           subKind = subKind
           status = Failed

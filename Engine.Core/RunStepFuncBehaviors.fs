@@ -5,15 +5,16 @@ open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.Engine.Diagnostics
 
 let eventsPublisher f = 
-    fun h n k sk { onStart = se; onError = ee; onFinish = fe } rd -> 
-        Common.safeExec (fun () -> se.Trigger({ name = n; kind = k; subKind = sk; runData = rd }))
+    fun h sp n k sk { onStart = se; onError = ee; onFinish = fe } rd -> 
+        Common.safeExec (fun () -> se.Trigger({ startParams = sp; name = n; kind = k; subKind = sk; runData = rd }))
         let rss = 
             try 
-                f h n k sk { onStart = se
-                             onError = ee
-                             onFinish = fe } rd
+                f h sp n k sk { onStart = se
+                                onError = ee
+                                onFinish = fe } rd
             with ex -> 
-                { name = n
+                { startParams = sp
+                  name = n
                   kind = k
                   subKind = sk
                   status = Aborted
@@ -29,21 +30,21 @@ let eventsPublisher f =
         rss
 
 let stepTimer f = 
-    fun h n k sk es rd -> 
+    fun h sp n k sk es rd -> 
         let sw = Stopwatch()
         sw.Start()
         try 
-            f h n k sk es rd
+            f h sp n k sk es rd
         finally
             let s = sw.Elapsed.ToString("mm\:ss\.ffff")
             Logger.logInfof "[--] Step %A completed in %s" n s
 
 let stepLogger f = 
-    fun h n k sk es rd -> 
+    fun h sp n k sk es rd -> 
         Logger.logInfof "[--> Starting step: %A" n
         try 
             try 
-                f h n k sk es rd
+                f h sp n k sk es rd
             with ex -> 
                 Logger.logErrorf "[**> Exception thrown in step: %A. Exception %s" n (ex.ToString())
                 reraise()

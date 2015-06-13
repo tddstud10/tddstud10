@@ -7,14 +7,19 @@ open System
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open System.Collections.Concurrent
 
+let rd0 = { testsPerAssembly = None
+            sequencePoints = None
+            codeCoverageResults = None
+            executedTests = None }
+
 let createRSS slnPath tpa = 
-    let rd = RunExecutor.makeRunData DateTime.Now (FilePath slnPath)
-    { name = RunStepName "__"
+    { startParams = RunExecutor.createRunStartParams DateTime.Now (FilePath slnPath)
+      name = RunStepName "__"
       kind = Test
       subKind = DiscoverTests
       status = Succeeded
       addendum = FreeFormatData ""
-      runData = { rd with testsPerAssembly = Some tpa } }
+      runData = { rd0 with testsPerAssembly = Some tpa } }
 
 let createDS() = 
     let ds = new DataStore() :> IDataStore

@@ -19,12 +19,15 @@ v Run ATs
       v Cannot check by str = "Discover Unit Tests" in datastore events
     - Restructure 
       v RunStartEA, RunErrorEA, RunEndEA - make i tconsistent with runexecutor
-      - RunErrorEA contains RSR
-      - RunEndEA contains RSR and data
+      v RunErrorEA contains RSR
+      v RunEndEA contains RSR and data
+      - null in UpdateCoverageResults
   - UpdateData : Substeps -> PipelineData -> unit
   - Datastore events and methods
   - Engine steps don't update datastore
   - Delete CoverageData
+  - rename rundata1
+  - delete options in rundata
   - Subscribe to runstart and update these properties in datastore
 - datastore entities must be non-null always
 - createCoverageData doesnt show coverage information - entersp markers are not injected looks like

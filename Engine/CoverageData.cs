@@ -29,9 +29,9 @@ namespace R4nd0mApps.TddStud10.Engine
 
         public PerDocumentSequencePoints PerDocumentSequencePoints { get; set; }
 
-        public void UpdateCoverageResults(RunData rd)
+        public void UpdateCoverageResults(RunStartParams rsp, RunData rd)
         {
-            SolutionPath = rd.startParams.solutionPath;
+            SolutionPath = rsp.solutionPath;
             PerDocumentSequencePoints = rd.sequencePoints == Microsoft.FSharp.Core.FSharpOption<PerDocumentSequencePoints>.None ? new PerDocumentSequencePoints() : rd.sequencePoints.Value;
             PerAssemblySequencePointsCoverage = rd.codeCoverageResults == Microsoft.FSharp.Core.FSharpOption<PerAssemblySequencePointsCoverage>.None ? new PerAssemblySequencePointsCoverage() : rd.codeCoverageResults.Value;
             PerTestIdResults = rd.executedTests == Microsoft.FSharp.Core.FSharpOption<PerTestIdResults>.None ? new PerTestIdResults() : rd.executedTests.Value;

@@ -6,7 +6,7 @@ open R4nd0mApps.TddStud10.Engine.Diagnostics
 
 type RunStateTracker() = 
     let mutable state = Initial
-    let runStateChanged = new Event<RunState>()
+    let runStateChanged = new Event<_>()
 
     let logAndReturnBack s ev =
         Logger.logErrorf "Run Tracker State Machine: Cannot handle event '%A' in state '%A'" ev s
@@ -65,11 +65,11 @@ type RunStateTracker() =
     
     member __.State = state
     member public __.RunStateChanged = runStateChanged.Publish
-    member public __.OnRunStarting(_ : RunData) = transitionStateAndRaiseEvent RunStarting
+    member public __.OnRunStarting(_ : RunStartParams) = transitionStateAndRaiseEvent RunStarting
     member public __.OnRunStepStarting(ea : RunStepStartingEventArg) = transitionStateAndRaiseEvent (RunStepStarting ea.kind)
     member public __.OnRunStepError(ea : RunStepErrorEventArg) = 
         transitionStateAndRaiseEvent (RunStepError(ea.rsr.kind, ea.rsr.status))
     member public __.OnRunStepEnd(ea : RunStepEndedEventArg) = 
         transitionStateAndRaiseEvent (RunStepEnded(ea.rsr.kind, ea.rsr.status))
     member public __.OnRunError(ea : Exception) = transitionStateAndRaiseEvent (RunError ea)
-    member public __.OnRunEnd(_ : RunData) = ()
+    member public __.OnRunEnd(_ : RunStartParams * RunData) = ()

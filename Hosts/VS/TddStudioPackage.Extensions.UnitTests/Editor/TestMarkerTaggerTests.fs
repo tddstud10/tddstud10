@@ -11,14 +11,20 @@ open R4nd0mApps.TddStud10.Hosts.Common.TestCode
 open Microsoft.VisualStudio.Text
 open Microsoft.VisualStudio.Text.Tagging
 
+let rd0 = { testsPerAssembly = None
+            sequencePoints = None
+            codeCoverageResults = None
+            executedTests = None }
+
 let createRSS slnPath tpa = 
-    let rd = RunExecutor.makeRunData DateTime.Now (FilePath slnPath)
-    { name = RunStepName "__"
+    let rd = RunExecutor.createRunStartParams DateTime.Now (FilePath slnPath)
+    { startParams = rd
+      name = RunStepName "__"
       kind = Test
       subKind = DiscoverTests 
       status = Succeeded
       addendum = FreeFormatData ""
-      runData = { rd with testsPerAssembly = Some tpa } }
+      runData = { rd0 with testsPerAssembly = Some tpa } }
 
 let createTMT p t = 
     let ds = DataStore() :> IDataStore

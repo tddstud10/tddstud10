@@ -13,13 +13,13 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
     let onRunStepError = new Event<_>()
     let runStepEnded = new Event<_>()
     
-    let executeStep (host : IRunExecutorHost) events (acc, err) e = 
+    let executeStep (host : IRunExecutorHost) sp events (acc, err) e = 
         match err with
         | Some _ -> acc, err
         | None -> 
             if (host.CanContinue()) then 
                 try 
-                    let rsr = (e.func |> stepWrapper) host e.name e.kind e.subKind events acc
+                    let rsr = (e.func |> stepWrapper) host sp e.name e.kind e.subKind events acc
                     rsr.runData, err
                 with 
                 | RunStepFailedException(rsr) as rsfe -> rsr.runData, Some rsfe 
@@ -38,31 +38,32 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
     member public __.OnRunStepError = onRunStepError.Publish
     member public __.RunStepEnded = runStepEnded.Publish
     
-    static member public makeRunData startTime solutionPath = 
-        { startParams = { startTime = startTime
-                          testHostPath = Path.Combine(() |> getLocalPath, "TddStud10.TestHost.exe") |> FilePath
-                          solutionPath = solutionPath
-                          solutionSnapshotPath = PathBuilder.makeSlnSnapshotPath solutionPath
-                          solutionBuildRoot = PathBuilder.makeSlnBuildRoot solutionPath }
-          testsPerAssembly = None
-          sequencePoints = None
-          codeCoverageResults = None
-          executedTests = None }
+    static member public createRunStartParams startTime solutionPath = 
+        { startTime = startTime
+          testHostPath = Path.Combine(() |> getLocalPath, "TddStud10.TestHost.exe") |> FilePath
+          solutionPath = solutionPath
+          solutionSnapshotPath = PathBuilder.makeSlnSnapshotPath solutionPath
+          solutionBuildRoot = PathBuilder.makeSlnBuildRoot solutionPath }
     
     member public __.Start(startTime, solutionPath) = 
         (* NOTE: Need to ensure the started/errored/ended events go out no matter what*)
-        let rd = RunExecutor.makeRunData startTime solutionPath
-        Common.safeExec (fun () -> runStarting.Trigger(rd))
+        let rsp = RunExecutor.createRunStartParams startTime solutionPath
+        let rd = { testsPerAssembly = None
+                   sequencePoints = None
+                   codeCoverageResults = None
+                   executedTests = None }
+
+        Common.safeExec (fun () -> runStarting.Trigger(rsp))
         let rses = 
             { onStart = runStepStarting
               onError = onRunStepError
               onFinish = runStepEnded }
         
-        let rd, err = runSteps |> Seq.fold (executeStep host rses) (rd, None)
+        let rd, err = runSteps |> Seq.fold (executeStep host rsp rses) (rd, None)
         match err with
         | None -> ()
         | Some e -> Common.safeExec (fun () -> onRunError.Trigger(e))
-        Common.safeExec (fun () -> runEnded.Trigger(rd))
-        rd, err
+        Common.safeExec (fun () -> runEnded.Trigger(rsp, rd))
+        rsp, rd, err
     
     static member public Create host runSteps stepWrapper = new RunExecutor(host, runSteps, stepWrapper)

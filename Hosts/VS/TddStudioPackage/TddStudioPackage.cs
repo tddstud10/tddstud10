@@ -186,7 +186,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                 });
         }
 
-        public void RunStarting(RunData rd)
+        public void RunStarting(RunStartParams rd)
         {
         }
 
@@ -206,10 +206,10 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
         }
 
-        public void RunEnded(RunData rd)
+        public void RunEnded(Tuple<RunStartParams, RunData> rd)
         {
             InvokeOnUIThread(
-                () => CoverageData.Instance.UpdateCoverageResults(rd)
+                () => CoverageData.Instance.UpdateCoverageResults(rd.Item1, rd.Item2)
             );
         }
 

@@ -14,7 +14,7 @@ type DataStore() =
         member __.TestCasesUpdated : IEvent<PerAssemblyTestCases> = testCasesUpdated.Publish
         
         member __.UpdateData(rsr : RunStepResult) : unit = 
-            runStartParams <- rsr.runData.startParams |> Some
+            runStartParams <- rsr.startParams |> Some
             match rsr.subKind with
             | DiscoverTests -> 
                 match rsr.runData.testsPerAssembly with

@@ -13,41 +13,53 @@ let createSM() =
     sm.RunStateChanged.Add(cs.Func >> ignore)
     sm, cs
 
+let rd0 = { testsPerAssembly = None
+            sequencePoints = None
+            codeCoverageResults = None
+            executedTests = None }
+
 let createRSS s =
-    { name = RunStepName ""
+    { startParams = RunExecutor.createRunStartParams DateTime.Now (FilePath "c:\\a\\b.sln")
+      name = RunStepName ""
       kind = Test
       subKind = DiscoverTests
       status = s
       addendum = FreeFormatData ""
-      runData = RunExecutor.makeRunData DateTime.Now (FilePath "c:\\a\\b.sln") }
-
+      runData = rd0 }
 
 let runTest2 (_ : RunStateTracker) (_ : CallSpy<RunState>) ts = 
     let sm, cs = createSM()
-    let rd = RunExecutor.makeRunData DateTime.Now (FilePath "c:\\a\\b.sln")
-    
+    let rd = RunExecutor.createRunStartParams DateTime.Now (FilePath "c:\\a\\b.sln")
+    let rd0 = { testsPerAssembly = None
+                sequencePoints = None
+                codeCoverageResults = None
+                executedTests = None }
+
     let runOneTest () (e, exs) = 
         match e with
         | RunStarting -> sm.OnRunStarting(rd)
         | RunStepStarting(k) -> 
-            sm.OnRunStepStarting({ name = RunStepName ""
+            sm.OnRunStepStarting({ startParams = rd
+                                   name = RunStepName ""
                                    kind = k
                                    subKind = DiscoverTests
-                                   runData = rd })
+                                   runData = rd0 })
         | RunStepError(k, s) -> 
-            sm.OnRunStepError({ rsr = { name = RunStepName ""
+            sm.OnRunStepError({ rsr = { startParams = rd
+                                        name = RunStepName ""
                                         kind = k
                                         subKind = InstrumentBinaries
                                         status = s
                                         addendum = FreeFormatData ""
-                                        runData = rd } })
+                                        runData = rd0 } })
         | RunStepEnded(k, s) -> 
-            sm.OnRunStepEnd({ rsr = { name = RunStepName ""
+            sm.OnRunStepEnd({ rsr = { startParams = rd
+                                      name = RunStepName ""
                                       kind = k
                                       subKind = BuildSnapshot
                                       status = s
                                       addendum = FreeFormatData ""
-                                      runData = rd } })
+                                      runData = rd0 } })
         | RunError(e) -> sm.OnRunError(e)
         Assert.Equal(cs.CalledWith, Some exs)
     ts |> List.fold runOneTest ()

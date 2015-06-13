@@ -330,7 +330,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                 });
         }
 
-        public void RunStarting(RunData rd)
+        public void RunStarting(RunStartParams rd)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>
@@ -398,14 +398,14 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                 });
         }
 
-        public void RunEnded(RunData rd)
+        public void RunEnded(Tuple<RunStartParams, RunData> rsp)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>
                 {
                     AddTextToConsole(sb => sb.AppendFormat("### Ended run."));
 
-                    CoverageData.Instance.UpdateCoverageResults(rd);
+                    CoverageData.Instance.UpdateCoverageResults(rsp.Item1, rsp.Item2);
                     _currentRunCancelled = false;
                 });
         }
