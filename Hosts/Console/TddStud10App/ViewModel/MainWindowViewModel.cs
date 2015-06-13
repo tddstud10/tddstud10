@@ -354,7 +354,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                 });
         }
 
-        public void OnRunStepError(RunStepResult rss)
+        public void OnRunStepError(RunStepErrorEventArg ea)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>
@@ -362,12 +362,12 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                     AddTextToConsole(
                         sb => sb.AppendFormat(
                             "### ### Error in step: {0}, {1}",
-                            rss.name.ToString(),
-                            rss.kind.ToString()));
+                            ea.rsr.name.ToString(),
+                            ea.rsr.kind.ToString()));
                 });
         }
 
-        public void RunStepEnded(RunStepResult rss)
+        public void RunStepEnded(RunStepEndedEventArg ea)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>
@@ -375,14 +375,14 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                     AddTextToConsole(
                         sb => sb.AppendFormat(
                             "### ### Finished run step : {0}...",
-                            rss.name.Item));
+                            ea.rsr.name.Item));
                     AddTextToStepResultAddendum(
                         sb => sb.AppendFormat(
                             "### ### Additional run step info: {0}, {1}:{2}{3}",
-                            rss.name.ToString(),
-                            rss.kind.ToString(),
+                            ea.rsr.name.ToString(),
+                            ea.rsr.kind.ToString(),
                             Environment.NewLine,
-                            rss.addendum.ToString()));
+                            ea.rsr.addendum.ToString()));
                 });
         }
 

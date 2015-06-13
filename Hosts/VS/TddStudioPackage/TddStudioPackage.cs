@@ -194,11 +194,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
         }
 
-        public void OnRunStepError(RunStepResult rss)
+        public void OnRunStepError(RunStepErrorEventArg ea)
         {
         }
 
-        public void RunStepEnded(RunStepResult rss)
+        public void RunStepEnded(RunStepEndedEventArg ea)
         {
         }
 

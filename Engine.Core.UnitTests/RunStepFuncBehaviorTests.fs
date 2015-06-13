@@ -29,16 +29,27 @@ let isHandlerCalled (s : CallSpy<RunStepStartingEventArg>) slnName stepName kind
     && s.CalledWith |> Option.map (fun r -> r.name) = Some(RunStepName stepName) 
     && s.CalledWith |> Option.map (fun r -> r.kind) = Some(kind) 
 
-let isEndHandlerCalled (se : CallSpy<_>) slnName _ = 
-    se.CalledWith |> Option.map (fun rss -> rss.runData.startParams.solutionPath) = Some(~~slnName) 
+let isErrorHandlerCalled (se : CallSpy<RunStepErrorEventArg>) slnName _ = 
+    se.CalledWith |> Option.map (fun rss -> rss.rsr.runData.startParams.solutionPath) = Some(~~slnName) 
 
-let isEndHandlerCalled2 (se : CallSpy<_>) slnName stepName status = 
-    isEndHandlerCalled (se : CallSpy<_>) slnName stepName  
-    && se.CalledWith |> Option.map (fun rss -> rss.status) = Some(status) 
+let isErrorHandlerCalled2 (se : CallSpy<RunStepErrorEventArg>) slnName stepName status = 
+    isErrorHandlerCalled se slnName stepName  
+    && se.CalledWith |> Option.map (fun rss -> rss.rsr.status) = Some(status) 
 
-let isEndHandlerCalled3 (se : CallSpy<_>) slnName stepName status addendum = 
-    isEndHandlerCalled2 (se : CallSpy<_>) slnName stepName status
-    && se.CalledWith |> Option.map (fun rss -> rss.addendum) = Some(addendum) 
+let isErrorHandlerCalled3 (se : CallSpy<RunStepErrorEventArg>) slnName stepName status addendum = 
+    isErrorHandlerCalled2 se slnName stepName status
+    && se.CalledWith |> Option.map (fun rss -> rss.rsr.addendum) = Some(addendum) 
+
+let isEndedHandlerCalled (se : CallSpy<RunStepEndedEventArg>) slnName _ = 
+    se.CalledWith |> Option.map (fun rss -> rss.rsr.runData.startParams.solutionPath) = Some(~~slnName) 
+
+let isEndedHandlerCalled2 (se : CallSpy<RunStepEndedEventArg>) slnName stepName status = 
+    isEndedHandlerCalled se slnName stepName  
+    && se.CalledWith |> Option.map (fun rss -> rss.rsr.status) = Some(status) 
+
+let isEndedHandlerCalled3 (se : CallSpy<RunStepEndedEventArg>) slnName stepName status addendum = 
+    isEndedHandlerCalled2 se slnName stepName status
+    && se.CalledWith |> Option.map (fun rss -> rss.rsr.addendum) = Some(addendum) 
 
 [<Fact>]
 let ``Events Publisher Behavior - Raises start, finish events if no failure``() = 
@@ -48,8 +59,8 @@ let ``Events Publisher Behavior - Raises start, finish events if no failure``() 
         { name = n; kind = k; status = Succeeded; addendum = FreeFormatData("Some data"); runData = rd }
     (f |> RunStepFuncBehaviors.eventsPublisher) 1 (RunStepName "step name") Build rses rd |> ignore
     Assert.True(isHandlerCalled ss "c:\\a\\b.sln" "step name" Build)
-    Assert.True(isEndHandlerCalled sf "c:\\a\\b.sln" "step name")
-    Assert.False(isEndHandlerCalled se "c:\\a\\b.sln" "step name")
+    Assert.True(isEndedHandlerCalled sf "c:\\a\\b.sln" "step name")
+    Assert.False(isErrorHandlerCalled se "c:\\a\\b.sln" "step name")
 
 [<Fact>]
 let ``Events Publisher - Handled errors - Raises start, error, finish events``() = 
@@ -60,8 +71,8 @@ let ``Events Publisher - Handled errors - Raises start, error, finish events``()
     let f1 = fun () -> ((f |> RunStepFuncBehaviors.eventsPublisher) 1 (RunStepName "step name") Test rses rd |> ignore)
     Assert.Equal(Assert.Throws<RunStepFailedException>(f1).Data0.addendum, FreeFormatData "Error Details")
     Assert.True(isHandlerCalled ss "c:\\a\\b.sln" "step name" Test)
-    Assert.True(isEndHandlerCalled3 se "c:\\a\\b.sln" "step name" Failed (FreeFormatData("Error Details")))
-    Assert.True(isEndHandlerCalled3 sf "c:\\a\\b.sln" "step name" Failed (FreeFormatData("Error Details")))
+    Assert.True(isErrorHandlerCalled3 se "c:\\a\\b.sln" "step name" Failed (FreeFormatData("Error Details")))
+    Assert.True(isEndedHandlerCalled3 sf "c:\\a\\b.sln" "step name" Failed (FreeFormatData("Error Details")))
 
 [<Fact>]
 let ``Events Publisher - Unhandled errors - Raises start, error, finish events``() = 
@@ -73,8 +84,8 @@ let ``Events Publisher - Unhandled errors - Raises start, error, finish events``
     let f1 = fun () -> ((f |> RunStepFuncBehaviors.eventsPublisher) 1 (RunStepName "step name") Test rses rd |> ignore)
     Assert.Throws<RunStepFailedException>(f1) |> ignore
     Assert.True(isHandlerCalled ss "c:\\a\\b.sln" "step name" Test)
-    Assert.True(isEndHandlerCalled2 se "c:\\a\\b.sln" "step name" Aborted)
-    Assert.True(isEndHandlerCalled2 sf "c:\\a\\b.sln" "step name" Aborted)
+    Assert.True(isErrorHandlerCalled2 se "c:\\a\\b.sln" "step name" Aborted)
+    Assert.True(isEndedHandlerCalled2 sf "c:\\a\\b.sln" "step name" Aborted)
 
 [<Fact>]
 let ``Events Publisher - Handled errors - Raises all events even when all of them crash``() = 
@@ -86,8 +97,8 @@ let ``Events Publisher - Handled errors - Raises all events even when all of the
     let f1 = fun () -> ((f |> RunStepFuncBehaviors.eventsPublisher) 1 (RunStepName "step name") Build rses rd |> ignore)
     Assert.Equal(Assert.Throws<RunStepFailedException>(f1).Data0.addendum, FreeFormatData "Error Details")
     Assert.True(ss.Called)
-    Assert.True(isEndHandlerCalled3 se "c:\\a\\b.sln" "step name" Failed (FreeFormatData("Error Details")))
-    Assert.True(isEndHandlerCalled sf "c:\\a\\b.sln" "step name")
+    Assert.True(isErrorHandlerCalled3 se "c:\\a\\b.sln" "step name" Failed (FreeFormatData("Error Details")))
+    Assert.True(isEndedHandlerCalled sf "c:\\a\\b.sln" "step name")
 
 [<Fact>]
 let ``Events Publisher - Unhandled errors - Raises all events even when all of them crash``() = 

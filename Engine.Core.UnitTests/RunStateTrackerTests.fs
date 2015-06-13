@@ -21,7 +21,7 @@ let createRSS s =
       runData = RunExecutor.makeRunData DateTime.Now (FilePath "c:\\a\\b.sln") }
 
 
-let runTest2 (sm : RunStateTracker) (cs : CallSpy<RunState>) ts = 
+let runTest2 (_ : RunStateTracker) (_ : CallSpy<RunState>) ts = 
     let sm, cs = createSM()
     let rd = RunExecutor.makeRunData DateTime.Now (FilePath "c:\\a\\b.sln")
     
@@ -33,17 +33,17 @@ let runTest2 (sm : RunStateTracker) (cs : CallSpy<RunState>) ts =
                                    kind = k
                                    runData = rd })
         | RunStepError(k, s) -> 
-            sm.OnRunStepError({ name = RunStepName ""
-                                kind = k
-                                status = s
-                                addendum = FreeFormatData ""
-                                runData = rd })
+            sm.OnRunStepError({ rsr = { name = RunStepName ""
+                                        kind = k
+                                        status = s
+                                        addendum = FreeFormatData ""
+                                        runData = rd } })
         | RunStepEnded(k, s) -> 
-            sm.OnRunStepEnd({ name = RunStepName ""
-                              kind = k
-                              status = s
-                              addendum = FreeFormatData ""
-                              runData = rd })
+            sm.OnRunStepEnd({ rsr = { name = RunStepName ""
+                                      kind = k
+                                      status = s
+                                      addendum = FreeFormatData ""
+                                      runData = rd } })
         | RunError(e) -> sm.OnRunError(e)
         Assert.Equal(cs.CalledWith, Some exs)
     ts |> List.fold runOneTest ()

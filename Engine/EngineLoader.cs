@@ -14,9 +14,9 @@ namespace R4nd0mApps.TddStud10.Engine
 
         void RunStepStarting(RunStepStartingEventArg rsea);
 
-        void OnRunStepError(RunStepResult rss);
+        void OnRunStepError(RunStepErrorEventArg rss);
 
-        void RunStepEnded(RunStepResult rss);
+        void RunStepEnded(RunStepEndedEventArg rss);
 
         void OnRunError(Exception ex);
 
@@ -37,8 +37,8 @@ namespace R4nd0mApps.TddStud10.Engine
         public static FSharpHandler<RunState> _runStateChangedHandler;
         public static FSharpHandler<RunData> _runStartingHandler;
         public static FSharpHandler<RunStepStartingEventArg> _runStepStartingHandler;
-        public static FSharpHandler<RunStepResult> _onRunStepErrorHandler;
-        public static FSharpHandler<RunStepResult> _runStepEndedHandler;
+        public static FSharpHandler<RunStepErrorEventArg> _onRunStepErrorHandler;
+        public static FSharpHandler<RunStepEndedEventArg> _runStepEndedHandler;
         public static FSharpHandler<Exception> _onRunErrorHandler;
         public static FSharpHandler<RunData> _runEndedHandler;
 
@@ -52,12 +52,12 @@ namespace R4nd0mApps.TddStud10.Engine
             _runStateChangedHandler = new FSharpHandler<RunState>((s, ea) => _host.RunStateChanged(ea));
             _runStartingHandler = new FSharpHandler<RunData>((s, ea) => _host.RunStarting(ea));
             _runStepStartingHandler = new FSharpHandler<RunStepStartingEventArg>((s, ea) => _host.RunStepStarting(ea));
-            _onRunStepErrorHandler = new FSharpHandler<RunStepResult>((s, ea) => _host.OnRunStepError(ea));
-            _runStepEndedHandler = new FSharpHandler<RunStepResult>(
+            _onRunStepErrorHandler = new FSharpHandler<RunStepErrorEventArg>((s, ea) => _host.OnRunStepError(ea));
+            _runStepEndedHandler = new FSharpHandler<RunStepEndedEventArg>(
                 (s, ea) =>
                 {
                     _host.RunStepEnded(ea);
-                    _dataStore.UpdateData(ea);
+                    _dataStore.UpdateData(ea.rsr);
                 });
             _onRunErrorHandler = new FSharpHandler<Exception>((s, ea) => _host.OnRunError(ea));
             _runEndedHandler = new FSharpHandler<RunData>((s, ea) => _host.RunEnded(ea));

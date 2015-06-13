@@ -19,9 +19,9 @@ let eventsPublisher f =
                   addendum = ExceptionData ex
                   runData = rd }
         if rss.status <> Succeeded then 
-            Common.safeExec (fun () -> ee.Trigger(rss))
+            Common.safeExec (fun () -> ee.Trigger({ rsr = rss }))
 
-        Common.safeExec (fun () -> fe.Trigger(rss))
+        Common.safeExec (fun () -> fe.Trigger({ rsr = rss }))
 
         if rss.status <> Succeeded then 
             raise (RunStepFailedException rss)

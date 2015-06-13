@@ -36,11 +36,11 @@ type RunStepStartingEventArg =
       kind : RunStepKind
       runData : RunData }
 
-type RunStepEndEventArg = RunStepResult
+type RunStepErrorEventArg = 
+    { rsr : RunStepResult }
 
-type RunStepErrorEventArg = RunStepResult
-
-type RunStepEndedEventArg = RunStepResult
+type RunStepEndedEventArg =
+    { rsr : RunStepResult }
 
 type RunStepEvents = 
     { onStart : Event<RunStepStartingEventArg>
