@@ -6,8 +6,8 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel
 type DataStore() = 
     static let instance = Lazy.Create(fun () -> DataStore())
     let mutable runStartParams = None
-    let mutable testCases = new PerAssemblyTestCases()
-    let testCasesUpdated = new Event<PerAssemblyTestCases>()
+    let mutable testCases = PerAssemblyTestCases()
+    let testCasesUpdated = Event<PerAssemblyTestCases>()
     
     interface IDataStore with
         member __.RunStartParams : RunStartParams option = runStartParams

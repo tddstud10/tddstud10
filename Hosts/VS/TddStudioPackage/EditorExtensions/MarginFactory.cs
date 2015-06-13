@@ -11,15 +11,23 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 #if DONT_COMPILE
 
 TODO:
-- Change in eventing infra 
-  - RunStartEA, RunErrorEA, RunEndEA - make i tconsistent with runexecutor
-  - RunErrorEA contains RSR
-  - RunEndEA contains RSR and data
+- Run ATs
+- Data store consumes events from Engine
+  - Prep 
+    - PipelineData union
+    - Restructure 
+      - RunErrorEA contains RSR
+      - RunEndEA contains RSR and data
+      - RunStartEA, RunErrorEA, RunEndEA - make i tconsistent with runexecutor
+    - Substeps
+  - UpdateData : Substeps -> PipelineData -> unit
+  - Datastore events and methods
   - Engine steps don't update datastore
-- createCoverageData doesnt show coverage information - entersp markers are not injected looks like
+  - Delete CoverageData
+  - Subscribe to runstart and update these properties in datastore
 - Cannot check by str = "Discover Unit Tests" in datastore events
-- Subscribe to runstart and update these properties in datastore
 - datastore entities must be non-null always
+- createCoverageData doesnt show coverage information - entersp markers are not injected looks like
 - switches
 - <deploy>
 - For new runs - we should merge right - when is the right time to pull that in?
