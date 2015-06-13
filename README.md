@@ -209,8 +209,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
   - ☐ Extensions and Updates - icon, version, name
   - ☐ Glyph & Tooltip
     - ☐ no lines on open
+    - ☐ unit test markers appear mid-way through build 
     - ☐ green lines on build
     - ☐ red lines on test failure
+    - ☐ grey lines on no test coverage
     - ☐ tooltip
     - ☐ red lines on theory failure
     - ☐ green line on build
@@ -221,7 +223,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
     - ☐ status icon on both
     - ☐ status icon on close project
   - ☐ Unit tests markers appear
-    - ☐ Appear mid-way through build 
     - ☐ Right click in design-mode -> breakpoint is inserted -> bp is hit
     - ☐ Right click in debug-mode -> Empty context menu appears
 
