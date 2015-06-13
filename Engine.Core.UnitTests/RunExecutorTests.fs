@@ -127,6 +127,7 @@ let ``Step fails - Random Exception - Executor raises all 3 events and stops exe
 let ``Step fails - RunStepFailedException - Executor raises all 3 events, stops execution, passes output rss to RunEnded event``() = 
     let rss = { name = RunStepName "Some step"
                 kind = Build
+                subKind = InstrumentBinaries
                 status = Failed
                 addendum = FreeFormatData "There has been a failure"
                 runData = (RunExecutor.makeRunData (DateTime.UtcNow) ~~"c:\\a\\b.sln") }

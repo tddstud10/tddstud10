@@ -19,7 +19,7 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
         | None -> 
             if (host.CanContinue()) then 
                 try 
-                    let rsr = (e.func |> stepWrapper) host e.name e.kind events acc
+                    let rsr = (e.func |> stepWrapper) host e.name e.kind e.subKind events acc
                     rsr.runData, err
                 with 
                 | RunStepFailedException(rsr) as rsfe -> rsr.runData, Some rsfe 

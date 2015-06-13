@@ -8,11 +8,12 @@ open R4nd0mApps.TddStud10.Common.Domain
    Hence unit tests not required. *)
 type public TddStud10Runner private (re, agent, rst) = 
     
-    static member public CreateRunStep(kind : RunStepKind, name : RunStepName, 
-                                       func : Func<IRunExecutorHost, RunStepName, RunStepKind, RunData, RunStepResult>) : RunStep = 
-        { kind = kind
-          name = name
-          func = fun h n k _ rd -> func.Invoke(h, n, k, rd) }
+    static member public CreateRunStep(kind : RunStepKind, subKind : RunStepSubKind, name : RunStepName, 
+                                       func : Func<IRunExecutorHost, RunStepName, RunStepKind, RunStepSubKind, RunData, RunStepResult>) : RunStep = 
+        { name = name
+          kind = kind
+          subKind = subKind
+          func = fun h n k sk _ rd -> func.Invoke(h, n, k, sk, rd) }
     
     static member public Create host runSteps = 
         let all f = 

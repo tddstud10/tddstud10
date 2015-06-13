@@ -16,6 +16,7 @@ let createSM() =
 let createRSS s =
     { name = RunStepName ""
       kind = Test
+      subKind = DiscoverTests
       status = s
       addendum = FreeFormatData ""
       runData = RunExecutor.makeRunData DateTime.Now (FilePath "c:\\a\\b.sln") }
@@ -31,16 +32,19 @@ let runTest2 (_ : RunStateTracker) (_ : CallSpy<RunState>) ts =
         | RunStepStarting(k) -> 
             sm.OnRunStepStarting({ name = RunStepName ""
                                    kind = k
+                                   subKind = DiscoverTests
                                    runData = rd })
         | RunStepError(k, s) -> 
             sm.OnRunStepError({ rsr = { name = RunStepName ""
                                         kind = k
+                                        subKind = InstrumentBinaries
                                         status = s
                                         addendum = FreeFormatData ""
                                         runData = rd } })
         | RunStepEnded(k, s) -> 
             sm.OnRunStepEnd({ rsr = { name = RunStepName ""
                                       kind = k
+                                      subKind = BuildSnapshot
                                       status = s
                                       addendum = FreeFormatData ""
                                       runData = rd } })

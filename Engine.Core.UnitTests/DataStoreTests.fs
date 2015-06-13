@@ -9,8 +9,9 @@ open System.Collections.Concurrent
 
 let createRSS slnPath tpa = 
     let rd = RunExecutor.makeRunData DateTime.Now (FilePath slnPath)
-    { name = RunStepName "Discover Unit Tests"
+    { name = RunStepName "__"
       kind = Test
+      subKind = DiscoverTests
       status = Succeeded
       addendum = FreeFormatData ""
       runData = { rd with testsPerAssembly = Some tpa } }

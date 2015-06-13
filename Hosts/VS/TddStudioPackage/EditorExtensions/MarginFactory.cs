@@ -15,17 +15,17 @@ v Run ATs
 - Data store consumes events from Engine
   - Prep 
     v PipelineData union
+    v Substeps
+      v Cannot check by str = "Discover Unit Tests" in datastore events
     - Restructure 
+      v RunStartEA, RunErrorEA, RunEndEA - make i tconsistent with runexecutor
       - RunErrorEA contains RSR
       - RunEndEA contains RSR and data
-      - RunStartEA, RunErrorEA, RunEndEA - make i tconsistent with runexecutor
-    - Substeps
   - UpdateData : Substeps -> PipelineData -> unit
   - Datastore events and methods
   - Engine steps don't update datastore
   - Delete CoverageData
   - Subscribe to runstart and update these properties in datastore
-- Cannot check by str = "Discover Unit Tests" in datastore events
 - datastore entities must be non-null always
 - createCoverageData doesnt show coverage information - entersp markers are not injected looks like
 - switches

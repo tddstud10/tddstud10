@@ -90,6 +90,7 @@ type SequencePointCoverage =
 // =================================================
 
 // NOTE: Adding any new cases will break RunStateTracker.
+// When we get rid of the B/T style notification icon, get rid of this.
 type RunStepKind = 
     | Build
     | Test
@@ -97,6 +98,15 @@ type RunStepKind =
         match t with
         | Build -> "Build"
         | Test -> "Test"
+
+type RunStepSubKind =
+    | CreateSnapshot
+    | DeleteBuildOutput
+    | BuildSnapshot
+    | RefreshTestRuntime
+    | DiscoverTests
+    | InstrumentBinaries
+    | RunTests
 
 type RunStepName = 
     | RunStepName of string

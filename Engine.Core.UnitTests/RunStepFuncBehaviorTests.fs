@@ -55,9 +55,9 @@ let isEndedHandlerCalled3 (se : CallSpy<RunStepEndedEventArg>) slnName stepName 
 let ``Events Publisher Behavior - Raises start, finish events if no failure``() = 
     let rd = RunExecutor.makeRunData DateTime.Now ~~"c:\\a\\b.sln"
     let rses, (ss, se, sf) = makeAndWireUpRSESpies()
-    let f _ n k _ rd = 
-        { name = n; kind = k; status = Succeeded; addendum = FreeFormatData("Some data"); runData = rd }
-    (f |> RunStepFuncBehaviors.eventsPublisher) 1 (RunStepName "step name") Build rses rd |> ignore
+    let f _ n k sk _ rd = 
+        { name = n; kind = k; subKind = sk; status = Succeeded; addendum = FreeFormatData("Some data"); runData = rd }
+    (f |> RunStepFuncBehaviors.eventsPublisher) 1 (RunStepName "step name") Build InstrumentBinaries rses rd |> ignore
     Assert.True(isHandlerCalled ss "c:\\a\\b.sln" "step name" Build)
     Assert.True(isEndedHandlerCalled sf "c:\\a\\b.sln" "step name")
     Assert.False(isErrorHandlerCalled se "c:\\a\\b.sln" "step name")
@@ -66,9 +66,9 @@ let ``Events Publisher Behavior - Raises start, finish events if no failure``() 
 let ``Events Publisher - Handled errors - Raises start, error, finish events``() = 
     let rd = RunExecutor.makeRunData DateTime.Now ~~"c:\\a\\b.sln"
     let rses, (ss, se, sf) = makeAndWireUpRSESpies()
-    let f _ n k _ rd = 
-        { name = n; kind = k; status = Failed; addendum = FreeFormatData "Error Details"; runData = rd }
-    let f1 = fun () -> ((f |> RunStepFuncBehaviors.eventsPublisher) 1 (RunStepName "step name") Test rses rd |> ignore)
+    let f _ n k sk _ rd = 
+        { name = n; kind = k; subKind = sk; status = Failed; addendum = FreeFormatData "Error Details"; runData = rd }
+    let f1 = fun () -> ((f |> RunStepFuncBehaviors.eventsPublisher) 1 (RunStepName "step name") Test RunTests rses rd |> ignore)
     Assert.Equal(Assert.Throws<RunStepFailedException>(f1).Data0.addendum, FreeFormatData "Error Details")
     Assert.True(isHandlerCalled ss "c:\\a\\b.sln" "step name" Test)
     Assert.True(isErrorHandlerCalled3 se "c:\\a\\b.sln" "step name" Failed (FreeFormatData("Error Details")))
@@ -78,10 +78,10 @@ let ``Events Publisher - Handled errors - Raises start, error, finish events``()
 let ``Events Publisher - Unhandled errors - Raises start, error, finish events``() = 
     let rd = RunExecutor.makeRunData DateTime.Now ~~"c:\\a\\b.sln"
     let rses, (ss, se, sf) = makeAndWireUpRSESpies()
-    let f _ n k _ rd = 
+    let f _ n k sk _ rd = 
         raise (new TimeZoneNotFoundException())
-        { name = n; kind = k; status = Succeeded; addendum = FreeFormatData("Some data"); runData = rd }
-    let f1 = fun () -> ((f |> RunStepFuncBehaviors.eventsPublisher) 1 (RunStepName "step name") Test rses rd |> ignore)
+        { name = n; kind = k; subKind = sk; status = Succeeded; addendum = FreeFormatData("Some data"); runData = rd }
+    let f1 = fun () -> ((f |> RunStepFuncBehaviors.eventsPublisher) 1 (RunStepName "step name") Test RunTests rses rd |> ignore)
     Assert.Throws<RunStepFailedException>(f1) |> ignore
     Assert.True(isHandlerCalled ss "c:\\a\\b.sln" "step name" Test)
     Assert.True(isErrorHandlerCalled2 se "c:\\a\\b.sln" "step name" Aborted)
@@ -92,9 +92,9 @@ let ``Events Publisher - Handled errors - Raises all events even when all of the
     let (ss, se, sf) = makeSpies(Throws(ex), DoesNotThrow, DoesNotThrow)
     let rd = RunExecutor.makeRunData DateTime.Now ~~"c:\\a\\b.sln"
     let rses, _ = makeAndWireUpRSESpies2 (ss, se, sf)
-    let f _ n k _ rd = 
-        { name = n; kind = k; status = Failed; addendum = FreeFormatData "Error Details"; runData = rd }
-    let f1 = fun () -> ((f |> RunStepFuncBehaviors.eventsPublisher) 1 (RunStepName "step name") Build rses rd |> ignore)
+    let f _ n k sk _ rd = 
+        { name = n; kind = k; subKind = sk; status = Failed; addendum = FreeFormatData "Error Details"; runData = rd }
+    let f1 = fun () -> ((f |> RunStepFuncBehaviors.eventsPublisher) 1 (RunStepName "step name") Build DiscoverTests rses rd |> ignore)
     Assert.Equal(Assert.Throws<RunStepFailedException>(f1).Data0.addendum, FreeFormatData "Error Details")
     Assert.True(ss.Called)
     Assert.True(isErrorHandlerCalled3 se "c:\\a\\b.sln" "step name" Failed (FreeFormatData("Error Details")))
@@ -105,10 +105,10 @@ let ``Events Publisher - Unhandled errors - Raises all events even when all of t
     let (ss, se, sf) = makeSpies(Throws(ex), Throws(ex), Throws(ex))
     let rd = RunExecutor.makeRunData DateTime.Now ~~"c:\\a\\b.sln"
     let rses, (ss, se, sf) = makeAndWireUpRSESpies2 (ss, se, sf)
-    let f _ n k _ rd = 
+    let f _ n k sk _ rd = 
         raise (new TimeZoneNotFoundException())
-        { name = n; kind = k; status = Failed; addendum = FreeFormatData "Error Details"; runData = rd }
-    let f1 = fun () -> ((f |> RunStepFuncBehaviors.eventsPublisher) 1 (RunStepName "step name") Build rses rd |> ignore)
+        { name = n; kind = k; subKind = sk; status = Failed; addendum = FreeFormatData "Error Details"; runData = rd }
+    let f1 = fun () -> ((f |> RunStepFuncBehaviors.eventsPublisher) 1 (RunStepName "step name") Build CreateSnapshot rses rd |> ignore)
     Assert.Throws<RunStepFailedException>(f1) |> ignore
     Assert.True(ss.Called)
     Assert.True(se.Called)
@@ -124,26 +124,26 @@ let ``Timer - Does not fail for funcs that dont fail``() =
 let ``Timer - Lets exceptions pass through``() = 
     let ex = new TimeZoneNotFoundException()
     
-    let f _ _ _ _ rd = 
+    let f _ _ _ _ _ rd = 
         raise ex
         rd
     
-    let f1 = fun () -> ((f |> RunStepFuncBehaviors.stepTimer) 1 2 3 4 5 |> ignore)
+    let f1 = fun () -> ((f |> RunStepFuncBehaviors.stepTimer) 1 2 3 4 5 6 |> ignore)
     Assert.Equal(ex, Assert.Throws<TimeZoneNotFoundException>(f1))
 
 [<Fact>]
 let ``Logger - Does not fail for funcs that dont fail``() = 
-    let f _ _ _ _ rd = rd
-    (f |> RunStepFuncBehaviors.stepLogger) 1 2 3 4 |> ignore
+    let f _ _ _ _ _ rd = rd
+    (f |> RunStepFuncBehaviors.stepLogger) 1 2 3 4 5 |> ignore
     Assert.True(true)
 
 [<Fact>]
 let ``Logger - Lets exceptions pass through``() = 
     let ex = new TimeZoneNotFoundException()
     
-    let f _ _ _ _ rd = 
+    let f _ _ _ _ _ rd = 
         raise ex
         rd
     
-    let f1 = fun () -> ((f |> RunStepFuncBehaviors.stepLogger) 1 2 3 4 5 |> ignore)
+    let f1 = fun () -> ((f |> RunStepFuncBehaviors.stepLogger) 1 2 3 4 5 6 |> ignore)
     Assert.Equal(ex, Assert.Throws<TimeZoneNotFoundException>(f1))

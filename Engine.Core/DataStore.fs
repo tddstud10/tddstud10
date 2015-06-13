@@ -15,8 +15,8 @@ type DataStore() =
         
         member __.UpdateData(rsr : RunStepResult) : unit = 
             runStartParams <- rsr.runData.startParams |> Some
-            match rsr.name with
-            | RunStepName str when str = "Discover Unit Tests" -> 
+            match rsr.subKind with
+            | DiscoverTests -> 
                 match rsr.runData.testsPerAssembly with
                 | Some d -> 
                     testCases <- d

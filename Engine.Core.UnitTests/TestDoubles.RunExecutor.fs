@@ -26,7 +26,7 @@ type StepFunc(behavior) =
     member val Called = false with get, set
     member val CalledWith = None with get, set
     member val ReturningWith = None with get, set
-    member public t.Func (h : IRunExecutorHost) name kind events (rd : RunData) : RunStepResult = 
+    member public t.Func (h : IRunExecutorHost) name kind subKind events (rd : RunData) : RunStepResult = 
         t.Called <- true
         t.CalledWith <- Some(rd.GetHashCode())
         match behavior with
@@ -36,11 +36,13 @@ type StepFunc(behavior) =
         t.ReturningWith <- Some(retRd.GetHashCode())
         { name = name
           kind = kind
+          subKind = subKind
           status = Failed
           addendum = FreeFormatData "There has been a failure"
           runData = retRd }
 
 let inline RS(sf : StepFunc) = 
     { kind = Build
+      subKind = InstrumentBinaries
       name = RunStepName(sf.GetHashCode().ToString())
       func = sf.Func }
