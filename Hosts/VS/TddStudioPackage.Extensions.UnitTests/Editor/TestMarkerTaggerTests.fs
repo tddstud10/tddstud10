@@ -11,23 +11,10 @@ open R4nd0mApps.TddStud10.Hosts.Common.TestCode
 open Microsoft.VisualStudio.Text
 open Microsoft.VisualStudio.Text.Tagging
 
-let rd0 = { testsPerAssembly = None
-            sequencePoints = None
-            codeCoverageResults = None
-            executedTests = None }
-
-let createRSS slnPath tpa = 
-    let rd = RunExecutor.createRunStartParams DateTime.Now (FilePath slnPath)
-    { startParams = rd
-      name = RunStepName "__"
-      kind = Test
-      subKind = DiscoverTests 
-      status = Succeeded
-      addendum = FreeFormatData ""
-      runData = { rd0 with testsPerAssembly = Some tpa } }
-
-let createTMT p t = 
+let createTMT s p t = 
     let ds = DataStore() :> IDataStore
+    RunExecutor.createRunStartParams DateTime.Now (FilePath s)
+    |> ds.UpdateRunStartParams
     let tb = FakeTextBuffer(p, t) :> ITextBuffer
     let tmt = TestMarkerTagger(tb, ds) :> ITagger<_>
     let spy = CallSpy1<SnapshotSpanEventArgs>(Throws(new Exception()))
@@ -48,23 +35,23 @@ let createTPA (ts : (string * string * int) seq) =
 
 [<Fact>]
 let ``Datastore TestCasesUpdated event fires TagsChanged event``() = 
-    let ds, tb, _, s = createTMT "" ""
+    let ds, tb, _, s = createTMT @"c:\a.sln" "" ""
     []
     |> createTPA
-    |> createRSS @"c:\a.sln"
+    |> TestCases
     |> ds.UpdateData
     Assert.True(s.CalledWith |> Option.exists (fun ssea -> ssea.Span.Snapshot.Equals(tb.CurrentSnapshot)))
 
 [<Fact>]
 let ``GetTags returns right tag for 1 empty and 1 each found and not found in datastore``() = 
-    let ds, tb, tmt, _ = createTMT @"c:\sln\proj\a.cs" """
+    let ds, tb, tmt, _ = createTMT @"c:\sln\sln.sln" @"c:\sln\proj\a.cs" """
 2nd line (first is empty)
 3rd line
 """
     let ss = tb.CurrentSnapshot.Lines |> Seq.map (fun l -> l.Extent)
     [ ("FQN:2nd line", @"c:\sln\proj\a.cs", 2) ]
     |> createTPA
-    |> createRSS @"c:\sln\sln.sln"
+    |> TestCases
     |> ds.UpdateData
     let ts = tmt.GetTags(NormalizedSnapshotSpanCollection(ss))
     Assert.Equal([| "FQN:2nd line" |], ts |> Seq.map (fun t -> t.Tag.testCase.FullyQualifiedName))

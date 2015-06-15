@@ -14,6 +14,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Microsoft.FSharp.Control;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
@@ -42,6 +43,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged = delegate { };
 
+        private FSharpHandler<PerAssemblySequencePointsCoverage> _ciUpdatedEventHandler;
+
         public GlyphFactory(IWpfTextView view)
         {
 
@@ -52,7 +55,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
             _currentSpans = GetWordSpans(_textView.TextSnapshot);
 
             _textView.GotAggregateFocus += SetupSelectionChangedListener;
-            CoverageData.Instance.NewCoverageDataAvailable += OnNewCoverageDataAvailable;
+            _ciUpdatedEventHandler = new FSharpHandler<PerAssemblySequencePointsCoverage>((_, __) => OnNewCoverageDataAvailable(null, new EventArgs()));
+            DataStore.Instance.CoverageInfoUpdated += _ciUpdatedEventHandler;
         }
 
         public void Dispose()
@@ -126,7 +130,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
                 }
 
                 var results = from tm in allTrackedMethods
-                              from tr in CoverageData.Instance.PerTestIdResults[tm.testId]
+                              from tr in DataStore.Instance.GetTestResults(tm.testId)
                               select tr;
 
                 if (results.Any(r => r.result.Outcome == TestOutcome.Failed))
@@ -156,7 +160,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
                 _textView.LayoutChanged -= ViewLayoutChanged;
             }
 
-            CoverageData.Instance.NewCoverageDataAvailable -= OnNewCoverageDataAvailable;
+            DataStore.Instance.CoverageInfoUpdated -= _ciUpdatedEventHandler;
 
             _textView = null;
             _spanCoverage.Clear();
@@ -218,7 +222,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
                 {
                     foreach (var sequencePoint in sequencePoints)
                     {
-                        var tests = CoverageData.Instance.GetUnitTestsCoveringSequencePoint(sequencePoint);
+                        var tests = DataStore.Instance.GetUnitTestsCoveringSequencePoint(sequencePoint);
 
                         int spStartLine = sequencePoint.startLine.Item - 1;
                         int spEndLine = sequencePoint.endLine.Item - 1;
@@ -284,10 +288,10 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
             }
         }
 
-        public IEnumerable<SequencePoint> GetSequencePointsForDocument(CoverageData coverageData, string fileName)
+        public IEnumerable<SequencePoint> GetSequencePointsForDocument(string fileName)
         {
-            var allSequencePoints = coverageData.GetAllSequencePoints();
-            var allFiles = coverageData.GetAllFiles();
+            var allSequencePoints = DataStore.Instance.GetAllSequencePoints();
+            var allFiles = DataStore.Instance.GetAllFiles();
             IEnumerable<SequencePoint> sequencePoints = null;
 
             if (allFiles != null && allSequencePoints != null)
@@ -295,7 +299,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
                 // NOTE: filePath comes out NULL sometimes. i.e. ITextBuffer does not have the ITextDocument property.
                 // Not sure why that happens, but it doesnt seem to impact anything. TB fixed later once we finalize the
                 // design for this layer.
-                var selectedFile = allFiles.FirstOrDefault(file => fileName != null && PathBuilder.arePathsTheSame(coverageData.SolutionPath, file, FilePath.NewFilePath(fileName)));
+                var selectedFile = allFiles.FirstOrDefault(file => fileName != null && PathBuilder.arePathsTheSame(DataStore.Instance.RunStartParams.Value.solutionPath, file, FilePath.NewFilePath(fileName)));
                 if (selectedFile != null)
                 {
                     sequencePoints = allSequencePoints.Where(sp => sp.document.Equals(selectedFile));
@@ -307,10 +311,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 
         private IEnumerable<SequencePoint> GetSequencePointsForActiveDocument()
         {
-            if (CoverageData.Instance.PerAssemblySequencePointsCoverage != null)
-                return GetSequencePointsForDocument(CoverageData.Instance, GetFileName(_textView));
-            else
-                return new List<SequencePoint>();
+            return GetSequencePointsForDocument(GetFileName(_textView));
         }
 
         public static string GetFileName(ITextView view)

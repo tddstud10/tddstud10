@@ -2,11 +2,11 @@
 
 open System
 
-type RunData1 =
+type RunData =
+    | NoData
     | TestCases of PerAssemblyTestCases
     | SequencePoints of PerDocumentSequencePoints
-    | SequencePointsCoverage of PerAssemblySequencePointsCoverage 
-    | TestResults of PerTestIdResults
+    | TestRunOutput of PerTestIdResults * PerAssemblySequencePointsCoverage 
 
 type RunStartParams = 
     { startTime : DateTime
@@ -15,20 +15,14 @@ type RunStartParams =
       solutionSnapshotPath : FilePath
       solutionBuildRoot : FilePath }
 
-type RunData = 
-    { testsPerAssembly : PerAssemblyTestCases option
-      sequencePoints : PerDocumentSequencePoints option
-      codeCoverageResults : PerAssemblySequencePointsCoverage option
-      executedTests : PerTestIdResults option }
-
 type RunStepResult = 
     { startParams : RunStartParams
       name : RunStepName
       kind : RunStepKind
       subKind : RunStepSubKind
       status : RunStepStatus
-      addendum : RunStepStatusAddendum
-      runData : RunData }
+      runData : RunData
+      addendum : RunStepStatusAddendum }
 
 exception RunStepFailedException of RunStepResult
 
@@ -36,8 +30,7 @@ type RunStepStartingEventArg =
     { startParams : RunStartParams
       name : RunStepName
       subKind : RunStepSubKind
-      kind : RunStepKind
-      runData : RunData }
+      kind : RunStepKind }
 
 type RunStepErrorEventArg = 
     { rsr : RunStepResult }
@@ -50,7 +43,7 @@ type RunStepEvents =
       onError : Event<RunStepErrorEventArg>
       onFinish : Event<RunStepEndedEventArg> }
 
-type RunStepFunc = IRunExecutorHost -> RunStartParams -> RunStepName -> RunStepKind -> RunStepSubKind -> RunStepEvents -> RunData -> RunStepResult
+type RunStepFunc = IRunExecutorHost -> RunStartParams -> RunStepName -> RunStepKind -> RunStepSubKind -> RunStepEvents -> RunStepResult
 
 type RunStepFuncWrapper = RunStepFunc -> RunStepFunc
 

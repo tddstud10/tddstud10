@@ -7,22 +7,10 @@ open System
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open System.Collections.Concurrent
 
-let rd0 = { testsPerAssembly = None
-            sequencePoints = None
-            codeCoverageResults = None
-            executedTests = None }
-
-let createRSS slnPath tpa = 
-    { startParams = RunExecutor.createRunStartParams DateTime.Now (FilePath slnPath)
-      name = RunStepName "__"
-      kind = Test
-      subKind = DiscoverTests
-      status = Succeeded
-      addendum = FreeFormatData ""
-      runData = { rd0 with testsPerAssembly = Some tpa } }
-
-let createDS() = 
+let createDS slnPath = 
     let ds = new DataStore() :> IDataStore
+    RunExecutor.createRunStartParams DateTime.Now (FilePath slnPath)
+    |> ds.UpdateRunStartParams
     let spy = new CallSpy<PerAssemblyTestCases>(Throws(new Exception()))
     ds.TestCasesUpdated.Add(spy.Func >> ignore)
     ds, spy
@@ -41,29 +29,29 @@ let createTPA (ts : (string * string * string * int) list) =
 
 [<Fact>]
 let ``UpdateData causes event to be fired and crash in handler is ignored``() = 
-    let ds, spy = createDS()
+    let ds, spy = createDS @"c:\a.sln"
     let tpa = [] |> createTPA
-    ds.UpdateData(tpa |> createRSS @"c:\a.sln")
+    ds.UpdateData(tpa |> TestCases)
     Assert.Equal(spy.CalledWith, Some tpa)
 
 [<Fact>]
-let ``FindTestByDocumentAndLineNumber returns None if it cannot find a match``() = 
-    let ds, _ = createDS()
-    let t = ds.FindTestByDocumentAndLineNumber (FilePath @"c:\a.cs") (DocumentCoordinate 10)
-    Assert.Equal(t, None)
+let ``FindTest2 returns None if it cannot find a match``() = 
+    let ds, _ = createDS @"c:\a.sln"
+    let ts = ds.FindTest2 (FilePath @"c:\a.cs") (DocumentCoordinate 10)
+    Assert.Empty(ts)
 
 [<Fact>]
-let ``FindTestByDocumentAndLineNumber returns TestCase if it an find a match``() = 
-    let ds, _ = createDS()
+let ``FindTest2 returns TestCase if it can find a match``() = 
+    let ds, _ = createDS @"c:\a.sln"
     let tpa = [ (@"c:\adll.dll", "FQN#1", @"c:\a.cs", 10) ] |> createTPA
-    ds.UpdateData(tpa |> createRSS @"c:\a.sln")
-    let t = ds.FindTestByDocumentAndLineNumber (FilePath @"c:\a.cs") (DocumentCoordinate 10)
-    Assert.Equal(t |> Option.map (fun t -> t.FullyQualifiedName), Some "FQN#1")
+    ds.UpdateData(tpa |> TestCases)
+    let ts = ds.FindTest2 (FilePath @"c:\a.cs") (DocumentCoordinate 10)
+    Assert.Equal([| "FQN#1" |], ts |> Seq.map (fun t -> t.FullyQualifiedName))
 
 [<Fact>]
-let ``FindTestByDocumentAndLineNumber returns TestCase if it an find a match after sln path normalization``() = 
-    let ds, _ = createDS()
+let ``FindTest2 returns TestCase if it an find a match after sln path normalization``() = 
+    let ds, _ = createDS @"c:\sln\a.sln"
     let tpa = [ (@"c:\adll.dll", "FQN#2", PathBuilder.snapShotRoot + @"sln\proj\a.cs", 10) ] |> createTPA
-    ds.UpdateData(tpa |> createRSS @"c:\sln\a.sln")
-    let t = ds.FindTestByDocumentAndLineNumber (FilePath @"c:\sln\proj\a.cs") (DocumentCoordinate 10)
-    Assert.Equal(t |> Option.map (fun t -> t.FullyQualifiedName), Some "FQN#2")
+    ds.UpdateData(tpa |> TestCases)
+    let ts = ds.FindTest2 (FilePath @"c:\sln\proj\a.cs") (DocumentCoordinate 10)
+    Assert.Equal([| "FQN#2" |], ts |> Seq.map (fun t -> t.FullyQualifiedName))

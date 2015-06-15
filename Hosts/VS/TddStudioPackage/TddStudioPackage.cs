@@ -206,11 +206,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
         }
 
-        public void RunEnded(Tuple<RunStartParams, RunData> rd)
+        public void RunEnded(RunStartParams rsp)
         {
-            InvokeOnUIThread(
-                () => CoverageData.Instance.UpdateCoverageResults(rd.Item1, rd.Item2)
-            );
         }
 
         #endregion

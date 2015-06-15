@@ -398,14 +398,12 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                 });
         }
 
-        public void RunEnded(Tuple<RunStartParams, RunData> rsp)
+        public void RunEnded(RunStartParams rsp)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(
                 () =>
                 {
                     AddTextToConsole(sb => sb.AppendFormat("### Ended run."));
-
-                    CoverageData.Instance.UpdateCoverageResults(rsp.Item1, rsp.Item2);
                     _currentRunCancelled = false;
                 });
         }

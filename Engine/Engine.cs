@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.FSharp.Control;
-using Microsoft.FSharp.Core;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine.Core;
@@ -59,11 +58,11 @@ namespace R4nd0mApps.TddStud10.Engine
                 });
         }
 
-        private static RunStepResult RefreshTestRuntime(IRunExecutorHost host, RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind, RunData rd)
+        private static RunStepResult RefreshTestRuntime(IRunExecutorHost host, RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind)
         {
             var output = TestRunTimeInstaller.Install(rsp.solutionBuildRoot.Item);
 
-            return rsp.ToRSR(name, kind, subKind, RunStepStatus.Succeeded, string.Format("Copied Test Runtime: {0}", output), rd);
+            return rsp.ToRSR(name, kind, subKind, RunStepStatus.Succeeded, RunData.NoData, string.Format("Copied Test Runtime: {0}", output));
         }
 
         private static RunStepName ToRSN(this string name)
@@ -71,7 +70,7 @@ namespace R4nd0mApps.TddStud10.Engine
             return RunStepName.NewRunStepName(name);
         }
 
-        private static RunStepResult ToRSR(this RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind, RunStepStatus runStepStatus, string addendum, RunData rd)
+        private static RunStepResult ToRSR(this RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind, RunStepStatus runStepStatus, RunData rd, string addendum)
         {
             return new RunStepResult(
                 rsp,
@@ -79,11 +78,11 @@ namespace R4nd0mApps.TddStud10.Engine
                 kind,
                 subKind,
                 runStepStatus,
-                RunStepStatusAddendum.NewFreeFormatData(addendum),
-                rd);
+                rd,
+                RunStepStatusAddendum.NewFreeFormatData(addendum));
         }
 
-        private static RunStepResult RunTests(IRunExecutorHost host, RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind, RunData rd)
+        private static RunStepResult RunTests(IRunExecutorHost host, RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind)
         {
             var coverageSessionStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_coverageresults.xml");
             var testResultsStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_testresults.xml");
@@ -108,24 +107,14 @@ namespace R4nd0mApps.TddStud10.Engine
                 rss = RunStepStatus.Failed;
             }
 
-            var retRd = CreateRunDataForRunTest(rsp, rd, coverageSessionStore, testResultsStore, discoveredUnitTestsStore);
-            return rsp.ToRSR(name, kind, subKind, rss, output.Item2, retRd);
+            var testResults = PerTestIdResults.Deserialize(FilePath.NewFilePath(testResultsStore));
+
+            var coverageSession = PerAssemblySequencePointsCoverage.Deserialize(FilePath.NewFilePath(coverageSessionStore));
+
+            return rsp.ToRSR(name, kind, subKind, rss, RunData.NewTestRunOutput(testResults, coverageSession), output.Item2);
         }
 
-        private static RunData CreateRunDataForRunTest(RunStartParams rsp, RunData rd, string coverageSessionStore, string testResultsStore, string discoveredUnitTestsStore)
-        {
-            PerTestIdResults testResults = PerTestIdResults.Deserialize(FilePath.NewFilePath(testResultsStore));
-
-            PerAssemblySequencePointsCoverage coverageSession = PerAssemblySequencePointsCoverage.Deserialize(FilePath.NewFilePath(coverageSessionStore));
-
-            return new RunData(
-                rd.testsPerAssembly,
-                rd.sequencePoints,
-                new FSharpOption<PerAssemblySequencePointsCoverage>(coverageSession),
-                new FSharpOption<PerTestIdResults>(testResults));
-        }
-
-        private static RunStepResult DiscoverUnitTests(IRunExecutorHost host, RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind, RunData rd)
+        private static RunStepResult DiscoverUnitTests(IRunExecutorHost host, RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind)
         {
             if (!host.CanContinue())
             {
@@ -156,16 +145,10 @@ namespace R4nd0mApps.TddStud10.Engine
 
             Logger.I.LogInfo("Written discovered unit tests to {0}.", discoveredUnitTestsStore);
 
-            var retRd = new RunData(
-                new FSharpOption<PerAssemblyTestCases>(testsPerAssembly),
-                rd.sequencePoints,
-                rd.codeCoverageResults,
-                rd.executedTests);
-            return rsp.ToRSR(name, kind, subKind, RunStepStatus.Succeeded, "Unit Tests Discovered - which ones - TBD", retRd);
+            return rsp.ToRSR(name, kind, subKind, RunStepStatus.Succeeded, RunData.NewTestCases(testsPerAssembly), "Unit Tests Discovered - which ones - TBD");
         }
 
-
-        private static RunStepResult InstrumentBinaries(IRunExecutorHost host, RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind, RunData rd)
+        private static RunStepResult InstrumentBinaries(IRunExecutorHost host, RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind)
         {
             var sequencePointStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_sequencePointStore.xml");
             var dict = Instrumentation.GenerateSequencePointInfo(host, rsp);
@@ -179,23 +162,12 @@ namespace R4nd0mApps.TddStud10.Engine
                 throw new OperationCanceledException();
             }
 
-            Instrumentation.Instrument(host, rsp, rd.testsPerAssembly.Value);
+            Instrumentation.Instrument(host, rsp, DataStore.Instance.FindTest);
 
-            var retRd = CreateRunDataForInstrumentationStep(rsp, rd, dict);
-
-            return rsp.ToRSR(name, kind, subKind, RunStepStatus.Succeeded, "Binaries Instrumented - which ones - TBD", retRd);
+            return rsp.ToRSR(name, kind, subKind, RunStepStatus.Succeeded, RunData.NewSequencePoints(dict), "Binaries Instrumented - which ones - TBD");
         }
 
-        private static RunData CreateRunDataForInstrumentationStep(RunStartParams rsp, RunData rd, PerDocumentSequencePoints sequencePoints)
-        {
-            return new RunData(
-                rd.testsPerAssembly,
-                new FSharpOption<PerDocumentSequencePoints>(sequencePoints),
-                rd.codeCoverageResults,
-                rd.executedTests);
-        }
-
-        private static RunStepResult BuildSolutionSnapshot(IRunExecutorHost host, RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind, RunData rd)
+        private static RunStepResult BuildSolutionSnapshot(IRunExecutorHost host, RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind)
         {
             var output = ExecuteProcess(
                 @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe",
@@ -211,21 +183,10 @@ namespace R4nd0mApps.TddStud10.Engine
                 rss = RunStepStatus.Failed;
             }
 
-            var rdRet = CreateRunDataForBuildSolution(rsp, rd);
-
-            return rsp.ToRSR(name, kind, subKind, rss, output.Item2, rdRet);
+            return rsp.ToRSR(name, kind, subKind, rss, RunData.NoData, output.Item2);
         }
 
-        private static RunData CreateRunDataForBuildSolution(RunStartParams rsp, RunData rd)
-        {
-            return new RunData(
-                rd.testsPerAssembly,
-                rd.sequencePoints,
-                rd.codeCoverageResults,
-                rd.executedTests);
-        }
-
-        private static RunStepResult TakeSolutionSnapshot(IRunExecutorHost host, RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind, RunData rd)
+        private static RunStepResult TakeSolutionSnapshot(IRunExecutorHost host, RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind)
         {
             var sln = new Solution(rsp.solutionPath.Item);
             var solutionGrandParentPath = Path.GetDirectoryName(Path.GetDirectoryName(rsp.solutionPath.Item));
@@ -253,10 +214,10 @@ namespace R4nd0mApps.TddStud10.Engine
                 }
             });
 
-            return rsp.ToRSR(name, kind, subKind, RunStepStatus.Succeeded, "What was done - TBD", rd);
+            return rsp.ToRSR(name, kind, subKind, RunStepStatus.Succeeded, RunData.NoData, "What was done - TBD");
         }
 
-        private static RunStepResult DeleteBuildOutput(IRunExecutorHost host, RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind, RunData rd)
+        private static RunStepResult DeleteBuildOutput(IRunExecutorHost host, RunStartParams rsp, RunStepName name, RunStepKind kind, RunStepSubKind subKind)
         {
             if (Directory.Exists(rsp.solutionBuildRoot.Item))
             {
@@ -272,7 +233,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 }
             }
 
-            return rsp.ToRSR(name, kind, subKind, RunStepStatus.Succeeded, "What was done - TBD", rd);
+            return rsp.ToRSR(name, kind, subKind, RunStepStatus.Succeeded, RunData.NoData, "What was done - TBD");
         }
 
         private static Tuple<int, string> ExecuteProcess(string fileName, string arguments)

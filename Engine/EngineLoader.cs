@@ -20,7 +20,7 @@ namespace R4nd0mApps.TddStud10.Engine
 
         void OnRunError(Exception ex);
 
-        void RunEnded(Tuple<RunStartParams, RunData> rd);
+        void RunEnded(RunStartParams rsp);
     }
 
     // NOTE: This entity will continue to be alive till we figure out the final trigger mechanism(s)
@@ -40,7 +40,7 @@ namespace R4nd0mApps.TddStud10.Engine
         public static FSharpHandler<RunStepErrorEventArg> _onRunStepErrorHandler;
         public static FSharpHandler<RunStepEndedEventArg> _runStepEndedHandler;
         public static FSharpHandler<Exception> _onRunErrorHandler;
-        public static FSharpHandler<Tuple<RunStartParams, RunData>> _runEndedHandler;
+        public static FSharpHandler<RunStartParams> _runEndedHandler;
 
         public static void Load(IEngineHost host, IDataStore dataStore, string solutionPath, DateTime sessionStartTimestamp)
         {
@@ -50,17 +50,22 @@ namespace R4nd0mApps.TddStud10.Engine
             _dataStore = dataStore;
 
             _runStateChangedHandler = new FSharpHandler<RunState>((s, ea) => _host.RunStateChanged(ea));
-            _runStartingHandler = new FSharpHandler<RunStartParams>((s, ea) => _host.RunStarting(ea));
+            _runStartingHandler = new FSharpHandler<RunStartParams>(
+                (s, ea) =>
+                {
+                    _host.RunStarting(ea);
+                    _dataStore.UpdateRunStartParams(ea);
+                });
             _runStepStartingHandler = new FSharpHandler<RunStepStartingEventArg>((s, ea) => _host.RunStepStarting(ea));
             _onRunStepErrorHandler = new FSharpHandler<RunStepErrorEventArg>((s, ea) => _host.OnRunStepError(ea));
             _runStepEndedHandler = new FSharpHandler<RunStepEndedEventArg>(
                 (s, ea) =>
                 {
                     _host.RunStepEnded(ea);
-                    _dataStore.UpdateData(ea.rsr);
+                    _dataStore.UpdateData(ea.rsr.runData);
                 });
             _onRunErrorHandler = new FSharpHandler<Exception>((s, ea) => _host.OnRunError(ea));
-            _runEndedHandler = new FSharpHandler<Tuple<RunStartParams, RunData>>((s, ea) => _host.RunEnded(ea));
+            _runEndedHandler = new FSharpHandler<RunStartParams>((s, ea) => _host.RunEnded(ea));
 
             _runner = _runner ?? TddStud10Runner.Create(host, Engine.CreateRunSteps());
             _runner.AttachHandlers(

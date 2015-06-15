@@ -13,11 +13,6 @@ let createSM() =
     sm.RunStateChanged.Add(cs.Func >> ignore)
     sm, cs
 
-let rd0 = { testsPerAssembly = None
-            sequencePoints = None
-            codeCoverageResults = None
-            executedTests = None }
-
 let createRSS s =
     { startParams = RunExecutor.createRunStartParams DateTime.Now (FilePath "c:\\a\\b.sln")
       name = RunStepName ""
@@ -25,15 +20,11 @@ let createRSS s =
       subKind = DiscoverTests
       status = s
       addendum = FreeFormatData ""
-      runData = rd0 }
+      runData = NoData }
 
 let runTest2 (_ : RunStateTracker) (_ : CallSpy<RunState>) ts = 
     let sm, cs = createSM()
     let rd = RunExecutor.createRunStartParams DateTime.Now (FilePath "c:\\a\\b.sln")
-    let rd0 = { testsPerAssembly = None
-                sequencePoints = None
-                codeCoverageResults = None
-                executedTests = None }
 
     let runOneTest () (e, exs) = 
         match e with
@@ -42,8 +33,7 @@ let runTest2 (_ : RunStateTracker) (_ : CallSpy<RunState>) ts =
             sm.OnRunStepStarting({ startParams = rd
                                    name = RunStepName ""
                                    kind = k
-                                   subKind = DiscoverTests
-                                   runData = rd0 })
+                                   subKind = DiscoverTests })
         | RunStepError(k, s) -> 
             sm.OnRunStepError({ rsr = { startParams = rd
                                         name = RunStepName ""
@@ -51,7 +41,7 @@ let runTest2 (_ : RunStateTracker) (_ : CallSpy<RunState>) ts =
                                         subKind = InstrumentBinaries
                                         status = s
                                         addendum = FreeFormatData ""
-                                        runData = rd0 } })
+                                        runData = NoData } })
         | RunStepEnded(k, s) -> 
             sm.OnRunStepEnd({ rsr = { startParams = rd
                                       name = RunStepName ""
@@ -59,7 +49,7 @@ let runTest2 (_ : RunStateTracker) (_ : CallSpy<RunState>) ts =
                                       subKind = BuildSnapshot
                                       status = s
                                       addendum = FreeFormatData ""
-                                      runData = rd0 } })
+                                      runData = NoData } })
         | RunError(e) -> sm.OnRunError(e)
         Assert.Equal(cs.CalledWith, Some exs)
     ts |> List.fold runOneTest ()

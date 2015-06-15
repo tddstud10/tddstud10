@@ -13,26 +13,45 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 TODO:
 v Run ATs
 - Data store consumes events from Engine
-  - Prep 
+  v Prep 
     v PipelineData union
     v Substeps
       v Cannot check by str = "Discover Unit Tests" in datastore events
-    - Restructure 
+    v Restructure 
       v RunStartEA, RunErrorEA, RunEndEA - make i tconsistent with runexecutor
       v RunErrorEA contains RSR
       v RunEndEA contains RSR and data
-      - null in UpdateCoverageResults
-  - UpdateData : Substeps -> PipelineData -> unit
-  - Datastore events and methods
-  - Engine steps don't update datastore
-  - Delete CoverageData
-  - rename rundata1
-  - delete options in rundata
-  - Subscribe to runstart and update these properties in datastore
-- datastore entities must be non-null always
+      v null in UpdateCoverageResults
+      v rename rd1, rundata1
+      v Hook up UpdateRunStartParams
+      v Remove RunData from RSR 
+      v IsSequencePointAtStartOfAUnitTest in datastore
+        v Remove duplication
+        v delete TestCases property
+  v rename rundata1
+  v UpdateData : Substeps -> PipelineData -> unit
+  v Datastore events and methods
+  v Subscribe to runstart and update these properties in datastore
+  v Delete CoverageData
+  v delete options in rundata
+  v datastore entities must be non-null always
+  v Engine steps don't update datastore
+  v GlyphFactiry & CCTagger - subscribe to the right events
+  - UnitTest for RunData1 in RunStepResult
+  - FIX THESE 
+  - Datastore unit tests
 - createCoverageData doesnt show coverage information - entersp markers are not injected looks like
 - switches
+  - run pipeline but no data collection [testhost does not look for testcases]
+  - Editor tagging
+  - Toolwindow
+  - merging data vs no-merging data
+  - disable == all
 - <deploy>
+- Marging needs to scale up with the editor
+- Toolwindow
+- Blockers
+- <release>
 - For new runs - we should merge right - when is the right time to pull that in?
 - Engine events wire up 
   - Custom Trigger mechanism with 3 goals: exception in one handler should not affect the others
@@ -42,7 +61,6 @@ v Run ATs
   - EngineHost, RunState, DataStore, ConsoleApp, [TBD:ToolWindow], etc.
 - Move to async tagging
 - SnapshotlineRange - tagger implementation assumes we we ask line by line and not for spans across multiplelines
-- Marging needs to scale up with the editor
 - Breakpoint - remove on debug stop, dont/add-remove if breakpoint already present
 
 - Spec questions

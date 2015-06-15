@@ -3,6 +3,8 @@ using System.Collections.Concurrent;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using Microsoft.FSharp.Core;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
@@ -79,11 +81,11 @@ namespace R4nd0mApps.TddStud10
             return perDocSP;
         }
 
-        public static void Instrument(IRunExecutorHost host, RunStartParams rsp, PerAssemblyTestCases testsPerAssembly)
+        public static void Instrument(IRunExecutorHost host, RunStartParams rsp, Func<FilePath, FilePath, DocumentCoordinate, FSharpOption<TestCase>> findTest)
         {
             try
             {
-                InstrumentImpl(host, rsp, testsPerAssembly);
+                InstrumentImpl(host, rsp, findTest);
             }
             catch (Exception e)
             {
@@ -91,7 +93,7 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        public static void InstrumentImpl(IRunExecutorHost host, RunStartParams rsp, PerAssemblyTestCases testsPerAssembly)
+        public static void InstrumentImpl(IRunExecutorHost host, RunStartParams rsp, Func<FilePath, FilePath, DocumentCoordinate, FSharpOption<TestCase>> findTest)
         {
             var timeFilter = rsp.startTime;
             var solutionSnapshotRoot = Path.GetDirectoryName(rsp.solutionSnapshotPath.Item);
@@ -207,7 +209,7 @@ namespace R4nd0mApps.TddStud10
                                 /*************************************************************************************/
                                 /*                            Inject Exit Unit Test                                  */
                                 /*************************************************************************************/
-                                var ret = IsSequencePointAtStartOfAUnitTest(spi.Select(i => i.SequencePoint).FirstOrDefault(), FilePath.NewFilePath(assemblyPath), testsPerAssembly);
+                                var ret = IsSequencePointAtStartOfAUnitTest(spi.Select(i => i.SequencePoint).FirstOrDefault(), FilePath.NewFilePath(assemblyPath), findTest);
                                 if (ret.Item1)
                                 {
                                     if (!meth.IsConstructor && meth.ReturnType == module.TypeSystem.Void && !meth.IsAsync())
@@ -383,19 +385,19 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        private static Tuple<bool, TestId> IsSequencePointAtStartOfAUnitTest(Mono.Cecil.Cil.SequencePoint sp, FilePath assemblyPath, PerAssemblyTestCases testsPerAssembly)
+        private static Tuple<bool, TestId> IsSequencePointAtStartOfAUnitTest(Mono.Cecil.Cil.SequencePoint sp, FilePath assemblyPath, Func<FilePath, FilePath, DocumentCoordinate, FSharpOption<TestCase>> findTest)
         {
             if (sp == null)
             {
                 return new Tuple<bool, TestId>(false, null);
             }
 
-            if (!testsPerAssembly.ContainsKey(assemblyPath))
+            var test = findTest(assemblyPath, FilePath.NewFilePath(sp.Document.Url), DocumentCoordinate.NewDocumentCoordinate(sp.StartLine));
+            if (test == FSharpOption<TestCase>.None)
             {
                 return new Tuple<bool, TestId>(false, null);
             }
-
-            if (testsPerAssembly[assemblyPath].Any(tc => tc.CodeFilePath.Equals(sp.Document.Url, StringComparison.OrdinalIgnoreCase) && tc.LineNumber == sp.StartLine))
+            else
             {
                 return new Tuple<bool, TestId>(
                     true,
@@ -403,10 +405,6 @@ namespace R4nd0mApps.TddStud10
                         assemblyPath,
                         FilePath.NewFilePath(sp.Document.Url),
                         DocumentCoordinate.NewDocumentCoordinate(sp.StartLine)));
-            }
-            else
-            {
-                return new Tuple<bool, TestId>(false, null);
             }
         }
 

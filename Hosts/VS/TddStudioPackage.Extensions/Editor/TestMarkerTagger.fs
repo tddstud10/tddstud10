@@ -29,8 +29,8 @@ type TestMarkerTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
                 // TODO: If this crashes, fix unit tests and enable back
                 //|> Seq.filter (fun s -> not s.IsEmpty)
                 |> Seq.map (fun s -> s, DocumentCoordinate(s.Start.GetContainingLine().LineNumber + 1))
-                |> Seq.map (fun (s, ln) -> s, dataStore.FindTestByDocumentAndLineNumber path ln)
-                |> Seq.choose (fun (s, t) -> t |> Option.bind (fun t -> Some(s, t)))
+                |> Seq.map (fun (s, ln) -> s, dataStore.FindTest2 path ln)
+                |> Seq.collect (fun (s, ts) -> ts |> Seq.map (fun t -> s, t))
                 |> Seq.map (fun (s, t) -> TagSpan<_>(SnapshotSpan(s.Start, s.Length), { testCase = t }) :> ITagSpan<_>)
             () |> buffer.getFilePath |> Option.fold getMarkerTags Seq.empty
         

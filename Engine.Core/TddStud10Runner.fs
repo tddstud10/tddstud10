@@ -9,11 +9,11 @@ open R4nd0mApps.TddStud10.Common.Domain
 type public TddStud10Runner private (re, agent, rst) = 
     
     static member public CreateRunStep(kind : RunStepKind, subKind : RunStepSubKind, name : RunStepName, 
-                                       func : Func<IRunExecutorHost, RunStartParams, RunStepName, RunStepKind, RunStepSubKind, RunData, RunStepResult>) : RunStep = 
+                                       func : Func<IRunExecutorHost, RunStartParams, RunStepName, RunStepKind, RunStepSubKind, RunStepResult>) : RunStep = 
         { name = name
           kind = kind
           subKind = subKind
-          func = fun h sp n k sk _ rd -> func.Invoke(h, sp, n, k, sk, rd) }
+          func = fun h sp n k sk _ -> func.Invoke(h, sp, n, k, sk) }
     
     static member public Create host runSteps = 
         let all f = 
@@ -35,7 +35,7 @@ type public TddStud10Runner private (re, agent, rst) =
     
     member public __.AttachHandlers (rsc : Handler<RunState>) (sh : Handler<RunStartParams>) (ssh : Handler<RunStepStartingEventArg>) 
            (serh : Handler<RunStepErrorEventArg>) (seh : Handler<RunStepEndedEventArg>) (erh : Handler<Exception>) 
-           (eh : Handler<RunStartParams * RunData>) = 
+           (eh : Handler<RunStartParams>) = 
         rst.RunStateChanged.AddHandler(rsc)
         re.RunStarting.AddHandler(sh)
         re.RunStepStarting.AddHandler(ssh)
@@ -44,7 +44,7 @@ type public TddStud10Runner private (re, agent, rst) =
         re.OnRunError.AddHandler(erh)
         re.RunEnded.AddHandler(eh)
 
-    member public __.DetachHandlers (eh : Handler<RunStartParams * RunData>) (erh : Handler<Exception>) (seh : Handler<RunStepEndedEventArg>) 
+    member public __.DetachHandlers (eh : Handler<RunStartParams>) (erh : Handler<Exception>) (seh : Handler<RunStepEndedEventArg>) 
            (serh : Handler<RunStepErrorEventArg>) (ssh : Handler<RunStepStartingEventArg>) (sh : Handler<RunStartParams>) 
            (rsc : Handler<RunState>) = 
         re.RunEnded.RemoveHandler(eh)

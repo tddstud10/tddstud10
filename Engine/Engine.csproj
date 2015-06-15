@@ -75,7 +75,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoverageData.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="EngineFileSystemWatcher.cs" />
     <Compile Include="EngineLoader.cs" />

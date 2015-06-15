@@ -15,6 +15,9 @@ using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
 using R4nd0mApps.TddStud10.Engine;
 using System.Linq;
+using Microsoft.FSharp.Control;
+using R4nd0mApps.TddStud10.Engine.Core;
+using R4nd0mApps.TddStud10.Common.Domain;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 {
@@ -23,19 +26,21 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
         private ITextBuffer _buffer;
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged = delegate { };
+        private FSharpHandler<PerAssemblySequencePointsCoverage> _ciUpdatedEventHandler;
 
         public CodeCoverageTagger(ITextBuffer buffer)
         {
             _buffer = buffer;
 
-            CoverageData.Instance.NewCoverageDataAvailable += OnNewCoverageDataAvailable;
+            _ciUpdatedEventHandler = new FSharpHandler<PerAssemblySequencePointsCoverage>((_, __) => OnNewCoverageDataAvailable(null, new EventArgs()));
+            DataStore.Instance.CoverageInfoUpdated += _ciUpdatedEventHandler;
         }
 
         public void Dispose()
         {
             _buffer = null;
 
-            CoverageData.Instance.NewCoverageDataAvailable -= OnNewCoverageDataAvailable;
+            DataStore.Instance.CoverageInfoUpdated -= _ciUpdatedEventHandler;
         }
 
         IEnumerable<ITagSpan<CodeCoverageTag>> ITagger<CodeCoverageTag>.GetTags(NormalizedSnapshotSpanCollection spans)

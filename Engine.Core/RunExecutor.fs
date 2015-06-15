@@ -13,18 +13,18 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
     let onRunStepError = new Event<_>()
     let runStepEnded = new Event<_>()
     
-    let executeStep (host : IRunExecutorHost) sp events (acc, err) e = 
+    let executeStep (host : IRunExecutorHost) sp events err e = 
         match err with
-        | Some _ -> acc, err
+        | Some _ -> err
         | None -> 
             if (host.CanContinue()) then 
                 try 
-                    let rsr = (e.func |> stepWrapper) host sp e.name e.kind e.subKind events acc
-                    rsr.runData, err
+                    (e.func |> stepWrapper) host sp e.name e.kind e.subKind events |> ignore
+                    err
                 with 
-                | RunStepFailedException(rsr) as rsfe -> rsr.runData, Some rsfe 
-                | ex -> acc, Some ex
-            else acc, Some(new OperationCanceledException() :> Exception)
+                | RunStepFailedException(_) as rsfe -> Some rsfe 
+                | ex -> Some ex
+            else Some(new OperationCanceledException() :> _)
     
     static let getLocalPath() = 
         (new Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath
@@ -48,10 +48,6 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
     member public __.Start(startTime, solutionPath) = 
         (* NOTE: Need to ensure the started/errored/ended events go out no matter what*)
         let rsp = RunExecutor.createRunStartParams startTime solutionPath
-        let rd = { testsPerAssembly = None
-                   sequencePoints = None
-                   codeCoverageResults = None
-                   executedTests = None }
 
         Common.safeExec (fun () -> runStarting.Trigger(rsp))
         let rses = 
@@ -59,11 +55,11 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
               onError = onRunStepError
               onFinish = runStepEnded }
         
-        let rd, err = runSteps |> Seq.fold (executeStep host rsp rses) (rd, None)
+        let err = runSteps |> Seq.fold (executeStep host rsp rses) None
         match err with
         | None -> ()
         | Some e -> Common.safeExec (fun () -> onRunError.Trigger(e))
-        Common.safeExec (fun () -> runEnded.Trigger(rsp, rd))
-        rsp, rd, err
+        Common.safeExec (fun () -> runEnded.Trigger(rsp))
+        rsp, err
     
     static member public Create host runSteps stepWrapper = new RunExecutor(host, runSteps, stepWrapper)
