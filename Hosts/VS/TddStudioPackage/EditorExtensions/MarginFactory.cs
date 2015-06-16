@@ -11,35 +11,7 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 #if DONT_COMPILE
 
 TODO:
-v Run ATs
-- Data store consumes events from Engine
-  v Prep 
-    v PipelineData union
-    v Substeps
-      v Cannot check by str = "Discover Unit Tests" in datastore events
-    v Restructure 
-      v RunStartEA, RunErrorEA, RunEndEA - make i tconsistent with runexecutor
-      v RunErrorEA contains RSR
-      v RunEndEA contains RSR and data
-      v null in UpdateCoverageResults
-      v rename rd1, rundata1
-      v Hook up UpdateRunStartParams
-      v Remove RunData from RSR 
-      v IsSequencePointAtStartOfAUnitTest in datastore
-        v Remove duplication
-        v delete TestCases property
-  v rename rundata1
-  v UpdateData : Substeps -> PipelineData -> unit
-  v Datastore events and methods
-  v Subscribe to runstart and update these properties in datastore
-  v Delete CoverageData
-  v delete options in rundata
-  v datastore entities must be non-null always
-  v Engine steps don't update datastore
-  v GlyphFactiry & CCTagger - subscribe to the right events
-  - UnitTest for RunData1 in RunStepResult
-  - FIX THESE 
-  - Datastore unit tests
+- Datastore unit tests
 - createCoverageData doesnt show coverage information - entersp markers are not injected looks like
 - switches
   - run pipeline but no data collection [testhost does not look for testcases]

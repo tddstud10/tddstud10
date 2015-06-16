@@ -5,10 +5,13 @@ open System
 open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.Engine.TestDoubles
 open R4nd0mApps.TddStud10.Engine.TestFramework
+open System.IO
 
 let now = DateTime.Now
 let host = new TestHost(Int32.MaxValue)
 let ex = (new InvalidOperationException("A mock method threw")) :> Exception
+let slnFile = ~~"c:\\folder\\file.sln"
+let stubRsp = RunExecutor.createRunStartParams now slnFile
 
 let createSteps n = 
     [| for _ in 1..n do
@@ -25,7 +28,7 @@ let createRE2 h ss _ (sh : CallSpy<_>, erh : CallSpy<_>, eh : CallSpy<_>) =
     re.RunEnded.Add(eh.Func >> ignore)
     re
 
-let startRE (re : RunExecutor) = re.Start(now, ~~"c:\\folder\\file.sln")
+let startRE (re : RunExecutor) = re.Start(now, slnFile)
 
 let areRdsSimillar rd1 rd2 = 
     match rd1 with
@@ -36,27 +39,35 @@ let areRdsSimillar rd1 rd2 =
 let ``Executor initialized RunData``() = 
     let re = RunExecutor.Create host [||] id
     let rsp, err = startRE re
-    Assert.Equal(rsp.startTime, now)
-    Assert.Equal(rsp.solutionPath, ~~"c:\\folder\\file.sln")
-    Assert.Equal(rsp.solutionSnapshotPath, ~~"d:\\tddstud10\\folder\\file.sln")
-    Assert.Equal(rsp.solutionBuildRoot, ~~"d:\\tddstud10\\folder.out")
-    let (FilePath thPath) = rsp.testHostPath
-    Assert.EndsWith("TddStud10.TestHost.exe", thPath, StringComparison.OrdinalIgnoreCase)  
+    
+    let getFileName (FilePath p) = 
+        p
+        |> Path.GetFileName
+        |> FilePath
+    
+    let actual = { rsp with testHostPath = (rsp.testHostPath |> getFileName) }
+    
+    let expected = 
+        { startTime = now
+          solutionPath = slnFile
+          solutionSnapshotPath = ~~"d:\\tddstud10\\folder\\file.sln"
+          solutionBuildRoot = ~~"d:\\tddstud10\\folder.out"
+          testHostPath = ~~"TddStud10.TestHost.exe" }
+    Assert.Equal(expected, actual)
     Assert.Equal(err, None)
 
 [<Fact>]
-let ``Executor calls all steps sequentially and relays rundata``() = 
+let ``Executor calls all steps sequentially - verify inputs and outputs``() = 
     let ss = createSteps 2
     let re = createRE host ss id
-    let _, err = startRE re
-    /////////////////////// FIX THESE /////////////////////
-//    Assert.True
-//        (ss.[0].CalledWith <> ss.[0].ReturningWith && ss.[0].ReturningWith = ss.[1].CalledWith, 
-//         "step 2 is not called with the output of step 1")
-//    Assert.True
-//        (ss.[1].CalledWith <> ss.[1].ReturningWith && ss.[1].ReturningWith = Some(rd.GetHashCode()), 
-//         "returned value is not the output of step 2")
-    Assert.True((err = None), "Error should have passed")
+    let it = startRE re
+    Assert.True(None <> ss.[0].CalledWith && None <> ss.[0].ReturningWith)
+    Assert.True(None <> ss.[1].CalledWith && None <> ss.[1].ReturningWith)
+    let shared (h, s, _, e) = h, s, e
+    Assert.Equal(ss.[0].CalledWith |> Option.map shared, ss.[1].CalledWith |> Option.map shared)
+    let unique (_, _, i, _) = i
+    Assert.NotEqual(ss.[0].CalledWith |> Option.map unique, ss.[1].CalledWith |> Option.map unique)
+    Assert.Equal((stubRsp, None), it)
 
 [<Fact>]
 let ``Executor allows injection of behavior for each step``() = 
@@ -74,7 +85,7 @@ let ``Executor raises starting and ended events only``() =
     let rsp, err = startRE re
     Assert.True(sh.Called && not erh.Called && eh.Called, "Only start and end handlers should have been called")
     Assert.True(areRdsSimillar sh.CalledWith rsp)
-    Assert.True((eh.CalledWith |> Option.map (fun rsp -> rsp.GetHashCode())) = (Some (rsp.GetHashCode())))
+    Assert.True((eh.CalledWith |> Option.map (fun rsp -> rsp.GetHashCode())) = (Some(rsp.GetHashCode())))
     Assert.Equal(err, None)
 
 [<Fact>]
@@ -109,7 +120,7 @@ let ``Cancellation - Executor raises all 3 events and stops execution``() =
     let rsp, err = startRE re
     Assert.True(sh.Called && erh.Called && eh.Called, "All handlers should have been called")
     Assert.True(areRdsSimillar sh.CalledWith rsp)
-    Assert.True((eh.CalledWith |> Option.map (fun rsp -> rsp.GetHashCode())) = (Some (rsp.GetHashCode())))
+    Assert.True((eh.CalledWith |> Option.map (fun rsp -> rsp.GetHashCode())) = (Some(rsp.GetHashCode())))
     Assert.True(ss.[0].Called && not ss.[1].Called && not ss.[2].Called, "Only step 1 should have been executed")
     Assert.True(err <> None && err = erh.CalledWith, "Error returned should also have been passed to error handler")
 
@@ -121,18 +132,16 @@ let ``Step fails - Random Exception - Executor raises all 3 events and stops exe
     let _, err = startRE re
     Assert.True(ss.[0].Called && not ss.[1].Called && not ss.[2].Called, "Only step 1 should have been executed")
     Assert.True(sh.Called && erh.Called && eh.Called, "All handlers should have been called")
-    Assert.True(err = (Some ex) && erh.CalledWith = (Some ex), "Error returned should also have been passed to error handler")
+    Assert.True
+        (err = (Some ex) && erh.CalledWith = (Some ex), "Error returned should also have been passed to error handler")
 
 [<Fact>]
 let ``Step fails - RunStepFailedException - Executor raises all 3 events, stops execution, passes output rss to RunEnded event``() = 
-    let rd = RunExecutor.createRunStartParams now ~~"c:\\folder\\file.sln"
-    let rss = { startParams = rd 
-                name = RunStepName "Some step"
-                kind = Build
-                subKind = InstrumentBinaries
-                status = Failed
-                addendum = FreeFormatData "There has been a failure"
-                runData = NoData }
+    let rss = 
+        { status = Failed
+          addendum = FreeFormatData "There has been a failure"
+          runData = NoData }
+    
     let rsfe = RunStepFailedException rss
     let ss = Array.append [| new StepFunc(Throws(rsfe)) |] (createSteps 2)
     let (sh, erh, eh) = createHandlers()
@@ -140,5 +149,5 @@ let ``Step fails - RunStepFailedException - Executor raises all 3 events, stops 
     startRE re |> ignore
     Assert.True(ss.[0].Called && not ss.[1].Called && not ss.[2].Called, "Only step 1 should have been executed")
     Assert.True(sh.Called && erh.Called && eh.Called, "All handlers should have been called")
-    Assert.Equal(eh.CalledWith, Some rss.startParams)
+    Assert.Equal(eh.CalledWith, Some stubRsp)
     Assert.Equal(erh.CalledWith, Some rsfe)

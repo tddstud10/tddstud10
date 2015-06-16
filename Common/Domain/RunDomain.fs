@@ -2,11 +2,11 @@
 
 open System
 
-type RunData =
+type RunData = 
     | NoData
     | TestCases of PerAssemblyTestCases
     | SequencePoints of PerDocumentSequencePoints
-    | TestRunOutput of PerTestIdResults * PerAssemblySequencePointsCoverage 
+    | TestRunOutput of PerTestIdResults * PerAssemblySequencePointsCoverage
 
 type RunStartParams = 
     { startTime : DateTime
@@ -15,42 +15,43 @@ type RunStartParams =
       solutionSnapshotPath : FilePath
       solutionBuildRoot : FilePath }
 
-type RunStepResult = 
-    { startParams : RunStartParams
-      name : RunStepName
+type RunStepInfo = 
+    { name : RunStepName
       kind : RunStepKind
-      subKind : RunStepSubKind
-      status : RunStepStatus
+      subKind : RunStepSubKind }
+
+type RunStepResult = 
+    { status : RunStepStatus
       runData : RunData
       addendum : RunStepStatusAddendum }
 
 exception RunStepFailedException of RunStepResult
 
 type RunStepStartingEventArg = 
-    { startParams : RunStartParams
-      name : RunStepName
-      subKind : RunStepSubKind
-      kind : RunStepKind }
+    { sp : RunStartParams
+      info : RunStepInfo }
 
 type RunStepErrorEventArg = 
-    { rsr : RunStepResult }
+    { sp : RunStartParams
+      info : RunStepInfo
+      rsr : RunStepResult }
 
-type RunStepEndedEventArg =
-    { rsr : RunStepResult }
+type RunStepEndedEventArg = 
+    { sp : RunStartParams
+      info : RunStepInfo
+      rsr : RunStepResult }
 
 type RunStepEvents = 
     { onStart : Event<RunStepStartingEventArg>
       onError : Event<RunStepErrorEventArg>
       onFinish : Event<RunStepEndedEventArg> }
 
-type RunStepFunc = IRunExecutorHost -> RunStartParams -> RunStepName -> RunStepKind -> RunStepSubKind -> RunStepEvents -> RunStepResult
+type RunStepFunc = IRunExecutorHost -> RunStartParams -> RunStepInfo -> RunStepEvents -> RunStepResult
 
 type RunStepFuncWrapper = RunStepFunc -> RunStepFunc
 
 type RunStep = 
-    { name : RunStepName
-      kind : RunStepKind
-      subKind : RunStepSubKind
+    { info : RunStepInfo
       func : RunStepFunc }
 
 type RunSteps = RunStep array

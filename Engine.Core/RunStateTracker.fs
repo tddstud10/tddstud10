@@ -16,7 +16,7 @@ type RunStateTracker() =
         function 
         | _, RunStarting -> Initial
 
-        | s, RunError(RunStepFailedException ({name = _; kind = _; status = Failed; addendum = _ })) -> s
+        | s, RunError(RunStepFailedException ({status = Failed; addendum = _ })) -> s
         | _, RunError(_) -> EngineError
         
         | _, RunStepError(_, Aborted) -> EngineErrorDetected
@@ -66,10 +66,10 @@ type RunStateTracker() =
     member __.State = state
     member public __.RunStateChanged = runStateChanged.Publish
     member public __.OnRunStarting(_ : RunStartParams) = transitionStateAndRaiseEvent RunStarting
-    member public __.OnRunStepStarting(ea : RunStepStartingEventArg) = transitionStateAndRaiseEvent (RunStepStarting ea.kind)
+    member public __.OnRunStepStarting(ea : RunStepStartingEventArg) = transitionStateAndRaiseEvent (RunStepStarting ea.info.kind)
     member public __.OnRunStepError(ea : RunStepErrorEventArg) = 
-        transitionStateAndRaiseEvent (RunStepError(ea.rsr.kind, ea.rsr.status))
+        transitionStateAndRaiseEvent (RunStepError(ea.info.kind, ea.rsr.status))
     member public __.OnRunStepEnd(ea : RunStepEndedEventArg) = 
-        transitionStateAndRaiseEvent (RunStepEnded(ea.rsr.kind, ea.rsr.status))
+        transitionStateAndRaiseEvent (RunStepEnded(ea.info.kind, ea.rsr.status))
     member public __.OnRunError(ea : Exception) = transitionStateAndRaiseEvent (RunError ea)
     member public __.OnRunEnd(_ : RunStartParams) = ()

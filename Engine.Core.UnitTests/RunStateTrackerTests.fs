@@ -13,41 +13,40 @@ let createSM() =
     sm.RunStateChanged.Add(cs.Func >> ignore)
     sm, cs
 
+let createSP() =
+    RunExecutor.createRunStartParams DateTime.Now ~~"c:\\a\\b.sln"
+
 let createRSS s =
-    { startParams = RunExecutor.createRunStartParams DateTime.Now (FilePath "c:\\a\\b.sln")
-      name = RunStepName ""
-      kind = Test
-      subKind = DiscoverTests
-      status = s
+    { status = s
       addendum = FreeFormatData ""
       runData = NoData }
 
 let runTest2 (_ : RunStateTracker) (_ : CallSpy<RunState>) ts = 
     let sm, cs = createSM()
-    let rd = RunExecutor.createRunStartParams DateTime.Now (FilePath "c:\\a\\b.sln")
+    let rd = createSP()
 
     let runOneTest () (e, exs) = 
         match e with
         | RunStarting -> sm.OnRunStarting(rd)
         | RunStepStarting(k) -> 
-            sm.OnRunStepStarting({ startParams = rd
-                                   name = RunStepName ""
-                                   kind = k
-                                   subKind = DiscoverTests })
+            sm.OnRunStepStarting({ sp = rd
+                                   info = { name = RunStepName ""
+                                            kind = k
+                                            subKind = DiscoverTests } } )
         | RunStepError(k, s) -> 
-            sm.OnRunStepError({ rsr = { startParams = rd
-                                        name = RunStepName ""
-                                        kind = k
-                                        subKind = InstrumentBinaries
-                                        status = s
+            sm.OnRunStepError({ sp = rd
+                                info = { name = RunStepName ""
+                                         kind = k
+                                         subKind = InstrumentBinaries }
+                                rsr = { status = s
                                         addendum = FreeFormatData ""
                                         runData = NoData } })
         | RunStepEnded(k, s) -> 
-            sm.OnRunStepEnd({ rsr = { startParams = rd
-                                      name = RunStepName ""
-                                      kind = k
-                                      subKind = BuildSnapshot
-                                      status = s
+            sm.OnRunStepEnd({ sp = rd
+                              info = { name = RunStepName ""
+                                       kind = k
+                                       subKind = BuildSnapshot }
+                              rsr = { status = s
                                       addendum = FreeFormatData ""
                                       runData = NoData } })
         | RunError(e) -> sm.OnRunError(e)

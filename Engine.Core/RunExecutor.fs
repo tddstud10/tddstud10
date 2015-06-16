@@ -19,10 +19,10 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
         | None -> 
             if (host.CanContinue()) then 
                 try 
-                    (e.func |> stepWrapper) host sp e.name e.kind e.subKind events |> ignore
+                    (e.func |> stepWrapper) host sp e.info events |> ignore
                     err
-                with 
-                | RunStepFailedException(_) as rsfe -> Some rsfe 
+                with
+                | RunStepFailedException(_) as rsfe -> Some rsfe
                 | ex -> Some ex
             else Some(new OperationCanceledException() :> _)
     
@@ -30,7 +30,7 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
         (new Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath
         |> Path.GetFullPath
         |> Path.GetDirectoryName
-
+    
     member public __.RunStarting = runStarting.Publish
     member public __.RunEnded = runEnded.Publish
     member public __.OnRunError = onRunError.Publish
@@ -48,7 +48,6 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
     member public __.Start(startTime, solutionPath) = 
         (* NOTE: Need to ensure the started/errored/ended events go out no matter what*)
         let rsp = RunExecutor.createRunStartParams startTime solutionPath
-
         Common.safeExec (fun () -> runStarting.Trigger(rsp))
         let rses = 
             { onStart = runStepStarting

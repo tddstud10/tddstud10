@@ -350,7 +350,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                     AddTextToConsole(
                         sb => sb.AppendFormat(
                             "### ### Starting run step : {0}...",
-                            rsea.name.Item));
+                            rsea.info.name.Item));
                 });
         }
 
@@ -362,8 +362,8 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                     AddTextToConsole(
                         sb => sb.AppendFormat(
                             "### ### Error in step: {0}, {1}",
-                            ea.rsr.name.ToString(),
-                            ea.rsr.kind.ToString()));
+                            ea.info.name.ToString(),
+                            ea.info.kind.ToString()));
                 });
         }
 
@@ -375,12 +375,12 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
                     AddTextToConsole(
                         sb => sb.AppendFormat(
                             "### ### Finished run step : {0}...",
-                            ea.rsr.name.Item));
+                            ea.info.name.Item));
                     AddTextToStepResultAddendum(
                         sb => sb.AppendFormat(
                             "### ### Additional run step info: {0}, {1}:{2}{3}",
-                            ea.rsr.name.ToString(),
-                            ea.rsr.kind.ToString(),
+                            ea.info.name.ToString(),
+                            ea.info.kind.ToString(),
                             Environment.NewLine,
                             ea.rsr.addendum.ToString()));
                 });
