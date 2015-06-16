@@ -1,4 +1,4 @@
-﻿module R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor.TestMarkerTagger
+﻿module R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor.TestMarkerTaggerTests
 
 open Xunit
 open R4nd0mApps.TddStud10.Engine.Core

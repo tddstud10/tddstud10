@@ -1,4 +1,4 @@
-﻿module R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor.Margin
+﻿module R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor.MarginTests
 
 open Xunit
 open R4nd0mApps.TddStud10.Hosts.Common.TestCode

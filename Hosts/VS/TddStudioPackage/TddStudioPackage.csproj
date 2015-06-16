@@ -197,6 +197,7 @@
   <ItemGroup>
     <Compile Include="EditorExtensions\CodeCoverageTag.cs" />
     <Compile Include="EditorExtensions\TestMarkerTaggerProvider.cs" />
+    <Compile Include="EditorExtensions\SequencePointCoverageTaggerProvider.cs" />
     <Compile Include="EditorExtensions\GlyphFactory.cs" />
     <Compile Include="EditorExtensions\GlyphFactoryProvider.cs" />
     <Compile Include="EditorExtensions\CodeCoverageState.cs" />

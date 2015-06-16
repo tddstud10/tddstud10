@@ -11,8 +11,15 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 #if DONT_COMPILE
 
 TODO:
-- Move all icons to margin + Light up as soon as data is available
+- Move all icons to margin 
+  - TDD Tagger
+  - TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]
+  - Optimize Glyph factory
+  - Move stuff to datastore
+  - Light up as soon as data is available
   - TODO: Why can we not compare the sp.id itself?
+  - Margin needs to scale up with the editor
+  - Delete old datastore methods
 - switches
   - run pipeline but no data collection [testhost does not look for testcases]
   - Editor tagging
@@ -22,10 +29,10 @@ TODO:
 - createCoverageData doesnt show coverage information - entersp markers are not injected looks like
 - <deploy>
 - Blockers
+  - Merge data
 - Kata Videos
 - Disable/Enable for project
 - <release>
-- Marging needs to scale up with the editor
 - Toolwindow + Click on Notification Icon
 - For new runs - we should merge right - when is the right time to pull that in?
 - Engine events wire up 

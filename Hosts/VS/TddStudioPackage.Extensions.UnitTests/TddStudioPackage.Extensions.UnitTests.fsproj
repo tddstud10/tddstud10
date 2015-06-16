@@ -69,6 +69,7 @@
     <Compile Include="TestDoubles.ServiceProvider.fs" />
     <Compile Include="ServicesTest.fs" />
     <Content Include="packages.config" />
+    <Compile Include="Editor\SequencePointCoverageTaggerTests.fs" />
     <Compile Include="Editor\TestMarkerTaggerTests.fs" />
     <Compile Include="Editor\MarginGlpyhTagAndBoundGeneratorTests.fs" />
     <Compile Include="Editor\MarginTests.fs" />
