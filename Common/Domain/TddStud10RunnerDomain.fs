@@ -42,9 +42,6 @@ type AssemblyId =
 type MdTokenRid = 
     | MdTokenRid of uint32
 
-type SequencePointId = 
-    | SequencePointId of int
-
 type DocumentCoordinate =
     | DocumentCoordinate of int
 
@@ -72,9 +69,13 @@ type MethodId =
       mdTokenRid : MdTokenRid }
 
 [<CLIMutable>]
-type SequencePoint = 
+type SequencePointId = 
     { methodId : MethodId
-      id : SequencePointId
+      uid : int }
+
+[<CLIMutable>]
+type SequencePoint = 
+    { id : SequencePointId
       document : FilePath
       startLine : DocumentCoordinate
       startColumn : DocumentCoordinate
@@ -83,8 +84,7 @@ type SequencePoint =
 
 [<CLIMutable>]
 type SequencePointCoverage = 
-    { methodId : MethodId
-      sequencePointId : SequencePointId 
+    { sequencePointId : SequencePointId 
       testRunId : TestRunId }
 
 // =================================================

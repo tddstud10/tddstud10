@@ -20,8 +20,10 @@ type DataStore() =
         member __.TestCasesUpdated : IEvent<_> = testCasesUpdated.Publish
         member __.SequencePointsUpdated : IEvent<_> = sequencePointsUpdated.Publish
         member __.TestResultsUpdated : IEvent<_> = testResultsUpdated.Publish
+        
         [<CLIEvent>]
         member __.CoverageInfoUpdated : IEvent<_> = coverageInfoUpdated.Publish
+        
         member __.UpdateRunStartParams(rsp : RunStartParams) : unit = runStartParams <- rsp |> Some
         
         member __.UpdateData(rd : RunData) : unit = 
@@ -39,7 +41,6 @@ type DataStore() =
                 coverageInfo <- ci
                 Common.safeExec (fun () -> coverageInfoUpdated.Trigger(coverageInfo))
         
-        // NOTE: Not tested
         member __.FindTest assembly document line : TestCase option = 
             let findTest assembly document (DocumentCoordinate line) rsp = 
                 let found, ts = assembly |> testCases.TryGetValue
@@ -52,26 +53,26 @@ type DataStore() =
                 else None
             runStartParams |> Option.bind (findTest assembly document line)
         
-        // NOTE: Not tested (same testid in different assemblies)
         member self.FindTest2 document line : TestCase seq = 
             testCases.Keys |> Seq.choose (fun a -> (self :> IDataStore).FindTest a document line)
-        // NOTE: Not tested        
+        // NOTE: Not tested
         member __.GetAllFiles() : FilePath seq = upcast sequencePoints.Keys
-        // NOTE: Not tested        
+        // NOTE: Not tested
         member __.GetAllSequencePoints() : SequencePoint seq = sequencePoints.Values |> Seq.collect id
-        // NOTE: Not tested        
-        member __.GetUnitTestsCoveringSequencePoint sequencePoint : TestRunId seq = 
+        
+        // NOTE: Not tested
+        member __.FindTestRunsCoveringSequencePoint sp : TestRunId seq = 
             coverageInfo.Values
             |> Seq.collect id
-            |> Seq.filter (fun spc -> spc.methodId = sequencePoint.methodId)
+            // TODO: Why can we not compare the sp.id itself?
+            |> Seq.filter (fun spc -> spc.sequencePointId.methodId = sp.id.methodId)
             |> Seq.map (fun spc -> spc.testRunId)
-            |> Seq.distinct
-        // NOTE: Not tested        
-        member __.GetTestResults tid : TestRunResult seq =
+        
+        // NOTE: Not tested
+        member __.FindTestResults tid : TestRunResult seq = 
             let found, trs = tid |> testResults.TryGetValue
-            if found && trs <> null then 
-                upcast trs
-            else
-                Seq.empty
+            if found && trs <> null then upcast trs
+            else Seq.empty
+    
     static member Instance 
         with public get () = instance.Value :> IDataStore

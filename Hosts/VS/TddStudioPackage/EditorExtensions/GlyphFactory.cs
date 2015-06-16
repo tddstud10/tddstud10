@@ -20,7 +20,6 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
 using R4nd0mApps.TddStud10.Common.Domain;
-using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.Common;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
@@ -107,7 +106,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
             switch (state)
             {
                 case CodeCoverageState.CoveredWithPassingTests:
-                    return "This message is covered by passing tests.";
+                    return "This message is covered by passing testRuns.";
                 case CodeCoverageState.CoveredWithAtleastOneFailedTest:
                     return "This message is covered by at least one failing test.";
                 case CodeCoverageState.Uncovered:
@@ -123,15 +122,15 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 
             if (spans.Any())
             {
-                var allTrackedMethods = spans.SelectMany(s => _spanCoverage[s]);
-                if (!allTrackedMethods.Any())
+                var testRuns = spans.SelectMany(s => _spanCoverage[s]);
+                if (!testRuns.Any())
                 {
                     return CodeCoverageState.Uncovered;
                 }
 
-                var results = from tm in allTrackedMethods
-                              from tr in DataStore.Instance.GetTestResults(tm.testId)
-                              select tr;
+                var results = from tr in testRuns
+                              from res in DataStore.Instance.FindTestResults(tr.testId)
+                              select res;
 
                 if (results.Any(r => r.result.Outcome == TestOutcome.Failed))
                 {
@@ -199,14 +198,14 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
             RaiseAllTagsChanged();
         }
 
-        private void AddWordSpan(List<SnapshotSpan> wordSpans, ITextSnapshot snapshot, int startColumn, int totalCharacters, IEnumerable<TestRunId> trackedMethods)
+        private void AddWordSpan(List<SnapshotSpan> wordSpans, ITextSnapshot snapshot, int startColumn, int totalCharacters, IEnumerable<TestRunId> testRuns)
         {
             var snapshotPoint = new SnapshotSpan(snapshot, new Span(startColumn, totalCharacters));
             wordSpans.Add(snapshotPoint);
 
             if (!_spanCoverage.ContainsKey(snapshotPoint))
             {
-                _spanCoverage.Add(snapshotPoint, trackedMethods);
+                _spanCoverage.Add(snapshotPoint, testRuns);
             }
         }
 
@@ -222,7 +221,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
                 {
                     foreach (var sequencePoint in sequencePoints)
                     {
-                        var tests = DataStore.Instance.GetUnitTestsCoveringSequencePoint(sequencePoint);
+                        var testRuns = DataStore.Instance.FindTestRunsCoveringSequencePoint(sequencePoint);
 
                         int spStartLine = sequencePoint.startLine.Item - 1;
                         int spEndLine = sequencePoint.endLine.Item - 1;
@@ -233,12 +232,12 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
                         {
                             AddWordSpan(wordSpans, snapshot,
                                         startLine.Extent.Start.Position + sequencePoint.startColumn.Item - 1,
-                                        sequencePoint.endColumn.Item - sequencePoint.startColumn.Item + 1, tests);
+                                        sequencePoint.endColumn.Item - sequencePoint.startColumn.Item + 1, testRuns);
                         }
                         else
                         {
                             AddWordSpansForSequencePointsCoveringMultipleLines(snapshot, wordSpans, sequencePoint,
-                                                                                spStartLine, spEndLine, tests);
+                                                                                spStartLine, spEndLine, testRuns);
                         }
                     }
                 }
@@ -258,7 +257,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
                                                                         SequencePoint sequencePoint,
                                                                         int sequencePointStartLine,
                                                                         int sequencePointEndLine,
-                                                                        IEnumerable<TestRunId> trackedMethods)
+                                                                        IEnumerable<TestRunId> testRuns)
         {
             int totalCharacters = 0;
 
@@ -272,18 +271,18 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
                 {
                     totalCharacters = selectedLine.Length - sequencePoint.startColumn.Item + 1;
 
-                    AddWordSpan(wordSpans, snapshot, selectedLine.Extent.Start.Position + sequencePoint.startColumn.Item - 1, totalCharacters, trackedMethods);
+                    AddWordSpan(wordSpans, snapshot, selectedLine.Extent.Start.Position + sequencePoint.startColumn.Item - 1, totalCharacters, testRuns);
                 }
                 else if (selectedLine.LineNumber == sequencePointEndLine)
                 {
                     var temp = selectedLine.Length - (sequencePoint.endColumn.Item - 1);
                     totalCharacters = selectedLine.Length - temp;
 
-                    AddWordSpan(wordSpans, snapshot, selectedLine.Extent.Start.Position, totalCharacters, trackedMethods);
+                    AddWordSpan(wordSpans, snapshot, selectedLine.Extent.Start.Position, totalCharacters, testRuns);
                 }
                 else
                 {
-                    AddWordSpan(wordSpans, snapshot, selectedLine.Extent.Start.Position, selectedLine.Length, trackedMethods);
+                    AddWordSpan(wordSpans, snapshot, selectedLine.Extent.Start.Position, selectedLine.Length, testRuns);
                 }
             }
         }

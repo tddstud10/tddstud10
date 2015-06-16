@@ -12,15 +12,16 @@ let asmId2 = Guid.NewGuid()
 
 type FakeCallContext() = 
     let mutable data = null
-    member __.GetData n = data
-    member __.SetData n o = data <- o
+    member __.GetData _ = data
+    member __.SetData _ o = data <- o
 
 let createCoverageData (s, d, l) ss = 
     [ for (a, m, sp) in ss do
-          yield { methodId = 
-                      { assemblyId = a |> AssemblyId
-                        mdTokenRid = m |> MdTokenRid }
-                  sequencePointId = sp |> SequencePointId
+          yield { sequencePointId = 
+                      { methodId = 
+                            { assemblyId = a |> AssemblyId
+                              mdTokenRid = m |> MdTokenRid }
+                        uid = sp }
                   testRunId = 
                       { testId = 
                             { source = s |> FilePath
@@ -33,12 +34,12 @@ type Assert with
         let spcComp = 
             { new IEqualityComparer<SequencePointCoverage> with
                   member __.Equals(s1 : _, s2 : _) : bool = 
-                      s1.methodId = s2.methodId && s1.sequencePointId = s2.sequencePointId 
+                      s1.sequencePointId = s2.sequencePointId 
                       && s1.testRunId.testId = s2.testRunId.testId 
                       && s1.testRunId.testRunInstanceId <> s2.testRunId.testRunInstanceId 
                       && s1.testRunId.testRunInstanceId <> (TestRunInstanceId 0) 
                       && s2.testRunId.testRunInstanceId <> (TestRunInstanceId 0)
-                  member __.GetHashCode(obj : _) : int = failwith "Not implemented yet" }
+                  member __.GetHashCode(_ : _) : int = failwith "Not implemented yet" }
         Assert.Equal(e |> Seq.length, a |> Seq.length)
         e |> Seq.iter (fun e -> Assert.Contains(e, a, spcComp))
 

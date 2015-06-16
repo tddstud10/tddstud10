@@ -11,19 +11,22 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 #if DONT_COMPILE
 
 TODO:
-- Datastore unit tests
-- createCoverageData doesnt show coverage information - entersp markers are not injected looks like
+- Move all icons to margin + Light up as soon as data is available
+  - TODO: Why can we not compare the sp.id itself?
 - switches
   - run pipeline but no data collection [testhost does not look for testcases]
   - Editor tagging
   - Toolwindow
   - merging data vs no-merging data
   - disable == all
+- createCoverageData doesnt show coverage information - entersp markers are not injected looks like
 - <deploy>
-- Marging needs to scale up with the editor
-- Toolwindow
 - Blockers
+- Kata Videos
+- Disable/Enable for project
 - <release>
+- Marging needs to scale up with the editor
+- Toolwindow + Click on Notification Icon
 - For new runs - we should merge right - when is the right time to pull that in?
 - Engine events wire up 
   - Custom Trigger mechanism with 3 goals: exception in one handler should not affect the others

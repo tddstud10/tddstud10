@@ -67,8 +67,11 @@ namespace R4nd0mApps.TddStud10
 
                         seqPts.Add(new R4nd0mApps.TddStud10.Common.Domain.SequencePoint
                         {
-                            methodId = new MethodId(AssemblyId.NewAssemblyId(sp.mod.Mvid), MdTokenRid.NewMdTokenRid(sp.m.MetadataToken.RID)),
-                            id = SequencePointId.NewSequencePointId(id++),
+                            id = new SequencePointId
+                            {
+                                methodId = new MethodId(AssemblyId.NewAssemblyId(sp.mod.Mvid), MdTokenRid.NewMdTokenRid(sp.m.MetadataToken.RID)),
+                                uid = id++
+                            },
                             document = fp,
                             startLine = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.StartLine),
                             startColumn = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.StartColumn),

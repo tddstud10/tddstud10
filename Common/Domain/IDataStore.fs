@@ -15,6 +15,6 @@ type IDataStore =
     abstract FindTest2 : FilePath -> DocumentCoordinate -> TestCase seq
     abstract GetAllFiles : unit -> FilePath seq
     abstract GetAllSequencePoints : unit -> SequencePoint seq
-    abstract GetUnitTestsCoveringSequencePoint : SequencePoint -> TestRunId seq
-    abstract GetTestResults : TestId -> TestRunResult seq
+    abstract FindTestRunsCoveringSequencePoint : SequencePoint -> TestRunId seq
+    abstract FindTestResults : TestId -> TestRunResult seq
 

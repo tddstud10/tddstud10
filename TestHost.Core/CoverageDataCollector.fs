@@ -34,16 +34,18 @@ type CoverageDataCollector() =
                 let addSPC a m s = 
                     let asmId = AssemblyId(Guid.Parse(a))
                     let l = coverageData.GetOrAdd(asmId, fun _ -> ConcurrentBag<_>())
-                    l.Add { methodId = 
+                    { sequencePointId = 
+                          { methodId = 
                                 { assemblyId = asmId
                                   mdTokenRid = MdTokenRid(UInt32.Parse(m)) }
-                            sequencePointId = SequencePointId(Int32.Parse(s))
-                            testRunId = 
-                                { testId = 
-                                      { source = source |> FilePath
-                                        document = document |> FilePath
-                                        line = DocumentCoordinate(Int32.Parse(line)) }
-                                  testRunInstanceId = TestRunInstanceId(Int32.Parse(testRunId)) } }
+                            uid = Int32.Parse(s) }
+                      testRunId = 
+                          { testId = 
+                                { source = source |> FilePath
+                                  document = document |> FilePath
+                                  line = DocumentCoordinate(Int32.Parse(line)) }
+                            testRunInstanceId = TestRunInstanceId(Int32.Parse(testRunId)) } }
+                    |> l.Add
                     |> ignore
                 Async.Parallel [ for sp in sps -> async { return sp |||> addSPC } ]
                 |> Async.RunSynchronously
@@ -57,4 +59,4 @@ type CoverageDataCollector() =
             enterSequencePoint testRunId assemblyId methodMdRid spId
         member __.ExitUnitTest(testRunId : string, source : string, document : string, line : string) : unit = 
             exitUnitTest testRunId source document line
-        member x.Ping() : unit = Logger.logInfof "CoverageDataCollector - responding to ping."
+        member __.Ping() : unit = Logger.logInfof "CoverageDataCollector - responding to ping."
