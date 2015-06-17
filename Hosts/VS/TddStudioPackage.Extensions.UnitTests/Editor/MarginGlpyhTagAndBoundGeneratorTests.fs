@@ -12,13 +12,13 @@ open Microsoft.VisualStudio.Text
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 
 let getMTSForline (ss : SnapshotSpan) : IMappingTagSpan<_> seq = 
-    let mts = FakeMappingTagSpan<TestMarkerTag>()
+    let mts = FakeMappingTagSpan<TestStartTag>()
     mts.Tag <- { testCase = TestCase("FQN:" + ss.GetText(), Uri("ext://test"), "source") }
     upcast [ mts :> IMappingTagSpan<_> ]
 
 [<Fact>]
 let ``Empty enumeration returned if there are no input lines``() = 
-    let gp = MarginGlpyhTagAndBoundGenerator(fun _ -> [] :> IMappingTagSpan<TestMarkerTag> seq)
+    let gp = MarginGlpyhTagAndBoundGenerator(fun _ -> [] :> IMappingTagSpan<TestStartTag> seq)
     let es = (Point(0.0, 0.0), [] :> ITextViewLine seq) |> gp.Generate
     Assert.Empty(es)
 

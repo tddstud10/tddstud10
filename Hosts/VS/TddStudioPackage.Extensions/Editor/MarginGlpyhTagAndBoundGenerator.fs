@@ -6,7 +6,7 @@ open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 open System.Windows
 open Microsoft.VisualStudio.Text
 
-type MarginGlpyhTagAndBoundGenerator(tagsGetter : SnapshotSpan -> IMappingTagSpan<TestMarkerTag> seq) = 
+type MarginGlpyhTagAndBoundGenerator(tagsGetter : SnapshotSpan -> IMappingTagSpan<TestStartTag> seq) = 
     member __.Generate((topLeft, lines) : Point * ITextViewLine seq) = 
         let getGlyphBounds (r : Rect) =
             let glyphSideLength = MarginConstants.Width * 0.8

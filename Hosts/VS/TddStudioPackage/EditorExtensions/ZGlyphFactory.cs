@@ -26,7 +26,7 @@ using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 {
-    public class GlyphFactory : IGlyphFactory
+    public class ZGlyphFactory : IGlyphFactory
     {
         const double _glyphSize = 8.0;
 
@@ -44,7 +44,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 
         private FSharpHandler<PerAssemblySequencePointsCoverage> _ciUpdatedEventHandler;
 
-        public GlyphFactory(IWpfTextView view)
+        public ZGlyphFactory(IWpfTextView view)
         {
 
             _textView = view;
@@ -66,9 +66,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 
         public UIElement GenerateGlyph(IWpfTextViewLine line, IGlyphTag tag)
         {
-            CodeCoverageState state = GetLineCoverageState(line);
+            ZCodeCoverageState state = GetLineCoverageState(line);
 
-            if (state == CodeCoverageState.Unknown)
+            if (state == ZCodeCoverageState.Unknown)
                 return null;
 
             var brush = GetBrushForState(state);
@@ -86,37 +86,37 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
             return ellipse;
         }
 
-        private Brush GetBrushForState(CodeCoverageState state)
+        private Brush GetBrushForState(ZCodeCoverageState state)
         {
             switch (state)
             {
-                case CodeCoverageState.CoveredWithPassingTests:
+                case ZCodeCoverageState.CoveredWithPassingTests:
                     return _coveredWithPassingTestBrush;
-                case CodeCoverageState.CoveredWithAtleastOneFailedTest:
+                case ZCodeCoverageState.CoveredWithAtleastOneFailedTest:
                     return _coveredWithFailedTestBrush;
-                case CodeCoverageState.Uncovered:
+                case ZCodeCoverageState.Uncovered:
                     return _uncoveredBrush;
             }
 
             return null;
         }
 
-        private string GetToolTipText(CodeCoverageState state)
+        private string GetToolTipText(ZCodeCoverageState state)
         {
             switch (state)
             {
-                case CodeCoverageState.CoveredWithPassingTests:
+                case ZCodeCoverageState.CoveredWithPassingTests:
                     return "This message is covered by passing testRuns.";
-                case CodeCoverageState.CoveredWithAtleastOneFailedTest:
+                case ZCodeCoverageState.CoveredWithAtleastOneFailedTest:
                     return "This message is covered by at least one failing test.";
-                case CodeCoverageState.Uncovered:
+                case ZCodeCoverageState.Uncovered:
                     return "This message is not covered by any test.";
             }
 
             return null;
         }
 
-        private CodeCoverageState GetLineCoverageState(ITextViewLine line)
+        private ZCodeCoverageState GetLineCoverageState(ITextViewLine line)
         {
             var spans = GetSpansForLine(line, _currentSpans);
 
@@ -125,7 +125,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
                 var testRuns = spans.SelectMany(s => _spanCoverage[s]);
                 if (!testRuns.Any())
                 {
-                    return CodeCoverageState.Uncovered;
+                    return ZCodeCoverageState.Uncovered;
                 }
 
                 var results = from tr in testRuns
@@ -134,16 +134,16 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 
                 if (results.Any(r => r.result.Outcome == TestOutcome.Failed))
                 {
-                    return CodeCoverageState.CoveredWithAtleastOneFailedTest;
+                    return ZCodeCoverageState.CoveredWithAtleastOneFailedTest;
                 }
 
                 if (results.All(r => r.result.Outcome == TestOutcome.Passed))
                 {
-                    return CodeCoverageState.CoveredWithPassingTests;
+                    return ZCodeCoverageState.CoveredWithPassingTests;
                 }
             }
 
-            return CodeCoverageState.Unknown;
+            return ZCodeCoverageState.Unknown;
         }
 
         public static IEnumerable<SnapshotSpan> GetSpansForLine(ITextViewLine line, IEnumerable<SnapshotSpan> spanContainer)

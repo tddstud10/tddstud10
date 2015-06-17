@@ -3,6 +3,6 @@
 open Microsoft.VisualStudio.Text.Tagging
 open R4nd0mApps.TddStud10.Common.Domain
 
-type SequencePointCoverageTag = 
+type SequencePointTag = 
     { testCase : TestRunId seq }
     interface ITag

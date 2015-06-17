@@ -9,12 +9,12 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 {
     [Export(typeof(ITaggerProvider))]
     [ContentType("code")]
-    [TagType(typeof(SequencePointCoverageTag))]
-    public class SequencePointCoverageTaggerProvider : ITaggerProvider
+    [TagType(typeof(TestStartTag))]
+    public class TestStartTaggerProvider : ITaggerProvider
     {
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
-            return new SequencePointCoverageTagger(buffer, DataStore.Instance) as ITagger<T>;
+            return new TestStartTagger(buffer, DataStore.Instance) as ITagger<T>;
         }
     }
 }

@@ -18,8 +18,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 {
     [Export(typeof(ITaggerProvider))]
     [ContentType("code")]
-    [TagType(typeof(CodeCoverageTag))]
-    public class CodeCoverageTaggerProvider : ITaggerProvider
+    [TagType(typeof(ZCodeCoverageTag))]
+    public class ZCodeCoverageTaggerProvider : ITaggerProvider
     {
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
@@ -28,7 +28,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
                 throw new ArgumentNullException("buffer");
             }
 
-            return new CodeCoverageTagger(buffer) as ITagger<T>;
+            return new ZCodeCoverageTagger(buffer) as ITagger<T>;
         }
     }
 }

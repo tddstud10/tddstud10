@@ -3,6 +3,6 @@
 open Microsoft.VisualStudio.Text.Tagging
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
-type TestMarkerTag = 
+type TestStartTag = 
     { testCase : TestCase }
     interface ITag

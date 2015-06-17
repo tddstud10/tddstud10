@@ -9,23 +9,42 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 
 #if DONT_COMPILE
+SequencePointTag
+CodeCoverageTag 
+TestStartTag
+FailurePointTag
 
 TODO:
 - Move all icons to margin 
-  - TDD Tagger
-  - TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]
-  - Optimize Glyph factory
-  - Move stuff to datastore
+  - SequencePointTag
+    - TDD Tagger
+    - TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]
+    - Move stuff to datastore
+    - Optimize Glyph factory
+  - CoverageTag
+    - TDD Tagger
+    - TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]
+    - Move stuff to datastore
+    - Optimize Glyph factory
+  - PointOfFailureTag
+    - Datastore entity
+    - Collect data
+    - TDD Tagger
+    - TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]
+    - Move stuff to datastore
+    - Optimize Glyph factory
   - Light up as soon as data is available
   - TODO: Why can we not compare the sp.id itself?
   - Margin needs to scale up with the editor
   - Delete old datastore methods
+  - Delete old tagger code
 - switches
   - run pipeline but no data collection [testhost does not look for testcases]
   - Editor tagging
   - Toolwindow
   - merging data vs no-merging data
   - disable == all
+  - Do we need async tagger?
 - createCoverageData doesnt show coverage information - entersp markers are not injected looks like
 - <deploy>
 - Blockers
@@ -54,67 +73,15 @@ TODO:
   - Should I not be unsubscribing from the eventhanders in Margin
   - NormalizedSnapshotSpanCollection
     - Normalized means [a] sorted [b] overlaps combined [c] but not necessarily consecutive
-    - Arg to GetTags - will never contain SnapshotSpan spanning multiple TextSnapshotLine-s
+    - Arg to GetTags - can contain SnapshotSpan spanning multiple TextSnapshotLine-s
   - Span == Eucleadean Line Segment
   - SnapshotSpan == Span but within a text snapshot [not neessarily in the same text line]
   - SnapshotPoint == Point in a SnapshotSpan, also in a TextSnapshotLine
   - In Margin.TagsChangedEventArgs we are refetching all tags is that OK?
   - Ok to hold reference to ITextSnapshotLine in Tag?
   - Jared thinks LayoutEvent is too costly - what is the option?
-  - s.Start.GetContainingLine().LineNumber - in GetTags is obviously not valid - as the snap could be the entire document.
 
 ==================
-
-datastore
-state [potentially corresponding to >1 state per line]
-
-
-http://stackoverflow.com/questions/17167423/creating-a-tagger-that-has-more-than-one-tag-type-for-vs-extension/24923127#24923127	
-https://github.com/qwertie/Loyc/blob/master/Visual%20Studio%20Integration/LoycExtensionForVs/SampleLanguage.cs
-
-
-
-states
-- unittest start
-- unknown coverage
-- uncovered
-- partially covered failing tests
-- partially covered all passing tests
-- fully covered failing tests
-- fully covered all passing tests
-- test failure origin
-
-Articles:
-all of noahric blogs looks like
-http://chrisparnin.github.io/articles/2013/09/using-tagging-and-adornments-for-better-todos-in-visual-studio/
-
-Potentials:
-https://github.com/EWSoftware/VSSpellChecker
-
-
-===================
-
-  mouse
-- https://github.com/tunnelvisionlabs/InheritanceMargin/blob/f9f47148c7eb3de15fc92ca2ff372d266af63d4f/Tvl.VisualStudio.InheritanceMargin/InheritanceGlyphFactory.cs
-  - command bindings on glyph
-- [Export(typeof(IGlyphMouseProcessorProvider))]
-
-
-selective of margin
-
-blogs.msdn.com vs editor 
-
-myltiple tag attr
-- https://github.com/adamdriscoll/poshtools/blob/18eee4842c5643385bdd8db148b42d48d867c74e/ReplWindow/Repl/Margin/GlyphPrompts.cs
-
-- getting access to service provider
-    [Import(typeof(Microsoft.VisualStudio.Shell.SVsServiceProvider))]
-    internal IServiceProvider _serviceProvider = null;
-
-- move tddpackageextension one level up - refactor the projects
-- keyboard input
-- implement sort/remove using in fsharppowertools
-- compress datastore size - esp the last one where unit tests are repeated
 
 
 glyphs 
@@ -162,7 +129,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
         {
             return new Margin(
                 textViewHost.TextView,
-                _aggregatorFactory.CreateTagAggregator<TestMarkerTag>(textViewHost.TextView.TextBuffer),
+                _aggregatorFactory.CreateTagAggregator<TestStartTag>(textViewHost.TextView.TextBuffer),
                 _serviceProvider.GetService<IMenuCommandService>().ShowContextMenu);
         }
     }

@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.Text.Editor;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 {
-    public class CodeCoverageTag : IGlyphTag
+    public class ZCodeCoverageTag : IGlyphTag
     {
     }
 }

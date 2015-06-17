@@ -20,7 +20,7 @@ type Margin(textView : IWpfTextView, tmta : ITagAggregator<_>, __, painter, getM
     let lcSub = textView.LayoutChanged.Subscribe(fun _ -> paintGlyphs())
     let tcSub = tmta.TagsChanged.Subscribe(fun _ -> paintGlyphs())
 
-    new(textView : IWpfTextView, tmta : ITagAggregator<TestMarkerTag>, showCM) = 
+    new(textView : IWpfTextView, tmta : ITagAggregator<TestStartTag>, showCM) = 
         let canvas = MarginCanvas()
         new Margin(textView, tmta, showCM,
                    (new MarginGlpyhTagAndBoundGenerator(tmta.GetTags)).Generate >> Seq.map (GlyphFactory.createGlyphForTag showCM) >> canvas.Refresh,

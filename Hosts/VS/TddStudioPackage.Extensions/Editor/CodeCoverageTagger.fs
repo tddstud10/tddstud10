@@ -7,7 +7,7 @@ open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 open System.Threading
 open R4nd0mApps.TddStud10.Engine.Core
 
-type TestMarkerTagger(buffer : ITextBuffer, dataStore : IDataStore) as self = 
+type CodeCoverageTagger(buffer : ITextBuffer, dataStore : IDataStore) as self = 
     let syncContext = SynchronizationContext.Current
     let tagsChanged = Event<_, _>()
     let fireTagsChanged _ = 
@@ -20,18 +20,15 @@ type TestMarkerTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
                          (self, 
                           SnapshotSpanEventArgs
                               (new SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length))))), null)
-    do dataStore.TestCasesUpdated.Add fireTagsChanged
-    interface ITagger<TestMarkerTag> with
+    do dataStore.CoverageInfoUpdated.Add fireTagsChanged
+    interface ITagger<CodeCoverageTag> with
         
         member __.GetTags(spans : _) : _ = 
             let getMarkerTags _ path = 
-                spans
+                //spans
                 // TODO: If this crashes, fix unit tests and enable back
                 //|> Seq.filter (fun s -> not s.IsEmpty)
-                |> Seq.map (fun s -> s, DocumentCoordinate(s.Start.GetContainingLine().LineNumber + 1))
-                |> Seq.map (fun (s, ln) -> s, dataStore.FindTest2 path ln)
-                |> Seq.collect (fun (s, ts) -> ts |> Seq.map (fun t -> s, t))
-                |> Seq.map (fun (s, t) -> TagSpan<_>(SnapshotSpan(s.Start, s.Length), { testCase = t }) :> ITagSpan<_>)
+                Seq.empty
             () |> buffer.getFilePath |> Option.fold getMarkerTags Seq.empty
         
         [<CLIEvent>]

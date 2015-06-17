@@ -21,14 +21,14 @@ using R4nd0mApps.TddStud10.Common.Domain;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 {
-    public sealed class CodeCoverageTagger : ITagger<CodeCoverageTag>, IDisposable
+    public sealed class ZCodeCoverageTagger : ITagger<ZCodeCoverageTag>, IDisposable
     {
         private ITextBuffer _buffer;
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged = delegate { };
         private FSharpHandler<PerAssemblySequencePointsCoverage> _ciUpdatedEventHandler;
 
-        public CodeCoverageTagger(ITextBuffer buffer)
+        public ZCodeCoverageTagger(ITextBuffer buffer)
         {
             _buffer = buffer;
 
@@ -43,11 +43,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
             DataStore.Instance.CoverageInfoUpdated -= _ciUpdatedEventHandler;
         }
 
-        IEnumerable<ITagSpan<CodeCoverageTag>> ITagger<CodeCoverageTag>.GetTags(NormalizedSnapshotSpanCollection spans)
+        IEnumerable<ITagSpan<ZCodeCoverageTag>> ITagger<ZCodeCoverageTag>.GetTags(NormalizedSnapshotSpanCollection spans)
         {
             return from span in spans
                    where !span.IsEmpty
-                   select new TagSpan<CodeCoverageTag>(new SnapshotSpan(span.Start, 1), new CodeCoverageTag());
+                   select new TagSpan<ZCodeCoverageTag>(new SnapshotSpan(span.Start, 1), new ZCodeCoverageTag());
         }
 
         private void RaiseAllTagsChanged()

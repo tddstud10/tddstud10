@@ -1,4 +1,4 @@
-﻿module R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor.TestMarkerTaggerTests
+﻿module R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor.TestStartTaggerTests
 
 open Xunit
 open R4nd0mApps.TddStud10.Engine.Core
@@ -11,12 +11,12 @@ open R4nd0mApps.TddStud10.Hosts.Common.TestCode
 open Microsoft.VisualStudio.Text
 open Microsoft.VisualStudio.Text.Tagging
 
-let createTMT s p t = 
+let createTST s p t = 
     let ds = DataStore() :> IDataStore
     RunExecutor.createRunStartParams DateTime.Now (FilePath s)
     |> ds.UpdateRunStartParams
     let tb = FakeTextBuffer(p, t) :> ITextBuffer
-    let tmt = TestMarkerTagger(tb, ds) :> ITagger<_>
+    let tmt = TestStartTagger(tb, ds) :> ITagger<_>
     let spy = CallSpy1<SnapshotSpanEventArgs>(Throws(new Exception()))
     tmt.TagsChanged.Add(spy.Func >> ignore)
     ds, tb, tmt, spy
@@ -35,7 +35,7 @@ let createTPA (ts : (string * string * int) seq) =
 
 [<Fact>]
 let ``Datastore TestCasesUpdated event fires TagsChanged event``() = 
-    let ds, tb, _, s = createTMT @"c:\a.sln" "" ""
+    let ds, tb, _, s = createTST @"c:\a.sln" "" ""
     []
     |> createTPA
     |> TestCases
@@ -44,7 +44,7 @@ let ``Datastore TestCasesUpdated event fires TagsChanged event``() =
 
 [<Fact>]
 let ``GetTags returns right tag for 1 empty and 1 each found and not found in datastore``() = 
-    let ds, tb, tmt, _ = createTMT @"c:\sln\sln.sln" @"c:\sln\proj\a.cs" """
+    let ds, tb, tmt, _ = createTST @"c:\sln\sln.sln" @"c:\sln\proj\a.cs" """
 2nd line (first is empty)
 3rd line
 """

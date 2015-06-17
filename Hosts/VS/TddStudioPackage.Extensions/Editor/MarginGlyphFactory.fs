@@ -9,7 +9,7 @@ open System.ComponentModel.Design
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions
 
 module GlyphFactory = 
-    let createGlyphForTag showCM ((t, r) : TestMarkerTag * Rect) = 
+    let createGlyphForTag showCM ((t, r) : TestStartTag * Rect) = 
         let showContextMenu (showCM : Action<CommandID, int, int>) t (e : Ellipse) (mbea : MouseButtonEventArgs) = 
             let menuID = new CommandID(Guid(PkgGuids.GuidGlyphContextCmdSet), PkgCmdID.GlyphContextMenu |> int)
             let p = e.PointToScreen(mbea.GetPosition(e))
