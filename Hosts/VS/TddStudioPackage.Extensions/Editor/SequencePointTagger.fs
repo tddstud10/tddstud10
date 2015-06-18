@@ -33,23 +33,20 @@ type SequencePointTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
         member __.GetTags(spans : _) : _ = 
             let getMarkerTags _ p = 
                 let findSPForSpan (sps : SequencePoint seq) (ss : SnapshotSpan) = 
-                    sps 
-                    |> Seq.where (fun sp -> 
-                        let (sl, sc, el, ec) = 
-                            ss.Start.GetContainingLine().LineNumber + 1, ss.Start.Difference(ss.Start) + 1, 
-                            ss.End.GetContainingLine().LineNumber + 1, ss.Start.Difference(ss.End) + 1 - 1
-                        sp.startLine <= DocumentCoordinate sl
-                        && sp.endLine >= DocumentCoordinate el)
-
+                    sps |> Seq.where (fun sp -> 
+                               let sl, _, el, _ = ss.Bounds1Based
+                               sp.startLine <= DocumentCoordinate sl && sp.endLine >= DocumentCoordinate el)
+                
                 let sps = p |> dataStore.GetSequencePointsForFile
                 spans
                 |> Seq.collect (fun ss -> 
                        ss
                        |> findSPForSpan sps
                        |> Seq.map (fun sp -> ss, sp))
-                |> Seq.map (fun (ss, sp) -> TagSpan<_>(SnapshotSpan(ss.Start, ss.Length), { spx = sp }) :> ITagSpan<_>)
-            buffer.FilePath
-            |> Option.fold getMarkerTags Seq.empty
+                |> Seq.map 
+                       (fun (ss, sp) -> 
+                       TagSpan<_>(SnapshotSpan(ss.Start, ss.Length), { SequencePointTag.sp = sp }) :> ITagSpan<_>)
+            buffer.FilePath |> Option.fold getMarkerTags Seq.empty
         
         [<CLIEvent>]
         member __.TagsChanged = tagsChanged.Publish

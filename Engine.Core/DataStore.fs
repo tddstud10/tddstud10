@@ -2,6 +2,7 @@
 
 open R4nd0mApps.TddStud10.Common.Domain
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
+open System.Collections.Generic
 
 type DataStore() = 
     static let instance = Lazy.Create(fun () -> DataStore())
@@ -14,6 +15,11 @@ type DataStore() =
     let sequencePointsUpdated = Event<_>()
     let testResultsUpdated = Event<_>()
     let coverageInfoUpdated = Event<_>()
+    
+    let tryGetValue def f k (d : IDictionary<'TKey, 'TValue>) = 
+        let found, trs = k |> d.TryGetValue
+        if found && trs <> null then trs |> f
+        else def
     
     interface IDataStore with
         member __.RunStartParams : RunStartParams option = runStartParams
@@ -43,14 +49,14 @@ type DataStore() =
         
         member __.FindTest assembly document line : TestCase option = 
             let findTest assembly document (DocumentCoordinate line) rsp = 
-                let found, ts = assembly |> testCases.TryGetValue
-                if found && ts <> null then 
-                    ts 
-                    |> Seq.tryFind 
-                           (fun t -> 
-                           t.LineNumber = line 
-                           && (PathBuilder.arePathsTheSame rsp.solutionPath document (FilePath t.CodeFilePath)))
-                else None
+                (assembly, testCases) 
+                ||> tryGetValue None 
+                        (fun ts -> 
+                        ts 
+                        |> Seq.tryFind 
+                               (fun t -> 
+                               t.LineNumber = line 
+                               && (PathBuilder.arePathsTheSame rsp.solutionPath document (FilePath t.CodeFilePath))))
             runStartParams |> Option.bind (findTest assembly document line)
         
         member self.FindTest2 document line : TestCase seq = 
@@ -61,9 +67,7 @@ type DataStore() =
         member __.GetAllSequencePoints() : SequencePoint seq = sequencePoints.Values |> Seq.collect id
         // NOTE: Not tested
         member __.GetSequencePointsForFile p : SequencePoint seq = 
-            let found, sps = p |> sequencePoints.TryGetValue
-            if found && sps <> null then upcast sps
-            else Seq.empty
+            (p, sequencePoints) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
         
         // NOTE: Not tested
         member __.FindTestRunsCoveringSequencePoint sp : TestRunId seq = 
@@ -75,9 +79,7 @@ type DataStore() =
         
         // NOTE: Not tested
         member __.FindTestResults tid : TestRunResult seq = 
-            let found, trs = tid |> testResults.TryGetValue
-            if found && trs <> null then upcast trs
-            else Seq.empty
+            (tid, testResults) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
     
     static member Instance 
         with public get () = instance.Value :> IDataStore

@@ -9,6 +9,7 @@ open R4nd0mApps.TddStud10.Hosts.Common.TestCode
 open Microsoft.VisualStudio.Text
 open Microsoft.VisualStudio.Text.Tagging
 open System.Collections.Concurrent
+open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 
 let createSPT s pdsp p t = 
     let ds = DataStore() :> IDataStore
@@ -50,11 +51,6 @@ let getNSSC n (tb : ITextBuffer) =
         |> Seq.map (fun l -> l.Extent)
     NormalizedSnapshotSpanCollection(ss)
 
-let getTSBounds1Based (t : ITagSpan<_>) = 
-    let s, e = t.Span.Start, t.Span.End
-    s.GetContainingLine().LineNumber + 1, s.Difference(s) + 1, e.GetContainingLine().LineNumber + 1, 
-    s.Difference(e) + 1 - 1
-
 [<Fact>]
 let ``Datastore SequencePointsUpdated event fires TagsChanged event``() = 
     let _, tb, _, s = createSPT "a.sln" (PerDocumentSequencePoints()) null ""
@@ -84,8 +80,8 @@ let ``If span corresponds to a full sequence point return that``() =
     let pdsp = createPDSP "file.cpp" [ (2, 1, 2, 6) ]
     let _, tb, spt, _ = createSPT "sln.sln" pdsp "file.cpp" t
     let ts = spt.GetTags(tb |> getNSSC 2)
-    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.spx))
-    Assert.Equal([| (2, 1, 2, 6) |], ts |> Seq.map getTSBounds1Based)
+    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.sp))
+    Assert.Equal([| (2, 1, 2, 6) |], ts |> Seq.map (fun t -> t.Span.Bounds1Based))
 
 [<Fact>]
 let ``If span lies within a sequence point return that``() = 
@@ -97,8 +93,8 @@ let ``If span lies within a sequence point return that``() =
     let pdsp = createPDSP "file.cpp" [ (2, 4, 4, 2) ]
     let _, tb, spt, _ = createSPT "sln.sln" pdsp "file.cpp" t
     let ts = spt.GetTags(tb |> getNSSC 3)
-    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.spx))
-    Assert.Equal([| (3, 1, 3, 6) |], ts |> Seq.map getTSBounds1Based)
+    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.sp))
+    Assert.Equal([| (3, 1, 3, 6) |], ts |> Seq.map (fun t -> t.Span.Bounds1Based))
 
 [<Fact>]
 let ``If span intersects with a start of a sequence point return that``() = 
@@ -108,8 +104,8 @@ let ``If span intersects with a start of a sequence point return that``() =
     let pdsp = createPDSP "file.cpp" [ (2, 5, 2, 8) ]
     let _, tb, spt, _ = createSPT "sln.sln" pdsp "file.cpp" t
     let ts = spt.GetTags(tb |> getNSSC 2)
-    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.spx))
-    Assert.Equal([| (2, 1, 2, 8) |], ts |> Seq.map getTSBounds1Based)
+    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.sp))
+    Assert.Equal([| (2, 1, 2, 8) |], ts |> Seq.map (fun t -> t.Span.Bounds1Based))
 
 [<Fact>]
 let ``If span intersects with a end of a sequence point return that``() = 
@@ -119,8 +115,8 @@ let ``If span intersects with a end of a sequence point return that``() =
     let pdsp = createPDSP "file.cpp" [ (2, 1, 2, 6) ]
     let _, tb, spt, _ = createSPT "sln.sln" pdsp "file.cpp" t
     let ts = spt.GetTags(tb |> getNSSC 2)
-    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.spx))
-    Assert.Equal([| (2, 1, 2, 6) |], ts |> Seq.map getTSBounds1Based)
+    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.sp))
+    Assert.Equal([| (2, 1, 2, 6) |], ts |> Seq.map (fun t -> t.Span.Bounds1Based))
 
 [<Fact>]
 let ``If span completely covers a sequence point return that``() = 
@@ -130,8 +126,8 @@ let ``If span completely covers a sequence point return that``() =
     let pdsp = createPDSP "file.cpp" [ (2, 2, 2, 7) ]
     let _, tb, spt, _ = createSPT "sln.sln" pdsp "file.cpp" t
     let ts = spt.GetTags(tb |> getNSSC 2)
-    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.spx))
-    Assert.Equal([| (2, 1, 2, 7) |], ts |> Seq.map getTSBounds1Based)
+    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.sp))
+    Assert.Equal([| (2, 1, 2, 7) |], ts |> Seq.map (fun t -> t.Span.Bounds1Based))
 
 [<Fact>]
 let ``If span covers leading end of SP1, full SP2, trailing start of SP3, return all 3``() = 
@@ -148,38 +144,7 @@ let ``If span covers leading end of SP1, full SP2, trailing start of SP3, return
     
     let _, tb, spt, _ = createSPT "sln.sln" pdsp "file.cpp" t
     let ts = spt.GetTags(tb |> getNSSC 3)
-    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.spx))
+    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.sp))
     Assert.Equal([| (3, 1, 3, 11)
                     (3, 1, 3, 11)
-                    (3, 1, 3, 11) |], ts |> Seq.map getTSBounds1Based)
-// getFilePath to property
-// DRY in trygetvalue in datastore
-// getTSBounds1Based DRY violation with product code
-// spx
-(*
-Assume:
-- TagSpan.Span list the whole line, not just the sequence pointer intersection
-- Span passed to GetTags is on a single line only
-
-Thinking:
-- T: Throw if there is more than one span and it is multiline
-v T: If document doesn thave file name, return empty
-- Filter the tagger by the buffer filename
-- Given a span, it can correspond to:
-  v T: No SP
-  v T: Full SP
-  v T: Wholly lies within an SP
-  v T: Leading SP
-  v T: Trailing SP
-  v T: SP lines wholly withing snapshotspan
-  v T: {0, 1} Partial SP + {0..} complete SP + {0, 1} Partial SP
-v T: Multiple sequence points
-v T: Multiple tags returned
-- IL is 1,1 based, Editor is 0,0 based
-
-GetTags:
-- Filter seq<seqPt(sl, sc, el, ec)>: seqPt.document = textBuffer.file
-- span(s, len) -> seq<seqPt(sl, sc, el, ec)>
-  - Filter seq<seqPt(sl, sc, el, ec)>
-  - span(s, len) -> (sl = l + 1, sc = s + 1, el = l + 1 , ec = s + len + 1)
- *)
+                    (3, 1, 3, 11) |], ts |> Seq.map (fun t -> t.Span.Bounds1Based))

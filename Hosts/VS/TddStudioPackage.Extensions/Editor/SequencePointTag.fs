@@ -4,5 +4,5 @@ open Microsoft.VisualStudio.Text.Tagging
 open R4nd0mApps.TddStud10.Common.Domain
 
 type SequencePointTag = 
-    { spx : SequencePoint }
+    { sp : SequencePoint }
     interface ITag

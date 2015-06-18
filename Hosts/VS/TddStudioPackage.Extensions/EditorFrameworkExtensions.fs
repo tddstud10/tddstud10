@@ -1,6 +1,16 @@
 ﻿namespace R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 
 [<AutoOpen>]
+module SnapshotSpanExtensions = 
+    open Microsoft.VisualStudio.Text
+    
+    type SnapshotSpan with
+        member self.Bounds1Based = 
+            let s, e = self.Start, self.End
+            s.GetContainingLine().LineNumber + 1, s.Difference(s) + 1, e.GetContainingLine().LineNumber + 1, 
+            s.Difference(e) + 1 - 1
+
+[<AutoOpen>]
 module ITextViewLineExtensions = 
     open System.Windows
     open Microsoft.VisualStudio.Text.Formatting
@@ -21,11 +31,11 @@ module ITextBufferExtensions =
     open Microsoft.VisualStudio.Text
     open R4nd0mApps.TddStud10.Common.Domain
     open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
-
+    
     type ITextBuffer with
-        member buffer.FilePath with get() = 
+        member self.FilePath = 
             let p = 
-                match buffer.Properties.TryGetProperty(typeof<ITextDocument>) with
+                match self.Properties.TryGetProperty(typeof<ITextDocument>) with
                 | true, x -> 
                     match box x with
                     | :? ITextDocument as textDocument -> 
@@ -36,4 +46,3 @@ module ITextBufferExtensions =
                 | _ -> None
             if p = None then Logger.logErrorf "Buffer does not have ITextDocument property. Cannot get filename."
             p
-    
