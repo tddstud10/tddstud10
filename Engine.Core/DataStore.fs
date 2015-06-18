@@ -59,6 +59,11 @@ type DataStore() =
         member __.GetAllFiles() : FilePath seq = upcast sequencePoints.Keys
         // NOTE: Not tested
         member __.GetAllSequencePoints() : SequencePoint seq = sequencePoints.Values |> Seq.collect id
+        // NOTE: Not tested
+        member __.GetSequencePointsForFile p : SequencePoint seq = 
+            let found, sps = p |> sequencePoints.TryGetValue
+            if found && sps <> null then upcast sps
+            else Seq.empty
         
         // NOTE: Not tested
         member __.FindTestRunsCoveringSequencePoint sp : TestRunId seq = 

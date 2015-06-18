@@ -1,6 +1,5 @@
 module R4nd0mApps.TddStud10.Common.Domain.DependencyTests
 
-open System.Reflection
 open Xunit
 open Mono.Cecil
 open System
@@ -21,7 +20,9 @@ let ``Should have restricted dependencies``() =
           ("System.Core", "3.5.0.0")
           ("System.ServiceModel", "3.0.0.0")
           ("System", "2.0.0.0")
+          ("nCrunch.TestRuntime", "2.15.0.9")
           ("R4nd0mApps.TddStud10.TestRuntime.df", "1.0.0.0") ]
+
     
     let deps = 
         (new Uri(typedefof<R4nd0mApps.TddStud10.TestRuntime.Marker>.Assembly.CodeBase)).LocalPath

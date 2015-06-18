@@ -1,13 +1,9 @@
 ﻿module R4nd0mApps.TddStud10.TestExecution.Adapters.XUnitTestExecutorTests
 
-open System.Collections.Generic
 open System.Collections.Concurrent
 open Xunit
 open System.IO
-open System
-open System.Reflection
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
-open R4nd0mApps.TddStud10.Common.Domain
 open FSharp.Configuration
 open System.Runtime.Serialization
 open System.Xml

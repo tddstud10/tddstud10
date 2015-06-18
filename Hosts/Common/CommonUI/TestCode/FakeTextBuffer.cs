@@ -10,10 +10,13 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 
         private FakeTextSnapshot _textSnapshot;
 
-        public FakeTextBuffer(string filePath, string text)
+        public FakeTextBuffer(string text, string filePath)
         {
             _propertyCollection = new PropertyCollection();
-            _propertyCollection.AddProperty(typeof(ITextDocument), new FakeTextDocument(filePath, this));
+            if (filePath != null)
+            {
+                _propertyCollection.AddProperty(typeof(ITextDocument), new FakeTextDocument(filePath, this));
+            }
 
             _textSnapshot = new FakeTextSnapshot(text);
         }

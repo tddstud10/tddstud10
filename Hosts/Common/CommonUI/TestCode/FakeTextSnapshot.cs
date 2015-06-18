@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.Text;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
@@ -84,7 +84,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
         public ITextSnapshotLine GetLineFromPosition(int position)
         {
             return _textSnapshotLines
-                .Where(l => l.Start.Position <= position && position <= l.EndIncludingLineBreak.Position)
+                .Where(l => l.Start.Position <= position && position < l.EndIncludingLineBreak.Position)
                 .FirstOrDefault();
         }
 

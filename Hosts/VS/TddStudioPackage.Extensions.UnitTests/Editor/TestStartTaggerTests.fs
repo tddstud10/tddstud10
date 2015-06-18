@@ -13,9 +13,8 @@ open Microsoft.VisualStudio.Text.Tagging
 
 let createTST s p t = 
     let ds = DataStore() :> IDataStore
-    RunExecutor.createRunStartParams DateTime.Now (FilePath s)
-    |> ds.UpdateRunStartParams
-    let tb = FakeTextBuffer(p, t) :> ITextBuffer
+    RunExecutor.createRunStartParams DateTime.Now (FilePath s) |> ds.UpdateRunStartParams
+    let tb = FakeTextBuffer(t, p) :> ITextBuffer
     let tmt = TestStartTagger(tb, ds) :> ITagger<_>
     let spy = CallSpy1<SnapshotSpanEventArgs>(Throws(new Exception()))
     tmt.TagsChanged.Add(spy.Func >> ignore)
@@ -45,8 +44,7 @@ let ``Datastore TestCasesUpdated event fires TagsChanged event``() =
 [<Fact>]
 let ``GetTags returns right tag for 1 empty and 1 each found and not found in datastore``() = 
     let ds, tb, tmt, _ = createTST @"c:\sln\sln.sln" @"c:\sln\proj\a.cs" """
-2nd line (first is empty)
-3rd line
+Line 2
 """
     let ss = tb.CurrentSnapshot.Lines |> Seq.map (fun l -> l.Extent)
     [ ("FQN:2nd line", @"c:\sln\proj\a.cs", 2) ]
@@ -54,4 +52,6 @@ let ``GetTags returns right tag for 1 empty and 1 each found and not found in da
     |> TestCases
     |> ds.UpdateData
     let ts = tmt.GetTags(NormalizedSnapshotSpanCollection(ss))
-    Assert.Equal([| "FQN:2nd line" |], ts |> Seq.map (fun t -> t.Tag.testCase.FullyQualifiedName))
+    Assert.Equal
+        ([| ("FQN:2nd line", "Line 2".GetHashCode()) |], 
+         ts |> Seq.map (fun t -> t.Tag.testCase.FullyQualifiedName, t.Tag.textHash))

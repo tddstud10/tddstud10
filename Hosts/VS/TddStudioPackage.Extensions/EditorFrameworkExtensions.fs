@@ -23,7 +23,7 @@ module ITextBufferExtensions =
     open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 
     type ITextBuffer with
-        member buffer.getFilePath () = 
+        member buffer.FilePath with get() = 
             let p = 
                 match buffer.Properties.TryGetProperty(typeof<ITextDocument>) with
                 | true, x -> 

@@ -13,7 +13,7 @@ let createCCT s p t =
     let ds = DataStore() :> IDataStore
     RunExecutor.createRunStartParams DateTime.Now (FilePath s)
     |> ds.UpdateRunStartParams
-    let tb = FakeTextBuffer(p, t) :> ITextBuffer
+    let tb = FakeTextBuffer(t, p) :> ITextBuffer
     let tmt = CodeCoverageTagger(tb, ds) :> ITagger<_>
     let spy = CallSpy1<SnapshotSpanEventArgs>(Throws(new Exception()))
     tmt.TagsChanged.Add(spy.Func >> ignore)

@@ -6,11 +6,13 @@ open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 open System.Threading
 open R4nd0mApps.TddStud10.Engine.Core
+open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 
 type FailurePointTagger(buffer : ITextBuffer, dataStore : IDataStore) as self = 
     let syncContext = SynchronizationContext.Current
     let tagsChanged = Event<_, _>()
     let fireTagsChanged _ = 
+        Logger.logInfof "Firing FailurePointTagger.TagsChanged"
         syncContext.Send
             (SendOrPostCallback
                  (fun _ -> 
@@ -29,7 +31,7 @@ type FailurePointTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
                 // TODO: If this crashes, fix unit tests and enable back
                 //|> Seq.filter (fun s -> not s.IsEmpty)
                 Seq.empty
-            () |> buffer.getFilePath |> Option.fold getMarkerTags Seq.empty
+            buffer.FilePath |> Option.fold getMarkerTags Seq.empty
         
         [<CLIEvent>]
         member __.TagsChanged = tagsChanged.Publish

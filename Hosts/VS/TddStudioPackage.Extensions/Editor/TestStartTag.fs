@@ -4,5 +4,6 @@ open Microsoft.VisualStudio.Text.Tagging
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
 type TestStartTag = 
-    { testCase : TestCase }
+    { testCase : TestCase
+      textHash : int }
     interface ITag

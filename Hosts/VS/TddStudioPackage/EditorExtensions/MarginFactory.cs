@@ -122,7 +122,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
         [Import]
         private IBufferTagAggregatorFactoryService _aggregatorFactory = null;
 
-        [Import(typeof(SVsServiceProvider))]
+        [Import(typeof(SVsServiceProvider), AllowDefault = true)]
         private IServiceProvider _serviceProvider = null;
 
         public IWpfTextViewMargin CreateMargin(IWpfTextViewHost textViewHost, IWpfTextViewMargin containerMargin)
@@ -130,7 +130,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
             return new Margin(
                 textViewHost.TextView,
                 _aggregatorFactory.CreateTagAggregator<TestStartTag>(textViewHost.TextView.TextBuffer),
-                _serviceProvider.GetService<IMenuCommandService>().ShowContextMenu);
+                _serviceProvider != null
+                    ? _serviceProvider.GetService<IMenuCommandService>().ShowContextMenu
+                    : new Action<System.ComponentModel.Design.CommandID, int, int>((_, __, ___) => { }));
         }
     }
 }

@@ -195,6 +195,7 @@
     <Reference Include="System.Xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditorExtensions\CodeCoverageTaggerProvider.cs" />
     <Compile Include="EditorExtensions\ZCodeCoverageTag.cs" />
     <Compile Include="EditorExtensions\FailurePointTaggerProvider.cs" />
     <Compile Include="EditorExtensions\TestStartTaggerProvider.cs" />
