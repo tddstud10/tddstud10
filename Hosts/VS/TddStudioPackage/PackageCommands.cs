@@ -103,18 +103,24 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
             Logger.I.LogInfo("Debug Test...");
 
-            var tc = ContextMenuData.Instance.TestCase;
-            if (tc == FSharpOption<TestCase>.None)
+            var tc = ContextMenuData.Instance.GlyphTag;
+            if (tc != FSharpOption<IMarginGlyphTag>.None)
             {
                 return;
             }
 
-            _dte.SetBreakPoint(tc.Value.CodeFilePath, tc.Value.LineNumber);
+            if (!(tc.Value is TestStartTag))
+            {
+                return;
+            }
+
+            var tst = tc.Value as TestStartTag;
+            _dte.SetBreakPoint(tst.testCase.CodeFilePath, tst.testCase.LineNumber);
 
             var tpa = new PerAssemblyTestCases();
             var bag = new ConcurrentBag<TestCase>();
-            bag.Add(tc.Value);
-            tpa.TryAdd(FilePath.NewFilePath(tc.Value.Source), bag);
+            bag.Add(tst.testCase);
+            tpa.TryAdd(FilePath.NewFilePath(tst.testCase.Source), bag);
             var duts = Path.Combine(DataStore.Instance.RunStartParams.Value.solutionBuildRoot.Item, "Z_debug.xml");
             tpa.Serialize(FilePath.NewFilePath(duts));
 

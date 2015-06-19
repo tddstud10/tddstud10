@@ -9,10 +9,10 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 
 #if DONT_COMPILE
-SequencePointTag
-CodeCoverageTag 
-TestStartTag
-FailurePointTag
+v TestStartTag
+- SequencePointTag
+- FailurePointTag
+- CodeCoverageTag 
 
 TODO:
 - Move all icons to margin 
@@ -129,7 +129,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
         {
             return new Margin(
                 textViewHost.TextView,
-                _aggregatorFactory.CreateTagAggregator<TestStartTag>(textViewHost.TextView.TextBuffer),
+                _aggregatorFactory.CreateTagAggregator<IMarginGlyphTag>(textViewHost.TextView.TextBuffer),
                 _serviceProvider != null
                     ? _serviceProvider.GetService<IMenuCommandService>().ShowContextMenu
                     : new Action<System.ComponentModel.Design.CommandID, int, int>((_, __, ___) => { }));

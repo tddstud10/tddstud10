@@ -66,18 +66,16 @@
     <Compile Include="VsUIShellExtensions.fs" />
     <Compile Include="VsDebuggerExtensions.fs" />
     <Compile Include="EditorFrameworkExtensions.fs" />
-    <Compile Include="ContextMenuData.fs" />
-    <Compile Include="Editor\TestStartTag.fs" />
+    <Compile Include="Editor\Domain.fs" />
+    <Compile Include="Editor\ContextMenuData.fs" />
     <Compile Include="Editor\TestStartTagger.fs" />
-    <Compile Include="Editor\FailurePointTag.fs" />
     <Compile Include="Editor\FailurePointTagger.fs" />
-    <Compile Include="Editor\CodeCoverageTag.fs" />
     <Compile Include="Editor\CodeCoverageTagger.fs" />
-    <Compile Include="Editor\SequencePointTag.fs" />
     <Compile Include="Editor\SequencePointTagger.fs" />
     <Compile Include="Editor\MarginConstants.fs" />
-    <Compile Include="Editor\MarginGlyphFactory.fs" />
-    <Compile Include="Editor\MarginGlpyhTagAndBoundGenerator.fs" />
+    <Compile Include="Editor\GlpyhBoundsGenerator.fs" />
+    <Compile Include="Editor\GlpyhInfoGenerator.fs" />
+    <Compile Include="Editor\GlyphGenerator.fs" />
     <Compile Include="Editor\MarginCanvas.fs" />
     <Compile Include="Editor\Margin.fs" />
   </ItemGroup>

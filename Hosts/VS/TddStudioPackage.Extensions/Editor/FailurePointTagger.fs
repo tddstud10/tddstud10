@@ -11,6 +11,7 @@ open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 type FailurePointTagger(buffer : ITextBuffer, dataStore : IDataStore) as self = 
     let syncContext = SynchronizationContext.Current
     let tagsChanged = Event<_, _>()
+    
     let fireTagsChanged _ = 
         Logger.logInfof "Firing FailurePointTagger.TagsChanged"
         syncContext.Send
@@ -20,8 +21,9 @@ type FailurePointTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
                      (fun () -> 
                      tagsChanged.Trigger
                          (self, 
-                          SnapshotSpanEventArgs
-                              (new SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length))))), null)
+                          SnapshotSpanEventArgs(SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length))))), 
+             null)
+    
     do dataStore.TestResultsUpdated.Add fireTagsChanged
     interface ITagger<FailurePointTag> with
         

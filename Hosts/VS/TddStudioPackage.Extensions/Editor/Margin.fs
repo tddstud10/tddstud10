@@ -7,24 +7,29 @@ open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 open System.Windows
 open Microsoft.VisualStudio.Text.Formatting
 
-type Margin(textView : IWpfTextView, tmta : ITagAggregator<_>, __, painter, getMarginSize, getVisualElement) = 
+type Margin(textView : IWpfTextView, mgta : ITagAggregator<_>, __, painter, getMarginSize, getVisualElement) = 
     let mutable disposed = false
     
     let throwIfDisposed() = 
-        if disposed then raise (new ObjectDisposedException(MarginConstants.Name))
+        if disposed then raise (ObjectDisposedException(MarginConstants.Name))
     
     let paintGlyphs() = 
         throwIfDisposed()
-        (textView.ViewportLocation, textView.TextViewLines :> ITextViewLine seq) |> painter
+        (textView.ViewportLocation, textView.TextViewLines :> _ seq) |> painter
     
     let lcSub = textView.LayoutChanged.Subscribe(fun _ -> paintGlyphs())
-    let tcSub = tmta.TagsChanged.Subscribe(fun _ -> paintGlyphs())
+    let tcSub = mgta.TagsChanged.Subscribe(fun _ -> paintGlyphs())
 
-    new(textView : IWpfTextView, tmta : ITagAggregator<TestStartTag>, showCM) = 
+    new(textView : IWpfTextView, mgta : ITagAggregator<_>, showCM) = 
         let canvas = MarginCanvas()
-        new Margin(textView, tmta, showCM,
-                   (new MarginGlpyhTagAndBoundGenerator(tmta.GetTags)).Generate >> Seq.map (GlyphFactory.createGlyphForTag showCM) >> canvas.Refresh,
-                   (fun () -> canvas.ActualWidth), (fun () -> canvas :> FrameworkElement))
+        let f1 = GlpyhBoundsGenerator.generate
+        let f2 = Seq.map (fun (b, (l : ITextViewLine)) -> b, l.Extent |> mgta.GetTags)
+        let f3 = Seq.choose GlyphInfoGenerator.generate
+        let f4 = Seq.map (GlyphGenerator.generate showCM)
+        let f5 = canvas.Refresh 
+        new Margin(textView, mgta, showCM,
+            f1 >> f2 >> f3 >> f4 >> f5,
+            (fun () -> canvas.ActualWidth), (fun () -> canvas :> FrameworkElement))
     override x.Finalize() = x.Dispose(false)
     
     member private __.Dispose(disposing : _) = 

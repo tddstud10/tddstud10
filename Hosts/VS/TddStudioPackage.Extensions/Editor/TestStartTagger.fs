@@ -21,8 +21,8 @@ type TestStartTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
                      (fun () -> 
                      tagsChanged.Trigger
                          (self, 
-                          SnapshotSpanEventArgs
-                              (new SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length))))), null)
+                          SnapshotSpanEventArgs(SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length))))), 
+             null)
     
     do dataStore.TestCasesUpdated.Add fireTagsChanged
     interface ITagger<TestStartTag> with
@@ -38,8 +38,7 @@ type TestStartTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
                        TagSpan<_>(SnapshotSpan(s.Start, s.Length), 
                                   { testCase = t
                                     textHash = s.GetText().GetHashCode() }) :> ITagSpan<_>)
-            buffer.FilePath
-            |> Option.fold getMarkerTags Seq.empty
+            buffer.FilePath |> Option.fold getMarkerTags Seq.empty
         
         [<CLIEvent>]
         member __.TagsChanged = tagsChanged.Publish

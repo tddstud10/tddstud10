@@ -21,8 +21,8 @@ type SequencePointTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
                      (fun () -> 
                      tagsChanged.Trigger
                          (self, 
-                          SnapshotSpanEventArgs
-                              (new SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length))))), null)
+                          SnapshotSpanEventArgs(SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length))))), 
+             null)
     
     do dataStore.SequencePointsUpdated.Add fireTagsChanged
     interface ITagger<SequencePointTag> with

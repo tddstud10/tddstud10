@@ -11,6 +11,7 @@ open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 type CodeCoverageTagger(buffer : ITextBuffer, dataStore : IDataStore) as self = 
     let syncContext = SynchronizationContext.Current
     let tagsChanged = Event<_, _>()
+    
     let fireTagsChanged _ = 
         Logger.logInfof "Firing CodeCoverageTagger.TagsChanged"
         syncContext.Send
@@ -20,8 +21,9 @@ type CodeCoverageTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
                      (fun () -> 
                      tagsChanged.Trigger
                          (self, 
-                          SnapshotSpanEventArgs
-                              (new SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length))))), null)
+                          SnapshotSpanEventArgs(SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length))))), 
+             null)
+    
     do dataStore.CoverageInfoUpdated.Add fireTagsChanged
     interface ITagger<CodeCoverageTag> with
         

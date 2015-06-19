@@ -62,7 +62,7 @@ namespace R4nd0mApps.TddStud10
                     int id = 0;
                     foreach (var sp in sps)
                     {
-                        var fp = FilePath.NewFilePath(sp.SequencePoint.Document.Url);
+                        var fp = PathBuilder.rebaseCodeFilePath(rsp, FilePath.NewFilePath(sp.SequencePoint.Document.Url));
                         var seqPts = perDocSP.GetOrAdd(fp, _ => new ConcurrentBag<R4nd0mApps.TddStud10.Common.Domain.SequencePoint>());
 
                         seqPts.Add(new R4nd0mApps.TddStud10.Common.Domain.SequencePoint
