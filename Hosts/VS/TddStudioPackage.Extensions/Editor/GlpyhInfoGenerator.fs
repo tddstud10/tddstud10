@@ -9,15 +9,30 @@ module GlyphInfoGenerator =
     open Microsoft.VisualStudio.Text.Tagging
     
     let generate ((b, tags) : Rect * seq<IMappingTagSpan<IMarginGlyphTag>>) = 
-        if tags |> Seq.isEmpty then None
-        else 
-            let gi = 
-                { color = Colors.Green
-                  glyphType = TestStart
-                  glyphTag = 
-                      tags
-                      |> Seq.map (fun t -> t.Tag)
-                      |> Seq.nth 0
-                  toolTipText = ""
-                  contextMenu = CommandID(Guid(PkgGuids.GuidGlyphContextCmdSet), PkgCmdID.GlyphContextMenu |> int) }
-            (b, gi) |> Some
+        let tg = 
+            tags
+            |> Seq.map (fun t -> t.Tag)
+            |> Seq.groupBy (fun t -> 
+                   match t with
+                   | :? TestStartTag -> TestStart
+                   | :? SequencePointTag -> SequencePoint
+                   | _ -> failwith "Unknown IMarginTag type")
+            |> dict
+        
+        (* NOTE: Many things wrong with this implementation:
+           1. Incorrect use of the match statement 
+           2. Tags - should they contain the matching tag or all the tags? *)
+        let gt = 
+            match tg with
+            | tg when tg.Count = 0 -> None
+            | tg when TestStart |> tg.ContainsKey -> (TestStart, tg.[TestStart], Colors.Green) |> Some
+            | tg when SequencePoint |> tg.ContainsKey -> (SequencePoint, tg.[SequencePoint], Colors.WhiteSmoke) |> Some
+            | _ -> None
+        
+        gt |> Option.map (fun (t, ts, c) -> 
+                  b, 
+                  { color = c
+                    glyphType = t
+                    glyphTags = ts
+                    toolTipText = ""
+                    contextMenu = CommandID(Guid(PkgGuids.GuidGlyphContextCmdSet), PkgCmdID.GlyphContextMenu |> int) })

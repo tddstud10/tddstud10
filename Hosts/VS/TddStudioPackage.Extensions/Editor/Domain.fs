@@ -23,10 +23,11 @@ MarginGlyphTag:
 - FailurePointTag { exception }
 
 GlyphInfo
-- Color {W, G, R}
-- SequencePoint {Yes, No} x TestStart {Yes, No} x FailurePoint {Yes, No}
+- Color 
+- SequencePoint | TestStart | FailurePoint
 - Tooltip
 - ContextMenu
+- Tag
 
 Order of lightup
 - Test Start
@@ -64,7 +65,8 @@ type CodeCoverageTag =
     { testCase : TestCase }
     interface IMarginGlyphTag
 
-(* NOTE: This should have an 1-1* mapping with the FrameworkElement being displayed in the Margin Canvas *)
+(* NOTE: This should have an 1-1 mapping with the FrameworkElement being displayed in the Margin Canvas. 
+         This is so that we dont need to test the GlyphGenerator code. *)
 type GlyphType = 
     | TestStart
     | FailurePoint
@@ -73,6 +75,6 @@ type GlyphType =
 type MarginGlyphInfo = 
     { color : Color
       glyphType : GlyphType
-      glyphTag : IMarginGlyphTag
+      glyphTags : IMarginGlyphTag seq
       toolTipText : string
       contextMenu : CommandID }

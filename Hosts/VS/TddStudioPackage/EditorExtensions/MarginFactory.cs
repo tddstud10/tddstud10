@@ -9,18 +9,17 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 
 #if DONT_COMPILE
-v TestStartTag
-- SequencePointTag
-- FailurePointTag
-- CodeCoverageTag 
 
 TODO:
 - Move all icons to margin 
   - SequencePointTag
-    - TDD Tagger
-    - TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]
-    - Move stuff to datastore
-    - Optimize Glyph factory
+    v TDD Tagger
+    v TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]
+    v Move stuff to datastore
+    v Optimize Glyph factory
+    - differentiated glyphs
+    - normalize paths at teh data collection
+    - unit test holes
   - CoverageTag
     - TDD Tagger
     - TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]

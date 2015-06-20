@@ -103,18 +103,18 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
             Logger.I.LogInfo("Debug Test...");
 
-            var tc = ContextMenuData.Instance.GlyphTag;
-            if (tc != FSharpOption<IMarginGlyphTag>.None)
+            var ts = ContextMenuData.Instance.GlyphTags;
+            if (ts.Count() != 0)
             {
                 return;
             }
 
-            if (!(tc.Value is TestStartTag))
+            var tst = ts.Where(t => t is TestStartTag).FirstOrDefault() as TestStartTag;
+            if (tst == null)
             {
                 return;
             }
 
-            var tst = tc.Value as TestStartTag;
             _dte.SetBreakPoint(tst.testCase.CodeFilePath, tst.testCase.LineNumber);
 
             var tpa = new PerAssemblyTestCases();
