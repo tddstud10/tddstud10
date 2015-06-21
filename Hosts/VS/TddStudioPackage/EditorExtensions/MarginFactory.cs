@@ -12,20 +12,6 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 
 TODO:
 - Move all icons to margin 
-  v SequencePointTag
-    v TDD Tagger
-    v TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]
-    v Move stuff to datastore
-    v Optimize Glyph factory
-    v differentiated glyphs
-    v unit test holes
-  - PointOfFailureTag
-    v Collect data
-    v Datastore entity
-    v TDD Tagger
-    - TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]
-    - Move stuff to datastore
-    - Optimize Glyph factory
   - CoverageTag
     - TDD Tagger
     - TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]
