@@ -17,7 +17,7 @@ let createSPT s pdsp p t =
     let spt = SequencePointTagger(tb, ds) :> ITagger<_>
     let spy = CallSpy1<SnapshotSpanEventArgs>(Throws(new Exception()))
     spt.TagsChanged.Add(spy.Func >> ignore)
-    RunExecutor.createRunStartParams DateTime.Now (FilePath s) |> ds.UpdateRunStartParams
+    RunStartParamsExtensions.create DateTime.Now (FilePath s) |> ds.UpdateRunStartParams
     pdsp
     |> SequencePoints
     |> ds.UpdateData

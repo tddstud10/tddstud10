@@ -86,6 +86,7 @@
     <Compile Include="TestPlatformExtensions.fs" />
     <Compile Include="XUnitTestDiscoverer.fs" />
     <Compile Include="XUnitTestExecutor.fs" />
+    <Compile Include="TestFailureInfoExtensions.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">

@@ -3,6 +3,7 @@
 open R4nd0mApps.TddStud10.Common.Domain
 open Xunit
 open System
+open R4nd0mApps.TddStud10.Common
 
 let inline (~~) s = FilePath s
 

@@ -127,6 +127,7 @@
     <Compile Include="CoverageDataCollectorTests.fs" />
     <Compile Include="XUnitTestExecutorTests.fs" />
     <Compile Include="XUnitTestDiscovererTests.fs" />
+    <Compile Include="TestFailureInfoExtensionsTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Foq">

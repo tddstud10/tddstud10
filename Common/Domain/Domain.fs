@@ -49,6 +49,20 @@ type TestRunInstanceId =
     | TestRunInstanceId of int
 
 [<CLIMutable>]
+type DocumentLocation = 
+    { document : FilePath
+      line : DocumentCoordinate }
+
+type StackFrame = 
+    | ParsedFrame of string * DocumentLocation 
+    | UnparsedFrame of string
+
+[<CLIMutable>]
+type TestFailureInfo = 
+    { message : string
+      stack : StackFrame array }
+
+[<CLIMutable>]
 type TestId = 
     { source : FilePath
       document : FilePath

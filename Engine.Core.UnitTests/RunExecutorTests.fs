@@ -11,7 +11,7 @@ let now = DateTime.Now
 let host = new TestHost(Int32.MaxValue)
 let ex = (new InvalidOperationException("A mock method threw")) :> Exception
 let slnFile = ~~"c:\\folder\\file.sln"
-let stubRsp = RunExecutor.createRunStartParams now slnFile
+let stubRsp = RunStartParamsExtensions.create now slnFile
 
 let createSteps n = 
     [| for _ in 1..n do

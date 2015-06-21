@@ -6,10 +6,11 @@ open R4nd0mApps.TddStud10.Engine.TestFramework
 open System
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open System.Collections.Concurrent
+open R4nd0mApps.TddStud10.Common
 
 let createDS slnPath = 
     let ds = DataStore() :> IDataStore
-    RunExecutor.createRunStartParams DateTime.Now (FilePath slnPath) |> ds.UpdateRunStartParams
+    RunStartParamsExtensions.create DateTime.Now (FilePath slnPath) |> ds.UpdateRunStartParams
     ds
 
 let createDSWithPATC slnPath = 

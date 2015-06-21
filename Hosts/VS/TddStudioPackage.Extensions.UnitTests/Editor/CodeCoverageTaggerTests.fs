@@ -8,10 +8,11 @@ open R4nd0mApps.TddStud10.Common.TestFramework
 open R4nd0mApps.TddStud10.Hosts.Common.TestCode
 open Microsoft.VisualStudio.Text
 open Microsoft.VisualStudio.Text.Tagging
+open R4nd0mApps.TddStud10.Common
 
 let createCCT s p t = 
     let ds = DataStore() :> IDataStore
-    RunExecutor.createRunStartParams DateTime.Now (FilePath s)
+    RunStartParamsExtensions.create DateTime.Now (FilePath s)
     |> ds.UpdateRunStartParams
     let tb = FakeTextBuffer(t, p) :> ITextBuffer
     let tmt = CodeCoverageTagger(tb, ds) :> ITagger<_>

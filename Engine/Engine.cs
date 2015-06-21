@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.FSharp.Control;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using R4nd0mApps.TddStud10.Common;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
@@ -83,17 +84,20 @@ namespace R4nd0mApps.TddStud10.Engine
             var coverageSessionStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_coverageresults.xml");
             var testResultsStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_testresults.xml");
             var discoveredUnitTestsStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
+            var testFailureInfoStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_testFailureInfo.xml");
             string testRunnerPath = rsp.testHostPath.Item;
             // NOTE: We dont have a better option. VSIX does support installing non-assembly dependencies.
             File.WriteAllText(testRunnerPath + ".config", Properties.Resources.TestHostAppConfig);
             var output = ExecuteProcess(
                 testRunnerPath,
                 string.Format(
-                    @"execute {0} {1} {2} {3}",
+                    @"{0} {1} {2} {3} {4} {5}",
+                    rsp.solutionPath.Item,
                     rsp.solutionBuildRoot.Item,
                     coverageSessionStore,
                     testResultsStore,
-                    discoveredUnitTestsStore
+                    discoveredUnitTestsStore,
+                    testFailureInfoStore
                 )
             );
 
@@ -104,8 +108,8 @@ namespace R4nd0mApps.TddStud10.Engine
             }
 
             var testResults = PerTestIdResults.Deserialize(FilePath.NewFilePath(testResultsStore));
-
             var coverageSession = PerAssemblySequencePointsCoverage.Deserialize(FilePath.NewFilePath(coverageSessionStore));
+            //var testFailureInfo = PerDocumentLocationTestFailureInfo.Deserialize(FilePath.NewFilePath(testFailureInfoStore));
 
             return rss.ToRSR(RunData.NewTestRunOutput(testResults, coverageSession), output.Item2);
         }

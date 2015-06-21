@@ -4,6 +4,7 @@ open System
 open R4nd0mApps.TddStud10.Common.Domain
 open System.IO
 open System.Reflection
+open R4nd0mApps.TddStud10.Common
 
 type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, stepWrapper : RunStepFuncWrapper) = 
     let runStarting = new Event<_>()
@@ -26,11 +27,6 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
                 | ex -> Some ex
             else Some(new OperationCanceledException() :> _)
     
-    static let getLocalPath() = 
-        (new Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath
-        |> Path.GetFullPath
-        |> Path.GetDirectoryName
-    
     member public __.RunStarting = runStarting.Publish
     member public __.RunEnded = runEnded.Publish
     member public __.OnRunError = onRunError.Publish
@@ -38,16 +34,9 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
     member public __.OnRunStepError = onRunStepError.Publish
     member public __.RunStepEnded = runStepEnded.Publish
     
-    static member public createRunStartParams startTime solutionPath = 
-        { startTime = startTime
-          testHostPath = Path.Combine(() |> getLocalPath, "TddStud10.TestHost.exe") |> FilePath
-          solutionPath = solutionPath
-          solutionSnapshotPath = PathBuilder.makeSlnSnapshotPath solutionPath
-          solutionBuildRoot = PathBuilder.makeSlnBuildRoot solutionPath }
-    
     member public __.Start(startTime, solutionPath) = 
         (* NOTE: Need to ensure the started/errored/ended events go out no matter what*)
-        let rsp = RunExecutor.createRunStartParams startTime solutionPath
+        let rsp = RunStartParamsExtensions.create startTime solutionPath
         Common.safeExec (fun () -> runStarting.Trigger(rsp))
         let rses = 
             { onStart = runStepStarting

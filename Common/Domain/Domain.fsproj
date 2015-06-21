@@ -59,14 +59,20 @@
   </Target>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Compile Include="..\Constants.fs">
+      <Link>Constants.fs</Link>
+    </Compile>
     <Compile Include="Domain.fs" />
     <Compile Include="DataStoreEntityBase.fs" />
     <Compile Include="PerAssemblyTestCases.fs" />
     <Compile Include="PerAssemblySequencePointsCoverage.fs" />
     <Compile Include="PerDocumentSequencePoints.fs" />
     <Compile Include="PerTestIdResults.fs" />
+    <Compile Include="PerDocumentLocationTestFailureInfo.fs" />
     <Compile Include="RunDomain.fs" />
     <Compile Include="IDataStore.fs" />
+    <Compile Include="Code\PathBuilder.fs" />
+    <Compile Include="Code\DomainExtensions.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">

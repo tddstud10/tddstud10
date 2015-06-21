@@ -1,4 +1,4 @@
-﻿namespace R4nd0mApps.TddStud10.Engine.Core
+﻿namespace R4nd0mApps.TddStud10.Common
 
 open System
 open System.IO

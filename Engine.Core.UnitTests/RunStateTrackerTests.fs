@@ -14,7 +14,7 @@ let createSM() =
     sm, cs
 
 let createSP() =
-    RunExecutor.createRunStartParams DateTime.Now ~~"c:\\a\\b.sln"
+    RunStartParamsExtensions.create DateTime.Now ~~"c:\\a\\b.sln"
 
 let createRSS s =
     { status = s

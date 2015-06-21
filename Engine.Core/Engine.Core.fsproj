@@ -68,7 +68,6 @@
     <Compile Include="Logger.fs" />
     <Compile Include="SafeExec.fs" />
     <Compile Include="StaleMessageIgnoringAgent.fs" />
-    <Compile Include="PathBuilder.fs" />
     <Compile Include="RunStepFuncBehaviors.fs" />
     <Compile Include="RunExecutor.fs" />
     <Compile Include="RunStateTracker.fs" />

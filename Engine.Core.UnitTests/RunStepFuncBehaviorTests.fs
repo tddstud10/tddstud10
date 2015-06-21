@@ -8,7 +8,7 @@ open R4nd0mApps.TddStud10.Engine.TestDoubles
 
 let stubHost = new TestHost(Int32.MaxValue)
 let stubRsr = { status = Failed; addendum = FreeFormatData ""; runData = NoData }
-let stubRd = RunExecutor.createRunStartParams DateTime.Now ~~"c:\\a\\b.sln"
+let stubRd = RunStartParamsExtensions.create DateTime.Now ~~"c:\\a\\b.sln"
 let stubRses = { onStart = new Event<_>()
                  onError = new Event<_>()
                  onFinish = new Event<_>() }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
-using Microsoft.FSharp.Core;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
@@ -104,7 +103,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             Logger.I.LogInfo("Debug Test...");
 
             var ts = ContextMenuData.Instance.GlyphTags;
-            if (ts.Count() != 0)
+            if (ts.Any())
             {
                 return;
             }
@@ -126,7 +125,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             _serviceProvider.GetService<SVsShellDebugger, IVsDebugger3>().Launch(
                 DataStore.Instance.RunStartParams.Value.testHostPath.Item,
-                string.Format(@"execute {0} _na_ _na_ {1}", DataStore.Instance.RunStartParams.Value.solutionBuildRoot.Item, duts));
+                string.Format(@"_na_ {0} _na_ _na_ {1} _na_", DataStore.Instance.RunStartParams.Value.solutionBuildRoot.Item, duts));
         }
 
         private void OnBeforeQueryStatusDebugTest(object sender, EventArgs e)

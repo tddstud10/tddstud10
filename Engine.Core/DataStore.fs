@@ -3,6 +3,7 @@
 open R4nd0mApps.TddStud10.Common.Domain
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open System.Collections.Generic
+open R4nd0mApps.TddStud10.Common
 
 type DataStore() = 
     static let instance = Lazy.Create(fun () -> DataStore())

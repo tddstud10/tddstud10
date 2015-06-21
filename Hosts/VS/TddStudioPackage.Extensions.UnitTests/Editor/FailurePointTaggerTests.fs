@@ -11,7 +11,7 @@ open Microsoft.VisualStudio.Text.Tagging
 
 let createFPT s p t = 
     let ds = DataStore() :> IDataStore
-    RunExecutor.createRunStartParams DateTime.Now (FilePath s)
+    RunStartParamsExtensions.create DateTime.Now (FilePath s)
     |> ds.UpdateRunStartParams
     let tb = FakeTextBuffer(t, p) :> ITextBuffer
     let tmt = FailurePointTagger(tb, ds) :> ITagger<_>
