@@ -12,26 +12,36 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 
 TODO:
 - Move all icons to margin 
-  - SequencePointTag
+  v SequencePointTag
     v TDD Tagger
     v TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]
     v Move stuff to datastore
     v Optimize Glyph factory
-    - differentiated glyphs
-    - normalize paths at teh data collection
-    - unit test holes
+    v differentiated glyphs
+    v unit test holes
+  - PointOfFailureTag
+    v Collect data
+    v Datastore entity
+    v TDD Tagger
+    - TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]
+    - Move stuff to datastore
+    - Optimize Glyph factory
   - CoverageTag
     - TDD Tagger
     - TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]
     - Move stuff to datastore
     - Optimize Glyph factory
-  - PointOfFailureTag
-    - Datastore entity
-    - Collect data
-    - TDD Tagger
-    - TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]
-    - Move stuff to datastore
-    - Optimize Glyph factory
+  - Open Questions:
+    - CodeCoverageTag will consume the SequencePointTag
+      - Will the SequencePointTagger get called twice?
+    - Will we call all taggers for every ZF/LC events? Probably yes
+    - Can call only selective taggers depending on events from pipeline?
+    - Should we do async tagging?
+    - Optimize for empty lines, comments, etc.
+    - Remove the buffer.filename dry violation
+  - ContextMenu
+  - Tooltips
+  - normalize paths at teh data collection
   - Light up as soon as data is available
   - TODO: Why can we not compare the sp.id itself?
   - Margin needs to scale up with the editor
@@ -52,6 +62,7 @@ TODO:
 - Kata Videos
 - Disable/Enable for project
 - <release>
+- Per test workflow
 - Toolwindow + Click on Notification Icon
 - For new runs - we should merge right - when is the right time to pull that in?
 - Engine events wire up 

@@ -4,7 +4,6 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open R4nd0mApps.TddStud10.Common.Domain
 open System
 open System.Text.RegularExpressions
-open R4nd0mApps.TddStud10.Common
 
 module TestFailureInfoExtensions = 
     let private StackFrameCracker = 

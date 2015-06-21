@@ -16,6 +16,7 @@ module GlyphInfoGenerator =
                    match t with
                    | :? TestStartTag -> TestStart
                    | :? SequencePointTag -> SequencePoint
+                   | :? FailurePointTag -> FailurePoint
                    | _ -> failwith "Unknown IMarginTag type")
             |> dict
         
@@ -26,6 +27,7 @@ module GlyphInfoGenerator =
             match tg with
             | tg when tg.Count = 0 -> None
             | tg when TestStart |> tg.ContainsKey -> (TestStart, tg.[TestStart], Colors.Green) |> Some
+            | tg when FailurePoint |> tg.ContainsKey -> (FailurePoint, tg.[FailurePoint], Colors.Red) |> Some
             | tg when SequencePoint |> tg.ContainsKey -> (SequencePoint, tg.[SequencePoint], Colors.WhiteSmoke) |> Some
             | _ -> None
         

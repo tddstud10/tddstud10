@@ -13,7 +13,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
         public FakeTextBuffer(string text, string filePath)
         {
             _propertyCollection = new PropertyCollection();
-            if (filePath != null)
+            if (!string.IsNullOrWhiteSpace(filePath))
             {
                 _propertyCollection.AddProperty(typeof(ITextDocument), new FakeTextDocument(filePath, this));
             }

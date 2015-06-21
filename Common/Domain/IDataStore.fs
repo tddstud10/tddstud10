@@ -19,3 +19,4 @@ type IDataStore =
     abstract GetSequencePointsForFile : FilePath -> SequencePoint seq
     abstract FindTestRunsCoveringSequencePoint : SequencePoint -> TestRunId seq
     abstract FindTestResults : TestId -> TestRunResult seq
+    abstract FindTestFailureInfo : DocumentLocation -> TestFailureInfo seq

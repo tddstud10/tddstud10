@@ -16,9 +16,12 @@ module GlyphGenerator =
             showCM.Invoke(menuID, int p.X, int p.Y)
         
         let e : Shape = 
-            if gi.glyphType = TestStart then
+            match gi.glyphType with 
+            | TestStart ->
                 upcast Ellipse()
-            else
+            | SequencePoint ->
+                upcast Rectangle()
+            | FailurePoint ->
                 upcast Rectangle()
 
         e.Stroke <- SolidColorBrush(gi.color)

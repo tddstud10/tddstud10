@@ -27,12 +27,23 @@ type FailurePointTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
     do dataStore.TestFailureInfoUpdated.Add fireTagsChanged
     interface ITagger<FailurePointTag> with
         
+        (* NOTE: We are assuming that 
+           (1) spans arg has only 1 item and it is a full line in the editor
+           (2) Returned TagSpan.Span is the full span, i.e. it is not the set of intersection ranges of Span with failure sequence point. *)
         member __.GetTags(spans : _) : _ = 
             let getMarkerTags _ path = 
-                //spans
-                // TODO: If this crashes, fix unit tests and enable back
-                //|> Seq.filter (fun s -> not s.IsEmpty)
-                Seq.empty
+                spans
+                |> Seq.map (fun s -> 
+                       s, 
+                       { document = path
+                         line = (s.Start.GetContainingLine().LineNumber + 1) |> DocumentCoordinate })
+                |> Seq.map (fun (s, dl) -> s, dl |> dataStore.FindTestFailureInfo)
+                |> Seq.where (fun (_, tfis) -> 
+                       tfis
+                       |> Seq.isEmpty
+                       |> not)
+                |> Seq.map 
+                       (fun (s, tfis) -> TagSpan<_>(SnapshotSpan(s.Start, s.Length), { tfis = tfis }) :> ITagSpan<_>)
             buffer.FilePath |> Option.fold getMarkerTags Seq.empty
         
         [<CLIEvent>]

@@ -13,6 +13,11 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 
         public FakeTextSnapshot(string text)
         {
+            /*
+             * NOTE: While creating each TextSnapshotLine, we are adding trailing newline.
+             * Meaning the last TSL gets a trailing newline even if the original text didnt 
+             * have a trailing newline. For now this is a YAGNI call.
+             */
             _text = text;
             _textSnapshotLines =
                 _text

@@ -86,6 +86,10 @@ type DataStore() =
         // NOTE: Not tested
         member __.FindTestResults tid : TestRunResult seq = 
             (tid, testResults) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
+        
+        // NOTE: Not tested
+        member __.FindTestFailureInfo dl : TestFailureInfo seq = 
+            (dl, testFailureInfo) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
     
     static member Instance 
         with public get () = instance.Value :> IDataStore
