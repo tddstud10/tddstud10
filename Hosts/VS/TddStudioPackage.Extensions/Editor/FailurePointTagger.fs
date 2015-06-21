@@ -24,7 +24,7 @@ type FailurePointTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
                           SnapshotSpanEventArgs(SnapshotSpan(buffer.CurrentSnapshot, 0, buffer.CurrentSnapshot.Length))))), 
              null)
     
-    do dataStore.TestResultsUpdated.Add fireTagsChanged
+    do dataStore.TestFailureInfoUpdated.Add fireTagsChanged
     interface ITagger<FailurePointTag> with
         
         member __.GetTags(spans : _) : _ = 

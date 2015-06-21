@@ -109,9 +109,9 @@ namespace R4nd0mApps.TddStud10.Engine
 
             var testResults = PerTestIdResults.Deserialize(FilePath.NewFilePath(testResultsStore));
             var coverageSession = PerAssemblySequencePointsCoverage.Deserialize(FilePath.NewFilePath(coverageSessionStore));
-            //var testFailureInfo = PerDocumentLocationTestFailureInfo.Deserialize(FilePath.NewFilePath(testFailureInfoStore));
+            var testFailureInfo = PerDocumentLocationTestFailureInfo.Deserialize(FilePath.NewFilePath(testFailureInfoStore));
 
-            return rss.ToRSR(RunData.NewTestRunOutput(testResults, coverageSession), output.Item2);
+            return rss.ToRSR(RunData.NewTestRunOutput(testResults, testFailureInfo, coverageSession), output.Item2);
         }
 
         private static RunStepResult DiscoverUnitTests(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)

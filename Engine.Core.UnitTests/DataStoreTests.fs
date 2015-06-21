@@ -29,9 +29,11 @@ let createDSWithTRO slnPath =
     let ds = createDS slnPath
     let spy1 = CallSpy<PerTestIdResults>(Throws(Exception()))
     ds.TestResultsUpdated.Add(spy1.Func >> ignore)
-    let spy2 = CallSpy<PerAssemblySequencePointsCoverage>(Throws(Exception()))
-    ds.CoverageInfoUpdated.Add(spy2.Func >> ignore)
-    ds, spy1, spy2
+    let spy2 = CallSpy<PerDocumentLocationTestFailureInfo>(Throws(Exception()))
+    ds.TestFailureInfoUpdated.Add(spy2.Func >> ignore)
+    let spy3 = CallSpy<PerAssemblySequencePointsCoverage>(Throws(Exception()))
+    ds.CoverageInfoUpdated.Add(spy3.Func >> ignore)
+    ds, spy1, spy2, spy3
 
 let createPATC (ts : (string * string * string * int) list) = 
     let patc = PerAssemblyTestCases()
@@ -46,7 +48,7 @@ let createPATC (ts : (string * string * string * int) list) =
     ts |> Seq.fold addTestCase patc
 
 let createPDSP() = PerDocumentSequencePoints()
-let createTRO() = PerTestIdResults(), PerAssemblySequencePointsCoverage()
+let createTRO() = PerTestIdResults(), PerDocumentLocationTestFailureInfo(), PerAssemblySequencePointsCoverage()
 
 [<Fact>]
 let ``UpdateData with PATV causes event to be fired and crash in handler is ignored``() = 
@@ -64,11 +66,12 @@ let ``UpdateData with PDSP causes event to be fired and crash in handler is igno
 
 [<Fact>]
 let ``UpdateData with TRO causes event to be fired and crash in handler is ignored``() = 
-    let ds, spy1, spy2 = createDSWithTRO @"c:\a.sln"
-    let ptir, paspc = () |> createTRO
-    ds.UpdateData((ptir, paspc) |> TestRunOutput)
+    let ds, spy1, spy2, spy3 = createDSWithTRO @"c:\a.sln"
+    let ptir, pdtfi, paspc = () |> createTRO
+    ds.UpdateData((ptir, pdtfi, paspc) |> TestRunOutput)
     Assert.Equal(spy1.CalledWith, Some ptir)
-    Assert.Equal(spy2.CalledWith, Some paspc)
+    Assert.Equal(spy2.CalledWith, Some pdtfi)
+    Assert.Equal(spy3.CalledWith, Some paspc)
 
 [<Fact>]
 let ``FindTest2 returns None if it cannot find a match``() = 

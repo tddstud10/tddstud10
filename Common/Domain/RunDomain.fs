@@ -6,7 +6,7 @@ type RunData =
     | NoData
     | TestCases of PerAssemblyTestCases
     | SequencePoints of PerDocumentSequencePoints
-    | TestRunOutput of PerTestIdResults * PerAssemblySequencePointsCoverage
+    | TestRunOutput of PerTestIdResults * PerDocumentLocationTestFailureInfo * PerAssemblySequencePointsCoverage
 
 type RunStartParams = 
     { startTime : DateTime

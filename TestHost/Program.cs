@@ -31,7 +31,6 @@ namespace R4nd0mApps.TddStud10.TestHost
         {
             LogInfo("TestHost: Entering Main.");
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomainUnhandledException);
-            var rsp = RunStartParamsExtensions.create(new DateTime(0), FilePath.NewFilePath(args[0]));
             var command = args[1];
             var codeCoverageStore = args[2];
             var testResultsStore = args[3];
@@ -39,8 +38,8 @@ namespace R4nd0mApps.TddStud10.TestHost
             var testFailureInfoStore = args[5];
 
             var allTestsPassed = _debuggerAttached
-                ? RunTests(rsp, testResultsStore, discoveredUnitTestsStore, testFailureInfoStore)
-                : ExecuteTestWithCoverageDataCollection(() => RunTests(rsp, testResultsStore, discoveredUnitTestsStore, testFailureInfoStore), codeCoverageStore);
+                ? RunTests(testResultsStore, discoveredUnitTestsStore, testFailureInfoStore)
+                : ExecuteTestWithCoverageDataCollection(() => RunTests(testResultsStore, discoveredUnitTestsStore, testFailureInfoStore), codeCoverageStore);
 
             LogInfo("TestHost: Exiting Main.");
             return allTestsPassed ? 0 : 1;
@@ -71,7 +70,7 @@ namespace R4nd0mApps.TddStud10.TestHost
             LogError("Exception thrown in InvokeEngine: {0}.", e.ExceptionObject);
         }
 
-        private static bool RunTests(RunStartParams rsp, string testResultsStore, string discoveredUnitTestsStore, string testFailureInfoStore)
+        private static bool RunTests(string testResultsStore, string discoveredUnitTestsStore, string testFailureInfoStore)
         {
             Stopwatch stopWatch = new Stopwatch();
 
@@ -97,7 +96,7 @@ namespace R4nd0mApps.TddStud10.TestHost
                             (o, ea) =>
                             {
                                 NoteTestResults(testResults, ea);
-                                NoteTestFailureInfo(rsp, testFailureInfo, ea);
+                                NoteTestFailureInfo(testFailureInfo, ea);
                             }));
                     exec.ExecuteTests(perAssemblyTestIds[asm]);
                     LogInfo("Executing tests in {0}: Done.", asm);
@@ -106,7 +105,7 @@ namespace R4nd0mApps.TddStud10.TestHost
             if (!_debuggerAttached)
             {
                 testResults.Serialize(FilePath.NewFilePath(testResultsStore));
-                //testFailureInfo.Serialize(FilePath.NewFilePath(testFailureInfoStore));
+                testFailureInfo.Serialize(FilePath.NewFilePath(testFailureInfoStore));
             }
 
             stopWatch.Stop();
@@ -126,11 +125,11 @@ namespace R4nd0mApps.TddStud10.TestHost
             return !rrs.Any();
         }
 
-        private static void NoteTestFailureInfo(RunStartParams rsp, PerDocumentLocationTestFailureInfo pdtfi, TestResult tr)
+        private static void NoteTestFailureInfo(PerDocumentLocationTestFailureInfo pdtfi, TestResult tr)
         {
             LogInfo("Noting Test Failure Info: {0} - {1}", tr.DisplayName, tr.Outcome);
 
-            TestFailureInfoExtensions.create(rsp, tr)
+            TestFailureInfoExtensions.create(tr)
             .Aggregate(
                 pdtfi,
                 (acc, e) =>

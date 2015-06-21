@@ -2,6 +2,9 @@
 
 open System
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
+open System.Runtime.Serialization
+open System.Reflection
+open Microsoft.FSharp.Reflection
 
 [<CustomEquality; CustomComparison>]
 type FilePath = 
@@ -42,10 +45,10 @@ type AssemblyId =
 type MdTokenRid = 
     | MdTokenRid of uint32
 
-type DocumentCoordinate =
+type DocumentCoordinate = 
     | DocumentCoordinate of int
 
-type TestRunInstanceId =
+type TestRunInstanceId = 
     | TestRunInstanceId of int
 
 [<CLIMutable>]
@@ -53,9 +56,13 @@ type DocumentLocation =
     { document : FilePath
       line : DocumentCoordinate }
 
+[<KnownType("KnownTypes")>]
 type StackFrame = 
-    | ParsedFrame of string * DocumentLocation 
+    | ParsedFrame of string * DocumentLocation
     | UnparsedFrame of string
+    static member KnownTypes() = 
+        typeof<StackFrame>.GetNestedTypes(BindingFlags.Public ||| BindingFlags.NonPublic) 
+        |> Array.filter FSharpType.IsUnion
 
 [<CLIMutable>]
 type TestFailureInfo = 
@@ -74,7 +81,7 @@ type TestRunId =
       testRunInstanceId : TestRunInstanceId }
 
 [<CLIMutable>]
-type TestRunResult =
+type TestRunResult = 
     { result : TestResult }
 
 [<CLIMutable>]
@@ -98,11 +105,10 @@ type SequencePoint =
 
 [<CLIMutable>]
 type SequencePointCoverage = 
-    { sequencePointId : SequencePointId 
+    { sequencePointId : SequencePointId
       testRunId : TestRunId }
 
 // =================================================
-
 // NOTE: Adding any new cases will break RunStateTracker.
 // When we get rid of the B/T style notification icon, get rid of this.
 type RunStepKind = 
@@ -113,7 +119,7 @@ type RunStepKind =
         | Build -> "Build"
         | Test -> "Test"
 
-type RunStepSubKind =
+type RunStepSubKind = 
     | CreateSnapshot
     | DeleteBuildOutput
     | BuildSnapshot
@@ -147,7 +153,6 @@ type RunStepStatusAddendum =
         | ExceptionData e -> e.ToString()
 
 // ==================================================
-
 (*
     Combination of the following variables:
     - EngineOK, EngineError 
@@ -198,7 +203,7 @@ type RunState =
     | TestRunning
     | TestPassed
 
-type RunEvent =
+type RunEvent = 
     | RunStarting
     | RunStepStarting of RunStepKind
     | RunStepError of RunStepKind * RunStepStatus
@@ -206,7 +211,6 @@ type RunEvent =
     | RunError of Exception
 
 // ==========================================================
-
 type public IRunExecutorHost = 
     abstract CanContinue : unit -> bool
     abstract RunStateChanged : RunState -> unit

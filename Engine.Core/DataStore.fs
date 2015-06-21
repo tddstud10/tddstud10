@@ -11,10 +11,12 @@ type DataStore() =
     let mutable testCases = PerAssemblyTestCases()
     let mutable sequencePoints = PerDocumentSequencePoints()
     let mutable testResults = PerTestIdResults()
+    let mutable testFailureInfo = PerDocumentLocationTestFailureInfo()
     let mutable coverageInfo = PerAssemblySequencePointsCoverage()
     let testCasesUpdated = Event<_>()
     let sequencePointsUpdated = Event<_>()
     let testResultsUpdated = Event<_>()
+    let testFailureInfoUpdated = Event<_>()
     let coverageInfoUpdated = Event<_>()
     
     let tryGetValue def f k (d : IDictionary<'TKey, 'TValue>) = 
@@ -27,6 +29,7 @@ type DataStore() =
         member __.TestCasesUpdated : IEvent<_> = testCasesUpdated.Publish
         member __.SequencePointsUpdated : IEvent<_> = sequencePointsUpdated.Publish
         member __.TestResultsUpdated : IEvent<_> = testResultsUpdated.Publish
+        member __.TestFailureInfoUpdated : IEvent<_> = testFailureInfoUpdated.Publish
         
         [<CLIEvent>]
         member __.CoverageInfoUpdated : IEvent<_> = coverageInfoUpdated.Publish
@@ -42,9 +45,11 @@ type DataStore() =
             | SequencePoints(sp) -> 
                 sequencePoints <- sp
                 Common.safeExec (fun () -> sequencePointsUpdated.Trigger(sequencePoints))
-            | TestRunOutput(tr, ci) -> 
+            | TestRunOutput(tr, tfi, ci) -> 
                 testResults <- tr
                 Common.safeExec (fun () -> testResultsUpdated.Trigger(testResults))
+                testFailureInfo <- tfi
+                Common.safeExec (fun () -> testFailureInfoUpdated.Trigger(testFailureInfo))
                 coverageInfo <- ci
                 Common.safeExec (fun () -> coverageInfoUpdated.Trigger(coverageInfo))
         

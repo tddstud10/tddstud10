@@ -22,7 +22,7 @@ let createFPT s p t =
 [<Fact>]
 let ``Datastore TestResultsUpdated and CoverageInfoUpdated event fires TagsChanged event``() = 
     let ds, tb, _, s = createFPT @"c:\a.sln" "" ""
-    (PerTestIdResults(), PerAssemblySequencePointsCoverage())
+    (PerTestIdResults(), PerDocumentLocationTestFailureInfo(), PerAssemblySequencePointsCoverage())
     |> TestRunOutput
     |> ds.UpdateData
     Assert.True(s.CalledWith |> Option.exists (fun ssea -> ssea.Span.Snapshot.Equals(tb.CurrentSnapshot)))

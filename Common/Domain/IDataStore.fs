@@ -7,6 +7,7 @@ type IDataStore =
     abstract TestCasesUpdated : IEvent<PerAssemblyTestCases>
     abstract SequencePointsUpdated : IEvent<PerDocumentSequencePoints>
     abstract TestResultsUpdated : IEvent<PerTestIdResults>
+    abstract TestFailureInfoUpdated : IEvent<PerDocumentLocationTestFailureInfo>
     [<CLIEvent>]
     abstract CoverageInfoUpdated : IEvent<PerAssemblySequencePointsCoverage>
     abstract UpdateRunStartParams : RunStartParams -> unit
@@ -18,4 +19,3 @@ type IDataStore =
     abstract GetSequencePointsForFile : FilePath -> SequencePoint seq
     abstract FindTestRunsCoveringSequencePoint : SequencePoint -> TestRunId seq
     abstract FindTestResults : TestId -> TestRunResult seq
-

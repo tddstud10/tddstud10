@@ -8,7 +8,6 @@ open R4nd0mApps.TddStud10.Common.TestFramework
 open R4nd0mApps.TddStud10.Hosts.Common.TestCode
 open Microsoft.VisualStudio.Text
 open Microsoft.VisualStudio.Text.Tagging
-open R4nd0mApps.TddStud10.Common
 
 let createCCT s p t = 
     let ds = DataStore() :> IDataStore
@@ -23,7 +22,7 @@ let createCCT s p t =
 [<Fact>]
 let ``Datastore TestResultsUpdated and CoverageInfoUpdated event fires TagsChanged event``() = 
     let ds, tb, _, s = createCCT @"c:\a.sln" "" ""
-    (PerTestIdResults(), PerAssemblySequencePointsCoverage())
+    (PerTestIdResults(), PerDocumentLocationTestFailureInfo(), PerAssemblySequencePointsCoverage())
     |> TestRunOutput
     |> ds.UpdateData
     Assert.True(s.CalledWith |> Option.exists (fun ssea -> ssea.Span.Snapshot.Equals(tb.CurrentSnapshot)))

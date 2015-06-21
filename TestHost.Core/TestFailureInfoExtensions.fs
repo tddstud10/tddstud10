@@ -10,7 +10,7 @@ module TestFailureInfoExtensions =
     let private StackFrameCracker = 
         Regex("""^at (?<atMethod>(.*)) in (?<document>(.*))\:line (?<line>(\d+))$""", RegexOptions.Compiled)
     
-    let create rsp (tr : TestResult) : seq<DocumentLocation * TestFailureInfo> = 
+    let create (tr : TestResult) : seq<DocumentLocation * TestFailureInfo> = 
         let parseSF input = 
             let m = input |> StackFrameCracker.Match
             if m.Success then 
@@ -18,7 +18,6 @@ module TestFailureInfoExtensions =
                  { document = 
                        m.Groups.["document"].Value
                        |> FilePath
-                       |> PathBuilder.rebaseCodeFilePath rsp
                    line = 
                        m.Groups.["line"].Value
                        |> Int32.Parse
@@ -28,7 +27,8 @@ module TestFailureInfoExtensions =
         if tr.Outcome <> TestOutcome.Failed || tr.ErrorStackTrace = null then Seq.empty
         else 
             let stack = 
-                tr.ErrorStackTrace.Trim().Split([| "\r\n" |], StringSplitOptions.RemoveEmptyEntries)
+                tr.ErrorStackTrace.Split([| "\r\n"; "\r"; "\n" |], StringSplitOptions.RemoveEmptyEntries)
+                |> Seq.map (fun s -> s.Trim())
                 |> Seq.map parseSF
                 |> Seq.toArray
             
