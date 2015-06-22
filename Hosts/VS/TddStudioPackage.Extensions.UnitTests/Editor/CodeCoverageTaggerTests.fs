@@ -14,10 +14,27 @@ let createCCT s p t =
     RunStartParamsExtensions.create DateTime.Now (FilePath s)
     |> ds.UpdateRunStartParams
     let tb = FakeTextBuffer(t, p) :> ITextBuffer
-    let tmt = CodeCoverageTagger(tb, ds) :> ITagger<_>
+    let ta = new FakeTagAggregator<_>()
+    let tmt = CodeCoverageTagger(tb, ta, ds) :> ITagger<_>
     let spy = CallSpy1<SnapshotSpanEventArgs>(Throws(new Exception()))
     tmt.TagsChanged.Add(spy.Func >> ignore)
     ds, tb, tmt, spy
+
+let getNSSC n (tb : ITextBuffer) = 
+    let ss = 
+        tb.CurrentSnapshot.Lines
+        |> Seq.skip (n - 1)
+        |> Seq.take 1
+        |> Seq.map (fun l -> l.Extent)
+    NormalizedSnapshotSpanCollection(ss)
+
+[<Fact>]
+let ``Datastore SequencePointsUpdated event fires TagsChanged event``() = 
+    let ds, tb, _, s = createCCT @"c:\a.sln" "" ""
+    PerDocumentSequencePoints()
+    |> SequencePoints
+    |> ds.UpdateData
+    Assert.True(s.CalledWith |> Option.exists (fun ssea -> ssea.Span.Snapshot.Equals(tb.CurrentSnapshot)))
 
 [<Fact>]
 let ``Datastore TestResultsUpdated and CoverageInfoUpdated event fires TagsChanged event``() = 
@@ -26,3 +43,9 @@ let ``Datastore TestResultsUpdated and CoverageInfoUpdated event fires TagsChang
     |> TestRunOutput
     |> ds.UpdateData
     Assert.True(s.CalledWith |> Option.exists (fun ssea -> ssea.Span.Snapshot.Equals(tb.CurrentSnapshot)))
+
+[<Fact>]
+let ``If buffer doesnt have FileName return empty``() = 
+    let _, tb, spt, _ = createCCT @"c:\a.sln" "" ""
+    let ts = spt.GetTags(tb |> getNSSC 1)
+    Assert.Empty(ts)

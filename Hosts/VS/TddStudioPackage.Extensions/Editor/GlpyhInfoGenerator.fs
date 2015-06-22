@@ -14,8 +14,8 @@ let generate ((b, tags) : Rect * seq<IMappingTagSpan<IMarginGlyphTag>>) =
         |> Seq.groupBy (fun t -> 
                match t with
                | :? TestStartTag -> TestStart
-               | :? SequencePointTag -> SequencePoint
                | :? FailurePointTag -> FailurePoint
+               | :? CodeCoverageTag -> CodeCoverage
                | _ -> failwith "Unknown IMarginTag type")
         |> dict
     
@@ -27,7 +27,7 @@ let generate ((b, tags) : Rect * seq<IMappingTagSpan<IMarginGlyphTag>>) =
         | tg when tg.Count = 0 -> None
         | tg when TestStart |> tg.ContainsKey -> (TestStart, tg.[TestStart], Colors.Green) |> Some
         | tg when FailurePoint |> tg.ContainsKey -> (FailurePoint, tg.[FailurePoint], Colors.Red) |> Some
-        | tg when SequencePoint |> tg.ContainsKey -> (SequencePoint, tg.[SequencePoint], Colors.WhiteSmoke) |> Some
+        | tg when CodeCoverage |> tg.ContainsKey -> (CodeCoverage, tg.[CodeCoverage], Colors.Blue) |> Some
         | _ -> None
     
     gt 

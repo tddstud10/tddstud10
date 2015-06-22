@@ -6,6 +6,10 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open R4nd0mApps.TddStud10.Common.Domain
 open System.Windows.Media
 
+type SequencePointTag = 
+    { sp : SequencePoint }
+    interface ITag
+
 type IMarginGlyphTag = 
     inherit ITag
 
@@ -14,16 +18,12 @@ type TestStartTag =
       textHash : int }
     interface IMarginGlyphTag
 
-type SequencePointTag = 
-    { sp : SequencePoint }
-    interface IMarginGlyphTag
-
 type FailurePointTag = 
     { tfis : TestFailureInfo seq }
     interface IMarginGlyphTag
 
 type CodeCoverageTag = 
-    { testCase : TestCase }
+    { sp : SequencePoint }
     interface IMarginGlyphTag
 
 (* NOTE: This should have an 1-1 mapping with the FrameworkElement being displayed in the Margin Canvas. 
@@ -31,7 +31,7 @@ type CodeCoverageTag =
 type MarginGlyphType = 
     | TestStart
     | FailurePoint
-    | SequencePoint
+    | CodeCoverage
 
 type MarginGlyphInfo = 
     { color : Color

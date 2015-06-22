@@ -28,7 +28,7 @@ type TestStartTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
     interface ITagger<TestStartTag> with
         
         member __.GetTags(spans : _) : _ = 
-            let getMarkerTags _ path = 
+            let getTags _ path = 
                 spans
                 |> Seq.filter (fun s -> not s.IsEmpty)
                 |> Seq.map (fun s -> s, DocumentCoordinate(s.Start.GetContainingLine().LineNumber + 1))
@@ -38,7 +38,7 @@ type TestStartTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
                        TagSpan<_>(SnapshotSpan(s.Start, s.Length), 
                                   { testCase = t
                                     textHash = s.GetText().GetHashCode() }) :> ITagSpan<_>)
-            buffer.FilePath |> Option.fold getMarkerTags Seq.empty
+            buffer.FilePath |> Option.fold getTags Seq.empty
         
         [<CLIEvent>]
         member __.TagsChanged = tagsChanged.Publish

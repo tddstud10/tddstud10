@@ -71,8 +71,8 @@
     <Content Include="packages.config" />
     <Compile Include="Editor\TestStartTaggerTests.fs" />
     <Compile Include="Editor\FailurePointTaggerTests.fs" />
-    <Compile Include="Editor\CodeCoverageTaggerTests.fs" />
     <Compile Include="Editor\SequencePointTaggerTests.fs" />
+    <Compile Include="Editor\CodeCoverageTaggerTests.fs" />
     <Compile Include="Editor\GlpyhBoundsGeneratorTests.fs" />
     <Compile Include="Editor\MarginTests.fs" />
   </ItemGroup>

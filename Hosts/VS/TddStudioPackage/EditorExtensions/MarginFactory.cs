@@ -41,6 +41,7 @@ TODO:
   - merging data vs no-merging data
   - disable == all
   - Do we need async tagger?
+- merge + clear data?
 - createCoverageData doesnt show coverage information - entersp markers are not injected looks like
 - <deploy>
 - Blockers
@@ -50,7 +51,6 @@ TODO:
 - <release>
 - Per test workflow
 - Toolwindow + Click on Notification Icon
-- For new runs - we should merge right - when is the right time to pull that in?
 - Engine events wire up 
   - Custom Trigger mechanism with 3 goals: exception in one handler should not affect the others
   - Combine attach/detach between EnginerLoader and TddStudi10Runner
@@ -58,7 +58,6 @@ TODO:
   - Get methods to attach from outside - dont expose events.
   - EngineHost, RunState, DataStore, ConsoleApp, [TBD:ToolWindow], etc.
 - Move to async tagging
-- SnapshotlineRange - tagger implementation assumes we we ask line by line and not for spans across multiplelines
 - Breakpoint - remove on debug stop, dont/add-remove if breakpoint already present
 
 - Spec questions

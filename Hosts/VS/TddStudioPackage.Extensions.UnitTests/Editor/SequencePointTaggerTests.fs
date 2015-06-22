@@ -52,11 +52,6 @@ let getNSSC n (tb : ITextBuffer) =
     NormalizedSnapshotSpanCollection(ss)
 
 [<Fact>]
-let ``Datastore SequencePointsUpdated event fires TagsChanged event``() = 
-    let _, tb, _, s = createSPT "a.sln" (PerDocumentSequencePoints()) null ""
-    Assert.True(s.CalledWith |> Option.exists (fun ssea -> ssea.Span.Snapshot.Equals(tb.CurrentSnapshot)))
-
-[<Fact>]
 let ``If buffer doesnt have FileName return empty``() = 
     let _, tb, spt, _ = createSPT "sln.sln" (PerDocumentSequencePoints()) null ""
     let ts = spt.GetTags(tb |> getNSSC 1)

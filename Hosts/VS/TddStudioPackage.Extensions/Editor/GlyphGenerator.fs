@@ -17,7 +17,7 @@ let generate (showCM : Action<CommandID, int, int>) ((b, gi) : Rect * MarginGlyp
     let e : Shape = 
         match gi.glyphType with
         | TestStart -> upcast Ellipse()
-        | SequencePoint -> upcast Rectangle()
+        | CodeCoverage -> upcast Rectangle()
         | FailurePoint -> upcast Rectangle()
     
     e.Stroke <- SolidColorBrush(gi.color)
