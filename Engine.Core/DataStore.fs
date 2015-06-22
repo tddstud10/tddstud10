@@ -30,10 +30,7 @@ type DataStore() =
         member __.SequencePointsUpdated : IEvent<_> = sequencePointsUpdated.Publish
         member __.TestResultsUpdated : IEvent<_> = testResultsUpdated.Publish
         member __.TestFailureInfoUpdated : IEvent<_> = testFailureInfoUpdated.Publish
-        
-        [<CLIEvent>]
         member __.CoverageInfoUpdated : IEvent<_> = coverageInfoUpdated.Publish
-        
         member __.UpdateRunStartParams(rsp : RunStartParams) : unit = runStartParams <- rsp |> Some
         
         member __.UpdateData(rd : RunData) : unit = 
@@ -68,25 +65,8 @@ type DataStore() =
         member self.FindTest2 document line : TestCase seq = 
             testCases.Keys |> Seq.choose (fun a -> (self :> IDataStore).FindTest a document line)
         // NOTE: Not tested
-        member __.GetAllFiles() : FilePath seq = upcast sequencePoints.Keys
-        // NOTE: Not tested
-        member __.GetAllSequencePoints() : SequencePoint seq = sequencePoints.Values |> Seq.collect id
-        // NOTE: Not tested
         member __.GetSequencePointsForFile p : SequencePoint seq = 
             (p, sequencePoints) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
-        
-        // NOTE: Not tested
-        member __.FindTestRunsCoveringSequencePoint sp : TestRunId seq = 
-            coverageInfo.Values
-            |> Seq.collect id
-            // TODO: Why can we not compare the sp.id itself?
-            |> Seq.filter (fun spc -> spc.sequencePointId.methodId = sp.id.methodId)
-            |> Seq.map (fun spc -> spc.testRunId)
-        
-        // NOTE: Not tested
-        member __.FindTestResults tid : TestRunResult seq = 
-            (tid, testResults) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
-        
         // NOTE: Not tested
         member __.FindTestFailureInfo dl : TestFailureInfo seq = 
             (dl, testFailureInfo) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)

@@ -196,15 +196,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EditorExtensions\CodeCoverageTaggerProvider.cs" />
-    <Compile Include="EditorExtensions\ZCodeCoverageTag.cs" />
     <Compile Include="EditorExtensions\FailurePointTaggerProvider.cs" />
     <Compile Include="EditorExtensions\TestStartTaggerProvider.cs" />
     <Compile Include="EditorExtensions\SequencePointTaggerProvider.cs" />
-    <Compile Include="EditorExtensions\ZGlyphFactory.cs" />
-    <Compile Include="EditorExtensions\ZGlyphFactoryProvider.cs" />
-    <Compile Include="EditorExtensions\ZCodeCoverageState.cs" />
-    <Compile Include="EditorExtensions\ZCodeCoverageTagger.cs" />
-    <Compile Include="EditorExtensions\ZCodeCoverageTaggerProvider.cs" />
     <Compile Include="EditorExtensions\MarginFactory.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
