@@ -4,9 +4,9 @@ open System
 
 type RunData = 
     | NoData
-    | TestCases of PerAssemblyTestCases
+    | TestCases of PerDocumentLocationTestCases
     | SequencePoints of PerDocumentSequencePoints
-    | TestRunOutput of PerTestIdResults * PerDocumentLocationTestFailureInfo * PerAssemblySequencePointsCoverage
+    | TestRunOutput of PerTestIdResults * PerDocumentLocationTestFailureInfo * PerSequencePointIdTestRunId
 
 type RunStartParams = 
     { startTime : DateTime

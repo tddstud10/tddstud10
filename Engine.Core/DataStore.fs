@@ -8,11 +8,11 @@ open R4nd0mApps.TddStud10.Common
 type DataStore() = 
     static let instance = Lazy.Create(fun () -> DataStore())
     let mutable runStartParams = None
-    let mutable testCases = PerAssemblyTestCases()
+    let mutable testCases = PerDocumentLocationTestCases()
     let mutable sequencePoints = PerDocumentSequencePoints()
     let mutable testResults = PerTestIdResults()
     let mutable testFailureInfo = PerDocumentLocationTestFailureInfo()
-    let mutable coverageInfo = PerAssemblySequencePointsCoverage()
+    let mutable coverageInfo = PerSequencePointIdTestRunId()
     let testCasesUpdated = Event<_>()
     let sequencePointsUpdated = Event<_>()
     let testResultsUpdated = Event<_>()
@@ -50,20 +50,14 @@ type DataStore() =
                 coverageInfo <- ci
                 Common.safeExec (fun () -> coverageInfoUpdated.Trigger(coverageInfo))
         
-        member __.FindTest assembly document line : TestCase option = 
-            let findTest assembly document (DocumentCoordinate line) rsp = 
-                (assembly, testCases) 
-                ||> tryGetValue None 
-                        (fun ts -> 
-                        ts 
-                        |> Seq.tryFind 
-                               (fun t -> 
-                               t.LineNumber = line 
-                               && (PathBuilder.arePathsTheSame rsp.solutionPath document (FilePath t.CodeFilePath))))
-            runStartParams |> Option.bind (findTest assembly document line)
+        member __.FindTest asm dl : TestCase option = 
+            let findTest assembly dl = 
+                (dl, testCases) 
+                ||> tryGetValue None (Seq.tryFind (fun t -> (FilePath t.CodeFilePath) = asm))
+            findTest asm dl
         
-        member self.FindTest2 document line : TestCase seq = 
-            testCases.Keys |> Seq.choose (fun a -> (self :> IDataStore).FindTest a document line)
+        member self.FindTest2 dl : TestCase seq = 
+            (dl, testCases) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
         // NOTE: Not tested
         member __.GetSequencePointsForFile p : SequencePoint seq = 
             (p, sequencePoints) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)

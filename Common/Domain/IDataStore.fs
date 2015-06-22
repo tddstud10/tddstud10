@@ -4,14 +4,14 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
 type IDataStore = 
     abstract RunStartParams : RunStartParams option
-    abstract TestCasesUpdated : IEvent<PerAssemblyTestCases>
+    abstract TestCasesUpdated : IEvent<PerDocumentLocationTestCases>
     abstract SequencePointsUpdated : IEvent<PerDocumentSequencePoints>
     abstract TestResultsUpdated : IEvent<PerTestIdResults>
     abstract TestFailureInfoUpdated : IEvent<PerDocumentLocationTestFailureInfo>
-    abstract CoverageInfoUpdated : IEvent<PerAssemblySequencePointsCoverage>
+    abstract CoverageInfoUpdated : IEvent<PerSequencePointIdTestRunId>
     abstract UpdateRunStartParams : RunStartParams -> unit
     abstract UpdateData : RunData -> unit
-    abstract FindTest : FilePath -> FilePath -> DocumentCoordinate -> TestCase option
-    abstract FindTest2 : FilePath -> DocumentCoordinate -> TestCase seq
+    abstract FindTest : FilePath -> DocumentLocation -> TestCase option
+    abstract FindTest2 : DocumentLocation -> TestCase seq
     abstract GetSequencePointsForFile : FilePath -> SequencePoint seq
     abstract FindTestFailureInfo : DocumentLocation -> TestFailureInfo seq

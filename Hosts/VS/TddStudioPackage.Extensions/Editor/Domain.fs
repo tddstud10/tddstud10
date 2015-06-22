@@ -14,7 +14,7 @@ type IMarginGlyphTag =
     inherit ITag
 
 type TestStartTag = 
-    { testCase : TestCase
+    { testCases : TestCase seq
       textHash : int }
     interface IMarginGlyphTag
 

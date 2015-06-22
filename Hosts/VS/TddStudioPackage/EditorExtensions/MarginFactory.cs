@@ -33,7 +33,9 @@ TODO:
   - Margin needs to scale up with the editor
   - Delete old datastore methods
   - Delete old tagger code
-  - Remove duplicate data using multiple relational tables
+  - Remove duplicate data 
+    - E.g. PerSequencePointIdTestRunId could just be PerSequencePointIdTestRunId
+    - using multiple relational tables
 - switches
   - run pipeline but no data collection [testhost does not look for testcases]
   - Editor tagging

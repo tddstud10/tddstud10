@@ -15,7 +15,7 @@ let createDS slnPath =
 
 let createDSWithPATC slnPath = 
     let ds = createDS slnPath
-    let spy = CallSpy<PerAssemblyTestCases>(Throws(Exception()))
+    let spy = CallSpy<PerDocumentLocationTestCases>(Throws(Exception()))
     ds.TestCasesUpdated.Add(spy.Func >> ignore)
     ds, spy
 
@@ -31,24 +31,26 @@ let createDSWithTRO slnPath =
     ds.TestResultsUpdated.Add(spy1.Func >> ignore)
     let spy2 = CallSpy<PerDocumentLocationTestFailureInfo>(Throws(Exception()))
     ds.TestFailureInfoUpdated.Add(spy2.Func >> ignore)
-    let spy3 = CallSpy<PerAssemblySequencePointsCoverage>(Throws(Exception()))
+    let spy3 = CallSpy<PerSequencePointIdTestRunId>(Throws(Exception()))
     ds.CoverageInfoUpdated.Add(spy3.Func >> ignore)
     ds, spy1, spy2, spy3
 
 let createPATC (ts : (string * string * string * int) list) = 
-    let patc = PerAssemblyTestCases()
+    let patc = PerDocumentLocationTestCases()
     
-    let addTestCase (acc : PerAssemblyTestCases) (s, f, d, l) = 
+    let addTestCase (acc : PerDocumentLocationTestCases) (s, f, d, l) = 
         let tc = TestCase(f, Uri("exec://utf"), s)
         tc.CodeFilePath <- d
         tc.LineNumber <- l
-        let b = acc.GetOrAdd(FilePath s, fun _ -> ConcurrentBag<_>())
+        let b = 
+            acc.GetOrAdd({ document = FilePath d
+                           line = DocumentCoordinate l }, fun _ -> ConcurrentBag<_>())
         b.Add(tc) |> ignore
         acc
     ts |> Seq.fold addTestCase patc
 
 let createPDSP() = PerDocumentSequencePoints()
-let createTRO() = PerTestIdResults(), PerDocumentLocationTestFailureInfo(), PerAssemblySequencePointsCoverage()
+let createTRO() = PerTestIdResults(), PerDocumentLocationTestFailureInfo(), PerSequencePointIdTestRunId()
 
 [<Fact>]
 let ``UpdateData with PATV causes event to be fired and crash in handler is ignored``() = 
@@ -76,7 +78,10 @@ let ``UpdateData with TRO causes event to be fired and crash in handler is ignor
 [<Fact>]
 let ``FindTest2 returns None if it cannot find a match``() = 
     let ds, _ = createDSWithPATC @"c:\a.sln"
-    let ts = ds.FindTest2 (FilePath @"c:\a.cs") (DocumentCoordinate 10)
+    
+    let ts = 
+        ds.FindTest2 { document = FilePath @"c:\a.cs"
+                       line = DocumentCoordinate 10 }
     Assert.Empty(ts)
 
 [<Fact>]
@@ -84,7 +89,9 @@ let ``FindTest2 returns TestCase if it can find a match``() =
     let ds, _ = createDSWithPATC @"c:\a.sln"
     let patc = [ (@"c:\adll.dll", "FQN#1", @"c:\a.cs", 10) ] |> createPATC
     ds.UpdateData(patc |> TestCases)
-    let ts = ds.FindTest2 (FilePath @"c:\a.cs") (DocumentCoordinate 10)
+    let ts = 
+        ds.FindTest2 { document = FilePath @"c:\a.cs"
+                       line = DocumentCoordinate 10 }
     Assert.Equal([| "FQN#1" |], ts |> Seq.map (fun t -> t.FullyQualifiedName))
 
 [<Fact>]
@@ -96,7 +103,9 @@ let ``FindTest2 returns both test cases if matching testid exist in 2 assemblies
           (@"c:\2.dll", "FQN#1", @"c:\a.cs", 10) ]
         |> createPATC
     ds.UpdateData(patc |> TestCases)
-    let ts = ds.FindTest2 (FilePath @"c:\a.cs") (DocumentCoordinate 10)
+    let ts = 
+        ds.FindTest2 { document = FilePath @"c:\a.cs"
+                       line = DocumentCoordinate 10 }
     Assert.Equal([| @"c:\1.dll"; @"c:\2.dll" |], 
                  ts
                  |> Seq.map (fun t -> t.Source)
@@ -105,11 +114,3 @@ let ``FindTest2 returns both test cases if matching testid exist in 2 assemblies
                  ts
                  |> Seq.map (fun t -> t.FullyQualifiedName)
                  |> Seq.sort)
-
-[<Fact>]
-let ``FindTest2 returns TestCase if it an find a match after sln path normalization``() = 
-    let ds, _ = createDSWithPATC @"c:\sln\a.sln"
-    let patc = [ (@"c:\adll.dll", "FQN#2", PathBuilder.snapShotRoot + @"sln\proj\a.cs", 10) ] |> createPATC
-    ds.UpdateData(patc |> TestCases)
-    let ts = ds.FindTest2 (FilePath @"c:\sln\proj\a.cs") (DocumentCoordinate 10)
-    Assert.Equal([| "FQN#2" |], ts |> Seq.map (fun t -> t.FullyQualifiedName))

@@ -9,7 +9,7 @@ open System.Collections.Concurrent
 
 [<ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)>]
 type CoverageDataCollector() = 
-    let coverageData = new PerAssemblySequencePointsCoverage()
+    let coverageData = new PerSequencePointIdTestRunId()
     let tempStore = new ConcurrentDictionary<string, ConcurrentBag<string * string * string>>()
     
     let enterSequencePoint testRunId assemblyId methodMdRid spId = 
@@ -32,19 +32,18 @@ type CoverageDataCollector() =
                     testRunId source document line
             else 
                 let addSPC a m s = 
-                    let asmId = AssemblyId(Guid.Parse(a))
-                    let l = coverageData.GetOrAdd(asmId, fun _ -> ConcurrentBag<_>())
-                    { sequencePointId = 
-                          { methodId = 
-                                { assemblyId = asmId
-                                  mdTokenRid = MdTokenRid(UInt32.Parse(m)) }
-                            uid = Int32.Parse(s) }
-                      testRunId = 
-                          { testId = 
-                                { source = source |> FilePath
-                                  document = document |> FilePath
-                                  line = DocumentCoordinate(Int32.Parse(line)) }
-                            testRunInstanceId = TestRunInstanceId(Int32.Parse(testRunId)) } }
+                    let spId = 
+                        { methodId = 
+                              { assemblyId = AssemblyId(Guid.Parse(a))
+                                mdTokenRid = MdTokenRid(UInt32.Parse(m)) }
+                          uid = Int32.Parse(s) }
+                    
+                    let l = coverageData.GetOrAdd(spId, fun _ -> ConcurrentBag<_>())
+                    { testId = 
+                          { source = source |> FilePath
+                            document = document |> FilePath
+                            line = DocumentCoordinate(Int32.Parse(line)) }
+                      testRunInstanceId = TestRunInstanceId(Int32.Parse(testRunId)) }
                     |> l.Add
                     |> ignore
                 Async.Parallel [ for sp in sps -> async { return sp |||> addSPC } ]

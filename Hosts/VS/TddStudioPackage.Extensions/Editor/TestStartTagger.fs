@@ -30,13 +30,18 @@ type TestStartTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
         member __.GetTags(spans : _) : _ = 
             let getTags _ path = 
                 spans
-                |> Seq.filter (fun s -> not s.IsEmpty)
-                |> Seq.map (fun s -> s, DocumentCoordinate(s.Start.GetContainingLine().LineNumber + 1))
-                |> Seq.map (fun (s, ln) -> s, dataStore.FindTest2 path ln)
-                |> Seq.collect (fun (s, ts) -> ts |> Seq.map (fun t -> s, t))
-                |> Seq.map (fun (s, t) -> 
+                |> Seq.map (fun s -> 
+                       s, 
+                       { document = path
+                         line = DocumentCoordinate(s.Start.GetContainingLine().LineNumber + 1) })
+                |> Seq.map (fun (s, dl) -> s, dataStore.FindTest2 dl)
+                |> Seq.filter (fun (_, ts) -> 
+                       ts
+                       |> Seq.isEmpty
+                       |> not)
+                |> Seq.map (fun (s, ts) -> 
                        TagSpan<_>(SnapshotSpan(s.Start, s.Length), 
-                                  { testCase = t
+                                  { testCases = ts
                                     textHash = s.GetText().GetHashCode() }) :> ITagSpan<_>)
             buffer.FilePath |> Option.fold getTags Seq.empty
         

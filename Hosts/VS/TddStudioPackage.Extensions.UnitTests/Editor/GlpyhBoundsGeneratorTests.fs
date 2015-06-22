@@ -13,7 +13,7 @@ open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 
 let getMTSForline (ss : SnapshotSpan) : IMappingTagSpan<_> seq = 
     let mts = FakeMappingTagSpan<TestStartTag>()
-    mts.Tag <- { testCase = TestCase("FQN:" + ss.GetText(), Uri("ext://test"), "source")
+    mts.Tag <- { testCases = [ TestCase("FQN:" + ss.GetText(), Uri("ext://test"), "source") ]
                  textHash = 0 }
     upcast [ mts :> IMappingTagSpan<_> ]
 

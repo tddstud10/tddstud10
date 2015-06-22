@@ -102,24 +102,30 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
             Logger.I.LogInfo("Debug Test...");
 
-            var ts = ContextMenuData.Instance.GlyphTags;
-            if (ts.Any())
+            var mgts = ContextMenuData.Instance.GlyphTags;
+            if (mgts.Any())
             {
                 return;
             }
 
-            var tst = ts.Where(t => t is TestStartTag).FirstOrDefault() as TestStartTag;
-            if (tst == null)
+            var tsts = from mt in mgts
+                       let tt = mt as TestStartTag
+                       where tt != null
+                       from tc in tt.testCases
+                       select tc;
+
+            var test = tsts.FirstOrDefault();
+            if (test == null)
             {
                 return;
             }
 
-            _dte.SetBreakPoint(tst.testCase.CodeFilePath, tst.testCase.LineNumber);
+            _dte.SetBreakPoint(test.CodeFilePath, test.LineNumber);
 
-            var tpa = new PerAssemblyTestCases();
+            var tpa = new PerDocumentLocationTestCases();
             var bag = new ConcurrentBag<TestCase>();
-            bag.Add(tst.testCase);
-            tpa.TryAdd(FilePath.NewFilePath(tst.testCase.Source), bag);
+            bag.Add(test);
+            tpa.TryAdd(new DocumentLocation { document = FilePath.NewFilePath(test.CodeFilePath), line = DocumentCoordinate.NewDocumentCoordinate(test.LineNumber) }, bag);
             var duts = Path.Combine(DataStore.Instance.RunStartParams.Value.solutionBuildRoot.Item, "Z_debug.xml");
             tpa.Serialize(FilePath.NewFilePath(duts));
 

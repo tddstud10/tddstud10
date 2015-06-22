@@ -81,10 +81,6 @@ type TestRunId =
       testRunInstanceId : TestRunInstanceId }
 
 [<CLIMutable>]
-type TestRunResult = 
-    { result : TestResult }
-
-[<CLIMutable>]
 type MethodId = 
     { assemblyId : AssemblyId
       mdTokenRid : MdTokenRid }
@@ -102,11 +98,6 @@ type SequencePoint =
       startColumn : DocumentCoordinate
       endLine : DocumentCoordinate
       endColumn : DocumentCoordinate }
-
-[<CLIMutable>]
-type SequencePointCoverage = 
-    { sequencePointId : SequencePointId
-      testRunId : TestRunId }
 
 // =================================================
 // NOTE: Adding any new cases will break RunStateTracker.

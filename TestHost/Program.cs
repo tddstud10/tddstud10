@@ -78,18 +78,16 @@ namespace R4nd0mApps.TddStud10.TestHost
             stopWatch.Start();
             var testResults = new PerTestIdResults();
             var testFailureInfo = new PerDocumentLocationTestFailureInfo();
-            var perAssemblyTestIds = PerAssemblyTestCases.Deserialize(FilePath.NewFilePath(discoveredUnitTestsStore));
+            var perAssemblyTestIds = PerDocumentLocationTestCases.Deserialize(FilePath.NewFilePath(discoveredUnitTestsStore));
+            var tests = from dc in perAssemblyTestIds.Keys
+                        from t in perAssemblyTestIds[dc]
+                        group t by FilePath.NewFilePath(t.Source);
             Parallel.ForEach(
-                perAssemblyTestIds.Keys,
+                tests,
                 new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount },
-                asm =>
+                test =>
                 {
-                    if (perAssemblyTestIds[asm].Count == 0)
-                    {
-                        return;
-                    }
-
-                    LogInfo("Executing tests in {0}: Start.", asm);
+                    LogInfo("Executing tests in {0}: Start.", test.Key);
                     var exec = new XUnitTestExecutor();
                     exec.TestExecuted.AddHandler(
                         new FSharpHandler<TestResult>(
@@ -98,8 +96,8 @@ namespace R4nd0mApps.TddStud10.TestHost
                                 NoteTestResults(testResults, ea);
                                 NoteTestFailureInfo(testFailureInfo, ea);
                             }));
-                    exec.ExecuteTests(perAssemblyTestIds[asm]);
-                    LogInfo("Executing tests in {0}: Done.", asm);
+                    exec.ExecuteTests(test);
+                    LogInfo("Executing tests in {0}: Done.", test.Key);
                 });
 
             if (!_debuggerAttached)
@@ -119,7 +117,7 @@ namespace R4nd0mApps.TddStud10.TestHost
             var rrs =
                 from tr in testResults
                 from rr in tr.Value
-                where rr.result.Outcome == TestOutcome.Failed
+                where rr.Outcome == TestOutcome.Failed
                 select rr;
 
             return !rrs.Any();
@@ -150,8 +148,8 @@ namespace R4nd0mApps.TddStud10.TestHost
                 FilePath.NewFilePath(tr.TestCase.CodeFilePath),
                 DocumentCoordinate.NewDocumentCoordinate(tr.TestCase.LineNumber));
 
-            var results = testResults.GetOrAdd(testId, _ => new ConcurrentBag<TestRunResult>());
-            results.Add(new TestRunResult(tr));
+            var results = testResults.GetOrAdd(testId, _ => new ConcurrentBag<TestResult>());
+            results.Add(tr);
         }
     }
 }

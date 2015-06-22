@@ -15,30 +15,26 @@ type FakeCallContext() =
     member __.GetData _ = data
     member __.SetData _ o = data <- o
 
-let createCoverageData (s, d, l) ss = 
-    [ for (a, m, sp) in ss do
-          yield { sequencePointId = 
-                      { methodId = 
-                            { assemblyId = a |> AssemblyId
-                              mdTokenRid = m |> MdTokenRid }
-                        uid = sp }
-                  testRunId = 
-                      { testId = 
-                            { source = s |> FilePath
-                              document = d |> FilePath
-                              line = l |> DocumentCoordinate }
-                        testRunInstanceId = 0xbadf00d |> TestRunInstanceId } } ]
+let createTRIDs ts = 
+    [ for (s, d, l) in ts do
+          yield { testId = 
+                      { source = s |> FilePath
+                        document = d |> FilePath
+                        line = l |> DocumentCoordinate }
+                  testRunInstanceId = obj().GetHashCode() |> TestRunInstanceId } ]
+
+let createSPID a m s =
+    { methodId = { assemblyId = a |> AssemblyId; mdTokenRid = m |> MdTokenRid }; uid = s }
 
 type Assert with
-    static member MatchSPC (e : SequencePointCoverage seq) (a : SequencePointCoverage seq) = 
+    static member MatchTRIDs (e : TestRunId seq) (a : TestRunId seq) = 
         let spcComp = 
-            { new IEqualityComparer<SequencePointCoverage> with
-                  member __.Equals(s1 : _, s2 : _) : bool = 
-                      s1.sequencePointId = s2.sequencePointId 
-                      && s1.testRunId.testId = s2.testRunId.testId 
-                      && s1.testRunId.testRunInstanceId <> s2.testRunId.testRunInstanceId 
-                      && s1.testRunId.testRunInstanceId <> (TestRunInstanceId 0) 
-                      && s2.testRunId.testRunInstanceId <> (TestRunInstanceId 0)
+            { new IEqualityComparer<TestRunId> with
+                  member __.Equals(tr1 : _, tr2 : _) : bool = 
+                      tr1.testId = tr2.testId 
+                      && tr1.testRunInstanceId <> tr2.testRunInstanceId 
+                      && tr1.testRunInstanceId <> (TestRunInstanceId 0) 
+                      && tr2.testRunInstanceId <> (TestRunInstanceId 0)
                   member __.GetHashCode(_ : _) : int = failwith "Not implemented yet" }
         Assert.Equal(e |> Seq.length, a |> Seq.length)
         e |> Seq.iter (fun e -> Assert.Contains(e, a, spcComp))
@@ -58,11 +54,9 @@ let createCDC() =
 
 let createCDC2 cdc db = 
     let fcc = FakeCallContext()
-    let m = 
-        Marker
-            (Func<ICoverageDataCollector>(fun () -> cdc), Func<bool>(fun () -> db = Attached), 
-             Func<string, obj>(fcc.GetData), Action<string, obj>(fcc.SetData))
-    m
+    Marker
+        (Func<ICoverageDataCollector>(fun () -> cdc), Func<bool>(fun () -> db = Attached), 
+            Func<string, obj>(fcc.GetData), Action<string, obj>(fcc.SetData))
 
 [<Fact>]
 let ``Same test - Sequence points in same assembly``() = 
@@ -70,11 +64,10 @@ let ``Same test - Sequence points in same assembly``() =
     m.RegisterEnterSequencePoint(asmId1.ToString(), "100", "1")
     m.RegisterEnterSequencePoint(asmId1.ToString(), "101", "2")
     m.RegisterExitUnitTest("a.dll", "a.cs", "100")
-    Assert.Equal(1, cdc.CoverageData.Keys.Count)
-    let expected = 
-        createCoverageData ("a.dll", "a.cs", 100) [ (asmId1, 100u, 1)
-                                                    (asmId1, 101u, 2) ]
-    Assert.MatchSPC expected cdc.CoverageData.[AssemblyId asmId1]
+    Assert.Equal(2, cdc.CoverageData.Keys.Count)
+    let expected = createTRIDs [ ("a.dll", "a.cs", 100) ]
+    Assert.MatchTRIDs expected cdc.CoverageData.[(asmId1, 100u, 1) |||> createSPID]
+    Assert.MatchTRIDs expected cdc.CoverageData.[(asmId1, 101u, 2) |||> createSPID]
 
 [<Fact>]
 let ``Same test - Sequence points in different assemblies``() = 
@@ -83,10 +76,9 @@ let ``Same test - Sequence points in different assemblies``() =
     m.RegisterEnterSequencePoint(asmId2.ToString(), "201", "21")
     m.RegisterExitUnitTest("b.dll", "b.cs", "500")
     Assert.Equal(2, cdc.CoverageData.Keys.Count)
-    let expected1 = createCoverageData ("b.dll", "b.cs", 500) [ (asmId1, 200u, 11) ]
-    Assert.MatchSPC expected1 cdc.CoverageData.[AssemblyId asmId1]
-    let expected2 = createCoverageData ("b.dll", "b.cs", 500) [ (asmId2, 201u, 21) ]
-    Assert.MatchSPC expected2 cdc.CoverageData.[AssemblyId asmId2]
+    let expected = createTRIDs [ ("b.dll", "b.cs", 500) ]
+    Assert.MatchTRIDs expected cdc.CoverageData.[(asmId1, 200u, 11) |||> createSPID]
+    Assert.MatchTRIDs expected cdc.CoverageData.[(asmId2, 201u, 21) |||> createSPID]
 
 [<Fact>]
 let ``Same test - different runs should created unique runinstanceids``() = 
@@ -99,7 +91,7 @@ let ``Same test - different runs should created unique runinstanceids``() =
         (cdc.CoverageData.Values
          |> Seq.collect id
          |> Array.ofSeq)
-    Assert.NotEqual(sps.[0].testRunId.testRunInstanceId, sps.[1].testRunId.testRunInstanceId)
+    Assert.NotEqual(sps.[0].testRunInstanceId, sps.[1].testRunInstanceId)
 
 [<Fact>]
 let ``Different test - coverage data collected for both tests``() = 
@@ -108,10 +100,11 @@ let ``Different test - coverage data collected for both tests``() =
     m.RegisterExitUnitTest("a.dll", "a.cs", "100")
     m.RegisterEnterSequencePoint(asmId2.ToString(), "600", "200")
     m.RegisterExitUnitTest("b.dll", "b.cs", "200")
-    let expected1 = createCoverageData ("a.dll", "a.cs", 100) [ (asmId1, 500u, 100) ]
-    Assert.MatchSPC expected1 cdc.CoverageData.[AssemblyId asmId1]
-    let expected2 = createCoverageData ("b.dll", "b.cs", 200) [ (asmId2, 600u, 200) ]
-    Assert.MatchSPC expected2 cdc.CoverageData.[AssemblyId asmId2]
+    Assert.Equal(2, cdc.CoverageData.Keys.Count)
+    let expected = createTRIDs [ ("a.dll", "a.cs", 100) ]
+    Assert.MatchTRIDs expected cdc.CoverageData.[(asmId1, 500u, 100) |||> createSPID]
+    let expected = createTRIDs [ ("b.dll", "b.cs", 200) ]
+    Assert.MatchTRIDs expected cdc.CoverageData.[(asmId2, 600u, 200) |||> createSPID]
 
 [<Fact>]
 let ``With debugger attached coverage info does not get registered``() = 

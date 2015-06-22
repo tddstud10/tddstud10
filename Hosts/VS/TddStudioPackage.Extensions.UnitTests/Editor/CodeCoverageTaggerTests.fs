@@ -39,7 +39,7 @@ let ``Datastore SequencePointsUpdated event fires TagsChanged event``() =
 [<Fact>]
 let ``Datastore TestResultsUpdated and CoverageInfoUpdated event fires TagsChanged event``() = 
     let ds, tb, _, s = createCCT @"c:\a.sln" "" ""
-    (PerTestIdResults(), PerDocumentLocationTestFailureInfo(), PerAssemblySequencePointsCoverage())
+    (PerTestIdResults(), PerDocumentLocationTestFailureInfo(), PerSequencePointIdTestRunId())
     |> TestRunOutput
     |> ds.UpdateData
     Assert.True(s.CalledWith |> Option.exists (fun ssea -> ssea.Span.Snapshot.Equals(tb.CurrentSnapshot)))

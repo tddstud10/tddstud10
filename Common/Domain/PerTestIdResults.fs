@@ -2,10 +2,11 @@
 
 open System.Collections.Concurrent
 open System
+open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
 [<Serializable>]
 type PerTestIdResults = 
-    inherit DataStoreEntityBase<TestId, ConcurrentBag<TestRunResult>>
+    inherit DataStoreEntityBase<TestId, ConcurrentBag<TestResult>>
     
     new() = 
         { inherit DataStoreEntityBase<_, _>() }

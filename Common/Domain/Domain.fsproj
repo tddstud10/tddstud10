@@ -64,11 +64,11 @@
     </Compile>
     <Compile Include="Domain.fs" />
     <Compile Include="DataStoreEntityBase.fs" />
-    <Compile Include="PerAssemblyTestCases.fs" />
-    <Compile Include="PerAssemblySequencePointsCoverage.fs" />
+    <Compile Include="PerDocumentLocationTestCases.fs" />
     <Compile Include="PerDocumentSequencePoints.fs" />
     <Compile Include="PerTestIdResults.fs" />
     <Compile Include="PerDocumentLocationTestFailureInfo.fs" />
+    <Compile Include="PerSequencePointIdTestRunId.fs" />
     <Compile Include="RunDomain.fs" />
     <Compile Include="IDataStore.fs" />
     <Compile Include="Code\PathBuilder.fs" />

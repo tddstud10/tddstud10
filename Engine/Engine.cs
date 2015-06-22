@@ -27,8 +27,8 @@ namespace R4nd0mApps.TddStud10.Engine
                 , TddStud10Runner.CreateRunStep(new RunStepInfo("Deleting Build Output".ToRSN(), RunStepKind.Build, RunStepSubKind.DeleteBuildOutput), DeleteBuildOutput)
                 , TddStud10Runner.CreateRunStep(new RunStepInfo("Building Solution Snapshot".ToRSN(), RunStepKind.Build, RunStepSubKind.BuildSnapshot), BuildSolutionSnapshot)
                 , TddStud10Runner.CreateRunStep(new RunStepInfo("Refresh Test Runtime".ToRSN(), RunStepKind.Build, RunStepSubKind.RefreshTestRuntime), RefreshTestRuntime)
-                , TddStud10Runner.CreateRunStep(new RunStepInfo("Discover Unit Tests".ToRSN(), RunStepKind.Build, RunStepSubKind.DiscoverTests), DiscoverUnitTests)
                 , TddStud10Runner.CreateRunStep(new RunStepInfo("Instrument Binaries".ToRSN(), RunStepKind.Build, RunStepSubKind.InstrumentBinaries), InstrumentBinaries)
+                , TddStud10Runner.CreateRunStep(new RunStepInfo("Discover Unit Tests".ToRSN(), RunStepKind.Build, RunStepSubKind.DiscoverTests), DiscoverUnitTests)
                 , TddStud10Runner.CreateRunStep(new RunStepInfo("Running Tests".ToRSN(), RunStepKind.Test, RunStepSubKind.RunTests), RunTests)
             };
         }
@@ -108,7 +108,7 @@ namespace R4nd0mApps.TddStud10.Engine
             }
 
             var testResults = PerTestIdResults.Deserialize(FilePath.NewFilePath(testResultsStore));
-            var coverageSession = PerAssemblySequencePointsCoverage.Deserialize(FilePath.NewFilePath(coverageSessionStore));
+            var coverageSession = PerSequencePointIdTestRunId.Deserialize(FilePath.NewFilePath(coverageSessionStore));
             var testFailureInfo = PerDocumentLocationTestFailureInfo.Deserialize(FilePath.NewFilePath(testFailureInfoStore));
 
             return rss.ToRSR(RunData.NewTestRunOutput(testResults, testFailureInfo, coverageSession), output.Item2);
@@ -124,19 +124,23 @@ namespace R4nd0mApps.TddStud10.Engine
             var buildOutputRoot = rsp.solutionBuildRoot.Item;
             var timeFilter = rsp.startTime;
 
-            Func<string, string> rebaseCodeFilePath =
-                s => PathBuilder.rebaseCodeFilePath(rsp, FilePath.NewFilePath(s)).Item;
-
-            var testsPerAssembly = new PerAssemblyTestCases();
+            var testsPerAssembly = new PerDocumentLocationTestCases();
             Engine.FindAndExecuteForEachAssembly(
                 host,
                 buildOutputRoot,
                 timeFilter,
                 (string assemblyPath) =>
                 {
-                    var tests = testsPerAssembly.GetOrAdd(FilePath.NewFilePath(assemblyPath), _ => new ConcurrentBag<TestCase>());
+                    var asmPath = FilePath.NewFilePath(assemblyPath);
                     var disc = new XUnitTestDiscoverer();
-                    disc.TestDiscovered.AddHandler(new FSharpHandler<TestCase>((o, ea) => { ea.CodeFilePath = rebaseCodeFilePath(ea.CodeFilePath); tests.Add(ea); }));
+                    disc.TestDiscovered.AddHandler(
+                        new FSharpHandler<TestCase>(
+                            (o, ea) =>
+                            {
+                                var dl = new DocumentLocation { document = FilePath.NewFilePath(ea.CodeFilePath), line = DocumentCoordinate.NewDocumentCoordinate(ea.LineNumber) };
+                                var tests = testsPerAssembly.GetOrAdd(dl, _ => new ConcurrentBag<TestCase>());
+                                tests.Add(ea);
+                            }));
                     disc.DiscoverTests(FilePath.NewFilePath(assemblyPath));
                 });
 
