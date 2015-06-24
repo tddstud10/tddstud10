@@ -74,6 +74,7 @@
     <Compile Include="RunExecutorTests.fs" />
     <Compile Include="RunStateTrackerTests.fs" />
     <Compile Include="DataStoreTests.fs" />
+    <Compile Include="CollectionExtensionTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Domain\Domain.fsproj">

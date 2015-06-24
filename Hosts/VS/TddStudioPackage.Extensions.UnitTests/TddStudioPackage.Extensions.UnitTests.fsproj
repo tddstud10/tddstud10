@@ -74,6 +74,7 @@
     <Compile Include="Editor\CodeCoverageTaggerTests.fs" />
     <Compile Include="Editor\FailurePointTaggerTests.fs" />
     <Compile Include="Editor\GlpyhBoundsGeneratorTests.fs" />
+    <Compile Include="Editor\GlpyhInfoGeneratorTests.fs" />
     <Compile Include="Editor\MarginTests.fs" />
   </ItemGroup>
   <ItemGroup>

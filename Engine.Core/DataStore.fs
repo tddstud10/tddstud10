@@ -1,10 +1,10 @@
 ﻿namespace R4nd0mApps.TddStud10.Engine.Core
 
-open R4nd0mApps.TddStud10.Common.Domain
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
-open System.Collections.Generic
-open R4nd0mApps.TddStud10.Common
+open R4nd0mApps.TddStud10.Common.Domain
 
+(* NOTE: Keep this entity free of intelligence. It just needs to be able to store/retrive data.
+   Consumers are reponsible for testing their own intelligence. *)
 type DataStore() = 
     static let instance = Lazy.Create(fun () -> DataStore())
     let mutable runStartParams = None
@@ -18,11 +18,6 @@ type DataStore() =
     let testResultsUpdated = Event<_>()
     let testFailureInfoUpdated = Event<_>()
     let coverageInfoUpdated = Event<_>()
-    
-    let tryGetValue def f k (d : IDictionary<'TKey, 'TValue>) = 
-        let found, trs = k |> d.TryGetValue
-        if found && trs <> null then trs |> f
-        else def
     
     interface IDataStore with
         member __.RunStartParams : RunStartParams option = runStartParams
@@ -50,21 +45,14 @@ type DataStore() =
                 coverageInfo <- ci
                 Common.safeExec (fun () -> coverageInfoUpdated.Trigger(coverageInfo))
         
-        // NOTE: Not tested
-        member __.FindTest dl : TestCase seq = 
-            (dl, testCases) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
-        // NOTE: Not tested
+        member __.FindTest dl : TestCase seq = (dl, testCases) ||> Dict.tryGetValue Seq.empty (fun v -> v :> seq<_>)
         member __.GetSequencePointsForFile p : SequencePoint seq = 
-            (p, sequencePoints) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
-        // NOTE: Not tested
+            (p, sequencePoints) ||> Dict.tryGetValue Seq.empty (fun v -> v :> seq<_>)
         member __.FindTestFailureInfo dl : TestFailureInfo seq = 
-            (dl, testFailureInfo) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
-        // NOTE: Not tested
-        member __.GetRunIdsForTestsCoveringSequencePointId spid =
-            (spid, coverageInfo) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
-        // NOTE: Not tested
-        member __.GetResultsForTestId tid =
-            (tid, testResults) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
-
+            (dl, testFailureInfo) ||> Dict.tryGetValue Seq.empty (fun v -> v :> seq<_>)
+        member __.GetRunIdsForTestsCoveringSequencePointId spid = 
+            (spid, coverageInfo) ||> Dict.tryGetValue Seq.empty (fun v -> v :> seq<_>)
+        member __.GetResultsForTestId tid = (tid, testResults) ||> Dict.tryGetValue Seq.empty (fun v -> v :> seq<_>)
+    
     static member Instance 
         with public get () = instance.Value :> IDataStore

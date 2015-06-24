@@ -31,9 +31,6 @@ module PathBuilder =
              .Equals(path2.ToUpperInvariant().Replace(d.ToUpperInvariant(), "").Trim('\\'), 
                      StringComparison.InvariantCultureIgnoreCase)
     
-    let arePathsTheSame slnPath path1 path2 = 
-        path1 = path2 || normalizeAndCompare slnPath path1 path2 || normalizeAndCompare slnPath path2 path1
-    
     let rebaseCodeFilePath rsp (FilePath p) = 
         let (FilePath slnPath) = rsp.solutionPath
         let (FilePath slnSnapPath) = rsp.solutionSnapshotPath

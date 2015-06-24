@@ -1,4 +1,4 @@
-﻿module R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor.MarginGlpyhTagAndBoundGeneratorTests
+﻿module R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor.GlpyhBoundGeneratorTests
 
 open Xunit
 open Microsoft.VisualStudio.Text.Formatting
