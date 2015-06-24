@@ -32,7 +32,8 @@ type CodeCoverageTag =
 type MarginGlyphType = 
     | TestStart
     | FailurePoint
-    | CodeCoverage
+    | CodeCoverageFull
+    | CodeCoveragePartial
 
 type MarginGlyphInfo = 
     { color : Color

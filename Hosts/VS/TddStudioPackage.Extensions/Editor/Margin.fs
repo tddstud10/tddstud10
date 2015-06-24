@@ -21,6 +21,7 @@ type Margin(textView : IWpfTextView, mgta : ITagAggregator<_>, __, painter, getM
     let tcSub = mgta.TagsChanged.Subscribe(fun _ -> paintGlyphs())
 
     new(textView : IWpfTextView, mgta : ITagAggregator<_>, showCM) = 
+        (* NOTE: Pure wireup code in this constructor. Hence not tested. *)
         let canvas = MarginCanvas()
         let f1 = GlpyhBoundsGenerator.generate
         let f2 = Seq.map (fun (b, (l : ITextViewLine)) -> b, l.Extent |> mgta.GetTags)

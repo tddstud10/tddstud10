@@ -15,7 +15,7 @@ let generate ((b, tags) : Rect * seq<IMappingTagSpan<IMarginGlyphTag>>) =
                match t with
                | :? TestStartTag -> TestStart
                | :? FailurePointTag -> FailurePoint
-               | :? CodeCoverageTag -> CodeCoverage
+               | :? CodeCoverageTag -> CodeCoverageFull
                | _ -> failwith "Unknown IMarginTag type")
         |> dict
     
@@ -25,17 +25,17 @@ let generate ((b, tags) : Rect * seq<IMappingTagSpan<IMarginGlyphTag>>) =
     let gt = 
         match tg with
         | tg when tg.Count = 0 -> None
-        | tg when TestStart |> tg.ContainsKey -> (TestStart, tg.[TestStart], Colors.Green) |> Some
-        | tg when FailurePoint |> tg.ContainsKey -> (FailurePoint, tg.[FailurePoint], Colors.Red) |> Some
-        | tg when CodeCoverage |> tg.ContainsKey -> (CodeCoverage, tg.[CodeCoverage], Colors.Blue) |> Some
+        | tg when TestStart |> tg.ContainsKey -> (TestStart, Colors.Green) |> Some
+        | tg when FailurePoint |> tg.ContainsKey -> (FailurePoint, Colors.Red) |> Some
+        | tg when CodeCoverageFull |> tg.ContainsKey -> (CodeCoverageFull, Colors.Blue) |> Some
         | _ -> None
     
     gt 
     |> Option.map 
-        (fun (t, ts, c) -> 
+        (fun (t, c) -> 
         b, 
         { color = c 
           glyphType = t 
-          glyphTags = ts 
+          glyphTags = tags |> Seq.map (fun t -> t.Tag)
           toolTipText = "" 
           contextMenu = CommandID(Guid(PkgGuids.GuidGlyphContextCmdSet), PkgCmdID.GlyphContextMenu |> int) })
