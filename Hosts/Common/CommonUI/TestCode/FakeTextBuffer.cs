@@ -18,7 +18,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
                 _propertyCollection.AddProperty(typeof(ITextDocument), new FakeTextDocument(filePath, this));
             }
 
-            _textSnapshot = new FakeTextSnapshot(text);
+            _textSnapshot = new FakeTextSnapshot(this, text);
         }
 
         #region ITextBuffer Members

@@ -145,8 +145,9 @@ namespace R4nd0mApps.TddStud10.TestHost
 
             var testId = new TestId(
                 FilePath.NewFilePath(tr.TestCase.Source),
-                FilePath.NewFilePath(tr.TestCase.CodeFilePath),
-                DocumentCoordinate.NewDocumentCoordinate(tr.TestCase.LineNumber));
+                new DocumentLocation(
+                    FilePath.NewFilePath(tr.TestCase.CodeFilePath),
+                    DocumentCoordinate.NewDocumentCoordinate(tr.TestCase.LineNumber)));
 
             var results = testResults.GetOrAdd(testId, _ => new ConcurrentBag<TestResult>());
             results.Add(tr);

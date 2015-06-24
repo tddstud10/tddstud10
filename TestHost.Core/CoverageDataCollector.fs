@@ -41,8 +41,8 @@ type CoverageDataCollector() =
                     let l = coverageData.GetOrAdd(spId, fun _ -> ConcurrentBag<_>())
                     { testId = 
                           { source = source |> FilePath
-                            document = document |> FilePath
-                            line = DocumentCoordinate(Int32.Parse(line)) }
+                            location = { document = document |> FilePath
+                                         line = DocumentCoordinate(Int32.Parse(line)) } }
                       testRunInstanceId = TestRunInstanceId(Int32.Parse(testRunId)) }
                     |> l.Add
                     |> ignore

@@ -50,13 +50,8 @@ type DataStore() =
                 coverageInfo <- ci
                 Common.safeExec (fun () -> coverageInfoUpdated.Trigger(coverageInfo))
         
-        member __.FindTest asm dl : TestCase option = 
-            let findTest assembly dl = 
-                (dl, testCases) 
-                ||> tryGetValue None (Seq.tryFind (fun t -> (FilePath t.CodeFilePath) = asm))
-            findTest asm dl
-        
-        member self.FindTest2 dl : TestCase seq = 
+        // NOTE: Not tested
+        member __.FindTest dl : TestCase seq = 
             (dl, testCases) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
         // NOTE: Not tested
         member __.GetSequencePointsForFile p : SequencePoint seq = 
@@ -64,6 +59,12 @@ type DataStore() =
         // NOTE: Not tested
         member __.FindTestFailureInfo dl : TestFailureInfo seq = 
             (dl, testFailureInfo) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
-    
+        // NOTE: Not tested
+        member __.GetRunIdsForTestsCoveringSequencePointId spid =
+            (spid, coverageInfo) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
+        // NOTE: Not tested
+        member __.GetResultsForTestId tid =
+            (tid, testResults) ||> tryGetValue Seq.empty (fun v -> v :> seq<_>)
+
     static member Instance 
         with public get () = instance.Value :> IDataStore

@@ -69,9 +69,9 @@
     <Compile Include="Editor\Domain.fs" />
     <Compile Include="Editor\ContextMenuData.fs" />
     <Compile Include="Editor\TestStartTagger.fs" />
-    <Compile Include="Editor\FailurePointTagger.fs" />
     <Compile Include="Editor\SequencePointTagger.fs" />
     <Compile Include="Editor\CodeCoverageTagger.fs" />
+    <Compile Include="Editor\FailurePointTagger.fs" />
     <Compile Include="Editor\MarginConstants.fs" />
     <Compile Include="Editor\GlpyhBoundsGenerator.fs" />
     <Compile Include="Editor\GlpyhInfoGenerator.fs" />

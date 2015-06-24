@@ -6,7 +6,6 @@ open R4nd0mApps.TddStud10.Engine.TestFramework
 open System
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open System.Collections.Concurrent
-open R4nd0mApps.TddStud10.Common
 
 let createDS slnPath = 
     let ds = DataStore() :> IDataStore
@@ -74,43 +73,3 @@ let ``UpdateData with TRO causes event to be fired and crash in handler is ignor
     Assert.Equal(spy1.CalledWith, Some ptir)
     Assert.Equal(spy2.CalledWith, Some pdtfi)
     Assert.Equal(spy3.CalledWith, Some paspc)
-
-[<Fact>]
-let ``FindTest2 returns None if it cannot find a match``() = 
-    let ds, _ = createDSWithPATC @"c:\a.sln"
-    
-    let ts = 
-        ds.FindTest2 { document = FilePath @"c:\a.cs"
-                       line = DocumentCoordinate 10 }
-    Assert.Empty(ts)
-
-[<Fact>]
-let ``FindTest2 returns TestCase if it can find a match``() = 
-    let ds, _ = createDSWithPATC @"c:\a.sln"
-    let patc = [ (@"c:\adll.dll", "FQN#1", @"c:\a.cs", 10) ] |> createPATC
-    ds.UpdateData(patc |> TestCases)
-    let ts = 
-        ds.FindTest2 { document = FilePath @"c:\a.cs"
-                       line = DocumentCoordinate 10 }
-    Assert.Equal([| "FQN#1" |], ts |> Seq.map (fun t -> t.FullyQualifiedName))
-
-[<Fact>]
-let ``FindTest2 returns both test cases if matching testid exist in 2 assemblies``() = 
-    let ds, _ = createDSWithPATC @"c:\a.sln"
-    
-    let patc = 
-        [ (@"c:\1.dll", "FQN#1", @"c:\a.cs", 10)
-          (@"c:\2.dll", "FQN#1", @"c:\a.cs", 10) ]
-        |> createPATC
-    ds.UpdateData(patc |> TestCases)
-    let ts = 
-        ds.FindTest2 { document = FilePath @"c:\a.cs"
-                       line = DocumentCoordinate 10 }
-    Assert.Equal([| @"c:\1.dll"; @"c:\2.dll" |], 
-                 ts
-                 |> Seq.map (fun t -> t.Source)
-                 |> Seq.sort)
-    Assert.Equal([| @"FQN#1"; @"FQN#1" |], 
-                 ts
-                 |> Seq.map (fun t -> t.FullyQualifiedName)
-                 |> Seq.sort)

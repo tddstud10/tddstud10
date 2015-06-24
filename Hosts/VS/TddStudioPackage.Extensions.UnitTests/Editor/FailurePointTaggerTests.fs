@@ -15,7 +15,7 @@ let createFPT s pdltfi p t =
     let ds = DataStore() :> IDataStore
     let tb = FakeTextBuffer(t, p) :> ITextBuffer
     let tmt = FailurePointTagger(tb, ds) :> ITagger<_>
-    let spy = CallSpy1<SnapshotSpanEventArgs>(Throws(new Exception()))
+    let spy = CallSpy1<SnapshotSpanEventArgs>(Throws(Exception()))
     tmt.TagsChanged.Add(spy.Func >> ignore)
     RunStartParamsExtensions.create DateTime.Now (FilePath s) |> ds.UpdateRunStartParams
     (PerTestIdResults(), pdltfi, PerSequencePointIdTestRunId())

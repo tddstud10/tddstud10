@@ -9,10 +9,14 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
     {
         private string _text;
 
+        private FakeTextBuffer _textBuffer;
+
         private IEnumerable<FakeTextSnapshotLine> _textSnapshotLines;
 
-        public FakeTextSnapshot(string text)
+        public FakeTextSnapshot(FakeTextBuffer textBuffer, string text)
         {
+            _textBuffer = textBuffer;
+
             /*
              * NOTE: While creating each TextSnapshotLine, we are adding trailing newline.
              * Meaning the last TSL gets a trailing newline even if the original text didnt 
@@ -130,7 +134,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 
         public ITextBuffer TextBuffer
         {
-            get { throw new NotImplementedException(); }
+            get { return _textBuffer; }
         }
 
         public char[] ToCharArray(int startIndex, int length)

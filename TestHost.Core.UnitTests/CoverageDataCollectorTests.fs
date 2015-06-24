@@ -19,8 +19,8 @@ let createTRIDs ts =
     [ for (s, d, l) in ts do
           yield { testId = 
                       { source = s |> FilePath
-                        document = d |> FilePath
-                        line = l |> DocumentCoordinate }
+                        location = { document = d |> FilePath
+                                     line = l |> DocumentCoordinate } }
                   testRunInstanceId = obj().GetHashCode() |> TestRunInstanceId } ]
 
 let createSPID a m s =

@@ -13,10 +13,11 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 TODO:
 - Move all icons to margin 
   - CoverageTag
-    - TDD Tagger
+    - unit tests for tryGetValue - remove not tested and add generic note to datastore methods
+    - deal with partial line coverage
     - TDD Margin w/ trivial glyph factory [i.e. overwrites glyphs]
-    - Move stuff to datastore
     - Optimize Glyph factory
+    - Comment in datastore to keep it free of intelligence
   - Open Questions:
     - CodeCoverageTag will consume the SequencePointTag
       - Will the SequencePointTagger get called twice?

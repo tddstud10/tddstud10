@@ -10,11 +10,14 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open System
 open Microsoft.VisualStudio.Text
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
+open R4nd0mApps.TddStud10.Common.Domain
 
 let getMTSForline (ss : SnapshotSpan) : IMappingTagSpan<_> seq = 
     let mts = FakeMappingTagSpan<TestStartTag>()
-    mts.Tag <- { testCases = [ TestCase("FQN:" + ss.GetText(), Uri("ext://test"), "source") ]
-                 textHash = 0 }
+    let f () p =
+        mts.Tag <- { testCases = [ TestCase("FQN:" + ss.GetText(), Uri("ext://test"), "source") ]
+                     location = { document = p; line = DocumentCoordinate(ss.Start.GetContainingLine().LineNumber + 1) } }
+    ss.Snapshot.TextBuffer.FilePath |> Option.fold f ()
     upcast [ mts :> IMappingTagSpan<_> ]
 
 [<Fact>]

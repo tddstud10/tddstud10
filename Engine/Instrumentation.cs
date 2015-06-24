@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Microsoft.FSharp.Core;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
@@ -84,7 +84,7 @@ namespace R4nd0mApps.TddStud10
             return perDocSP;
         }
 
-        public static void Instrument(IRunExecutorHost host, RunStartParams rsp, Func<FilePath, DocumentLocation, FSharpOption<TestCase>> findTest)
+        public static void Instrument(IRunExecutorHost host, RunStartParams rsp, Func<DocumentLocation, IEnumerable<TestCase>> findTest)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        public static void InstrumentImpl(IRunExecutorHost host, RunStartParams rsp, Func<FilePath, DocumentLocation, FSharpOption<TestCase>> findTest)
+        public static void InstrumentImpl(IRunExecutorHost host, RunStartParams rsp, Func<DocumentLocation, IEnumerable<TestCase>> findTest)
         {
             var timeFilter = rsp.startTime;
             var solutionSnapshotRoot = Path.GetDirectoryName(rsp.solutionSnapshotPath.Item);
@@ -277,11 +277,11 @@ namespace R4nd0mApps.TddStud10
             ilProcessor.InsertBefore(instrMarker, instr);
             instrMarker = instr;
             // IL_0006: ldstr <string>
-            instr = ilProcessor.Create(OpCodes.Ldstr, testId.line.Item.ToString(CultureInfo.InvariantCulture));
+            instr = ilProcessor.Create(OpCodes.Ldstr, testId.location.line.Item.ToString(CultureInfo.InvariantCulture));
             ilProcessor.InsertBefore(instrMarker, instr);
             instrMarker = instr;
             // IL_0006: ldstr <string>
-            instr = ilProcessor.Create(OpCodes.Ldstr, testId.document.Item);
+            instr = ilProcessor.Create(OpCodes.Ldstr, testId.location.document.Item);
             ilProcessor.InsertBefore(instrMarker, instr);
             instrMarker = instr;
             // IL_0006: ldstr <string>
@@ -388,15 +388,16 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        private static Tuple<bool, TestId> IsSequencePointAtStartOfAUnitTest(Mono.Cecil.Cil.SequencePoint sp, FilePath assemblyPath, Func<FilePath, DocumentLocation, FSharpOption<TestCase>> findTest)
+        private static Tuple<bool, TestId> IsSequencePointAtStartOfAUnitTest(Mono.Cecil.Cil.SequencePoint sp, FilePath assemblyPath, Func<DocumentLocation, IEnumerable<TestCase>> findTest)
         {
             if (sp == null)
             {
                 return new Tuple<bool, TestId>(false, null);
             }
 
-            var test = findTest(assemblyPath, new DocumentLocation { document = FilePath.NewFilePath(sp.Document.Url), line = DocumentCoordinate.NewDocumentCoordinate(sp.StartLine) });
-            if (test == FSharpOption<TestCase>.None)
+            var dl = new DocumentLocation { document = FilePath.NewFilePath(sp.Document.Url), line = DocumentCoordinate.NewDocumentCoordinate(sp.StartLine) };
+            var test = findTest(dl).FirstOrDefault(t => FilePath.NewFilePath(t.Source) == assemblyPath);
+            if (test != null)
             {
                 return new Tuple<bool, TestId>(false, null);
             }
@@ -404,10 +405,7 @@ namespace R4nd0mApps.TddStud10
             {
                 return new Tuple<bool, TestId>(
                     true,
-                    new TestId(
-                        assemblyPath,
-                        FilePath.NewFilePath(sp.Document.Url),
-                        DocumentCoordinate.NewDocumentCoordinate(sp.StartLine)));
+                    new TestId(assemblyPath, dl));
             }
         }
 

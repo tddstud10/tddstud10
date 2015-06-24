@@ -72,8 +72,7 @@ type TestFailureInfo =
 [<CLIMutable>]
 type TestId = 
     { source : FilePath
-      document : FilePath
-      line : DocumentCoordinate }
+      location : DocumentLocation }
 
 [<CLIMutable>]
 type TestRunId = 

@@ -1,5 +1,10 @@
 ﻿namespace R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 
+(* NOTE: These are supposed to be 'never changing' stubs. Hence dont have unit tests.
+   If they bugs start to show up and these need to be changed, add unit tests and move 
+   to another appropriate location before changing.
+ *)
+
 [<AutoOpen>]
 module SnapshotSpanExtensions = 
     open Microsoft.VisualStudio.Text
@@ -46,3 +51,20 @@ module ITextBufferExtensions =
                 | _ -> None
             if p = None then Logger.logErrorf "Buffer does not have ITextDocument property. Cannot get filename."
             p
+
+[<AutoOpen>]
+module ITagAggregatorExtensions = 
+    open Microsoft.VisualStudio.Text
+    open Microsoft.VisualStudio.Text.Tagging
+    
+    type SnapshotSnapsToTagSpan<'T when 'T :> ITag> = NormalizedSnapshotSpanCollection -> seq<TagSpan<'T>>
+    
+    type ITagAggregator<'T when 'T :> ITag> with
+        member self.getTagSpans : SnapshotSnapsToTagSpan<'T> = 
+            fun snapshotSpans -> 
+                snapshotSpans
+                |> Seq.collect (fun (s : SnapshotSpan) -> 
+                       s
+                       |> self.GetTags
+                       |> Seq.map (fun mts -> s, mts))
+                |> Seq.collect (fun (s, mts) -> mts.Span.GetSpans(s.Snapshot) |> Seq.map (fun s -> TagSpan(s, mts.Tag)))

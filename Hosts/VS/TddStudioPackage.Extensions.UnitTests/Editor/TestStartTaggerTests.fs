@@ -16,7 +16,7 @@ let createTST s pdltp p t =
     RunStartParamsExtensions.create DateTime.Now (FilePath s) |> ds.UpdateRunStartParams
     let tb = FakeTextBuffer(t, p) :> ITextBuffer
     let tmt = TestStartTagger(tb, ds) :> ITagger<_>
-    let spy = CallSpy1<SnapshotSpanEventArgs>(Throws(new Exception()))
+    let spy = CallSpy1<SnapshotSpanEventArgs>(Throws(Exception()))
     tmt.TagsChanged.Add(spy.Func >> ignore)
     pdltp
     |> TestCases
@@ -52,7 +52,7 @@ let ``Datastore TestCasesUpdated event fires TagsChanged event``() =
 
 [<Fact>]
 let ``GetTags returns empty if no tests are found in datastore``() = 
-    let _, tb, tmt, _ = createTST @"c:\sln\sln.sln" (PerDocumentLocationTestCases()) @"c:\sln\proj\a.cs" """Line
+    let _, tb, tmt, _ = createTST @"sln.sln" (PerDocumentLocationTestCases()) @"a.cs" """Line
 Line 2
 """
     let ts = tmt.GetTags(tb |> getNSSC 1)
@@ -60,8 +60,8 @@ Line 2
 
 [<Fact>]
 let ``GetTags returns right tag for 1 empty and 1 each found and not found in datastore``() = 
-    let pdltp = [ ("FQN:2nd line", @"c:\sln\proj\a.cs", 2) ] |> createPDLTP
-    let _, tb, tmt, _ = createTST @"c:\sln\sln.sln" pdltp @"c:\sln\proj\a.cs" """
+    let pdltp = [ ("FQN:2nd line", @"a.cs", 2) ] |> createPDLTP
+    let _, tb, tmt, _ = createTST @"sln.sln" pdltp @"a.cs" """
 Line 2
 """
     let ss = tb.CurrentSnapshot.Lines |> Seq.map (fun l -> l.Extent)
@@ -69,5 +69,5 @@ Line 2
     Assert.Empty(ts)
     let ts = tmt.GetTags(tb |> getNSSC 2)
     Assert.Equal
-        ([| ("FQN:2nd line", "Line 2".GetHashCode()) |], 
-         ts |> Seq.collect (fun ts -> ts.Tag.testCases |> Seq.map (fun t -> t.FullyQualifiedName, ts.Tag.textHash)))
+        ([| ("FQN:2nd line", { document = FilePath "a.cs"; line = DocumentCoordinate 2 }) |], 
+         ts |> Seq.collect (fun ts -> ts.Tag.testCases |> Seq.map (fun t -> t.FullyQualifiedName, ts.Tag.location)))

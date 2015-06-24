@@ -15,7 +15,7 @@ type IMarginGlyphTag =
 
 type TestStartTag = 
     { testCases : TestCase seq
-      textHash : int }
+      location : DocumentLocation }
     interface IMarginGlyphTag
 
 type FailurePointTag = 
@@ -23,7 +23,8 @@ type FailurePointTag =
     interface IMarginGlyphTag
 
 type CodeCoverageTag = 
-    { sp : SequencePoint }
+    { sp : SequencePoint
+      testResults : TestResult seq }
     interface IMarginGlyphTag
 
 (* NOTE: This should have an 1-1 mapping with the FrameworkElement being displayed in the Margin Canvas. 

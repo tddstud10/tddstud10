@@ -34,15 +34,18 @@ type TestStartTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
                        s, 
                        { document = path
                          line = DocumentCoordinate(s.Start.GetContainingLine().LineNumber + 1) })
-                |> Seq.map (fun (s, dl) -> s, dataStore.FindTest2 dl)
+                |> Seq.map (fun (s, dl) -> s, dataStore.FindTest dl)
                 |> Seq.filter (fun (_, ts) -> 
                        ts
                        |> Seq.isEmpty
                        |> not)
-                |> Seq.map (fun (s, ts) -> 
+                |> Seq.map 
+                       (fun (s, ts) -> 
                        TagSpan<_>(SnapshotSpan(s.Start, s.Length), 
                                   { testCases = ts
-                                    textHash = s.GetText().GetHashCode() }) :> ITagSpan<_>)
+                                    location = 
+                                        { document = path
+                                          line = DocumentCoordinate(s.Start.GetContainingLine().LineNumber + 1) } }) :> ITagSpan<_>)
             buffer.FilePath |> Option.fold getTags Seq.empty
         
         [<CLIEvent>]

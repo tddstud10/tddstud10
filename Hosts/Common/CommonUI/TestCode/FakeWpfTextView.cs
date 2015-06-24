@@ -17,7 +17,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
         public FakeWpfTextView(Point vpLocation, double lineHeight, string text)
         {
             _vpLocation = vpLocation;
-            _textSnapshot = new FakeTextSnapshot(text);
+            _textSnapshot = new FakeTextSnapshot(null, text);
             _textViewLineCollection = new FakeWpfTextViewLineCollection(
                 _textSnapshot.FakeTextSnapshotLines
                 .Aggregate(
