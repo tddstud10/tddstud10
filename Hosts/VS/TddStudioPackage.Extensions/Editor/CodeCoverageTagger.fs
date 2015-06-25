@@ -45,11 +45,6 @@ type CodeCoverageTagger(buffer : ITextBuffer, getspt : SnapshotSnapsToTagSpan<Se
                        |> Seq.distinct
                        |> Seq.map dataStore.GetResultsForTestId
                        |> Seq.collect id)
-                |> Seq.filter (fun (_, trs) -> 
-                       let trs = trs
-                       trs
-                       |> Seq.isEmpty
-                       |> not)
                 |> Seq.map (fun (tsp, trs) -> 
                        TagSpan<_>(tsp.Span, 
                                   { CodeCoverageTag.sp = tsp.Tag.sp

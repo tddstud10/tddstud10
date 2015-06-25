@@ -17,10 +17,17 @@ let generate (showCM : Action<CommandID, int, int>) ((b, gi) : Rect * MarginGlyp
     let e : Shape = 
         match gi.glyphType with
         | TestStart -> upcast Ellipse()
+        | FailurePoint -> 
+            let p = Path()
+            p.Data <- Geometry.Parse("M 0 0 L 8 8 L 0 10 M 0 8 L 8 0")
+            upcast p
         | CodeCoverageFull -> upcast Rectangle()
-        | FailurePoint -> upcast Rectangle()
-    
+        | CodeCoveragePartial -> 
+            let p = Path()
+            p.Data <- Geometry.Parse("M 0 0 L 10 0 L 0 10 Z")
+            upcast p
+
     e.Stroke <- SolidColorBrush(gi.color)
-    e.StrokeThickness <- 4.0
+    e.StrokeThickness <- 3.0
     e.MouseRightButtonUp.Add(showContextMenu gi.glyphTags e)
     b, e :> FrameworkElement

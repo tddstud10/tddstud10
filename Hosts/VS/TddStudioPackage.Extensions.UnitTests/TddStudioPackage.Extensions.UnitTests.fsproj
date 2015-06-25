@@ -69,6 +69,7 @@
     <Compile Include="TestDoubles.ServiceProvider.fs" />
     <Compile Include="ServicesTest.fs" />
     <Content Include="packages.config" />
+    <Compile Include="Editor\Common.fs" />
     <Compile Include="Editor\TestStartTaggerTests.fs" />
     <Compile Include="Editor\SequencePointTaggerTests.fs" />
     <Compile Include="Editor\CodeCoverageTaggerTests.fs" />

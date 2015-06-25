@@ -10,44 +10,12 @@ open Microsoft.VisualStudio.Text
 open Microsoft.VisualStudio.Text.Tagging
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 open System.Collections.Concurrent
+open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor.TestCommon
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
-type SimpleTestCase = 
-    { fqn : string
-      src : string
-      file : string
-      ln : int }
-    
-    member self.toTC() = 
-        let t = TestCase(self.fqn, Uri("exec://utf"), self.src)
-        t.CodeFilePath <- self.file
-        t.LineNumber <- self.ln
-        t
-    
-    member self.toTID() = 
-        { source = FilePath self.src 
-          location = { document = FilePath self.file
-                       line = DocumentCoordinate self.ln } }
-    
-    static member fromTC (tc : TestCase) = 
-        { fqn = tc.FullyQualifiedName
-          src = tc.Source
-          file = tc.CodeFilePath
-          ln = tc.LineNumber }
-
-type SimpleTestResult = 
-    { name : string }
-    
-    member self.toTR tc = 
-        let tr = TestResult(tc)
-        tr.DisplayName <- self.name
-        tr
-    
-    static member fromTR (tr : TestResult) = { name = tr.DisplayName }
-
 let createTB p t = FakeTextBuffer(t, p) :> ITextBuffer
-let stubTR1 = { name = "Test Result #1" }
-let stubTR2 = { name = "Test Result #2" }
+let stubTR1 = { name = "Test Result #1"; outcome = TestOutcome.Passed }
+let stubTR2 = { name = "Test Result #2"; outcome = TestOutcome.Failed }
 
 let stubTC1 = 
     { fqn = "FQNTest#1"
@@ -172,15 +140,17 @@ let ``If a line does not have any SequencePoints - return empty``() =
 let ``If SequencePoint has no test covering it - return empty``() = 
     let ds, cct, nssc = createCCT2 stubSpidXTb stubSpidXLineNumber [ stubSp1 ]
     ds |> updateCoverageInfo [ stubSpid2, [] ]
-    let ts = cct.GetTags(nssc)
-    Assert.Empty(ts)
+    let ts = cct.GetTags(nssc) |> Seq.toArray
+    Assert.Equal((1, 0), (ts.Length, ts.[0].Tag.testResults |> Seq.length))
+    Assert.Equal([| |], ts.[0].Tag.testResults |> Seq.map SimpleTestResult.fromTR)
 
 [<Fact>]
 let ``If SequencePoint has no tests covering it but DataStore does have TestId and TestResult - return empty``() = 
     let ds, cct, nssc = createCCT2 stubSpidXTb stubSpidXLineNumber [ stubSp1 ]
     ds |> updateCoverageInfo [ stubSpid2, [ (stubTC1, Some stubTR1) ] ]
-    let ts = cct.GetTags(nssc)
-    Assert.Empty(ts)
+    let ts = cct.GetTags(nssc) |> Seq.toArray
+    Assert.Equal((1, 0), (ts.Length, ts.[0].Tag.testResults |> Seq.length))
+    Assert.Equal([| |], ts.[0].Tag.testResults |> Seq.map SimpleTestResult.fromTR)
     Assert.Equal([| stubTC1.toTID() |], 
                  stubSpid2
                  |> ds.GetRunIdsForTestsCoveringSequencePointId
@@ -200,7 +170,8 @@ let ``If SequencePoint has 1 TestId covering it but with 0 TestResults - return 
     let ds, cct, nssc = createCCT2 stubSpidXTb stubSpidXLineNumber [ stubSp1 ]
     ds |> updateCoverageInfo [ stubSpid1, [ (stubTC1, None) ] ]
     let ts = cct.GetTags(nssc) |> Seq.toArray
-    Assert.Empty(ts)
+    Assert.Equal((1, 0), (ts.Length, ts.[0].Tag.testResults |> Seq.length))
+    Assert.Equal([| |], ts.[0].Tag.testResults |> Seq.map SimpleTestResult.fromTR)
 
 [<Fact>]
 let ``If SequencePoint has 1 TestId covering it but with 2 TestResults - return all TestResults``() = 

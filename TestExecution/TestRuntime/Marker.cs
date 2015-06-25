@@ -12,10 +12,10 @@ namespace R4nd0mApps.TddStud10.TestRuntime
         private const string TESTRUNID_SLOTNAME = "Marker.TestRunId";
 
         private static LazyObject<Marker> instance = new LazyObject<Marker>(
-            () => new Marker(CreateChannel, () => Debugger.IsAttached, CallContext.LogicalGetData, CallContext.LogicalSetData));
+            () => new Marker(CreateChannel, Debugger.IsAttached, CallContext.LogicalGetData, CallContext.LogicalSetData));
 
         private LazyObject<ICoverageDataCollector> _channel;
-        private Func<bool> _isDebuggerAttached;
+        private bool _isDebuggerAttached;
         private Func<string, object> _ccGetData;
         private Action<string, object> _ccSetData;
 
@@ -25,7 +25,7 @@ namespace R4nd0mApps.TddStud10.TestRuntime
             set { _ccSetData(TESTRUNID_SLOTNAME, value); }
         }
 
-        public Marker(Func<ICoverageDataCollector> channelCreator, Func<bool> isDebuggerAttached, Func<string, object> ccGetData, Action<string, object> ccSetData)
+        public Marker(Func<ICoverageDataCollector> channelCreator, bool isDebuggerAttached, Func<string, object> ccGetData, Action<string, object> ccSetData)
         {
             _channel = new LazyObject<ICoverageDataCollector>(channelCreator);
             _isDebuggerAttached = isDebuggerAttached;
@@ -35,7 +35,7 @@ namespace R4nd0mApps.TddStud10.TestRuntime
 
         public void RegisterEnterSequencePoint(string assemblyId, string methodMdRid, string spId)
         {
-            if (_isDebuggerAttached())
+            if (_isDebuggerAttached)
             {
                 Logger.I.LogInfo("Marker: Ignoring call as debugger is attached.");
                 return;
@@ -51,7 +51,7 @@ namespace R4nd0mApps.TddStud10.TestRuntime
 
         public void RegisterExitUnitTest(string source, string document, string line)
         {
-            if (_isDebuggerAttached())
+            if (_isDebuggerAttached)
             {
                 Logger.I.LogInfo("Marker: Ignoring call as debugger is attached.");
                 return;

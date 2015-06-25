@@ -11,13 +11,15 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 #if DONT_COMPILE
 
 TODO:
-- Move all icons to margin 
-  - CoverageTag
-    - deal with partial line coverage
-    - Optimize Glyph factory
+  - cdc - change to dict.tryget
+  - debugger broken
+  - remove partial coverage 
+  - recursion between discover unit tests and instrumentation
   - ContextMenu
   - Tooltips
+  - How do skipped tests behave?
   - Margin needs to scale up with the editor
+
 - switches
   - run pipeline but no data collection [testhost does not look for testcases]
   - Editor tagging

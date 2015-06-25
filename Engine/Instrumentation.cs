@@ -50,34 +50,42 @@ namespace R4nd0mApps.TddStud10
 
                     var assembly = AssemblyDefinition.ReadAssembly(assemblyPath, new ReaderParameters { ReadSymbols = true });
 
-                    var sps = from mod in assembly.Modules
-                              from t in mod.GetTypes()
-                              from m in t.Methods
-                              where m.Body != null && m.Body.Instructions.Count != 0
-                              from i in m.Body.Instructions
-                              where i.SequencePoint != null
-                              where i.SequencePoint.StartLine != 0xfeefee
-                              select new { mod, m, i.SequencePoint };
-
-                    int id = 0;
-                    foreach (var sp in sps)
+                    foreach (var module in assembly.Modules)
                     {
-                        var fp = PathBuilder.rebaseCodeFilePath(rsp, FilePath.NewFilePath(sp.SequencePoint.Document.Url));
-                        var seqPts = perDocSP.GetOrAdd(fp, _ => new ConcurrentBag<R4nd0mApps.TddStud10.Common.Domain.SequencePoint>());
-
-                        seqPts.Add(new R4nd0mApps.TddStud10.Common.Domain.SequencePoint
-                        {
-                            id = new SequencePointId
+                        foreach (var type in module.Types)
+                            foreach (MethodDefinition meth in type.Methods)
                             {
-                                methodId = new MethodId(AssemblyId.NewAssemblyId(sp.mod.Mvid), MdTokenRid.NewMdTokenRid(sp.m.MetadataToken.RID)),
-                                uid = id++
-                            },
-                            document = fp,
-                            startLine = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.StartLine),
-                            startColumn = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.StartColumn),
-                            endLine = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.EndLine),
-                            endColumn = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.EndColumn),
-                        });
+                                if (meth.Body == null || meth.Body.Instructions.Count <= 0)
+                                {
+                                    continue;
+                                }
+
+                                var sps = from i in meth.Body.Instructions
+                                          where i.SequencePoint != null
+                                          where i.SequencePoint.StartLine != 0xfeefee
+                                          select new { module, meth, i.SequencePoint };
+
+                                int id = 0;
+                                foreach (var sp in sps)
+                                {
+                                    var fp = PathBuilder.rebaseCodeFilePath(rsp, FilePath.NewFilePath(sp.SequencePoint.Document.Url));
+                                    var seqPts = perDocSP.GetOrAdd(fp, _ => new ConcurrentBag<R4nd0mApps.TddStud10.Common.Domain.SequencePoint>());
+
+                                    seqPts.Add(new R4nd0mApps.TddStud10.Common.Domain.SequencePoint
+                                    {
+                                        id = new SequencePointId
+                                        {
+                                            methodId = new MethodId(AssemblyId.NewAssemblyId(sp.module.Mvid), MdTokenRid.NewMdTokenRid(sp.meth.MetadataToken.RID)),
+                                            uid = id++
+                                        },
+                                        document = fp,
+                                        startLine = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.StartLine),
+                                        startColumn = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.StartColumn),
+                                        endLine = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.EndLine),
+                                        endColumn = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.EndColumn),
+                                    });
+                                }
+                            }
                     }
                 });
 
@@ -396,8 +404,8 @@ namespace R4nd0mApps.TddStud10
             }
 
             var dl = new DocumentLocation { document = FilePath.NewFilePath(sp.Document.Url), line = DocumentCoordinate.NewDocumentCoordinate(sp.StartLine) };
-            var test = findTest(dl).FirstOrDefault(t => FilePath.NewFilePath(t.Source) == assemblyPath);
-            if (test != null)
+            var test = findTest(dl).FirstOrDefault(t => FilePath.NewFilePath(t.Source).Equals(assemblyPath));
+            if (test == null)
             {
                 return new Tuple<bool, TestId>(false, null);
             }
