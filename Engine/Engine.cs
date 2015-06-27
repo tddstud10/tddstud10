@@ -27,8 +27,9 @@ namespace R4nd0mApps.TddStud10.Engine
                 , TddStud10Runner.CreateRunStep(new RunStepInfo("Deleting Build Output".ToRSN(), RunStepKind.Build, RunStepSubKind.DeleteBuildOutput), DeleteBuildOutput)
                 , TddStud10Runner.CreateRunStep(new RunStepInfo("Building Solution Snapshot".ToRSN(), RunStepKind.Build, RunStepSubKind.BuildSnapshot), BuildSolutionSnapshot)
                 , TddStud10Runner.CreateRunStep(new RunStepInfo("Refresh Test Runtime".ToRSN(), RunStepKind.Build, RunStepSubKind.RefreshTestRuntime), RefreshTestRuntime)
-                , TddStud10Runner.CreateRunStep(new RunStepInfo("Instrument Binaries".ToRSN(), RunStepKind.Build, RunStepSubKind.InstrumentBinaries), InstrumentBinaries)
+                , TddStud10Runner.CreateRunStep(new RunStepInfo("Discover Sequence Points".ToRSN(), RunStepKind.Build, RunStepSubKind.DiscoverSequencePoints), DiscoverSequencePoints)
                 , TddStud10Runner.CreateRunStep(new RunStepInfo("Discover Unit Tests".ToRSN(), RunStepKind.Build, RunStepSubKind.DiscoverTests), DiscoverUnitTests)
+                , TddStud10Runner.CreateRunStep(new RunStepInfo("Instrument Binaries".ToRSN(), RunStepKind.Build, RunStepSubKind.InstrumentBinaries), InstrumentBinaries)
                 , TddStud10Runner.CreateRunStep(new RunStepInfo("Running Tests".ToRSN(), RunStepKind.Test, RunStepSubKind.RunTests), RunTests)
             };
         }
@@ -114,6 +115,18 @@ namespace R4nd0mApps.TddStud10.Engine
             return rss.ToRSR(RunData.NewTestRunOutput(testResults, testFailureInfo, coverageSession), output.Item2);
         }
 
+        private static RunStepResult DiscoverSequencePoints(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
+        {
+            var sequencePointStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_sequencePointStore.xml");
+            var dict = Instrumentation.GenerateSequencePointInfo(host, rsp);
+            if (dict != null)
+            {
+                dict.Serialize(FilePath.NewFilePath(sequencePointStore));
+            }
+
+            return RunStepStatus.Succeeded.ToRSR(RunData.NewSequencePoints(dict), "Binaries Instrumented - which ones - TBD");
+        }
+
         private static RunStepResult DiscoverUnitTests(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
         {
             if (!host.CanContinue())
@@ -137,7 +150,9 @@ namespace R4nd0mApps.TddStud10.Engine
                         new FSharpHandler<TestCase>(
                             (o, ea) =>
                             {
-                                var dl = new DocumentLocation { document = FilePath.NewFilePath(ea.CodeFilePath), line = DocumentCoordinate.NewDocumentCoordinate(ea.LineNumber) };
+                                var cfp = PathBuilder.rebaseCodeFilePath(rsp, FilePath.NewFilePath(ea.CodeFilePath));
+                                ea.CodeFilePath = cfp.Item;
+                                var dl = new DocumentLocation { document = cfp, line = DocumentCoordinate.NewDocumentCoordinate(ea.LineNumber) };
                                 var tests = testsPerAssembly.GetOrAdd(dl, _ => new ConcurrentBag<TestCase>());
                                 tests.Add(ea);
                             }));
@@ -154,21 +169,9 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private static RunStepResult InstrumentBinaries(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
         {
-            var sequencePointStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_sequencePointStore.xml");
-            var dict = Instrumentation.GenerateSequencePointInfo(host, rsp);
-            if (dict != null)
-            {
-                dict.Serialize(FilePath.NewFilePath(sequencePointStore));
-            }
-
-            if (!host.CanContinue())
-            {
-                throw new OperationCanceledException();
-            }
-
             Instrumentation.Instrument(host, rsp, DataStore.Instance.FindTest);
 
-            return RunStepStatus.Succeeded.ToRSR(RunData.NewSequencePoints(dict), "Binaries Instrumented - which ones - TBD");
+            return RunStepStatus.Succeeded.ToRSR(RunData.NoData, "Binaries Instrumented - which ones - TBD");
         }
 
         private static RunStepResult BuildSolutionSnapshot(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)

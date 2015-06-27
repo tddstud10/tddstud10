@@ -14,20 +14,19 @@ let generate (showCM : Action<CommandID, int, int>) ((b, gi) : Rect * MarginGlyp
         ContextMenuData.Instance.GlyphTags <- t
         showCM.Invoke(menuID, int p.X, int p.Y)
     
-    let e : Shape = 
+    let e = 
+        let p = Path()
         match gi.glyphType with
-        | TestStart -> upcast Ellipse()
+        | TestStart ->
+            p.Data <- Geometry.Parse("M 4 0 L 8 4 L 4 8 M 0 4 L 8 4")
         | FailurePoint -> 
-            let p = Path()
-            p.Data <- Geometry.Parse("M 0 0 L 8 8 L 0 10 M 0 8 L 8 0")
-            upcast p
-        | CodeCoverageFull -> upcast Rectangle()
-        | CodeCoveragePartial -> 
-            let p = Path()
-            p.Data <- Geometry.Parse("M 0 0 L 10 0 L 0 10 Z")
-            upcast p
+            p.Data <- Geometry.Parse("M 0 0 L 8 8 M 0 8 L 8 0")
+        | CodeCoverage -> 
+            p.Data <- Geometry.Parse("M 0 0 H 8 V 8 H 0 V 0")
+        p :> Shape
 
+    e.Fill <- SolidColorBrush(gi.color)
     e.Stroke <- SolidColorBrush(gi.color)
-    e.StrokeThickness <- 3.0
+    e.StrokeThickness <- 2.0
     e.MouseRightButtonUp.Add(showContextMenu gi.glyphTags e)
     b, e :> FrameworkElement

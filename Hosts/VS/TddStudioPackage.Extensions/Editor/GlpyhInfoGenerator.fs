@@ -8,7 +8,6 @@ open System.Windows.Media
 open Microsoft.VisualStudio.Text.Tagging
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open R4nd0mApps.TddStud10.Common.Domain
-open System.Collections.Generic
 
 let tryGetTags<'T when 'T : equality and 'T :> IMarginGlyphTag> = 
     Dict.tryGetValue Seq.empty id typeof<'T> >> Seq.map (fun t -> box t :?> 'T)
@@ -28,7 +27,7 @@ let generate ((b, ts) : Rect * seq<IMappingTagSpan<IMarginGlyphTag>>) =
                 |> Seq.map (fun t -> t.testResults)
                 |> Seq.collect id
             match ccts with
-            | ts when ts |> Seq.isEmpty -> Colors.Gray
+            | ts when ts |> Seq.isEmpty -> Colors.WhiteSmoke
             | ts when ts |> Seq.forall (fun t -> t.Outcome = TestOutcome.Passed) -> Colors.Green
             | _ -> Colors.Red
         
@@ -41,8 +40,7 @@ let generate ((b, ts) : Rect * seq<IMappingTagSpan<IMarginGlyphTag>>) =
                          |> tryGetTags<FailurePointTag>
                          |> Seq.isEmpty)
             then FailurePoint
-            else if color = Colors.Gray then CodeCoveragePartial
-            else CodeCoverageFull
+            else CodeCoverage
         
         Some(b, 
              { color = color

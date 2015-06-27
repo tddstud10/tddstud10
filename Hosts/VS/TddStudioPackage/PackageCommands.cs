@@ -103,29 +103,35 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             Logger.I.LogInfo("Debug Test...");
 
             var mgts = ContextMenuData.Instance.GlyphTags;
-            if (mgts.Any())
+            if (!mgts.Any())
             {
                 return;
             }
 
             var tsts = from mt in mgts
-                       let tt = mt as TestStartTag
+                       let tt = mt as CodeCoverageTag
                        where tt != null
-                       from tc in tt.testCases
-                       select tc;
+                       let x = from tc in tt.testResults
+                               select tc.TestCase
+                       select new { sp = tt.sp, tests = x.FirstOrDefault() };
 
-            var test = tsts.FirstOrDefault();
-            if (test == null)
+            if (!tsts.Any())
             {
                 return;
             }
 
-            _dte.SetBreakPoint(test.CodeFilePath, test.LineNumber);
+            var tst = tsts.First();
+            if (tst.tests == null)
+            {
+                return;
+            }
+
+            _dte.SetBreakPoint(tst.sp.document.Item, tst.sp.startLine.Item);
 
             var tpa = new PerDocumentLocationTestCases();
             var bag = new ConcurrentBag<TestCase>();
-            bag.Add(test);
-            tpa.TryAdd(new DocumentLocation { document = FilePath.NewFilePath(test.CodeFilePath), line = DocumentCoordinate.NewDocumentCoordinate(test.LineNumber) }, bag);
+            bag.Add(tst.tests);
+            tpa.TryAdd(new DocumentLocation { document = FilePath.NewFilePath(tst.tests.CodeFilePath), line = DocumentCoordinate.NewDocumentCoordinate(tst.tests.LineNumber) }, bag);
             var duts = Path.Combine(DataStore.Instance.RunStartParams.Value.solutionBuildRoot.Item, "Z_debug.xml");
             tpa.Serialize(FilePath.NewFilePath(duts));
 

@@ -220,7 +220,7 @@ namespace R4nd0mApps.TddStud10
                                 /*************************************************************************************/
                                 /*                            Inject Exit Unit Test                                  */
                                 /*************************************************************************************/
-                                var ret = IsSequencePointAtStartOfAUnitTest(spi.Select(i => i.SequencePoint).FirstOrDefault(), FilePath.NewFilePath(assemblyPath), findTest);
+                                var ret = IsSequencePointAtStartOfAUnitTest(rsp, spi.Select(i => i.SequencePoint).FirstOrDefault(), FilePath.NewFilePath(assemblyPath), findTest);
                                 if (ret.Item1)
                                 {
                                     if (!meth.IsConstructor && meth.ReturnType == module.TypeSystem.Void && !meth.IsAsync())
@@ -396,14 +396,14 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        private static Tuple<bool, TestId> IsSequencePointAtStartOfAUnitTest(Mono.Cecil.Cil.SequencePoint sp, FilePath assemblyPath, Func<DocumentLocation, IEnumerable<TestCase>> findTest)
+        private static Tuple<bool, TestId> IsSequencePointAtStartOfAUnitTest(RunStartParams rsp, Mono.Cecil.Cil.SequencePoint sp, FilePath assemblyPath, Func<DocumentLocation, IEnumerable<TestCase>> findTest)
         {
             if (sp == null)
             {
                 return new Tuple<bool, TestId>(false, null);
             }
 
-            var dl = new DocumentLocation { document = FilePath.NewFilePath(sp.Document.Url), line = DocumentCoordinate.NewDocumentCoordinate(sp.StartLine) };
+            var dl = new DocumentLocation { document = PathBuilder.rebaseCodeFilePath(rsp, FilePath.NewFilePath(sp.Document.Url)), line = DocumentCoordinate.NewDocumentCoordinate(sp.StartLine) };
             var test = findTest(dl).FirstOrDefault(t => FilePath.NewFilePath(t.Source).Equals(assemblyPath));
             if (test == null)
             {

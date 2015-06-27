@@ -114,6 +114,7 @@ type RunStepSubKind =
     | DeleteBuildOutput
     | BuildSnapshot
     | RefreshTestRuntime
+    | DiscoverSequencePoints
     | DiscoverTests
     | InstrumentBinaries
     | RunTests

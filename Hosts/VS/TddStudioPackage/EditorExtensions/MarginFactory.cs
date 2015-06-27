@@ -11,15 +11,14 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 #if DONT_COMPILE
 
 TODO:
-  - cdc - change to dict.tryget
-  - debugger broken
-  - remove partial coverage 
-  - recursion between discover unit tests and instrumentation
+  - icon is misbehaving - says B even when red color appears in the markers
+  - <deploy>
+  - Margin needs to scale up with the editor
+  - Instrumentation - inserts after jumps - so marker gets ignored
+    - createCoverageData doesnt show coverage information - entersp markers are not injected looks like
   - ContextMenu
   - Tooltips
   - How do skipped tests behave?
-  - Margin needs to scale up with the editor
-
 - switches
   - run pipeline but no data collection [testhost does not look for testcases]
   - Editor tagging
@@ -27,11 +26,9 @@ TODO:
   - merging data vs no-merging data
   - disable == all
   - Do we need async tagger?
-- merge + clear data?
-- createCoverageData doesnt show coverage information - entersp markers are not injected looks like
 - <deploy>
 - Blockers
-  - Merge data
+  - Merge data + clear data
 - Kata Videos
 - Disable/Enable for project
 - <release>

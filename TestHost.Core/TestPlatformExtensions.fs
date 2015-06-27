@@ -26,71 +26,71 @@ let loadTestAdapter() =
 
 let createDiscoveryContext() = 
     { new IDiscoveryContext with
-          member x.RunSettings : IRunSettings = 
+          member __.RunSettings : IRunSettings = 
               Logger.logErrorf "TestPlatform: RunSettings call was unexpected"
               failwith "Not implemented yet" }
 
 let createMessageLogger() = 
     { new IMessageLogger with
-          member x.SendMessage(testMessageLevel : TestMessageLevel, message : string) : unit =
+          member __.SendMessage(testMessageLevel : TestMessageLevel, message : string) : unit =
               Logger.logErrorf "TestPlatform: SendMessage call was unexpected : [%O] %s" testMessageLevel message }
 
 let createDiscoverySink td = 
     { new ITestCaseDiscoverySink with
-          member x.SendTestCase(discoveredTest : TestCase) : unit = td (discoveredTest) }
+          member __.SendTestCase(discoveredTest : TestCase) : unit = td (discoveredTest) }
 
 let createRunContext() = 
     { new IRunContext with
           
-          member x.GetTestCaseFilter(supportedProperties : IEnumerable<string>, 
-                                     propertyProvider : Func<string, TestProperty>) : ITestCaseFilterExpression = 
+          member __.GetTestCaseFilter(_ : IEnumerable<string>, 
+                                      _ : Func<string, TestProperty>) : ITestCaseFilterExpression = 
               Logger.logErrorf "TestPlatform: GetTestCaseFilter call was unexpected"
               null
           
-          member x.InIsolation : bool = 
+          member __.InIsolation : bool = 
               Logger.logErrorf "TestPlatform: InIsolation call was unexpected"
               false
           
-          member x.IsBeingDebugged : bool = 
+          member __.IsBeingDebugged : bool = 
               Logger.logErrorf "TestPlatform: IsBeingDebugged call was unexpected"
               false
           
-          member x.IsDataCollectionEnabled : bool = 
+          member __.IsDataCollectionEnabled : bool = 
               Logger.logErrorf "TestPlatform: IsDataCollectionEnabled call was unexpected"
               false
           
-          member x.KeepAlive : bool = 
+          member __.KeepAlive : bool = 
               Logger.logErrorf "TestPlatform: KeepAlive call was unexpected"
               false
           
-          member x.RunSettings : IRunSettings = 
+          member __.RunSettings : IRunSettings = 
               Logger.logErrorf "TestPlatform: RunSettings call was unexpected"
               null
           
-          member x.SolutionDirectory : string = 
+          member __.SolutionDirectory : string = 
               Logger.logErrorf "TestPlatform: SolutionDirectory call was unexpected"
               null
           
-          member x.TestRunDirectory : string = 
+          member __.TestRunDirectory : string = 
               Logger.logErrorf "TestPlatform: TestRunDirectory call was unexpected"
               null }
 
 let createFrameworkHandle te = 
     { new IFrameworkHandle with
           
-          member x.EnableShutdownAfterTestRun 
+          member __.EnableShutdownAfterTestRun 
               with get () = true : bool
-              and set (v : bool) = () : unit
+              and set (_ : bool) = () : unit
           
-          member x.LaunchProcessWithDebuggerAttached(filePath : string, workingDirectory : string, arguments : string, 
-                                                     environmentVariables : IDictionary<string, string>) : int = 
+          member __.LaunchProcessWithDebuggerAttached(_ : string, _ : string, _ : string, 
+                                                      _ : IDictionary<string, string>) : int = 
               Logger.logErrorf "TestPlatform: LaunchProcessWithDebuggerAttached call was unexpected"
               0
           
-          member x.RecordAttachments(attachmentSets : IList<AttachmentSet>) : unit = 
+          member __.RecordAttachments(_ : IList<AttachmentSet>) : unit = 
               Logger.logErrorf "TestPlatform: RecordAttachments call was unexpected"
-          member x.RecordEnd(testCase : TestCase, outcome : TestOutcome) : unit = ()
-          member x.RecordResult(testResult : TestResult) : unit = te (testResult)
-          member x.RecordStart(testCase : TestCase) : unit = ()
-          member x.SendMessage(testMessageLevel : TestMessageLevel, message : string) : unit = 
+          member __.RecordEnd(_ : TestCase, _ : TestOutcome) : unit = ()
+          member __.RecordResult(testResult : TestResult) : unit = te (testResult)
+          member __.RecordStart(_ : TestCase) : unit = ()
+          member __.SendMessage(testMessageLevel : TestMessageLevel, message : string) : unit = 
               Logger.logErrorf "TestPlatform: SendMessage call was unexpected : [%O] %s" testMessageLevel message }

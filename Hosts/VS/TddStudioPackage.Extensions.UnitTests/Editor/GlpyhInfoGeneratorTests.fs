@@ -109,7 +109,19 @@ let ``Color test - 1 TST 1 FPT 0 CCT - return White and all GlyphTags``() =
     
     let it = (Rect(), ts) |> GlyphInfoGenerator.generate
     Assert.Equal(Rect(), it |> Option.map (fun (r, _) -> r))
-    Assert.Equal(Colors.Gray, it |> Option.map (fun (_, i) -> i.color))
+    Assert.Equal(Colors.WhiteSmoke, it |> Option.map (fun (_, i) -> i.color))
+    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.glyphTags |> Seq.toList))
+
+[<Fact>]
+let ``Color test - 1 TST 1 FPT 1 CCTx - return White and all GlyphTags``() = 
+    let ts = 
+        [ newTST stubTC1
+          newFPT stubTR2f
+          newCCT [] ]
+    
+    let it = (Rect(), ts) |> GlyphInfoGenerator.generate
+    Assert.Equal(Rect(), it |> Option.map (fun (r, _) -> r))
+    Assert.Equal(Colors.WhiteSmoke, it |> Option.map (fun (_, i) -> i.color))
     Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.glyphTags |> Seq.toList))
 
 [<Fact>]
@@ -145,13 +157,13 @@ let ``GlyphType test - 1 CCTp 1 CCTf - return CCf and all GlyphTags``() =
     
     let it = (Rect(), ts) |> GlyphInfoGenerator.generate
     Assert.Equal(Rect(), it |> Option.map (fun (r, _) -> r))
-    Assert.Equal(CodeCoverageFull, it |> Option.map (fun (_, i) -> i.glyphType))
+    Assert.Equal(CodeCoverage, it |> Option.map (fun (_, i) -> i.glyphType))
     Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.glyphTags |> Seq.toList))
 
 [<Fact>]
-let ``GlyphType test - 1 CCTx - return CCp and all GlyphTags``() = 
+let ``GlyphType test - 1 CCTx - return CC and all GlyphTags``() = 
     let ts = [ newCCT [] ]
     let it = (Rect(), ts) |> GlyphInfoGenerator.generate
     Assert.Equal(Rect(), it |> Option.map (fun (r, _) -> r))
-    Assert.Equal(CodeCoveragePartial, it |> Option.map (fun (_, i) -> i.glyphType))
+    Assert.Equal(CodeCoverage, it |> Option.map (fun (_, i) -> i.glyphType))
     Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.glyphTags |> Seq.toList))
