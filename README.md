@@ -137,25 +137,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
     - ☐ xunit 1.9 tests when mixed with xunit 2.0 projects (in same solution) doesn't execute
   - ☐☐ Visual Feedback & User Experience
       - ☐ The icon - needs to say grey - when we are not sure...
-      - ☐ 3 stage update of markers [a] dim the greens once out of date [b] new code should be uncovered to start with [c] update coverage
-      - ☐ as and when seq points are detected, update them in the IDE
       - ☐ streaming update - as a test gets over, its coverage is updated
       - ☐ progress of individual steps
       - ☐ true cancellation semantics
         - ☐ Cancellation token can be passed to rundata 
       - ☐ Bring back partial covered lines
-      - ☐ Editor discrepancies
-        - ☐ first time markers are not gettign shown - on scroll up and then down, they get shown
-        - ☐ [permanent fix] Editor crashes as unit test name doesnt ge registered sometime through Maker
-        - ☐ markers are getting created on the fly adn a new line is added
-        - ☐ Defects: If last line doenst have a newline - 
-            at Microsoft.VisualStudio.Text.SnapshotSpan..ctor(ITextSnapshot snapshot, Span span)
-            at R4nd0mApps.TddStud10.Hosts.VS.Helper.TextViewCoverageProviderBase.AddWordSpan(List`1 wordSpans, ITextSnapshot snapshot, Int32 startColumn, Int32 totalCharacters, CovData covered) in d:\src\r4nd0mapps\tddstud10\Hosts\VS\TddStudioPackage\EditorExtensions\TextViewCoverageProviderBase.cs:line 159
-            at R4nd0mApps.TddStud10.Hosts.VS.Helper.TextViewCoverageProviderBase.GetWordSpans(ITextSnapshot snapshot) in d:\src\r4nd0mapps\tddstud10\Hosts\VS\TddStudioPackage\EditorExtensions\TextViewCoverageProviderBase.cs:line 206
     - ☐ Toolwindow
-          - ☐ write errors in toolwindow, clean for every session
-          - ☐ click on the status icon should open the toolwindow
-          - ☐ Messages from the test adapter should come up in the tool window
+      - ☐ write errors in toolwindow, clean for every session
+      - ☐ click on the status icon should open the toolwindow
+     - ☐ Messages from the test adapter should come up in the tool window
   - ☐☐ Release blockers
     - ☐ snk/signing problem
     - ☐ without solution items snapshoting fails
@@ -205,26 +195,49 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
     - ☐ *hotspot
 
 # Acceptance Tests
-  - ☐ Help About - icon, version, name
-  - ☐ Extensions and Updates - icon, version, name
-  - ☐ Glyph & Tooltip
-    - ☐ no lines on open
-    - ☐ unit test markers appear mid-way through build 
-    - ☐ green lines on build
-    - ☐ red lines on test failure
-    - ☐ grey lines on no test coverage
-    - ☐ tooltip
-    - ☐ red lines on theory failure
-    - ☐ green line on build
-    - ☐ tooltip
-  - ☐ Notification Icon
-    - ☐ status icon on build failure
-    - ☐ status icon on test failure
-    - ☐ ? status icon on both
-    - ☐ status icon on close project
-  - ☐ Unit tests markers appear
-    - ☐ Right click in design-mode -> breakpoint is inserted -> bp is hit
-    - ☐ Right click in debug-mode -> Empty context menu appears
+  - Help About - icon, version, name
+  - Extensions and Updates - icon, version, name
+  - Notification Icon
+    - status icon on build failure
+    - status icon on test failure
+    - ? status icon on both
+    - status icon on close project
+  - Test Start Markers
+    - Glyph
+      - No lines on project open
+      - White marker appear mid-way during build
+      - Green markers for passing tests
+      - Red for failing tests
+      - Red for failing theories
+      - Green for making the tests pass again
+    - Context Menu
+      - Right click in design-mode -> breakpoint is inserted -> bp is hit
+      - Right click in debug-mode -> Empty context menu appears
+    - Tooltip
+    - Mouse
+  - Failure Point Markers
+    - Glyph
+      - No lines on project open
+      - Red marker appear for point of throw
+      - Red marker appear for caller of point of throw
+      - Goes away when the throw is fixed
+    - Context Menu
+    - Tooltip
+    - Mouse
+  - Code Coverage Markers
+    - Glyph
+      - No lines on project open
+      - White markers appear mid-way during build
+      - All green for passing tests
+      - Red for code impacted by failing tests
+      - Red for code impacted by failing theories
+      - Green lines on making the tests pass
+      - White for uncovered lines
+    - Context Menu
+      - Right click in design-mode -> breakpoint is inserted -> bp is hit
+      - Right click in debug-mode -> Empty context menu appears
+    - Tooltip
+    - Mouse
 
 # Miscellenous notes
 
