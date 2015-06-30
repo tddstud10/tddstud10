@@ -12,12 +12,15 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
 
         private FakeTextSnapshot _textSnapshot;
 
+        private double _zoomLevel;
+
         private FakeWpfTextViewLineCollection _textViewLineCollection;
 
-        public FakeWpfTextView(Point vpLocation, double lineHeight, string text)
+        public FakeWpfTextView(Point vpLocation, double lineHeight, double zoomLevel, string text)
         {
             _vpLocation = vpLocation;
             _textSnapshot = new FakeTextSnapshot(null, text);
+            _zoomLevel = zoomLevel;
             _textViewLineCollection = new FakeWpfTextViewLineCollection(
                 _textSnapshot.FakeTextSnapshotLines
                 .Aggregate(
@@ -90,7 +93,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
         {
             get
             {
-                throw new System.NotImplementedException();
+                return _zoomLevel;
             }
             set
             {
@@ -98,11 +101,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
             }
         }
 
-        public event System.EventHandler<ZoomLevelChangedEventArgs> ZoomLevelChanged
-        {
-            add { throw new System.NotImplementedException(); }
-            remove { throw new System.NotImplementedException(); }
-        }
+        public event System.EventHandler<ZoomLevelChangedEventArgs> ZoomLevelChanged;
 
         #endregion
 
@@ -335,6 +334,15 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.TestCode
         public void FireLayoutChangedEvent()
         {
             var handler = LayoutChanged;
+            if (handler != null)
+            {
+                handler(this, null);
+            }
+        }
+
+        public void FireZoomLevelChangedEvent()
+        {
+            var handler = ZoomLevelChanged;
             if (handler != null)
             {
                 handler(this, null);

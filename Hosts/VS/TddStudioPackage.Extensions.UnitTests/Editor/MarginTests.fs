@@ -7,8 +7,10 @@ open System
 open System.Windows
 open R4nd0mApps.TddStud10.Common.TestFramework
 
+let zl = 1.1
+
 let createMargin2 p t = 
-    let tv = FakeWpfTextView(p, 0.0, t)
+    let tv = FakeWpfTextView(p, 0.0, zl, t)
     let ta = new FakeTagAggregator<_>()
     let s = CallSpy1<_>()
     let m = new Margin(tv, ta, null, s.Func, (fun () -> Double.MaxValue), (fun () -> null))
@@ -42,6 +44,13 @@ let ``Painter is called on LayoutChanged event``() =
     let loc = Point(Double.MinValue, Double.MaxValue)
     let _, tv, _, s = createMargin2 loc ""
     tv.FireLayoutChangedEvent()
+    Assert.True(s.CalledWith |> Option.exists (fun (p, ls) -> p.Equals(box loc) && ls.Equals(tv.TextViewLines)))
+
+[<Fact>]
+let ``Painter is called on ZoomLevelChanged event``() = 
+    let loc = Point(Double.MinValue, Double.MaxValue)
+    let _, tv, _, s = createMargin2 loc ""
+    tv.FireZoomLevelChangedEvent()
     Assert.True(s.CalledWith |> Option.exists (fun (p, ls) -> p.Equals(box loc) && ls.Equals(tv.TextViewLines)))
 
 [<Fact>]

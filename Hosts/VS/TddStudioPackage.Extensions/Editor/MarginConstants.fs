@@ -6,3 +6,6 @@ module MarginConstants =
     
     [<Literal>]
     let Width = 10.0
+    
+    [<Literal>]
+    let GlyphWidthMarginWidthRatio = 0.8

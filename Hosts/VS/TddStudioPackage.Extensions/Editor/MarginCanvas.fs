@@ -5,11 +5,10 @@ open System.Windows
 
 // NOTE: This class should not contain any business other than the l/t/w/h set + seq -> UIElementCollction copy.
 // Hence this class is not covered by unit tests  
-type MarginCanvas() as self = 
+type MarginCanvas(getZL) as self = 
     inherit Canvas()
     
     do 
-        self.Width <- MarginConstants.Width
         self.ClipToBounds <- true
     
     member public self.Refresh(newChildren : (Rect * FrameworkElement) seq) = 
@@ -21,6 +20,7 @@ type MarginCanvas() as self =
             acc.Add(e) |> ignore
             acc
         self.Children.Clear()
+        self.Width <- MarginConstants.Width * getZL()
         newChildren
         |> Seq.fold addChild self.Children
         |> ignore

@@ -19,14 +19,15 @@ type Margin(textView : IWpfTextView, mgta : ITagAggregator<_>, __, painter, getM
     
     let lcSub = textView.LayoutChanged.Subscribe(fun _ -> paintGlyphs())
     let tcSub = mgta.TagsChanged.Subscribe(fun _ -> paintGlyphs())
-
+    let zlcSub = textView.ZoomLevelChanged.Subscribe(fun _ -> paintGlyphs())
     new(textView : IWpfTextView, mgta : ITagAggregator<_>, showCM) = 
         (* NOTE: Pure wireup code in this constructor. Hence not tested. *)
-        let canvas = MarginCanvas()
-        let f1 = GlpyhBoundsGenerator.generate
+        let getZL = fun() -> textView.ZoomLevel / 100.0
+        let canvas = MarginCanvas(getZL)
+        let f1 = GlpyhBoundsGenerator.generate getZL
         let f2 = Seq.map (fun (b, (l : ITextViewLine)) -> b, l.Extent |> mgta.GetTags)
         let f3 = Seq.choose GlyphInfoGenerator.generate
-        let f4 = Seq.map (GlyphGenerator.generate showCM)
+        let f4 = Seq.map (GlyphGenerator.generate showCM getZL)
         let f5 = canvas.Refresh 
         new Margin(textView, mgta, showCM,
             f1 >> f2 >> f3 >> f4 >> f5,
@@ -38,6 +39,7 @@ type Margin(textView : IWpfTextView, mgta : ITagAggregator<_>, __, painter, getM
             if (disposing) then 
                 lcSub.Dispose()
                 tcSub.Dispose()
+                zlcSub.Dispose()
             disposed <- true
     
     interface IDisposable with
