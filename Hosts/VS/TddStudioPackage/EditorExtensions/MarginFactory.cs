@@ -24,7 +24,6 @@ TODO:
     - Merging data vs No-merging data
     - Toolwindow
 - <deploy>
-- Margin needs to scale up with the editor
 - ContextMenu
   - All: Mouse over to hand
   - All: Run Covering tests under debugger

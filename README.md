@@ -210,6 +210,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
       - Red for failing tests
       - Red for failing theories
       - Green for making the tests pass again
+      - Zoom at 400 and back
     - Context Menu
       - Right click in design-mode -> breakpoint is inserted -> bp is hit
       - Right click in debug-mode -> Empty context menu appears
@@ -221,6 +222,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
       - Red marker appear for point of throw
       - Red marker appear for caller of point of throw
       - Goes away when the throw is fixed
+      - Zoom back to 70 and back
     - Context Menu
     - Tooltip
     - Mouse
