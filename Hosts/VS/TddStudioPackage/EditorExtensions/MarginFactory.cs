@@ -11,7 +11,12 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
 #if DONT_COMPILE
 
 TODO:
+- Incremental Pipeline
 - <deploy>
+- Disable/Enable for project
+  - remember across solution loads
+  - disable tdd should show '?' in the status bar
+  - clear & disable editor extensions
 - switches
   - Core Idea: Remove a piece selectively w.r.t. CPU/Memory impact
   - Parts
@@ -41,15 +46,11 @@ TODO:
 - solution folder
 - IN_TDDSTUDIO + move tddstudio
 - Merge data [when to clear data]
-- Disable/Enable for project
-  - disable tdd should show '?' in the status bar
-  - clear & disable editor extensions
 - Instrumentation - inserts after jumps - so marker gets ignored
   - createCoverageData doesnt show coverage information - entersp markers are not injected looks like
 - <deploy>
 - Kata Videos
 - <release>
-- Per test workflow
 - Toolwindow + Click on Notification Icon
 - Engine events wire up 
   - Custom Trigger mechanism with 3 goals: exception in one handler should not affect the others
@@ -58,10 +59,14 @@ TODO:
   - Get methods to attach from outside - dont expose events.
   - EngineHost, RunState, DataStore, ConsoleApp, [TBD:ToolWindow], etc.
 - Perf Ideas
+  - Out of process engine, build and test hosts
   - fail gracefully on large projects
   - vsvim, xunit
   - Move to async tagging
-  - Do we need async tagger?
+  - Taggers
+    - Filter on empty, non-code
+    - Do we need async tagger?
+  - Dont react to changes lines without code
 - Breakpoint - remove on debug stop, dont/add-remove if breakpoint already present
 
 ==================

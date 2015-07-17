@@ -110,26 +110,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
     - ☑ version number update - 3 places
     - ☑ perf [a] tests, discovery, sequence points in parallel [b] prevert rediscvoery during execution
   - ☐ v0.3.4 - Test Host design online
-    - ☐ version number update - 3 places
+    - ☑ version number update - 3 places
     - ☐ UI Markers
-      - ☐ seperate margin in editor for TDD Studio
-      - ☐ Establish realtime wire up for discovered tests
-      - ☐ Mark unit tests in the editor
-      - ☐ What is the exception thrown and the point of faiure?
+      - ☑ seperate margin in editor for TDD Studio
+      - ☑ Establish realtime wire up for discovered tests
+      - ☑ Mark unit tests in the editor
+      - ☑ What is the exception thrown and the point of faiure?
       - ☐ Show test details for each covered lines
-    - ☐ SxS compare with NCrunch on [a] test completion times [b] behavior of dots for 3 projects [c] for 2 large projects
-      - ☐ Test discover failure with incorrect memberdata name - what happens?
+    - ☐ SxS compare with NCrunch on 
+        - ☑ test completion times 
+        - ☑ behavior of dots for 3 projects 
+        - ☐ for 2 large projects
     - ☐ Debug
-      - ☐ Test host can run individual tests
-      - ☐ debug test is needed - right click on one of the green, set bp, launch db
-        - ☐ for test failures
-        - ☐ and for comparing the coverage
+      - ☑ Test host can run individual tests
+      - ☑ debug test is needed - right click on one of the green, set bp, launch db
+        - ☑ for test failures
+        - ☑ and for comparing the coverage
     - ☐ Host in out-of-proc WCF server
       - ☐ WCF server, launch, communicate
       - ☐ Move data carriers to common assembly
       - ☐ Spew z_ files for diagnostics
-    - ☐ Ideas: make the stages assembly parallel 
-      - ☐ Run pipeline assembly by assembly
     - ☐ fix fsunit
     - ☐ Send test execution status to toolwindow
   - ☐☐ FxCop, StyleCop, FSharpLint and AppVeyor
@@ -153,7 +153,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
     - ☐ accurate snapshotting
     - ☐ incremental copy of files [chutzpah has solved this]
     - ☐ incremental build
-    - ☐ engine is always getting rebuilt
     - ☐ instrumentation 
       - ☐ [a] cannot crash [b] report as warnings [c] restore assembly
       - ☐ [permanent fix] Strong name fails
@@ -177,7 +176,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
     - ☐ support vs2010/vs2011
   - ☐ v0.9 - beta
     - ☐ version number update - 3 places
-    - ☐ support matrix - ☐ should be from 2010 ideally
+    - ☐ support matrix - should be from 2010 ideally
     - ☐ video tutorial with 3 katas
     - ☐ telemetry
     - ☐ support multiple vs/clr versions

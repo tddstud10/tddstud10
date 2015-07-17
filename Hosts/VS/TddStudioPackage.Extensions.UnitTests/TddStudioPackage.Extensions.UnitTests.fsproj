@@ -77,9 +77,15 @@
     <Compile Include="Editor\GlpyhBoundsGeneratorTests.fs" />
     <Compile Include="Editor\GlpyhInfoGeneratorTests.fs" />
     <Compile Include="Editor\MarginTests.fs" />
+    <Compile Include="Workspace\SolutionEventsListenerTests.fs" />
+    <Compile Include="Workspace\ProjectEventsListenerTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Foq">
+      <HintPath>..\..\..\packages\Foq.1.7\Lib\net45\Foq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
       <HintPath>..\..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.0.26\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
       <Private>True</Private>

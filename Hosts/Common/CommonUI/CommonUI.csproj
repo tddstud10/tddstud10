@@ -58,6 +58,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Shell.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.Text.Data, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Text.Logic, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.VisualStudio.Text.UI, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -98,6 +103,7 @@
     <Compile Include="TestCode\FakeTextDocument.cs" />
     <Compile Include="TestCode\FakeTextSnapshot.cs" />
     <Compile Include="TestCode\FakeTextSnapshotLine.cs" />
+    <Compile Include="TestCode\SpyVsTrackProjectDocuments2.cs" />
     <Compile Include="TestCode\FakeWpfTextViewLine.cs" />
     <Compile Include="TestCode\FakeWpfTextView.cs" />
   </ItemGroup>
@@ -111,10 +117,6 @@
     <ProjectReference Include="..\..\..\Common\Domain\Domain.fsproj">
       <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
       <Name>Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Engine.Core\Engine.Core.fsproj">
-      <Project>{e5fb2292-1833-4c4c-800e-a31ac891a931}</Project>
-      <Name>Engine.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

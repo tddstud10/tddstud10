@@ -71,6 +71,7 @@
     <Compile Include="PerSequencePointIdTestRunId.fs" />
     <Compile Include="RunDomain.fs" />
     <Compile Include="IDataStore.fs" />
+    <Compile Include="WorkspaceDomain.fs" />
     <Compile Include="Code\PathBuilder.fs" />
     <Compile Include="Code\CollectionExtensions.fs" />
     <Compile Include="Code\DomainExtensions.fs" />
