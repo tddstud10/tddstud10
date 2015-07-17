@@ -1,22 +1,22 @@
 using System;
 using System.Runtime.InteropServices;
-
+using System.Windows.Controls;
 using MsVsShell = Microsoft.VisualStudio.Shell;
 
 namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow
 {
     [Guid("F0E1E9A1-9860-484d-AD5D-367D79AABF55")]
-    class DynamicWindowPane : MsVsShell.ToolWindowPane
+    class WorkspacePane : MsVsShell.ToolWindowPane
     {
-        private DynamicWindowWPFControl control = null;
+        private Control control = null;
 
-        public DynamicWindowPane()
+        public WorkspacePane()
             : base(null)
         {
             this.BitmapResourceID = 301;
             this.BitmapIndex = 1;
 
-            control = new DynamicWindowWPFControl();
+            control = new WorkspacePaneControl();
             this.Content = control;
         }
 

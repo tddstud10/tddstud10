@@ -7,7 +7,7 @@ using MsVsShell = Microsoft.VisualStudio.Shell;
 
 namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow
 {
-    [MsVsShell.ProvideToolWindow(typeof(DynamicWindowPane), Style = MsVsShell.VsDockStyle.Tabbed, Window = "3ae79031-e1bc-11d0-8f78-00a0c9110057")]
+    [MsVsShell.ProvideToolWindow(typeof(WorkspacePane), Style = MsVsShell.VsDockStyle.Tabbed, Window = "3ae79031-e1bc-11d0-8f78-00a0c9110057")]
     [MsVsShell.ProvideMenuResource(1000, 1)]
     [MsVsShell.PackageRegistration(UseManagedResourcesOnly = true)]
     [Guid("01069CDD-95CE-4620-AC21-DDFF6C57F012")]
@@ -58,7 +58,7 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow
 
         private void ShowDynamicWindow(object sender, EventArgs arguments)
         {
-            MsVsShell.ToolWindowPane pane = this.FindToolWindow(typeof(DynamicWindowPane), 0, true);
+            MsVsShell.ToolWindowPane pane = this.FindToolWindow(typeof(WorkspacePane), 0, true);
             if (pane == null)
             {
                 throw new COMException(this.GetResourceString("@101"));
