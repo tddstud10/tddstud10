@@ -94,7 +94,6 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="WindowStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">
