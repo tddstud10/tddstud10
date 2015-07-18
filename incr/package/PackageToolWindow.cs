@@ -5,6 +5,33 @@ using Microsoft.VisualStudio.Shell.Interop;
 using ErrorHandler = Microsoft.VisualStudio.ErrorHandler;
 using MsVsShell = Microsoft.VisualStudio.Shell;
 
+#if DONT_COMPILE
+
+v Stub ViewModel
+  v States
+  v TV, TB, Button
+
+- Initialize
+  - Solution Event Listener
+    - Solution Load
+    - Disable/Enable Button
+  - Pull Workspace
+
+- Incremental Changes
+  - Solution Event Listener
+  - Project Event Listener
+  - File Event Listener
+  - TextView Event Listener
+
+- Remaining Pipeline
+  - TB Update should come from pipeline
+  - ?Merge Events
+  - Copy workspace
+  - Reference Files
+  - Additional Files
+
+#endif
+
 namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow
 {
     [MsVsShell.ProvideToolWindow(typeof(WorkspacePane), Style = MsVsShell.VsDockStyle.Tabbed, Window = "3ae79031-e1bc-11d0-8f78-00a0c9110057")]

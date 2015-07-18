@@ -137,6 +137,10 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Resources\WorkspacePaneControlResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WorkspacePaneControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

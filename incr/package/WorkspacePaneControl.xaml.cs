@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow
 {
@@ -20,6 +9,14 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow
     /// </summary>
     public partial class WorkspacePaneControl : UserControl
     {
+        static WorkspacePaneControl()
+        {
+            Application.Current.Resources.MergedDictionaries.Add(
+                Application.LoadComponent(
+                    new Uri("ToolWindow;component/Resources/WorkspacePaneControlResourceDictionary.xaml",
+                    UriKind.Relative)) as ResourceDictionary);
+        }
+
         public WorkspacePaneControl()
         {
             InitializeComponent();

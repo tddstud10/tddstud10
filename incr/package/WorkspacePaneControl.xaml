@@ -5,9 +5,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:vm="clr-namespace:Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             DataContext="{Binding Path=Main, Source={StaticResource Locator}}">
+
   <UserControl.Resources>
     <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
+    <HierarchicalDataTemplate ItemsSource="{Binding Courses}" DataType="{x:Type vm:Department}">
+      <Label Content="{Binding DepartmentName}"/>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate ItemsSource="{Binding Books}" DataType="{x:Type vm:Course}">
+      <Label Content="{Binding CourseName}"/>
+    </HierarchicalDataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:Book}">
+      <Label Content="{Binding BookName}"/>
+    </DataTemplate>
   </UserControl.Resources>
 
   <Grid>
@@ -16,9 +29,38 @@
       <RowDefinition Height="50*"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <TextBox HorizontalAlignment="Stretch" Margin="1,1,1,1" Grid.Row="1" VerticalAlignment="Stretch" AcceptsReturn="True" IsReadOnly="True" />
-    <TreeView HorizontalAlignment="Stretch" Margin="1,1,1,1" VerticalAlignment="Stretch" />
-    <Button Content="Reset" Margin="1,1,1,1" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Width="75"/>
+    <TreeView 
+      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+      Margin="1,1,1,1" 
+      ItemsSource="{Binding Mode=OneWay, Path=Departments}"
+    />
+    <TextBox 
+      Grid.Row="1" 
+      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+      Margin="1,1,1,1" 
+      AcceptsReturn="True" IsReadOnly="True"
+      Text="{Binding Mode=OneWay, Path=EventLog}"
+    />
+    <Button 
+      Grid.Row="2" 
+      HorizontalAlignment="Center" VerticalAlignment="Center" 
+      Margin="1,1,1,1" 
+      Width="75"
+      Command="{Binding EnableDisableWorkspace}" 
+    >
+      <Button.Style>
+        <Style TargetType="Button">
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=State}" Value="Initialized">
+              <Setter Property="Content" Value="Disable" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=State}" Value="Uninitialized">
+              <Setter Property="Content" Value="Enable" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </Button.Style>
+    </Button>
 
   </Grid>
 </UserControl>
