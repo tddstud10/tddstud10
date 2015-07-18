@@ -13,7 +13,7 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow
         {
             Application.Current.Resources.MergedDictionaries.Add(
                 Application.LoadComponent(
-                    new Uri("ToolWindow;component/Resources/WorkspacePaneControlResourceDictionary.xaml",
+                    new Uri("ToolWindow;component/Resources/WorkspacePaneControl.xaml",
                     UriKind.Relative)) as ResourceDictionary);
         }
 

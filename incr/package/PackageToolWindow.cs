@@ -10,12 +10,17 @@ using MsVsShell = Microsoft.VisualStudio.Shell;
 v Stub ViewModel
   v States
   v TV, TB, Button
+  v Tristate
+  v TV vs WaterMark in other states
 
 - Initialize
   - Solution Event Listener
     - Solution Load
     - Disable/Enable Button
   - Pull Workspace
+  - Projec Build Order
+
+- TreeView Style
 
 - Incremental Changes
   - Solution Event Listener
