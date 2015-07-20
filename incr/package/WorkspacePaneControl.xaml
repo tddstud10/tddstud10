@@ -13,17 +13,19 @@
   <UserControl.Resources>
     <ResourceDictionary>
       <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
-      <HierarchicalDataTemplate ItemsSource="{Binding Courses}" DataType="{x:Type vm:Department}">
-        <Label Content="{Binding DepartmentName}"/>
+
+      <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type vm:Project}">
+        <TextBlock Text="{Binding Name}"/>
       </HierarchicalDataTemplate>
 
-      <HierarchicalDataTemplate ItemsSource="{Binding Books}" DataType="{x:Type vm:Course}">
-        <Label Content="{Binding CourseName}"/>
-      </HierarchicalDataTemplate>
+      <!--<HierarchicalDataTemplate ItemsSource="{Binding ProjectItems}" DataType="{x:Type vm:Project}">
+        <TextBlock Text="{Binding Name}"/>
+      </HierarchicalDataTemplate>-->
 
-      <DataTemplate DataType="{x:Type vm:Book}">
-        <Label Content="{Binding BookName}"/>
+      <DataTemplate DataType="{x:Type vm:ProjectItem}">
+        <TextBlock Text="{Binding Name}"/>
       </DataTemplate>
+
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Style/TreeViewStyle.xaml"></ResourceDictionary>
       </ResourceDictionary.MergedDictionaries>
@@ -59,8 +61,13 @@
     <TreeView 
       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
       Margin="1,1,1,1"
-      ItemsSource="{Binding Mode=OneWay, Path=Workspace.Departments}"
+      ItemsSource="{Binding Mode=OneWay, Path=Workspace.Projects}"
     >
+      <TreeView.ItemContainerStyle>
+        <Style TargetType="{x:Type TreeViewItem}">
+          <Setter Property="IsExpanded" Value="True"/>
+        </Style>
+      </TreeView.ItemContainerStyle>
       <TreeView.Style>
         <Style TargetType="TreeView">
           <Setter Property="Visibility" Value="Hidden" />

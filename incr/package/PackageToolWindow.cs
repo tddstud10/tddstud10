@@ -2,18 +2,64 @@ using System;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell.Interop;
+using QuickGraph;
 using ErrorHandler = Microsoft.VisualStudio.ErrorHandler;
 using MsVsShell = Microsoft.VisualStudio.Shell;
 
+
 #if DONT_COMPILE
 
-v Stub ViewModel
-  v States
-  v TV, TB, Button
-  v Tristate
-  v TV vs WaterMark in other states
+Wave 1 - Wireup infra
+- Click
+- Workspace 
+  - Extract
+    - [a] build order graph w/ GUID
+    - [b] list of projects, dependencies, files, refs, projfile
+  - Fire Workspace Created
+
+- SolutionSnapshot 
+  - handles Workspace Created
+    - Fire Creating snapshot
+    - Graph looper
+      - Fire snapshoting proj
+      - Fire shapshoted proj
+    - Fire Created snapshot
+
+- UX
+  - Click - changes to Loading
+  - Handles Creating snapshot
+    - Shows the list of projects, in tree view
+  - Handles snapshoting proj - starts marquee
+  - Handles snapshoted proj - stops marquee
+  - Handles Created snapshot - change to loaded
+
+Wave 2 - make buildable
+- Trigger MSBuild
+  - Show failure in UX  
+- Edit proj file to get build outputs
+- Edit proj file to replace proj ref with proj output
+
+
+Wave 3 - keep buildable [p0 cases]
+
+
+Wave 4 - keep buildable [p1 cases]
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - Initialize
+  v Fix OM - With project build order in mind
   - Solution Event Listener
     - Solution Load
     - Disable/Enable Button
@@ -54,6 +100,10 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow
             var id = new CommandID(GuidsList.guidClientCmdSet, PkgCmdId.cmdidUiEventsWindow);
             DefineCommandHandler(new EventHandler(this.ShowDynamicWindow), id);
 
+
+            var g = new AdjacencyGraph<string, Edge<string>>();
+            var v = g.OutDegree("");
+            //v.
         }
 
         internal MsVsShell.OleMenuCommand DefineCommandHandler(EventHandler handler, CommandID id)

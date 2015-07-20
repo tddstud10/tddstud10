@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -40,7 +41,65 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
         {
             if (IsInDesignMode)
             {
-                Workspace = new Workspace();
+                Workspace = new Workspace
+                {
+                    State = WorkspaceState.Loaded,
+                    Projects = new List<Project> 
+                    {
+                        new Project
+                        {
+                            Name = "a.csproj",
+                            ProjectItems = new List<ProjectItem>
+                            {
+                                new ProjectItem { Name = "a.cs" },
+                                new ProjectItem { Name = "a\\b.cs" },
+                            },
+                            Projects = new List<Project> 
+                            {
+                                new Project
+                                {
+                                    Name = "c.csproj",
+                                    ProjectItems = new List<ProjectItem>
+                                    {
+                                        new ProjectItem { Name = "c.cs" },
+                                    },
+                                    Projects = new List<Project>()
+                                    {
+                                        new Project
+                                        {
+                                            Name = "e.fsproj",
+                                            ProjectItems = new List<ProjectItem>
+                                            {
+                                                new ProjectItem { Name = "e\\e.fs" },
+                                            }
+                                        },
+                                    },
+                                },
+                            }
+                       },
+                       new Project
+                       {
+                            Name = "b.fsproj",
+                            ProjectItems = new List<ProjectItem>
+                            {
+                                new ProjectItem { Name = "b.fs" },
+                                new ProjectItem { Name = "b\\c.fs" },
+                            },
+                            Projects = new List<Project> 
+                            {
+                                new Project
+                                {
+                                    Name = "a.csproj",
+                                    ProjectItems = new List<ProjectItem>
+                                    {
+                                        new ProjectItem { Name = "a.cs" },
+                                        new ProjectItem { Name = "a\\b.cs" },
+                                    }
+                                },
+                            }
+                       },
+                    }
+                };
 
                 EventLog = "This is the event log...";
             }

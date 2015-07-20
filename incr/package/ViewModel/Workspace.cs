@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 
@@ -13,24 +15,24 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
 
     public class Workspace : ObservableObject
     {
-        private List<Department> _departments;
+        private List<Project> _projects = new List<Project>();
 
-        public List<Department> Departments
+        public List<Project> Projects
         {
-            get { return _departments; }
+            get { return _projects; }
             set
             {
-                if (_departments == value)
+                if (_projects == value)
                 {
                     return;
                 }
 
-                _departments = value;
-                RaisePropertyChanged(() => Departments);
+                _projects = value;
+                RaisePropertyChanged(() => Projects);
             }
         }
 
-        private WorkspaceState _state;
+        private WorkspaceState _state = WorkspaceState.Unloaded;
 
         public WorkspaceState State
         {
@@ -45,16 +47,6 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
                 _state = value;
                 RaisePropertyChanged(() => State);
             }
-        }
-
-        public Workspace()
-        {
-            _state = WorkspaceState.Unloaded;
-            _departments = new List<Department>()
-            {
-                new Department("DepartmentX"),
-                new Department("DepartmentY")
-            };
         }
 
         public async Task Disable()
@@ -84,95 +76,70 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
         }
     }
 
-    public class Book : ViewModelBase
+    public class ProjectItem : ViewModelBase
     {
-        private string _bookName = string.Empty;
+        private string _name = string.Empty;
 
-        public string BookName
+        public string Name
         {
-            get { return _bookName; }
+            get { return _name; }
             set
             {
-                if (_bookName == value)
+                if (_name == value)
                 {
                     return;
                 }
 
-                _bookName = value;
-                RaisePropertyChanged(() => BookName);
+                _name = value;
+                RaisePropertyChanged(() => Name);
             }
-        }
-
-        public Book(string bookname)
-        {
-            BookName = bookname;
         }
     }
 
-    public class Department : ViewModelBase
+    public class Project : ViewModelBase
     {
-        private List<Course> _courses;
+        private List<Project> _projects = new List<Project>();
 
-        public Department(string depname)
+        public List<Project> Projects
         {
-            DepartmentName = depname;
-
-            Courses = new List<Course>()
-            {
-                new Course("Course1"),
-                new Course("Course2")
-            };
-        }
-
-        public List<Course> Courses
-        {
-            get { return _courses; }
-
+            get { return _projects; }
             set
             {
-                if (_courses == value)
+                if (_projects == value)
                 {
                     return;
                 }
 
-                _courses = value;
-                RaisePropertyChanged(() => Courses);
+                _projects = value;
+                RaisePropertyChanged(() => Projects);
             }
         }
 
-        public string DepartmentName { get; set; }
-    }
+        private List<ProjectItem> _projectItems = new List<ProjectItem>();
 
-    public class Course : ViewModelBase
-    {
-        private List<Book> _books;
-
-        public Course(string coursename)
+        public List<ProjectItem> ProjectItems
         {
-            CourseName = coursename;
-            Books = new List<Book>()
-            {
-                new Book("JJJJ"),
-                new Book("KKKK"),
-                new Book("OOOOO")
-            };
-        }
-
-        public List<Book> Books
-        {
-            get { return _books; }
+            get { return _projectItems; }
             set
             {
-                if (_books == value)
+                if (_projectItems == value)
                 {
                     return;
                 }
 
-                _books = value;
-                RaisePropertyChanged(() => Books);
+                _projectItems = value;
+                RaisePropertyChanged(() => ProjectItems);
             }
         }
 
-        public string CourseName { get; set; }
+        public IEnumerable Children
+        {
+            get
+            {
+                return Enumerable.Empty<object>().Concat(Projects.Cast<object>().Concat(ProjectItems.Cast<object>()));
+            }
+        }
+
+        public string Name { get; set; }
     }
 }
