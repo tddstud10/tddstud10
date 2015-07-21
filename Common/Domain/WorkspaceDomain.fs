@@ -2,32 +2,6 @@
 
 open System
 
-type Solution = 
-    { path : FilePath }
-
-type ProjectItem = 
-    { path : FilePath }
-
-type Project = 
-    { path : FilePath
-      items : ProjectItem seq }
-
-type ISolutionEventsListener = 
-    inherit IDisposable
-    abstract SolutionOpened : IObservable<Solution>
-    abstract SolutionClosed : IObservable<Solution>
-    abstract ProjectAdded : IObservable<Project>
-    abstract ProjectRemoved : IObservable<Project>
-
-type IProjectEventsListener = 
-    inherit IDisposable
-    abstract ProjectItemAdded : IObservable<ProjectItem>
-    abstract ProjectItemRemoved : IObservable<ProjectItem>
-
-type IProjectItemEventsListener = 
-    inherit IDisposable
-    abstract ProjectItemChanged : IObservable<ProjectItem>
-
 #if DONT_COMPILE
 
 SolutionEventListener -> Workspace -> BatchEvents -> Scheduler -> Engine [Snapshoting -> Build -> Test]

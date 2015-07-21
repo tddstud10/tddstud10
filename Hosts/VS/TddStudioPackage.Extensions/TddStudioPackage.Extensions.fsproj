@@ -78,9 +78,6 @@
     <Compile Include="Editor\GlyphGenerator.fs" />
     <Compile Include="Editor\MarginCanvas.fs" />
     <Compile Include="Editor\Margin.fs" />
-    <Compile Include="Workspace\SolutionEventsListener.fs" />
-    <Compile Include="Workspace\ProjectEventsListener.fs" />
-    <Compile Include="Workspace\FileSystemEventsListener.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />

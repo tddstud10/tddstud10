@@ -1,20 +1,21 @@
 using System;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
+using Core;
 using Microsoft.VisualStudio.Shell.Interop;
-using QuickGraph;
+using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
 using ErrorHandler = Microsoft.VisualStudio.ErrorHandler;
 using MsVsShell = Microsoft.VisualStudio.Shell;
-
 
 #if DONT_COMPILE
 
 Wave 1 - Wireup infra
-- Click
-- Workspace 
-  - Extract
-    - [a] build order graph w/ GUID
-    - [b] list of projects, dependencies, files, refs, projfile
+v Click
+v Workspace 
+  v Extract
+    v [a] build order graph w/ GUID
+    v [b] list of projects, dependencies, files, refs, projfile
+  - Make it work for xunit
   - Fire Workspace Created
 
 - SolutionSnapshot 
@@ -44,7 +45,8 @@ Wave 3 - keep buildable [p0 cases]
 
 
 Wave 4 - keep buildable [p1 cases]
-
+- Unloaded projects
+- Projects that opt out of TddStud10
 
 
 
@@ -97,13 +99,11 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow
         {
             base.Initialize();
 
-            var id = new CommandID(GuidsList.guidClientCmdSet, PkgCmdId.cmdidUiEventsWindow);
+            var id = new CommandID(GuidsList.guidClientCmdSet, PkgCmdId.cmdidUiLoadWorkspace);
+            DefineCommandHandler(new EventHandler(this.LoadWorkspace), id);
+
+            id = new CommandID(GuidsList.guidClientCmdSet, PkgCmdId.cmdidUiEventsWindow);
             DefineCommandHandler(new EventHandler(this.ShowDynamicWindow), id);
-
-
-            var g = new AdjacencyGraph<string, Edge<string>>();
-            var v = g.OutDegree("");
-            //v.
         }
 
         internal MsVsShell.OleMenuCommand DefineCommandHandler(EventHandler handler, CommandID id)
@@ -152,6 +152,13 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow
             }
 
             ErrorHandler.ThrowOnFailure(frame.Show());
+        }
+
+        private void LoadWorkspace(object sender, EventArgs arguments)
+        {
+            var dte = Services.GetService<EnvDTE.DTE>();
+
+            var w = WorkspaceLoader.load(dte.Solution);
         }
     }
 }

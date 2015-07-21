@@ -15,5 +15,8 @@
   </Dependencies>
   <Assets>
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="TddStudioPackage.Extensions" Path="|TddStudioPackage.Extensions|" AssemblyName="|TddStudioPackage.Extensions;AssemblyName|" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Core" Path="|Core|" AssemblyName="|Core;AssemblyName|" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Domain" Path="|Domain|" AssemblyName="|Domain;AssemblyName|" />
   </Assets>
 </PackageManifest>
