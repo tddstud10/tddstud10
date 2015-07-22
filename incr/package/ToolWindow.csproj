@@ -64,6 +64,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
     <Reference Include="envdte90, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <Reference Include="FSharp.Core, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="GalaSoft.MvvmLight, Version=5.1.1.35049, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
       <Private>True</Private>
@@ -140,7 +141,7 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
   <ItemGroup>
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="ViewModel\Workspace.cs" />
+    <Compile Include="ViewModel\WorkspaceViewModel.cs" />
     <Compile Include="WorkspacePane.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="PackageToolWindow.cs" />

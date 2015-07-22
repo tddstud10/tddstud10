@@ -49,9 +49,12 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <Compile Include="Utils.fs" />
-    <Compile Include="Domain.fs" />
     <Content Include="packages.config" />
+    <Compile Include="Domain.fs" />
+    <Compile Include="Utils.fs" />
+    <Compile Include="ListExtensions.fs" />
+    <Compile Include="EnvDTEExtensions.fs" />
+    <Compile Include="WorkspaceLoader.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />

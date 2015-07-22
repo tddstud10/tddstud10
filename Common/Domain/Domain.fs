@@ -1,12 +1,13 @@
 ﻿namespace R4nd0mApps.TddStud10.Common.Domain
 
-open System
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
-open System.Runtime.Serialization
-open System.Reflection
 open Microsoft.FSharp.Reflection
+open System
+open System.Diagnostics
+open System.Reflection
+open System.Runtime.Serialization
 
 [<CustomEquality; CustomComparison>]
+[<DebuggerDisplay("{ToString()}")>]
 type FilePath = 
     | FilePath of string
     

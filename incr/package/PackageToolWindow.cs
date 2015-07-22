@@ -1,9 +1,7 @@
+using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
-using Core;
-using Microsoft.VisualStudio.Shell.Interop;
-using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
 using ErrorHandler = Microsoft.VisualStudio.ErrorHandler;
 using MsVsShell = Microsoft.VisualStudio.Shell;
 
@@ -11,12 +9,13 @@ using MsVsShell = Microsoft.VisualStudio.Shell;
 
 Wave 1 - Wireup infra
 v Click
+
 v Workspace 
   v Extract
     v [a] build order graph w/ GUID
     v [b] list of projects, dependencies, files, refs, projfile
-  - Make it work for xunit
-  - Fire Workspace Created
+  v Make it work for xunit
+  v Fire Workspace Created
 
 - SolutionSnapshot 
   - handles Workspace Created
@@ -35,14 +34,14 @@ v Workspace
   - Handles Created snapshot - change to loaded
 
 Wave 2 - make buildable
+- Sequential graph looper
 - Trigger MSBuild
   - Show failure in UX  
 - Edit proj file to get build outputs
 - Edit proj file to replace proj ref with proj output
 
-
 Wave 3 - keep buildable [p0 cases]
-
+- Parallel graph looper
 
 Wave 4 - keep buildable [p1 cases]
 - Unloaded projects
@@ -82,6 +81,7 @@ Wave 4 - keep buildable [p1 cases]
   - Copy workspace
   - Reference Files
   - Additional Files
+  - Prioritize the Sinks - i.e. next project to build should be the project with largest dependencies
 
 #endif
 
@@ -156,9 +156,6 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow
 
         private void LoadWorkspace(object sender, EventArgs arguments)
         {
-            var dte = Services.GetService<EnvDTE.DTE>();
-
-            var w = WorkspaceLoader.load(dte.Solution);
         }
     }
 }

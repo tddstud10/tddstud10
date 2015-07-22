@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage;
+using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
 
 namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
 {
@@ -24,9 +24,9 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
             }
         }
 
-        private Workspace _workspace;
+        private WorkspaceViewModel _workspace;
 
-        public Workspace Workspace
+        public WorkspaceViewModel Workspace
         {
             get { return _workspace; }
             set
@@ -39,84 +39,30 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
 
         public MainViewModel()
         {
-            if (IsInDesignMode)
-            {
-                Workspace = new Workspace
-                {
-                    State = WorkspaceState.Loaded,
-                    Projects = new List<Project> 
-                    {
-                        new Project
-                        {
-                            Name = "a.csproj",
-                            ProjectItems = new List<ProjectItem>
-                            {
-                                new ProjectItem { Name = "a.cs" },
-                                new ProjectItem { Name = "a\\b.cs" },
-                            },
-                            Projects = new List<Project> 
-                            {
-                                new Project
-                                {
-                                    Name = "c.csproj",
-                                    ProjectItems = new List<ProjectItem>
-                                    {
-                                        new ProjectItem { Name = "c.cs" },
-                                    },
-                                    Projects = new List<Project>()
-                                    {
-                                        new Project
-                                        {
-                                            Name = "e.fsproj",
-                                            ProjectItems = new List<ProjectItem>
-                                            {
-                                                new ProjectItem { Name = "e\\e.fs" },
-                                            }
-                                        },
-                                    },
-                                },
-                            }
-                       },
-                       new Project
-                       {
-                            Name = "b.fsproj",
-                            ProjectItems = new List<ProjectItem>
-                            {
-                                new ProjectItem { Name = "b.fs" },
-                                new ProjectItem { Name = "b\\c.fs" },
-                            },
-                            Projects = new List<Project> 
-                            {
-                                new Project
-                                {
-                                    Name = "a.csproj",
-                                    ProjectItems = new List<ProjectItem>
-                                    {
-                                        new ProjectItem { Name = "a.cs" },
-                                        new ProjectItem { Name = "a\\b.cs" },
-                                    }
-                                },
-                            }
-                       },
-                    }
-                };
+            Workspace = new WorkspaceViewModel();
 
-                EventLog = "This is the event log...";
-            }
-            else
-            {
-                Workspace = new Workspace();
-
-                EventLog = "This is the event log...";
-            }
+            EventLog = "This is the event log...";
 
             LoadUnloadWorkspace = new RelayCommand(
                 async () =>
                 {
-                    await _workspace.LoadOrUnload();
-                    CommandManager.InvalidateRequerySuggested();
+                    if (_workspace.State == WorkspaceState.Unloaded)
+                    {
+                        var wl = new WorkspaceLoader(Services.GetService<EnvDTE.DTE>().Solution);
+                        wl.LoadComplete += async (s, w) => await _workspace.Load(w);
+
+                        wl.Load();
+                    }
+                    else if (_workspace.State == WorkspaceState.Loaded)
+                    {
+                        await _workspace.Unload();
+                    }
+                    else
+                    {
+                        // Do nothing!
+                    }
                 },
-                _workspace.CanLoadOrUnload);
+                () => _workspace.State != WorkspaceState.Loading);
         }
     }
 }
