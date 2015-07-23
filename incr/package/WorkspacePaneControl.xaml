@@ -42,11 +42,11 @@
         <Style TargetType="TextBlock">
           <Setter Property="Visibility" Value="Hidden" />
           <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=Workspace.State}" Value="Unloaded">
+            <DataTrigger Binding="{Binding Path=SolutionViewModel.State}" Value="Unloaded">
               <Setter Property="Visibility" Value="Visible" />
               <Setter Property="Text" Value="Workspace unloaded" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=Workspace.State}" Value="Loading">
+            <DataTrigger Binding="{Binding Path=SolutionViewModel.State}" Value="Loading">
               <Setter Property="Visibility" Value="Visible" />
               <Setter Property="Text" Value="Workspace loading..." />
             </DataTrigger>
@@ -57,7 +57,7 @@
     <TreeView 
       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
       Margin="1,1,1,1"
-      ItemsSource="{Binding Mode=OneWay, Path=Workspace.Projects}"
+      ItemsSource="{Binding Mode=OneWay, Path=SolutionViewModel.Projects}"
     >
       <TreeView.ItemContainerStyle>
         <Style TargetType="{x:Type TreeViewItem}">
@@ -68,19 +68,18 @@
         <Style TargetType="TreeView">
           <Setter Property="Visibility" Value="Hidden" />
           <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=Workspace.State}" Value="Loaded">
+            <DataTrigger Binding="{Binding Path=SolutionViewModel.State}" Value="Loaded">
               <Setter Property="Visibility" Value="Visible" />
             </DataTrigger>
           </Style.Triggers>
         </Style>
       </TreeView.Style>
     </TreeView>
-    <TextBox 
+    <ListBox 
       Grid.Row="1" 
       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
       Margin="1,1,1,1" 
-      AcceptsReturn="True" IsReadOnly="True"
-      Text="{Binding Mode=OneWay, Path=EventLog}"
+      ItemsSource="{Binding Path=EventLog}"
     />
     <Button 
       Grid.Row="2" 
@@ -93,10 +92,10 @@
         <Style TargetType="Button">
           <Setter Property="Content" Value="Enable" />
           <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=Workspace.State}" Value="Loaded">
+            <DataTrigger Binding="{Binding Path=SolutionViewModel.State}" Value="Loaded">
               <Setter Property="Content" Value="Disable" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=Workspace.State}" Value="Unloaded">
+            <DataTrigger Binding="{Binding Path=SolutionViewModel.State}" Value="Unloaded">
               <Setter Property="Content" Value="Enable" />
             </DataTrigger>
           </Style.Triggers>

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
 {
-    public enum WorkspaceState
+    public enum SolutionState
     {
         Unloaded,
         Loading,
@@ -17,7 +17,7 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
         Unloading,
     }
 
-    public class WorkspaceViewModel : ViewModelBase
+    public class SolutionViewModel : ViewModelBase
     {
         private List<ProjectViewModel> _projects = new List<ProjectViewModel>();
 
@@ -36,9 +36,9 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
             }
         }
 
-        private WorkspaceState _state = WorkspaceState.Unloaded;
+        private SolutionState _state = SolutionState.Unloaded;
 
-        public WorkspaceState State
+        public SolutionState State
         {
             get { return _state; }
             set
@@ -53,28 +53,36 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
             }
         }
 
-        public async Task Load(Workspace workspace)
+        public void StartLoad(Solution workspace)
         {
-            if (State != WorkspaceState.Unloaded)
+            if (State != SolutionState.Unloaded)
             {
                 return;
             }
 
-            State = WorkspaceState.Loading;
-
-            Projects = await CreateWorkspaceViewModelAsync(workspace);
-
-            State = WorkspaceState.Loaded;
+            State = SolutionState.Loading;
         }
 
-        private static Task<List<ProjectViewModel>> CreateWorkspaceViewModelAsync(Workspace workspace)
+        public async Task FinishLoad(Solution workspace)
+        {
+            if (State != SolutionState.Loading)
+            {
+                return;
+            }
+
+            Projects = await CreateSolutionViewModelAsync(workspace);
+
+            State = SolutionState.Loaded;
+        }
+
+        private static Task<List<ProjectViewModel>> CreateSolutionViewModelAsync(Solution solution)
         {
             return Task<List<ProjectViewModel>>.Run(
                 () =>
                 {
                     var projects = new List<ProjectViewModel>();
                     var dg = new AdjacencyGraph<ProjectId, SEquatableEdge<ProjectId>>();
-                    workspace.DependencyGraph.Clone(v => v, (e, s, d) => e, dg);
+                    solution.DependencyGraph.Clone(v => v, (e, s, d) => e, dg);
 
                     var pvmMap = new Dictionary<ProjectId, ProjectViewModel>();
                     var sw = new Stopwatch();
@@ -89,9 +97,9 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
 
                         var pvm = new ProjectViewModel();
                         pvm.FullName = v.Item;
-                        pvm.Children.AddRange(workspace.Projects[v].ProjectReferences.Select(r => pvmMap[r]));
-                        pvm.Children.AddRange(workspace.Projects[v].FileReferences.Select(f => new FileReferenceViewModel { FullName = f.Item }));
-                        pvm.Children.AddRange(workspace.Projects[v].Items.Select(i => new ProjectItemViewModel { FullName = i.Item }));
+                        pvm.Children.AddRange(solution.Projects[v].ProjectReferences.Select(r => pvmMap[r]));
+                        //pvm.Children.AddRange(solution.Projects[v].FileReferences.Select(f => new FileReferenceViewModel { FullName = f.Item }));
+                        //pvm.Children.AddRange(solution.Projects[v].Items.Select(i => new ProjectItemViewModel { FullName = i.Item }));
 
                         pvmMap[v] = pvm;
 
@@ -108,16 +116,16 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
 
         public async Task Unload()
         {
-            if (State != WorkspaceState.Loaded)
+            if (State != SolutionState.Loaded)
             {
                 return;
             }
 
-            State = WorkspaceState.Unloading;
+            State = SolutionState.Unloading;
 
             Projects.Clear();
             await Task.Delay(1000);
-            State = WorkspaceState.Unloaded;
+            State = SolutionState.Unloaded;
         }
     }
 

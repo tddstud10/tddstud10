@@ -21,6 +21,7 @@ type Project =
 
 type ProjectDependencyGraph = ArrayAdjacencyGraph<ProjectId, SEquatableEdge<ProjectId>>
 
-type Workspace = 
-    { DependencyGraph : ProjectDependencyGraph
+type Solution = 
+    { Name : string
+      DependencyGraph : ProjectDependencyGraph
       Projects : Map<ProjectId, Project> }

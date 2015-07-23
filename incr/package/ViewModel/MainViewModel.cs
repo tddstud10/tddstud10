@@ -1,68 +1,80 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using Microsoft.FSharp.Core;
+using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
+using System;
+using System.Collections.ObjectModel;
 
 namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private string _eventLog;
+        private IncrementalBuildPipeline _pipeline;
+        private ObservableCollection<string> _eventLog = new ObservableCollection<string>();
 
-        public string EventLog
+        public ObservableCollection<string> EventLog
         {
             get { return _eventLog; }
-            set
-            {
-                if (_eventLog == value)
-                {
-                    return;
-                }
-
-                _eventLog = value;
-                RaisePropertyChanged(() => EventLog);
-            }
         }
 
-        private WorkspaceViewModel _workspace;
+        private SolutionViewModel _solutionViewModel = new SolutionViewModel();
 
-        public WorkspaceViewModel Workspace
+        public SolutionViewModel SolutionViewModel
         {
-            get { return _workspace; }
-            set
-            {
-                _workspace = value;
-            }
+            get { return _solutionViewModel; }
         }
 
         public RelayCommand LoadUnloadWorkspace { get; set; }
 
         public MainViewModel()
         {
-            Workspace = new WorkspaceViewModel();
-
-            EventLog = "This is the event log...";
+            EventLog.Insert(0, "...");
 
             LoadUnloadWorkspace = new RelayCommand(
                 async () =>
                 {
-                    if (_workspace.State == WorkspaceState.Unloaded)
+                    if (_solutionViewModel.State == SolutionState.Unloaded)
                     {
-                        var wl = new WorkspaceLoader(Services.GetService<EnvDTE.DTE>().Solution);
-                        wl.LoadComplete += async (s, w) => await _workspace.Load(w);
+                        _pipeline = new IncrementalBuildPipeline(
+                            FuncConvert.ToFSharpFunc<Solution>(
+                                sln =>
+                                {
+                                    _eventLog.Insert(0, string.Format("Begin create snapshot {0}...", sln.Name));
+                                    _solutionViewModel.StartLoad(sln);
+                                }),
+                            FuncConvert.ToFSharpFunc<ProjectId>(
+                                pid =>
+                                {
+                                    _eventLog.Insert(0, string.Format("Begin create project snapshot {0}...", pid.Item));
+                                }),
+                            FuncConvert.ToFSharpFunc<ProjectId>(
+                                pid =>
+                                {
+                                    _eventLog.Insert(0, string.Format("End create project snapshot {0}...", pid.Item));
+                                }),
+                            FuncConvert.ToFSharpFunc<Solution>(
+                                async (sln) =>
+                                {
+                                    await _solutionViewModel.FinishLoad(sln);
+                                    _eventLog.Insert(0, string.Format("End create snapshot {0}.", sln.Name));
+                                }));
 
-                        wl.Load();
+                        _pipeline.Trigger(Services.GetService<EnvDTE.DTE>().Solution);
                     }
-                    else if (_workspace.State == WorkspaceState.Loaded)
+                    else if (_solutionViewModel.State == SolutionState.Loaded)
                     {
-                        await _workspace.Unload();
+                        ((IDisposable)_pipeline).Dispose();
+                        await _solutionViewModel.Unload();
+                        _eventLog.Clear();
                     }
                     else
                     {
                         // Do nothing!
                     }
                 },
-                () => _workspace.State != WorkspaceState.Loading);
+                () => _solutionViewModel.State != SolutionState.Loading);
         }
     }
 }

@@ -17,24 +17,29 @@ v Workspace
   v Make it work for xunit
   v Fire Workspace Created
 
-- SolutionSnapshot 
-  - handles Workspace Created
-    - Fire Creating snapshot
-    - Graph looper
-      - Fire snapshoting proj
-      - Fire shapshoted proj
-    - Fire Created snapshot
+v SolutionSnapshot 
+  v handles Workspace Created
+    v Fire Creating snapshot
+    v Graph looper
+      v Fire snapshoting proj
+      v Fire shapshoted proj
+    v Fire Created snapshot
 
-- UX
-  - Click - changes to Loading
-  - Handles Creating snapshot
-    - Shows the list of projects, in tree view
-  - Handles snapshoting proj - starts marquee
-  - Handles snapshoted proj - stops marquee
-  - Handles Created snapshot - change to loaded
+v UX
+  v Click - changes to Loading
+  v Handles Creating snapshot
+    v Shows the list of projects, in tree view
+  v Handles snapshoting proj 
+  v Handles snapshoted proj
+  v Handles Created snapshot - change to loaded
+
+- File Copy
+  - make UI responsive by bringing in asyncness
+  - start stop project level marquee
+  - Copy files
 
 Wave 2 - make buildable
-- Sequential graph looper
+- Extract Sequential graph looper
 - Trigger MSBuild
   - Show failure in UX  
 - Edit proj file to get build outputs
@@ -42,6 +47,7 @@ Wave 2 - make buildable
 
 Wave 3 - keep buildable [p0 cases]
 - Parallel graph looper
+  - Error handling
 
 Wave 4 - keep buildable [p1 cases]
 - Unloaded projects
