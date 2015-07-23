@@ -34,7 +34,7 @@ v UX
   v Handles Created snapshot - change to loaded
 
 - File Copy
-  - make UI responsive by bringing in asyncness
+  v make UI responsive by bringing in asyncness
   - start stop project level marquee
   - Copy files
 
@@ -46,46 +46,21 @@ Wave 2 - make buildable
 - Edit proj file to replace proj ref with proj output
 
 Wave 3 - keep buildable [p0 cases]
-- Parallel graph looper
-  - Error handling
-
-Wave 4 - keep buildable [p1 cases]
-- Unloaded projects
-- Projects that opt out of TddStud10
-
-
-
-
-
-
-
-
-
-
-
-
-
-- Initialize
-  v Fix OM - With project build order in mind
-  - Solution Event Listener
-    - Solution Load
-    - Disable/Enable Button
-  - Pull Workspace
-  - Projec Build Order
-
-- TreeView Style
-
+- Parallel graph looper [consider an agent based design]
+- Error chain handling
 - Incremental Changes
   - Solution Event Listener
   - Project Event Listener
   - File Event Listener
   - TextView Event Listener
 
+Wave 4 - keep buildable [p1 cases]
+- Unloaded projects
+- Projects that opt out of TddStud10
+- Solution close/open : unload with solution, autoenable based on setting, manual load otherwise
 - Remaining Pipeline
   - TB Update should come from pipeline
   - ?Merge Events
-  - Copy workspace
-  - Reference Files
   - Additional Files
   - Prioritize the Sinks - i.e. next project to build should be the project with largest dependencies
 

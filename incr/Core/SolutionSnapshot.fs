@@ -15,14 +15,16 @@ type SolutionSnapshot() =
     member public __.BeginCreateProjectSnapshot = beginCreateProjectSnapshot.Publish
     member public __.EndCreateProjectSnapshot = endCreateProjectSnapshot.Publish
     member public __.EndCreateSnapshot = endCreateSnapshot.Publish
-    member __.Load(sln : Solution) : unit = 
-        Common.safeExec (fun () -> beginCreateSnapshot.Trigger(sln))
-        do System.Threading.Thread.Sleep 10
-        let dg = AdjacencyGraph<_, _>()
-        AlgorithmExtensions.Clone(sln.DependencyGraph, Func<_, _>(fun v -> v), Func<_, _, _, _>(fun e _ _ -> e), dg)
+    member __.Load(sln : Solution) : Async<unit> = 
+        // TODO: Move this to QuickGraphExtensions
+        let cloneGraph g = 
+            let cg = AdjacencyGraph<_, _>()
+            AlgorithmExtensions.Clone(g, Func<_, _>(fun v -> v), Func<_, _, _, _>(fun e _ _ -> e), cg)
+            cg
+        
         let processProject p = 
             Common.safeExec (fun () -> beginCreateProjectSnapshot.Trigger(p))
-            Threading.Thread.Sleep(500) 
+            Threading.Thread.Sleep(500)
             Common.safeExec (fun () -> endCreateProjectSnapshot.Trigger(p))
         
         let rec dependencyLoop (dg : AdjacencyGraph<_, _>) = 
@@ -33,5 +35,10 @@ type SolutionSnapshot() =
                    dg.RemoveVertex(p) |> ignore
                    dependencyLoop dg)
         
-        dependencyLoop dg
-        Common.safeExec (fun () -> endCreateSnapshot.Trigger(sln))
+        async { 
+            Common.safeExec (fun () -> beginCreateSnapshot.Trigger(sln))
+            sln.DependencyGraph
+            |> cloneGraph
+            |> dependencyLoop
+            Common.safeExec (fun () -> endCreateSnapshot.Trigger(sln))
+        }

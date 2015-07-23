@@ -7,7 +7,7 @@ type IncrementalBuildPipeline(bcs : Solution -> unit, bcps : ProjectId -> unit, 
     let mutable disposed = false
     let w = Workspace()
     let ss = SolutionSnapshot()
-    let wlcs = w.LoadComplete.Subscribe(ss.Load)
+    let wlcs = w.LoadComplete.Subscribe(ss.Load >> Async.Start)
     let ssbcss = ss.BeginCreateSnapshot.Subscribe(bcs)
     let ssbcpss = ss.BeginCreateProjectSnapshot.Subscribe(bcps)
     let ssecpss = ss.EndCreateProjectSnapshot.Subscribe(ecps)

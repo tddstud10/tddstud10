@@ -13,8 +13,16 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
     {
         Unloaded,
         Loading,
+        Initializing,
         Loaded,
         Unloading,
+    }
+
+    public enum ProjectState
+    {
+        Loaded,
+        CreatingSnapshot,
+        Monitoring,
     }
 
     public class SolutionViewModel : ViewModelBase
@@ -53,7 +61,7 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
             }
         }
 
-        public void StartLoad(Solution workspace)
+        public async Task StartLoad(Solution workspace)
         {
             if (State != SolutionState.Unloaded)
             {
@@ -61,16 +69,21 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
             }
 
             State = SolutionState.Loading;
+
+            Projects = await CreateSolutionViewModelAsync(workspace);
+            await Task.Run(() => { });
+
+            State = SolutionState.Initializing;
         }
 
         public async Task FinishLoad(Solution workspace)
         {
-            if (State != SolutionState.Loading)
+            if (State != SolutionState.Initializing)
             {
                 return;
             }
 
-            Projects = await CreateSolutionViewModelAsync(workspace);
+            await Task.Run(() => { });
 
             State = SolutionState.Loaded;
         }
@@ -97,6 +110,7 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
 
                         var pvm = new ProjectViewModel();
                         pvm.FullName = v.Item;
+                        pvm.ProjectId = v;
                         pvm.Children.AddRange(solution.Projects[v].ProjectReferences.Select(r => pvmMap[r]));
                         //pvm.Children.AddRange(solution.Projects[v].FileReferences.Select(f => new FileReferenceViewModel { FullName = f.Item }));
                         //pvm.Children.AddRange(solution.Projects[v].Items.Select(i => new ProjectItemViewModel { FullName = i.Item }));
@@ -123,8 +137,8 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
 
             State = SolutionState.Unloading;
 
-            Projects.Clear();
-            await Task.Delay(1000);
+            Projects = new List<ProjectViewModel>();
+            await Task.Run(() => { });
             State = SolutionState.Unloaded;
         }
     }
@@ -162,6 +176,25 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
 
                 _fullName = value;
                 RaisePropertyChanged(() => FullName);
+            }
+        }
+
+        public ProjectId ProjectId { get; set; }
+
+        private ProjectState _state = ProjectState.Loaded;
+
+        public ProjectState State
+        {
+            get { return _state; }
+            set
+            {
+                if (_state == value)
+                {
+                    return;
+                }
+
+                _state = value;
+                RaisePropertyChanged(() => State);
             }
         }
     }

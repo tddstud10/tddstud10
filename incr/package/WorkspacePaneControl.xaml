@@ -15,7 +15,45 @@
       <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
 
       <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type vm:ProjectViewModel}">
-        <TextBlock Text="{Binding FullName}"/>
+        <StackPanel Orientation="Horizontal">
+          <Rectangle StrokeThickness="1" 
+                              Width="7" 
+                              Height="7" HorizontalAlignment="Center" VerticalAlignment="Center"
+                              RenderTransformOrigin="0.5,0.5" Fill="#FFC00000">
+            <Rectangle.RenderTransform>
+              <RotateTransform Angle="{Binding AngleValue}" CenterX="0" CenterY="0"/>
+            </Rectangle.RenderTransform>
+            <Rectangle.Style>
+              <Style TargetType="Rectangle">
+                <Style.Triggers>
+                  <DataTrigger 
+                    Binding="{Binding State}"
+                    Value="CreatingSnapshot">
+                    <DataTrigger.EnterActions>
+                      <BeginStoryboard>
+                        <Storyboard>
+                          <DoubleAnimation Storyboard.TargetProperty="(Rectangle.RenderTransform).(RotateTransform.Angle)" To="360" Duration="0:0:0.5" RepeatBehavior="Forever"/>
+                        </Storyboard>
+                      </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                  </DataTrigger>
+                  <DataTrigger 
+                    Binding="{Binding State}"
+                    Value="Monitoring">
+                    <DataTrigger.EnterActions>
+                      <BeginStoryboard>
+                        <Storyboard>
+                          <DoubleAnimation Storyboard.TargetProperty="(Rectangle.RenderTransform).(RotateTransform.Angle)" To="360" Duration="0:0:0.1"/>
+                        </Storyboard>
+                      </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </Rectangle.Style>
+          </Rectangle>
+          <TextBlock Text="{Binding FullName}" Margin="5,0" />
+        </StackPanel>
       </HierarchicalDataTemplate>
 
       <DataTemplate DataType="{x:Type vm:ProjectChildBaseViewModel}">
@@ -63,11 +101,14 @@
         <Style TargetType="{x:Type TreeViewItem}">
           <Setter Property="IsExpanded" Value="False"/>
         </Style>
-      </TreeView.ItemContainerStyle>
+      </TreeView.ItemContainerStyle>      
       <TreeView.Style>
         <Style TargetType="TreeView">
           <Setter Property="Visibility" Value="Hidden" />
           <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=SolutionViewModel.State}" Value="Initializing">
+              <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
             <DataTrigger Binding="{Binding Path=SolutionViewModel.State}" Value="Loaded">
               <Setter Property="Visibility" Value="Visible" />
             </DataTrigger>
