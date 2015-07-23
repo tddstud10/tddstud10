@@ -33,21 +33,21 @@ v UX
   v Handles snapshoted proj
   v Handles Created snapshot - change to loaded
 
-- File Copy
+v File Copy
   v make UI responsive by bringing in asyncness
-  - start stop project level marquee
-  - Copy files
+  v start stop project level marquee
 
 Wave 2 - make buildable
 - Extract Sequential graph looper
+- Copy files
 - Trigger MSBuild
-  - Show failure in UX  
 - Edit proj file to get build outputs
 - Edit proj file to replace proj ref with proj output
 
 Wave 3 - keep buildable [p0 cases]
 - Parallel graph looper [consider an agent based design]
 - Error chain handling
+  - Show failure in UX  
 - Incremental Changes
   - Solution Event Listener
   - Project Event Listener
