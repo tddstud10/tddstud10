@@ -77,6 +77,10 @@
     <Compile Include="Code\DomainExtensions.fs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Clide">
+      <HintPath>..\..\incr\packages\Clide.2.3.29\lib\net40\Clide.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
       <HintPath>..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.0.26\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
       <Private>True</Private>

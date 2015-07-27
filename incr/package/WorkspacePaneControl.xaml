@@ -6,6 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
   xmlns:vm="clr-namespace:Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel"
   xmlns:vsp="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.12.0"
+  xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   mc:Ignorable="d" 
   d:DesignHeight="300" d:DesignWidth="300"
   DataContext="{Binding Path=Main, Source={StaticResource Locator}}">
@@ -16,15 +17,17 @@
 
       <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type vm:ProjectViewModel}">
         <StackPanel Orientation="Horizontal">
-          <Rectangle StrokeThickness="1" 
-                              Width="7" 
-                              Height="7" HorizontalAlignment="Center" VerticalAlignment="Center"
-                              RenderTransformOrigin="0.5,0.5" Fill="#FFC00000">
+          <Rectangle 
+            StrokeThickness="1" 
+            Width="7" 
+            Height="7" HorizontalAlignment="Center" VerticalAlignment="Center"
+            RenderTransformOrigin="0.5,0.5">
             <Rectangle.RenderTransform>
               <RotateTransform Angle="{Binding AngleValue}" CenterX="0" CenterY="0"/>
             </Rectangle.RenderTransform>
             <Rectangle.Style>
               <Style TargetType="Rectangle">
+                <Setter Property="Fill" Value="Gray" />
                 <Style.Triggers>
                   <DataTrigger 
                     Binding="{Binding State}"
@@ -32,7 +35,19 @@
                     <DataTrigger.EnterActions>
                       <BeginStoryboard>
                         <Storyboard>
-                          <DoubleAnimation Storyboard.TargetProperty="(Rectangle.RenderTransform).(RotateTransform.Angle)" To="360" Duration="0:0:0.5" RepeatBehavior="Forever"/>
+                          <DoubleAnimation Storyboard.TargetProperty="(Rectangle.RenderTransform).(RotateTransform.Angle)" To="360" Duration="0:0:1" RepeatBehavior="Forever"/>
+                        </Storyboard>
+                      </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                  </DataTrigger>
+                  <DataTrigger 
+                    Binding="{Binding State}"
+                    Value="ErrorCreatingSnapshot">
+                    <Setter Property="Fill" Value="Red" />
+                    <DataTrigger.EnterActions>
+                      <BeginStoryboard>
+                        <Storyboard>
+                          <DoubleAnimation Storyboard.TargetProperty="(Rectangle.RenderTransform).(RotateTransform.Angle)" To="360" Duration="0:0:0.5"/>
                         </Storyboard>
                       </BeginStoryboard>
                     </DataTrigger.EnterActions>
@@ -40,10 +55,11 @@
                   <DataTrigger 
                     Binding="{Binding State}"
                     Value="Monitoring">
+                    <Setter Property="Fill" Value="Green" />
                     <DataTrigger.EnterActions>
                       <BeginStoryboard>
                         <Storyboard>
-                          <DoubleAnimation Storyboard.TargetProperty="(Rectangle.RenderTransform).(RotateTransform.Angle)" To="360" Duration="0:0:0.1"/>
+                          <DoubleAnimation Storyboard.TargetProperty="(Rectangle.RenderTransform).(RotateTransform.Angle)" To="360" Duration="0:0:0.5"/>
                         </Storyboard>
                       </BeginStoryboard>
                     </DataTrigger.EnterActions>
@@ -97,6 +113,10 @@
       Margin="1,1,1,1"
       ItemsSource="{Binding Mode=OneWay, Path=SolutionViewModel.Projects}"
     >
+      <i:Interaction.Behaviors>
+        <vm:TreeViewSelectedItemBlendBehavior
+                    SelectedItem="{Binding SelectedProject}" />
+      </i:Interaction.Behaviors>
       <TreeView.ItemContainerStyle>
         <Style TargetType="{x:Type TreeViewItem}">
           <Setter Property="IsExpanded" Value="False"/>
@@ -120,7 +140,7 @@
       Grid.Row="1" 
       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
       Margin="1,1,1,1" 
-      ItemsSource="{Binding Path=EventLog}"
+      ItemsSource="{Binding SelectedProject.Errors}"
     />
     <Button 
       Grid.Row="2" 

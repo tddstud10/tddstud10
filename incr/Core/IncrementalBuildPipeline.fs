@@ -3,7 +3,7 @@
 open R4nd0mApps.TddStud10.Common.Domain
 open System
 
-type IncrementalBuildPipeline(bcs : Solution -> unit, bcps : ProjectId -> unit, ecps : ProjectId -> unit, ecs : Solution -> unit) = 
+type IncrementalBuildPipeline(bcs : Solution -> unit, bcps : ProjectId -> unit, ecps : ProjectId * ProjectBuildResult -> unit, ecs : Solution -> unit) = 
     let mutable disposed = false
     let w = Workspace()
     let ss = SolutionSnapshot()

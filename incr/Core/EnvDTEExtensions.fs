@@ -1,6 +1,7 @@
 ﻿[<AutoOpen>]
 module R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EnvDTEExtensions
 
+open Clide.Solution.Adapters
 open FSharpVSPowerTools
 open QuickGraph
 open R4nd0mApps.TddStud10.Common.Domain
@@ -10,13 +11,24 @@ open System.Diagnostics
 open VSLangProj
 
 type DTEConstants = EnvDTE.Constants
+
 type DTESolution = EnvDTE.Solution
-type DTEProject = EnvDTE.Project 
-type DTEProjectItem = EnvDTE.ProjectItem 
+
+type DTEProject = EnvDTE.Project
+
+type DTEProjectItem = EnvDTE.ProjectItem
+
 type DTEProjectItems = EnvDTE.ProjectItems
+
 type DTEBuildDependency = EnvDTE.BuildDependency
 
+type MSBuildProject = Microsoft.Build.Evaluation.Project
+
 type EnvDTE.Project with
+    member self.ProjectGuid = 
+        let p = EnvDTE.AdapterFacade.Adapt(self).As<MSBuildProject>()
+        let id = p.GetPropertyValue("ProjectGuid")
+        Guid.Parse(id)
     
     member self.GetProjectItems() = 
         let rec loop (l0 : list<DTEProjectItem>) (is : list<DTEProjectItem>) : list<DTEProjectItem> = 
@@ -25,7 +37,7 @@ type EnvDTE.Project with
             | i :: is -> 
                 let l2 = [ i ]
                 let l1 = i.ProjectItems |> List.fromUntypedEnumerable<DTEProjectItem>
-                loop (l2 @ l1 @ l0) is
+                loop (l2 @ l0) (l1 @ is)
         self.ProjectItems
         |> List.fromUntypedEnumerable<DTEProjectItem>
         |> loop []
@@ -37,7 +49,9 @@ type EnvDTE.Project with
         |> Seq.choose (fun ref -> maybe { let! ref = Option.ofNull ref
                                           let! p = Option.attempt (fun _ -> ref.SourceProject)
                                           return! Option.ofNull p })
-        |> Seq.map (fun p -> p.UniqueName |> ProjectId)
+        |> Seq.map (fun p -> 
+               { UniqueName = p.UniqueName
+                 Id = p.ProjectGuid })
     
     // TODO: Understand the maybe monad
     member self.GetFileReferences() = 

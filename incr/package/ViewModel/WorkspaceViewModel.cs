@@ -22,6 +22,7 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
     {
         Loaded,
         CreatingSnapshot,
+        ErrorCreatingSnapshot,
         Monitoring,
     }
 
@@ -61,7 +62,7 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
             }
         }
 
-        public async Task StartLoad(Solution workspace)
+        public void StartLoad(Solution workspace)
         {
             if (State != SolutionState.Unloaded)
             {
@@ -70,62 +71,53 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
 
             State = SolutionState.Loading;
 
-            Projects = await CreateSolutionViewModelAsync(workspace);
-            await Task.Run(() => { });
+            Projects = CreateSolutionViewModelAsync(workspace);
 
             State = SolutionState.Initializing;
         }
 
-        public async Task FinishLoad(Solution workspace)
+        public void FinishLoad(Solution workspace)
         {
             if (State != SolutionState.Initializing)
             {
                 return;
             }
 
-            await Task.Run(() => { });
-
             State = SolutionState.Loaded;
         }
 
-        private static Task<List<ProjectViewModel>> CreateSolutionViewModelAsync(Solution solution)
+        private List<ProjectViewModel> CreateSolutionViewModelAsync(Solution solution)
         {
-            return Task<List<ProjectViewModel>>.Run(
-                () =>
+            var projects = new List<ProjectViewModel>();
+            var dg = solution.DependencyMap.Keys.ToAdjacencyGraph<ProjectId, SEquatableEdge<ProjectId>>(s => solution.DependencyMap[s].Select(t => new SEquatableEdge<ProjectId>(s, t)));
+
+            var pvmMap = new Dictionary<ProjectId, ProjectViewModel>();
+            var sw = new Stopwatch();
+            sw.Start();
+            while (true)
+            {
+                var v = dg.Sinks().FirstOrDefault();
+                if (v == null)
                 {
-                    var projects = new List<ProjectViewModel>();
-                    var dg = new AdjacencyGraph<ProjectId, SEquatableEdge<ProjectId>>();
-                    solution.DependencyGraph.Clone(v => v, (e, s, d) => e, dg);
-
-                    var pvmMap = new Dictionary<ProjectId, ProjectViewModel>();
-                    var sw = new Stopwatch();
-                    sw.Start();
-                    while (true)
-                    {
-                        var v = dg.Sinks().FirstOrDefault();
-                        if (v == null)
-                        {
-                            break;
-                        }
-
-                        var pvm = new ProjectViewModel();
-                        pvm.FullName = v.Item;
-                        pvm.ProjectId = v;
-                        pvm.Children.AddRange(solution.Projects[v].ProjectReferences.Select(r => pvmMap[r]));
-                        //pvm.Children.AddRange(solution.Projects[v].FileReferences.Select(f => new FileReferenceViewModel { FullName = f.Item }));
-                        //pvm.Children.AddRange(solution.Projects[v].Items.Select(i => new ProjectItemViewModel { FullName = i.Item }));
-
-                        pvmMap[v] = pvm;
-
-                        projects.Add(pvm);
-
-                        dg.RemoveVertex(v);
-                    }
-                    sw.Stop();
-                    Debug.WriteLine(">>>>>> TIME: {0}", sw.ElapsedMilliseconds);
-                    return projects;
+                    break;
                 }
-            );
+
+                var pvm = new ProjectViewModel();
+                pvm.FullName = v.UniqueName;
+                pvm.ProjectId = v;
+                pvm.Children.AddRange(solution.Projects[v].ProjectReferences.Select(r => pvmMap[r]));
+                //pvm.Children.AddRange(solution.Projects[v].FileReferences.Select(f => new FileReferenceViewModel { FullName = f.Item }));
+                //pvm.Children.AddRange(solution.Projects[v].Items.Select(i => new ProjectItemViewModel { FullName = i.Item }));
+
+                pvmMap[v] = pvm;
+
+                projects.Add(pvm);
+
+                dg.RemoveVertex(v);
+            }
+            sw.Stop();
+            Debug.WriteLine(">>>>>> TIME: {0}", sw.ElapsedMilliseconds);
+            return projects;
         }
 
         public async Task Unload()
@@ -195,6 +187,35 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
 
                 _state = value;
                 RaisePropertyChanged(() => State);
+            }
+        }
+
+        private List<string> _warnings = new List<string>();
+
+        public List<string> Warnings
+        {
+            get
+            {
+                return _warnings;
+            }
+            set
+            {
+                Set(() => Warnings, ref _warnings, value);
+            }
+        }
+
+
+        private List<string> _errors = new List<string>();
+
+        public List<string> Errors
+        {
+            get
+            {
+                return _errors;
+            }
+            set
+            {
+                Set(() => Errors, ref _errors, value);
             }
         }
     }

@@ -6,8 +6,10 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Interactivity;
 
 namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
 {
@@ -15,18 +17,33 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
     {
         private SynchronizationContext _syncContext = SynchronizationContext.Current;
         private IncrementalBuildPipeline _pipeline;
-        private ObservableCollection<string> _eventLog = new ObservableCollection<string>();
-
-        public ObservableCollection<string> EventLog
-        {
-            get { return _eventLog; }
-        }
 
         private SolutionViewModel _solutionViewModel = new SolutionViewModel();
 
         public SolutionViewModel SolutionViewModel
         {
             get { return _solutionViewModel; }
+        }
+
+        private ProjectViewModel _selectedProject = null;
+
+        public ProjectViewModel SelectedProject
+        {
+            get
+            {
+                return _selectedProject;
+            }
+
+            set
+            {
+                if (_selectedProject == value)
+                {
+                    return;
+                }
+
+                _selectedProject = value;
+                RaisePropertyChanged(() => SelectedProject);
+            }
         }
 
         public RelayCommand LoadUnloadWorkspace { get; set; }
@@ -44,7 +61,6 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
                             new ProjectViewModel { FullName = "Bello" }
                         }
                     });
-                EventLog.Insert(0, "...");
             }
 
             LoadUnloadWorkspace = new RelayCommand(
@@ -58,10 +74,9 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
                                 {
                                     _syncContext.Send(
                                         new SendOrPostCallback(
-                                            async _ =>
+                                            _ =>
                                             {
-                                                _eventLog.Insert(0, string.Format("Begin create snapshot {0}...", sln.Name));
-                                                await _solutionViewModel.StartLoad(sln);
+                                                _solutionViewModel.StartLoad(sln);
                                             }), null);
                                 }),
                             FuncConvert.ToFSharpFunc<ProjectId>(
@@ -71,7 +86,6 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
                                         new SendOrPostCallback(
                                             _ =>
                                             {
-                                                _eventLog.Insert(0, string.Format("Begin create project snapshot {0}...", pid.Item));
                                                 var x = _solutionViewModel.Projects.Find(p => p.ProjectId == pid);
                                                 if (x != null)
                                                 {
@@ -79,18 +93,26 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
                                                 }
                                             }), null);
                                 }),
-                            FuncConvert.ToFSharpFunc<ProjectId>(
-                                pid =>
+                            FuncConvert.ToFSharpFunc<Tuple<ProjectId, ProjectBuildResult>>(
+                                args =>
                                 {
                                     _syncContext.Send(
                                         new SendOrPostCallback(
                                             _ =>
                                             {
-                                                _eventLog.Insert(0, string.Format("End create project snapshot {0}.", pid.Item));
-                                                var x = _solutionViewModel.Projects.Find(p => p.ProjectId == pid);
-                                                if (x != null)
+                                                var project = _solutionViewModel.Projects.Find(p => p.ProjectId == args.Item1);
+                                                if (project != null)
                                                 {
-                                                    x.State = ProjectState.Monitoring;
+                                                    project.Errors.AddRange(args.Item2.Warnings);
+                                                    project.Errors.AddRange(args.Item2.Errors);
+                                                    if (args.Item2.Status)
+                                                    {
+                                                        project.State = ProjectState.Monitoring;
+                                                    }
+                                                    else
+                                                    {
+                                                        project.State = ProjectState.ErrorCreatingSnapshot;
+                                                    }
                                                 }
                                             }), null);
                                 }),
@@ -99,10 +121,9 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
                                 {
                                     _syncContext.Send(
                                         new SendOrPostCallback(
-                                            async _ =>
+                                            _ =>
                                             {
-                                                await _solutionViewModel.FinishLoad(sln);
-                                                _eventLog.Insert(0, string.Format("End create snapshot {0}.", sln.Name));
+                                                _solutionViewModel.FinishLoad(sln);
                                             }), null);
                                 }));
 
@@ -111,7 +132,6 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
                     else if (_solutionViewModel.State == SolutionState.Loaded)
                     {
                         ((IDisposable)_pipeline).Dispose();
-                        _eventLog.Clear();
                         await _solutionViewModel.Unload();
                     }
                     else
@@ -120,6 +140,41 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
                     }
                 },
                 () => _solutionViewModel.State == SolutionState.Loaded || _solutionViewModel.State == SolutionState.Unloaded);
+        }
+    }
+
+    public class TreeViewSelectedItemBlendBehavior : Behavior<TreeView>
+    {
+        //dependency property
+        public static readonly DependencyProperty SelectedItemProperty =
+            DependencyProperty.Register("SelectedItem", typeof(object),
+            typeof(TreeViewSelectedItemBlendBehavior),
+            new FrameworkPropertyMetadata(null) { BindsTwoWayByDefault = true });
+
+        //property wrapper
+        public object SelectedItem
+        {
+            get { return (object)GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
+        }
+
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            this.AssociatedObject.SelectedItemChanged += OnTreeViewSelectedItemChanged;
+        }
+
+        protected override void OnDetaching()
+        {
+            base.OnDetaching();
+            if (this.AssociatedObject != null)
+                this.AssociatedObject.SelectedItemChanged -= OnTreeViewSelectedItemChanged;
+        }
+
+        private void OnTreeViewSelectedItemChanged(object sender,
+            RoutedPropertyChangedEventArgs<object> e)
+        {
+            this.SelectedItem = e.NewValue;
         }
     }
 }

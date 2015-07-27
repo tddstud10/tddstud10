@@ -2,6 +2,7 @@
 
 open QuickGraph
 open R4nd0mApps.TddStud10.Common.Domain
+open System
 
 (* DELETE THIS ONCE WE MERGE BACK *)
 module Common = 
@@ -15,9 +16,13 @@ module Common =
 
 [<AutoOpen>]
 module ProjectExtensions = 
+    open System
+    
     type Project with
         static member fromDTEProject (p : DTEProject) : Project = 
-            { Id = p.UniqueName |> ProjectId
+            { Id = 
+                  { UniqueName = p.UniqueName
+                    Id = p.ProjectGuid }
               Path = p.FullName |> FilePath
               Items = 
                   p.GetProjectItems()
@@ -36,25 +41,20 @@ type Workspace() =
         let dependencies = 
             sln.GetBuildDependencies()
             |> Seq.map (fun bd -> 
-                   let s = bd.Project.UniqueName |> ProjectId
-                   bd.RequiredProjects :?> obj []
-                   |> Array.map (fun o -> (o :?> DTEProject).UniqueName |> ProjectId)
-                   |> Seq.map (fun t -> SEquatableEdge<ProjectId>(s, t)))
-            |> Seq.collect id
+                   { UniqueName = bd.Project.UniqueName
+                     Id = bd.Project.ProjectGuid }, 
+                   bd.RequiredProjects :?> obj [] |> Seq.map (fun o -> 
+                                                         let p = o :?> DTEProject
+                                                         { UniqueName = p.UniqueName
+                                                           Id = p.ProjectGuid }))
+            |> Map.ofSeq
         
-        let dg = AdjacencyGraph<ProjectId, SEquatableEdge<_>>()
-        projects
-        |> Seq.map (fun p -> p.Id)
-        |> dg.AddVertexRange
-        |> ignore
-        dependencies
-        |> dg.AddEdgeRange
-        |> ignore
         let s = 
-            { Name = sln.FileName
+            { Path = sln.FullName |> FilePath
               Projects = 
                   projects
                   |> Seq.map (fun p -> p.Id, p)
                   |> Map.ofSeq
-              DependencyGraph = dg.ToArrayAdjacencyGraph() }
+              DependencyMap = dependencies }
+        
         Common.safeExec (fun () -> loadComplete.Trigger(s))

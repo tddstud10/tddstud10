@@ -2,16 +2,16 @@
 
 open QuickGraph
 open R4nd0mApps.TddStud10.Common.Domain
+open System
+open System.Collections.Generic
 open System.Diagnostics
 
-[<DebuggerDisplay("{ToString()}")>]
+[<DebuggerDisplay("{UniqueName} - {Id}")>]
 type ProjectId = 
-    | ProjectId of string
-    override self.ToString() = 
-        match self with
-        | ProjectId s -> s
+    { UniqueName : string
+      Id : Guid }
 
-[<DebuggerDisplay("{Id}")>]
+[<DebuggerDisplay("Id = {Id}")>]
 type Project = 
     { Id : ProjectId
       Path : FilePath
@@ -19,9 +19,20 @@ type Project =
       FileReferences : seq<FilePath>
       ProjectReferences : seq<ProjectId> }
 
-type ProjectDependencyGraph = ArrayAdjacencyGraph<ProjectId, SEquatableEdge<ProjectId>>
+[<DebuggerDisplay("Path = {Path}")>]
+type ProjectSnapshot = 
+    { Path : FilePath
+      Issues : exn list }
 
+[<DebuggerDisplay("Status = {Status}")>]
+type ProjectBuildResult = 
+    { Status : bool
+      Warnings : seq<string>
+      Errors : seq<string>
+      Outputs : seq<string> }
+
+[<DebuggerDisplay("Path = {Path}")>]
 type Solution = 
-    { Name : string
-      DependencyGraph : ProjectDependencyGraph
+    { Path : FilePath
+      DependencyMap : IDictionary<ProjectId, seq<ProjectId>>
       Projects : Map<ProjectId, Project> }

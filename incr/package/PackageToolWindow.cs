@@ -38,21 +38,30 @@ v File Copy
   v start stop project level marquee
 
 Wave 2 - make buildable
-- Extract Sequential graph looper
-- Copy files
-- Trigger MSBuild
-- Edit proj file to get build outputs
-- Edit proj file to replace proj ref with proj output
+v Extract Sequential graph looper
+v Copy files
+v Trigger MSBuild
+  v Show failure in UX  
+v Edit proj file to get build outputs
+v Edit proj file to replace proj ref with proj output
+  v Show pass in in UX  
 
 Wave 3 - keep buildable [p0 cases]
+- Remove all warnings
+- Refactor
 - Parallel graph looper [consider an agent based design]
+  - Do project by project, only thing initially required is the build dependency order
 - Error chain handling
-  - Show failure in UX  
+  - Hard errors
+  - Soft errors
+  - Show failure/warning in UX  
 - Incremental Changes
+  - Clide
   - Solution Event Listener
   - Project Event Listener
   - File Event Listener
   - TextView Event Listener
+  - Incremental nuget copy
 
 Wave 4 - keep buildable [p1 cases]
 - Unloaded projects
