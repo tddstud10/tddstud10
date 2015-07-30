@@ -93,7 +93,7 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
                                                 }
                                             }), null);
                                 }),
-                            FuncConvert.ToFSharpFunc<Tuple<ProjectId, ProjectBuildResult>>(
+                            FuncConvert.ToFSharpFunc<Tuple<ProjectId, ProjectLoadResult>>(
                                 args =>
                                 {
                                     _syncContext.Send(

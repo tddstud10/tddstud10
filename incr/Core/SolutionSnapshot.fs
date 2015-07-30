@@ -6,17 +6,19 @@ open QuickGraph
 open QuickGraph.Algorithms
 open R4nd0mApps.TddStud10.Common.Domain
 open System
+open System.Collections.Concurrent
 open System.Collections.Generic
 open System.IO
 open System.Xml
 open System.Xml.Linq
 open System.Xml.XPath
+open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 
 module QuickGraphExtensions = 
-    
-    let visitInDependencyOrder nodeProcessor (dg : AdjacencyGraph<_, _>) = 
+
+    let visitInDependencyOrder2 nodeProcessor (dg : AdjacencyGraph<_, _>) = 
         let rec dependencyLoop np (dg : AdjacencyGraph<_, _>) = 
-            AlgorithmExtensions.Sinks<ProjectId, _>(dg)
+            AlgorithmExtensions.Sinks<_, _>(dg)
             |> Seq.tryHead
             |> Option.iter (fun p -> 
                    p |> np
@@ -48,19 +50,19 @@ module ProjectExtensionsTBM =
     open Microsoft.Build.Utilities
     open Microsoft.Build.Framework
 
-    type XLogger() =
+    type BuildLogger() =
         inherit Logger()
-        let warnings = List<string>()
-        let errors = List<string>()
+        let warnings = ConcurrentQueue<string>()
+        let errors = ConcurrentQueue<string>()
         member __.Warnings = warnings
         member __.Errors = errors
         override __.Initialize(es : IEventSource) =
-            es.WarningRaised.Add(fun w -> warnings.Add(sprintf "%s(%d,%d): %s error %s: %s" w.File w.LineNumber w.ColumnNumber w.Subcategory w.Code w.Message))
-            es.ErrorRaised.Add(fun e -> errors.Add(sprintf "%s(%d,%d): %s error %s: %s" e.File e.LineNumber e.ColumnNumber e.Subcategory e.Code e.Message))
+            es.WarningRaised.Add(fun w -> warnings.Enqueue(sprintf "%s(%d,%d): %s error %s: %s" w.File w.LineNumber w.ColumnNumber w.Subcategory w.Code w.Message))
+            es.ErrorRaised.Add(fun e -> errors.Enqueue(sprintf "%s(%d,%d): %s error %s: %s" e.File e.LineNumber e.ColumnNumber e.Subcategory e.Code e.Message))
 
     type Project with
         
-        static member createSnapshot (s : Solution) (p : Project) = 
+        static member createSnapshot (s : Solution2) (p : Project) = 
             let copyToSnapshotRoot root p = 
                 let dst = (root, p |> Path.getPathWithoutRoot) ||> Path.combine
                 dst
@@ -168,11 +170,11 @@ module ProjectExtensionsTBM =
                 |> Map.add "_TddStud10Project" (psn.Path.ToString())
                 |> Map.add "_TddStud10Target" "Build"
             
-            let l = XLogger()
+            let l = BuildLogger()
             let p = ProjectInstance(wrapperProjectPath.ToString(), properties :> IDictionary<_, _>, "12.0")
             let status = p.Build([| "_TddStud10BuildProject" |], [l :> ILogger])
             let outputs = p.GetItems("_TddStud10TargetOutputs") |> Seq.map (fun i -> i.EvaluatedInclude)
-            { Status = status
+            { Status2 = status
               Warnings = l.Warnings
               Errors = l.Errors
               Outputs = outputs }
@@ -186,21 +188,21 @@ type SolutionSnapshot() =
     member public __.BeginCreateProjectSnapshot = beginCreateProjectSnapshot.Publish
     member public __.EndCreateProjectSnapshot = endCreateProjectSnapshot.Publish
     member public __.EndCreateSnapshot = endCreateSnapshot.Publish
-    member __.Load(sln : Solution) : Async<unit> = 
-        let processProject (rmap : Dictionary<ProjectId, ProjectBuildResult>) (sln : Solution) pid = 
+    member __.Load(sln : Solution2) : Async<unit> = 
+        let processProject (rmap : Dictionary<ProjectId, ProjectBuildResult>) (sln : Solution2) pid = 
             Common.safeExec (fun () -> beginCreateProjectSnapshot.Trigger(pid))
             let failedDeps = 
-                sln.DependencyMap.[pid]
-                |> Seq.filter (fun p -> not rmap.[p].Status)
+                sln.DependencyMap2.[pid]
+                |> Seq.filter (fun p -> not rmap.[p].Status2)
 
             let res = 
                 if (failedDeps |> Seq.length = 0) then
                     sln.Projects.[pid]
                     |> Project.createSnapshot sln
-                    |> Project.fixupProject sln.DependencyMap.[pid] rmap
+                    |> Project.fixupProject sln.DependencyMap2.[pid] rmap
                     |> Project.buildSnapshot rmap
                 else
-                    { Status = false
+                    { Status2 = false
                       Warnings = Seq.empty
                       Errors = failedDeps |> Seq.map (fun p -> sprintf "Required project %s failed to build." p.UniqueName)
                       Outputs = Seq.empty }
@@ -211,8 +213,8 @@ type SolutionSnapshot() =
         async { 
             Common.safeExec (fun () -> beginCreateSnapshot.Trigger(sln))
             let rmap = Dictionary<ProjectId, ProjectBuildResult>()
-            sln.DependencyMap.Keys.ToAdjacencyGraph<_, _>
-                (Func<_, _>(fun s -> sln.DependencyMap.[s] |> Seq.map (fun t -> SEquatableEdge<ProjectId>(s, t)))) 
-            |> QuickGraphExtensions.visitInDependencyOrder (processProject rmap sln)
+            sln.DependencyMap2.Keys.ToAdjacencyGraph<_, _>
+                (Func<_, _>(fun s -> sln.DependencyMap2.[s] |> Seq.map (fun t -> SEquatableEdge<_>(s, t)))) 
+            |> QuickGraphExtensions.visitInDependencyOrder2 (processProject rmap sln)
             Common.safeExec (fun () -> endCreateSnapshot.Trigger(sln))
         }

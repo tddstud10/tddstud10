@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Debug\Core.XML</DocumentationFile>
+    <OtherFlags>--keyfile:..\..\tddstud10.snk</OtherFlags>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -54,9 +55,14 @@
     <Compile Include="Utils.fs" />
     <Compile Include="ListExtensions.fs" />
     <Compile Include="EnvDTEExtensions.fs" />
-    <Compile Include="Workspace.fs" />
+    <Compile Include="DomainExtensions.fs" />
     <Compile Include="SolutionSnapshot.fs" />
+    <Compile Include="AutoCancelAgent.fs" />
+    <Compile Include="ProjectExtensions.fs" />
+    <Compile Include="ProjectLoader.fs" />
+    <Compile Include="Workspace.fs" />
     <Compile Include="IncrementalBuildPipeline.fs" />
+    <Compile Include="ProjectSnapshoter.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Hosts\VS\TddStudioPackage.Extensions\TddStudioPackage.Extensions.fsproj">
@@ -83,6 +89,9 @@
     <Reference Include="Microsoft.Build" />
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
+    <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
+      <HintPath>..\..\Engine\bin\Debug\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.Shell.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />

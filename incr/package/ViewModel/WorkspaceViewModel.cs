@@ -89,7 +89,9 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
         private List<ProjectViewModel> CreateSolutionViewModelAsync(Solution solution)
         {
             var projects = new List<ProjectViewModel>();
-            var dg = solution.DependencyMap.Keys.ToAdjacencyGraph<ProjectId, SEquatableEdge<ProjectId>>(s => solution.DependencyMap[s].Select(t => new SEquatableEdge<ProjectId>(s, t)));
+            var keys = from kvp in solution.DependencyMap
+                       select kvp.Key;
+            var dg = keys.ToAdjacencyGraph<ProjectId, SEquatableEdge<ProjectId>>(s => solution.DependencyMap[s].Select(t => new SEquatableEdge<ProjectId>(s, t)));
 
             var pvmMap = new Dictionary<ProjectId, ProjectViewModel>();
             var sw = new Stopwatch();
@@ -105,7 +107,7 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
                 var pvm = new ProjectViewModel();
                 pvm.FullName = v.UniqueName;
                 pvm.ProjectId = v;
-                pvm.Children.AddRange(solution.Projects[v].ProjectReferences.Select(r => pvmMap[r]));
+                pvm.Children.AddRange(solution.DependencyMap[v].Select(r => pvmMap[r]));
                 //pvm.Children.AddRange(solution.Projects[v].FileReferences.Select(f => new FileReferenceViewModel { FullName = f.Item }));
                 //pvm.Children.AddRange(solution.Projects[v].Items.Select(i => new ProjectItemViewModel { FullName = i.Item }));
 

@@ -45,33 +45,84 @@ v Trigger MSBuild
 v Edit proj file to get build outputs
 v Edit proj file to replace proj ref with proj output
   v Show pass in in UX  
+v Error chain handling
+  v Hard errors
+  v Soft errors
+  v Show failure/warning in UX  
 
 Wave 3 - keep buildable [p0 cases]
-- Remove all warnings
 - Refactor
-- Parallel graph looper [consider an agent based design]
-  - Do project by project, only thing initially required is the build dependency order
-- Error chain handling
-  - Hard errors
-  - Soft errors
-  - Show failure/warning in UX  
+  - Just split MSBuild class
+  - Agent pipeline
 - Incremental Changes
-  - Clide
-  - Solution Event Listener
-  - Project Event Listener
+  - Is Clide useful
   - File Event Listener
   - TextView Event Listener
-  - Incremental nuget copy
+- Additional Items
+  - snk
+  - Nuget items
+- Parallel graph looper [consider an agent based design]
+  - Do project by project, only thing initially required is the build dependency order
 
 Wave 4 - keep buildable [p1 cases]
+- Refactor
+- Incremental Changes
+  - Clide
+  - Project Event Listener
+  - Solution Event Listener
+  - TextView Event Listener
 - Unloaded projects
 - Projects that opt out of TddStud10
 - Solution close/open : unload with solution, autoenable based on setting, manual load otherwise
+- Strengthen error handling - processProject cannot fail
 - Remaining Pipeline
   - TB Update should come from pipeline
   - ?Merge Events
   - Additional Files
   - Prioritize the Sinks - i.e. next project to build should be the project with largest dependencies
+- Remove all warnings
+
+
+
+
+
+
+
+
+
+
+CD<ProjectId, Project>
+
+PipelineWireup
+- Creates n agents of each type below
+
+[Initial Load] 
+-> Workspace.Load 
+   (Create dep list)
+   (Messages Workspace to LoadProjects)
+-> [Workspace]
+   - LoadProjects message
+       Fires BeginCreateSnapshot
+       For each projects
+         Fires BeginCreateProjectSnapshot
+         (Messages ProjectLoader to Load Project)
+         ?Messages are sequential based on current state, return of message, updates state
+         Fires EndCreateProjectSnapshot
+       Fires EndCreateSnapshot
+   - ProjectLoadDone
+   - UpdateProject message
+-> [ProjectLoader]
+   (Loads project items from IDE)
+   (Creates change subscribers)
+   (Project snapshot)
+   (Project build)
+   (Enable change monitoring)
+   (Messages Workspace ProjectLoadDone)
+
+[Incremental Processing]
+-> 
+-> [ChangeSubscriberNormalizer]
+
 
 #endif
 
