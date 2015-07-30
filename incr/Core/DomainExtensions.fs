@@ -3,6 +3,7 @@
 open R4nd0mApps.TddStud10.Common.Domain
 open System
 open System.Threading
+open System.IO
 
 (* DELETE THIS ONCE WE MERGE BACK *)
 module Common = 
@@ -13,6 +14,25 @@ module Common =
 
 (*Logger.logErrorf "Exception thrown: %s." (ex.ToString())*)
 (* DELETE THIS ONCE WE MERGE BACK  *)
+
+[<AutoOpen>]
+module SystemIOExtensions = 
+    type File with
+        static member forceCopy (FilePath src) (FilePath dst) = File.Copy(src, dst, true)
+    
+    type Path with
+        
+        static member getDirectoryName (FilePath p) = 
+            p
+            |> Path.GetDirectoryName
+            |> FilePath
+        
+        static member getPathWithoutRoot (FilePath p) = p.Substring(Path.GetPathRoot(p).Length) |> FilePath
+        static member combine (FilePath p1) (FilePath p2) = Path.Combine(p1, p2) |> FilePath
+    
+    type Directory with
+        static member createDirectory (FilePath p) = p |> Directory.CreateDirectory
+        static member combine (FilePath p1) (FilePath p2) = Path.Combine(p1, p2) |> FilePath
 
 [<AutoOpen>]
 module SynchronizationContextExtensions = 

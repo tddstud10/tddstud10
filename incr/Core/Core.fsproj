@@ -56,7 +56,6 @@
     <Compile Include="ListExtensions.fs" />
     <Compile Include="EnvDTEExtensions.fs" />
     <Compile Include="DomainExtensions.fs" />
-    <Compile Include="SolutionSnapshot.fs" />
     <Compile Include="AutoCancelAgent.fs" />
     <Compile Include="ProjectExtensions.fs" />
     <Compile Include="ProjectLoader.fs" />
