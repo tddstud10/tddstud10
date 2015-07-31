@@ -1,5 +1,6 @@
 ﻿namespace R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage
 
+open FSharpx.Collections
 open QuickGraph
 open QuickGraph.Algorithms
 open R4nd0mApps.TddStud10.Common.Domain
@@ -7,47 +8,58 @@ open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 open System
 open System.Collections.Generic
 
-type WorkspaceMessages = 
-    | Load of Solution
-    | ProjectLoaded of ProjectId * ProjectLoadResult
-    | ProcessDeltas
-    | Unload
-
 (*
 Cleanup:
-- Map to dependency graph
+- How to make multiple agents listen to same queue
 - Add descend by max outgoing edges
 - Handling Agent
-- Changed dictionary to map
-- Dont pass entire rmap between agents
-- How to make multiple agents listen to same queue
+- Refactor: Graphextensions:Map to dependency graph
+- Refactor: Enumerate roots in desc order
+
+v Tweak data model
+v Dont pass entire rmap between agents
+  v Fix Logger.logErrorf "XXXXXX"
 - Split project loader
-- Fix Logger.logErrorf "XXXXXX"
  *)
 
-type Workspace(projLoader) = 
+type Workspace(projectLoader) = 
     let mutable disposed = false
     let onLoading = new Event<_>()
     let onProjectLoading = new Event<_>()
     let onProjectLoaded = new Event<_>()
     let onLoaded = new Event<_>()
     
-    let rec processor (sln : Solution option) (rmap : ProjectLoadResultMap) (dg : AdjacencyGraph<_, _>) 
+    let rec processor (sln : Solution option) (rmap : ProjectLoadResultTrackingMap) (dg : AdjacencyGraph<_, _>) 
             (inbox : MailboxProcessor<_>) = 
-        let startProjectLoad sln (rmap : ProjectLoadResultMap) p = 
+        let startProjectLoad sln (rmap : ProjectLoadResultTrackingMap) p = 
             Common.safeExec (fun () -> onProjectLoading.Trigger(p))
-            (sln, p, rmap) |||> projLoader
+            sln.DependencyMap.[p]
+            |> Seq.map (fun p -> p, rmap.[p])
+            |> Seq.map 
+                    (fun (p, res) -> 
+                    p, 
+                    res 
+                    |> Option.fold (fun _ r -> r) 
+                            (ProjectLoadResult.createFailedResult [ sprintf "Project %A not loaded for unknown reasons." p ]))
+            |> Map.ofSeq
+            |> projectLoader sln p
             rmap.Add(p, None)
         
-        let completeProjectLoad (rmap : ProjectLoadResultMap) (dg : AdjacencyGraph<_, _>) p res = 
-            rmap.[p] <- Some(res)
+        let completeProjectLoad (rmap : ProjectLoadResultTrackingMap) (dg : AdjacencyGraph<_, _>) p res = 
+            let rmap = rmap |> Map.updateWith (fun _ -> Some(Some(res))) p
             dg.RemoveVertex(p) |> ignore
             Common.safeExec (fun () -> onProjectLoaded.Trigger(p, res))
+            rmap
         
-        let loadSolution sln (rmap : ProjectLoadResultMap) (dg : AdjacencyGraph<_, _>) = 
-            let sinks = AlgorithmExtensions.Sinks<_, _>(dg) |> Seq.filter (rmap.ContainsKey >> not)
-            sinks |> Seq.iter (startProjectLoad sln rmap)
-            if (sinks |> Seq.length) = 0 then Common.safeExec (fun () -> onLoaded.Trigger(sln))
+        let loadSolution sln (rmap : ProjectLoadResultTrackingMap) (dg : AdjacencyGraph<_, _>) = 
+            let roots = 
+                dg.Roots()
+                |> Seq.filter (rmap.ContainsKey >> not)
+                |> Seq.sortBy dg.OutDegree
+            
+            let rmap = roots |> Seq.fold (startProjectLoad sln) rmap
+            if (roots |> Seq.length) = 0 then Common.safeExec (fun () -> onLoaded.Trigger(sln))
+            rmap
         
         async { 
             Logger.logInfof "Entering agent processor. Sln = %A" sln
@@ -59,17 +71,17 @@ type Workspace(projLoader) =
                 Logger.logInfof "Agent processor - Load Solution. Solution = %A" sln
                 Common.safeExec (fun () -> onLoading.Trigger(sln))
                 let dg = 
-                    (sln.DependencyMap :> IDictionary<_, _>).Keys.ToAdjacencyGraph<_, _> 
-                        (Func<_, _>(fun s -> sln.DependencyMap.[s] |> Seq.map (fun t -> SEquatableEdge<_>(s, t))))
-                (sln, rmap, dg) |||> loadSolution
+                    (sln.DependencyMap |> Map.keys).ToAdjacencyGraph<_, _> 
+                        (Func<_, _>(fun t -> sln.DependencyMap.[t] |> Seq.map (fun s -> SEquatableEdge<_>(s, t))))
+                let rmap = (sln, rmap, dg) |||> loadSolution
                 return! processor (Some sln) rmap dg inbox
             | ProjectLoaded(p, res) -> 
                 match sln with
                 | Some sln -> 
                     Logger.logInfof "Agent processor - Project Loaded. Solution = %A. Project = %A. Result = %A" sln p 
                         res
-                    completeProjectLoad rmap dg p res
-                    (sln, rmap, dg) |||> loadSolution
+                    let rmap = completeProjectLoad rmap dg p res
+                    let rmap = (sln, rmap, dg) |||> loadSolution
                     return! processor (Some sln) rmap dg inbox
                 | None -> 
                     Logger.logInfof 
@@ -82,7 +94,7 @@ type Workspace(projLoader) =
                 return! processor sln rmap dg inbox
         }
     
-    let agent = AutoCancelAgent.Start(processor None (ProjectLoadResultMap()) (AdjacencyGraph<_, _>()))
+    let agent = AutoCancelAgent.Start(processor None (Map.empty) (AdjacencyGraph<_, _>()))
     
     let dispose disposing = 
         if not disposed then 

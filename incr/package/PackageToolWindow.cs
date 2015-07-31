@@ -51,36 +51,36 @@ v Error chain handling
   v Show failure/warning in UX  
 
 Wave 3 - keep buildable [p0 cases]
-- Refactor
-  - Just split MSBuild class
-  - Agent pipeline
+v Refactor
+  v Just split MSBuild class
+  v Agent pipeline
+v Parallel graph looper [consider an agent based design]
+  v Do project by project, only thing initially required is the build dependency order
+- Fix debt
+  - Prioritize the Sinks - i.e. next project to build should be the project with largest dependencies
 - Incremental Changes
   - Is Clide useful
   - File Event Listener
   - TextView Event Listener
-- Additional Items
+- Additional Items should move to ProjectItem enumeration
   - snk
   - Nuget items
-- Parallel graph looper [consider an agent based design]
-  - Do project by project, only thing initially required is the build dependency order
+- Remove all build warnings
+- Repo of test projects + test in VS2015
 
 Wave 4 - keep buildable [p1 cases]
 - Refactor
 - Incremental Changes
-  - Clide
+  - Merge Events
   - Project Event Listener
   - Solution Event Listener
-  - TextView Event Listener
 - Unloaded projects
 - Projects that opt out of TddStud10
 - Solution close/open : unload with solution, autoenable based on setting, manual load otherwise
 - Strengthen error handling - processProject cannot fail
 - Remaining Pipeline
   - TB Update should come from pipeline
-  - ?Merge Events
   - Additional Files
-  - Prioritize the Sinks - i.e. next project to build should be the project with largest dependencies
-- Remove all warnings
 
 
 

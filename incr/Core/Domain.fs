@@ -42,7 +42,8 @@ type ProjectLoadResult =
         sprintf "%b (Ws = %d, Es = %d, Os = %d)" self.Status (self.Warnings |> Seq.length) 
             (self.Errors |> Seq.length) (self.Outputs |> Seq.length)
 
-type ProjectLoadResultMap = Dictionary<ProjectId, ProjectLoadResult option>
+type ProjectLoadResultTrackingMap = Map<ProjectId, ProjectLoadResult option>
+type ProjectLoadResultMap = Map<ProjectId, ProjectLoadResult>
 
 [<DebuggerDisplay("{AsString}")>]
 [<StructuredFormatDisplay("{AsString}")>]
@@ -51,3 +52,15 @@ type Solution =
       DependencyMap : Map<ProjectId, Set<ProjectId>>
       Solution : EnvDTE.Solution }
     member self.AsString = sprintf "%s (Dependencies: %d)" (self.Path.ToString()) self.DependencyMap.Count
+
+type WorkspaceMessages = 
+    | Load of Solution
+    | ProjectLoaded of ProjectId * ProjectLoadResult
+    | ProcessDeltas
+    | Unload
+
+type ProjectLoaderMessages = 
+    | LoadProject of Solution * ProjectId * ProjectLoadResultMap
+
+type ProjectSnapshoterMessages = 
+    | SnapshotProject of ProjectId

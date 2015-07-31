@@ -4,9 +4,6 @@ open R4nd0mApps.TddStud10.Common.Domain
 open System
 open System.Collections.Generic
 
-type ProjectSnapshoterMessages = 
-    | SnapshotProject of ProjectId
-
 type ProjectSnapshoter() = 
     let mutable disposed = false
     

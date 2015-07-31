@@ -2,8 +2,8 @@
 
 open R4nd0mApps.TddStud10.Common.Domain
 open System
-open System.Threading
 open System.IO
+open System.Threading
 
 (* DELETE THIS ONCE WE MERGE BACK *)
 module Common = 
@@ -57,3 +57,10 @@ module DomainExtensions =
                   |> Seq.collect id
               FileReferences = p.GetFileReferences()
               ProjectReferences = p.GetProjectReferences() }
+    
+    type ProjectLoadResult with
+        static member createFailedResult e = 
+            { Status = false
+              Warnings = Seq.empty
+              Errors = e
+              Outputs = Seq.empty }

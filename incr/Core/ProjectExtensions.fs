@@ -32,12 +32,9 @@ type BuildLogger() =
 
 module ProjectExtensions = 
     let loadProject (s : Solution) (pid : ProjectId) = 
-        let proj =
-            s.Solution.GetProjects()
-            |> Seq.tryFind (fun p -> p.UniqueName = pid.UniqueName)
-        proj
-        |> Option.map Project.fromDTEProject
-        
+        let proj = s.Solution.GetProjects() |> Seq.tryFind (fun p -> p.UniqueName = pid.UniqueName)
+        proj |> Option.map Project.fromDTEProject
+    
     let createSnapshot (s : Solution) (p : Project) = 
         let copyToSnapshotRoot root p = 
             let dst = (root, p |> Path.getPathWithoutRoot) ||> Path.combine
@@ -95,7 +92,7 @@ module ProjectExtensions =
         { ProjectSnapshot.Path = dst
           Issues = i |> Option.fold (fun acc e -> e :: acc) is3 }
     
-    let fixupProject (dpids : seq<ProjectId>) (rmap : ProjectLoadResultMap) (psn : ProjectSnapshot) = 
+    let fixupProject (rmap : ProjectLoadResultMap) (psn : ProjectSnapshot) = 
         let createFileRefIGFragment inc (hp : string) = 
             XElement
                 (XName.Get("ItemGroup", "http://schemas.microsoft.com/developer/msbuild/2003"), 
@@ -108,16 +105,14 @@ module ProjectExtensions =
         let xnm = XmlNamespaceManager(NameTable())
         xnm.AddNamespace("msb", "http://schemas.microsoft.com/developer/msbuild/2003")
         let ig1 = Extensions.XPathSelectElements(xdoc, "//msb:ItemGroup", xnm) |> Seq.nth 0
-        dpids |> Seq.iter (fun dpid -> 
-            match rmap.[dpid] with
-            | None -> Logger.logErrorf "XXXXXX"
-            | Some res -> 
-                res.Outputs 
-                |> Seq.iter (fun o -> 
-                    let oName = Path.GetFileNameWithoutExtension(o)
-                    (oName, o)
-                    ||> createFileRefIGFragment
-                    |> ig1.AddBeforeSelf))
+        rmap
+        |> Seq.map (fun kv -> kv.Value.Outputs)
+        |> Seq.collect id
+        |> Seq.iter (fun o -> 
+               let oName = Path.GetFileNameWithoutExtension(o)
+               (oName, o)
+               ||> createFileRefIGFragment
+               |> ig1.AddBeforeSelf)
         Extensions.XPathSelectElements(xdoc, "//msb:ProjectReference", xnm) |> Seq.iter (fun x -> x.Remove())
         xdoc.Save(psn.Path.ToString())
         psn
