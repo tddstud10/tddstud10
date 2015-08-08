@@ -1,9 +1,8 @@
 ﻿namespace R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage
 
+open R4nd0mApps.TddStud10.Common.Domain
 open System
 open System.Threading
-
-type Agent<'T> = MailboxProcessor<'T>
 
 /// Wrapper for the standard F# agent (MailboxProcessor) that
 /// supports stopping of the agent's body using the IDisposable 

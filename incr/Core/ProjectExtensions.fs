@@ -31,6 +31,24 @@ type BuildLogger() =
                 (sprintf "%s(%d,%d): %s error %s: %s" e.File e.LineNumber e.ColumnNumber e.Subcategory e.Code e.Message))
 
 module ProjectExtensions = 
+    let subscribeToChangeNotifications (proj : Project) res notifyChanged = 
+        let createFSW path = 
+            let fsw = new FileSystemWatcher()
+            fsw.Path <- (Path.getDirectoryName path).ToString()
+            fsw.Filter <- (Path.getFileName path).ToString()
+            fsw.Changed.Add(fun e -> ((e.FullPath |> FilePath), proj) |> notifyChanged)
+            // TODO: This is temporary till we wire up the Editor changed event handlers
+            fsw.Renamed.Add(fun e -> ((e.FullPath |> FilePath), proj) |> notifyChanged)
+            fsw.EnableRaisingEvents <- true
+            fsw
+        
+        let iws = 
+            proj.Items
+            |> Seq.map createFSW
+            |> Seq.toArray
+        
+        { res with ItemWatchers = iws }
+    
     let loadProject (s : Solution) (pid : ProjectId) = 
         let proj = s.Solution.GetProjects() |> Seq.tryFind (fun p -> p.UniqueName = pid.UniqueName)
         proj |> Option.map Project.fromDTEProject
@@ -141,6 +159,7 @@ module ProjectExtensions =
         let status = p.Build([| "_TddStud10BuildProject" |], [ l :> ILogger ])
         let outputs = p.GetItems("_TddStud10TargetOutputs") |> Seq.map (fun i -> i.EvaluatedInclude)
         { Status = status
+          ItemWatchers = Seq.empty
           Warnings = l.Warnings
           Errors = l.Errors
           Outputs = outputs }

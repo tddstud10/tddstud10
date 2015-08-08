@@ -4,7 +4,7 @@ open R4nd0mApps.TddStud10.Common.Domain
 open System
 open System.Collections.Generic
 
-type ProjectSnapshoter() = 
+type ProjectSnapshoterAgent() = 
     let mutable disposed = false
     
     let agent = 
@@ -13,7 +13,7 @@ type ProjectSnapshoter() =
                 async { 
                     let! msg = inbox.Receive()
                     match msg with
-                    | SnapshotProject p -> return ()
+                    | CreateSnapshot p -> return ()
                 }
             loop())
     
@@ -29,4 +29,4 @@ type ProjectSnapshoter() =
             dispose true
             GC.SuppressFinalize(self)
     
-    member __.SnapshotProject(p) = agent.Post(SnapshotProject p)
+    member __.SnapshotProject(p) = agent.Post(CreateSnapshot p)

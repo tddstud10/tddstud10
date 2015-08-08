@@ -56,10 +56,8 @@ v Refactor
   v Agent pipeline
 v Parallel graph looper [consider an agent based design]
   v Do project by project, only thing initially required is the build dependency order
-- Fix debt
-  - Prioritize the Sinks - i.e. next project to build should be the project with largest dependencies
 - Incremental Changes
-  - Is Clide useful
+  v Is Clide useful - it is - we will need to extend it for DocumentEvents
   - File Event Listener
   - TextView Event Listener
 - Additional Items should move to ProjectItem enumeration
@@ -67,6 +65,14 @@ v Parallel graph looper [consider an agent based design]
   - Nuget items
 - Remove all build warnings
 - Repo of test projects + test in VS2015
+- Make work multi-threaded - How to make multiple agents listen to same queue
+- Cleanup:
+  - UI has an initial delay - it should not be
+  - Add descend by max outgoing edges
+  - Handling Agent
+  - Refactor: Graphextensions:Map to dependency graph
+  - Refactor: Prioritize the Sinks - i.e. next project to build should be the project with largest dependencies
+  - Split project loader
 
 Wave 4 - keep buildable [p1 cases]
 - Refactor

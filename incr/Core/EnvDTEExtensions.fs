@@ -25,6 +25,7 @@ type DTEBuildDependency = EnvDTE.BuildDependency
 type MSBuildProject = Microsoft.Build.Evaluation.Project
 
 type EnvDTE.Project with
+    
     member self.ProjectGuid = 
         let p = EnvDTE.AdapterFacade.Adapt(self).As<MSBuildProject>()
         let id = p.GetPropertyValue("ProjectGuid")

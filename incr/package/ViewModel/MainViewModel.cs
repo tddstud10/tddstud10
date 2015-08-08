@@ -131,6 +131,7 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
                     }
                     else if (_solutionViewModel.State == SolutionState.Loaded)
                     {
+                        _pipeline.Unload();
                         ((IDisposable)_pipeline).Dispose();
                         await _solutionViewModel.Unload();
                     }

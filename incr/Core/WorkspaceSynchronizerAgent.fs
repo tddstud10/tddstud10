@@ -8,50 +8,37 @@ open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 open System
 open System.Collections.Generic
 
-(*
-Cleanup:
-- How to make multiple agents listen to same queue
-- Add descend by max outgoing edges
-- Handling Agent
-- Refactor: Graphextensions:Map to dependency graph
-- Refactor: Enumerate roots in desc order
-
-v Tweak data model
-v Dont pass entire rmap between agents
-  v Fix Logger.logErrorf "XXXXXX"
-- Split project loader
- *)
-
-type Workspace(projectLoader) = 
+type WorkspaceSynchronizerAgent(projectLoader) = 
     let mutable disposed = false
-    let onLoading = new Event<_>()
-    let onProjectLoading = new Event<_>()
-    let onProjectLoaded = new Event<_>()
-    let onLoaded = new Event<_>()
+    let onLoading = Event<_>()
+    let onProjectLoading = Event<_>()
+    let onProjectLoaded = Event<_>()
+    let onLoaded = Event<_>()
     
     let rec processor (sln : Solution option) (rmap : ProjectLoadResultTrackingMap) (dg : AdjacencyGraph<_, _>) 
-            (inbox : MailboxProcessor<_>) = 
+            (mbox : Agent<_>) = 
         let startProjectLoad sln (rmap : ProjectLoadResultTrackingMap) p = 
             Common.safeExec (fun () -> onProjectLoading.Trigger(p))
             sln.DependencyMap.[p]
             |> Seq.map (fun p -> p, rmap.[p])
             |> Seq.map 
-                    (fun (p, res) -> 
-                    p, 
-                    res 
-                    |> Option.fold (fun _ r -> r) 
-                            (ProjectLoadResult.createFailedResult [ sprintf "Project %A not loaded for unknown reasons." p ]))
+                   (fun (p, res) -> 
+                   p, 
+                   res 
+                   |> Option.fold (fun _ r -> r) 
+                          (ProjectLoadResult.createFailedResult 
+                               [ sprintf "Project %A not loaded for unknown reasons." p ]))
             |> Map.ofSeq
             |> projectLoader sln p
             rmap.Add(p, None)
         
-        let completeProjectLoad (rmap : ProjectLoadResultTrackingMap) (dg : AdjacencyGraph<_, _>) p res = 
+        let completeProjectLoad (dg : AdjacencyGraph<_, _>) p (rmap) res = 
             let rmap = rmap |> Map.updateWith (fun _ -> Some(Some(res))) p
             dg.RemoveVertex(p) |> ignore
             Common.safeExec (fun () -> onProjectLoaded.Trigger(p, res))
             rmap
         
-        let loadSolution sln (rmap : ProjectLoadResultTrackingMap) (dg : AdjacencyGraph<_, _>) = 
+        let loadSolution sln (dg : AdjacencyGraph<_, _>) (rmap : ProjectLoadResultTrackingMap) = 
             let roots = 
                 dg.Roots()
                 |> Seq.filter (rmap.ContainsKey >> not)
@@ -63,9 +50,9 @@ type Workspace(projectLoader) =
         
         async { 
             Logger.logInfof "Entering agent processor. Sln = %A" sln
-            let! msg = inbox.Receive()
+            let! msg = mbox.Receive()
             match msg with
-            | Load sln -> 
+            | LoadSolution sln -> 
                 // TODO: Existing RMAP should be empty - put in a check here.
                 // TODO: Dg must also be empty
                 Logger.logInfof "Agent processor - Load Solution. Solution = %A" sln
@@ -73,28 +60,50 @@ type Workspace(projectLoader) =
                 let dg = 
                     (sln.DependencyMap |> Map.keys).ToAdjacencyGraph<_, _> 
                         (Func<_, _>(fun t -> sln.DependencyMap.[t] |> Seq.map (fun s -> SEquatableEdge<_>(s, t))))
-                let rmap = (sln, rmap, dg) |||> loadSolution
-                return! processor (Some sln) rmap dg inbox
-            | ProjectLoaded(p, res) -> 
+                let rmap = rmap |> loadSolution sln dg
+                return! processor (Some sln) rmap dg mbox
+            | ProcessLoadedProject(p, res) -> 
                 match sln with
                 | Some sln -> 
-                    Logger.logInfof "Agent processor - Project Loaded. Solution = %A. Project = %A. Result = %A" sln p 
+                    Logger.logInfof "Agent processor - ProjectLoaded. Solution = %A. Project = %A. Result = %A" sln p 
                         res
-                    let rmap = completeProjectLoad rmap dg p res
-                    let rmap = (sln, rmap, dg) |||> loadSolution
-                    return! processor (Some sln) rmap dg inbox
+                    let rmap = 
+                        res
+                        |> completeProjectLoad dg p rmap
+                        |> loadSolution sln dg
+                    return! processor (Some sln) rmap dg mbox
                 | None -> 
                     Logger.logInfof 
-                        "Agent processor - Project Loaded - Ignoring message. Solution = %A. Project = %A. Result = %A" 
+                        "Agent processor - ProjectLoaded - Ignoring message. Solution = %A. Project = %A. Result = %A" 
                         sln p res
-                    return! processor sln rmap dg inbox
-            | msg -> 
-                // Do ?nothing if load operation is in progress
-                Logger.logInfof "Agent processor - Message %A - Ignoring message. Solution = %A." msg sln
-                return! processor sln rmap dg inbox
+                    return! processor sln rmap dg mbox
+            | UnloadSolution -> 
+                match sln with
+                | Some sln -> 
+                    Logger.logInfof "Agent processor - Unload. Solution = %A." sln
+                    rmap
+                    |> Map.values
+                    |> Seq.choose id
+                    |> Seq.map (fun res -> res.ItemWatchers)
+                    |> Seq.collect id
+                    |> Seq.iter (fun iw -> (iw :> IDisposable).Dispose())
+                | None -> Logger.logInfof "Agent processor - Unload - Ignoring message. Solution = %A." sln
+                return! processor None Map.empty (AdjacencyGraph<_, _>()) mbox
+            | ProcessDeltas ds -> 
+                let loadInProgress = 
+                    rmap
+                    |> Map.values
+                    |> Seq.exists (fun res -> res = None)
+                if (loadInProgress) then 
+                    Logger.logInfof "Agent processor - Message %A - Ignoring message as load is in progress. Solution = %A." msg sln
+                    return! processor sln rmap dg mbox
+                else 
+                    Logger.logInfof "Agent processor - Message %A - Processing deltas. Solution = %A. Deltas: %A" msg 
+                        sln ds
+                    return! processor sln rmap dg mbox
         }
     
-    let agent = AutoCancelAgent.Start(processor None (Map.empty) (AdjacencyGraph<_, _>()))
+    let agent = AutoCancelAgent.Start(processor None Map.empty (AdjacencyGraph<_, _>()))
     
     let dispose disposing = 
         if not disposed then 
@@ -130,10 +139,19 @@ type Workspace(projectLoader) =
         { Path = sln.FullName |> FilePath
           DependencyMap = deps
           Solution = sln }
-        |> Load
+        |> LoadSolution
         |> agent.Post
     
     member __.ProjectLoaded pres = 
         pres
-        |> ProjectLoaded
+        |> ProcessLoadedProject
         |> agent.Post
+    
+    member __.ProcessDeltas ds = 
+        ds
+        |> ProcessDeltas
+        |> agent.Post
+    
+    member __.Unload() = 
+        Logger.logInfof "Starting unload."
+        UnloadSolution |> agent.Post

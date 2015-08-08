@@ -7,9 +7,13 @@ open System
 type IncrementalBuildPipeline(bcs : Solution -> unit, bcps : ProjectId -> unit, ecps : ProjectId * ProjectLoadResult -> unit, ecs : Solution -> unit) = 
     do Logger.logInfof "In IncrementalBuildPipeline - Initializing..."
     let mutable disposed = false
-    let pl = new ProjectLoader()
-    let w = new Workspace(pl.LoadProject)
+    let cn = new BatchedDeltaProcessorAgent(100, 500)
+    let pl = new ProjectLoaderAgent(ProcessDelta >> cn.Post)
+    let w = new WorkspaceSynchronizerAgent(pl.LoadProject)
+    let normalizedDeltas = cn.BatchProduced |> Event.map ((function 
+                                                          | ProcessDelta(fp, p) -> fp, p) |> Seq.map)
     let ploplss = pl.OnProjectLoaded.Subscribe(w.ProjectLoaded)
+    let ndss = normalizedDeltas.Subscribe(w.ProcessDeltas)
     let wolgss = w.OnLoading.Subscribe(bcs)
     let woplgss = w.OnProjectLoading.Subscribe(bcps)
     let wopldss = w.OnProjectLoaded.Subscribe(ecps)
@@ -22,6 +26,7 @@ type IncrementalBuildPipeline(bcs : Solution -> unit, bcps : ProjectId -> unit, 
                 wopldss.Dispose()
                 woplgss.Dispose()
                 wolgss.Dispose()
+                ndss.Dispose()
                 ploplss.Dispose()
                 (pl :> IDisposable).Dispose()
                 (w :> IDisposable).Dispose()
@@ -35,3 +40,4 @@ type IncrementalBuildPipeline(bcs : Solution -> unit, bcps : ProjectId -> unit, 
             GC.SuppressFinalize(self)
     
     member __.Trigger(sln : DTESolution) : unit = w.Load(sln)
+    member __.Unload() : unit = w.Unload()

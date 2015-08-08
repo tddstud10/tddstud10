@@ -27,6 +27,11 @@ module SystemIOExtensions =
             |> Path.GetDirectoryName
             |> FilePath
         
+        static member getFileName (FilePath p) = 
+            p
+            |> Path.GetFileName
+            |> FilePath
+        
         static member getPathWithoutRoot (FilePath p) = p.Substring(Path.GetPathRoot(p).Length) |> FilePath
         static member combine (FilePath p1) (FilePath p2) = Path.Combine(p1, p2) |> FilePath
     
@@ -61,6 +66,7 @@ module DomainExtensions =
     type ProjectLoadResult with
         static member createFailedResult e = 
             { Status = false
+              ItemWatchers = Seq.empty
               Warnings = Seq.empty
               Errors = e
               Outputs = Seq.empty }

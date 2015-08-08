@@ -4,9 +4,9 @@ open R4nd0mApps.TddStud10.Common.Domain
 open System
 open System.Threading
 
-type ProjectLoader() = 
+type ProjectLoaderAgent(notifyChanged) = 
     let mutable disposed = false
-    let onProjectLoaded = new Event<_>()
+    let onProjectLoaded = Event<_>()
     let syncContext = SynchronizationContext.CaptureCurrent()
     
     let processProject s p (rmap : ProjectLoadResultMap) = 
@@ -16,19 +16,22 @@ type ProjectLoader() =
         if (failedPrereqs |> Seq.length > 0) then 
             failedPrereqs 
             |> Seq.map (fun kv -> sprintf "Required project %s failed to build." kv.Key.UniqueName)
-            |> ProjectLoadResult.createFailedResult  
+            |> ProjectLoadResult.createFailedResult
         else 
+            // TODO: Pull this out into a helper
             let proj : Project option ref = ref None
             syncContext.Send((fun _ -> proj := (s, p) ||> ProjectExtensions.loadProject), null)
             match !proj with
             | Some proj -> 
-                proj
-                |> ProjectExtensions.createSnapshot s
-                |> ProjectExtensions.fixupProject rmap
-                |> ProjectExtensions.buildSnapshot
-            | None -> [ sprintf "Required project %s failed to load." p.UniqueName ] |> ProjectLoadResult.createFailedResult 
+                let res = 
+                    proj
+                    |> ProjectExtensions.createSnapshot s
+                    |> ProjectExtensions.fixupProject rmap
+                    |> ProjectExtensions.buildSnapshot
+                (proj, res, notifyChanged) |||> ProjectExtensions.subscribeToChangeNotifications
+            | None -> [ sprintf "Required project %s failed to load." p.UniqueName ] |> ProjectLoadResult.createFailedResult
     
-    let rec processor (inbox : MailboxProcessor<_>) = 
+    let rec processor (inbox : Agent<_>) = 
         async { 
             let! msg = inbox.Receive()
             match msg with
@@ -37,7 +40,7 @@ type ProjectLoader() =
                     try 
                         processProject s p rmap
                     with e ->
-                        [ e.ToString() ] |> ProjectLoadResult.createFailedResult 
+                        [ e.ToString() ] |> ProjectLoadResult.createFailedResult
                 Common.safeExec (fun () -> onProjectLoaded.Trigger(p, res))
                 return! processor inbox
         }

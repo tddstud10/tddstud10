@@ -58,10 +58,11 @@
     <Compile Include="DomainExtensions.fs" />
     <Compile Include="AutoCancelAgent.fs" />
     <Compile Include="ProjectExtensions.fs" />
-    <Compile Include="ProjectLoader.fs" />
-    <Compile Include="Workspace.fs" />
+    <Compile Include="ProjectLoaderAgent.fs" />
+    <Compile Include="ProjectSnapshoterAgent.fs" />
+    <Compile Include="BatchedDeltaProcessorAgent.fs" />
+    <Compile Include="WorkspaceSynchronizerAgent.fs" />
     <Compile Include="IncrementalBuildPipeline.fs" />
-    <Compile Include="ProjectSnapshoter.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Hosts\VS\TddStudioPackage.Extensions\TddStudioPackage.Extensions.fsproj">
