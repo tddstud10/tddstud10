@@ -31,14 +31,14 @@ type BuildLogger() =
                 (sprintf "%s(%d,%d): %s error %s: %s" e.File e.LineNumber e.ColumnNumber e.Subcategory e.Code e.Message))
 
 module ProjectExtensions = 
-    let subscribeToChangeNotifications (proj : Project) res notifyChanged = 
+    let subscribeToChangeNotifications (proj : Project) res (dce : Event<_>) = 
         let createFSW path = 
             let fsw = new FileSystemWatcher()
             fsw.Path <- (Path.getDirectoryName path).ToString()
             fsw.Filter <- (Path.getFileName path).ToString()
-            fsw.Changed.Add(fun e -> ((e.FullPath |> FilePath), proj) |> notifyChanged)
+            fsw.Changed.Add(fun e -> ((e.FullPath |> FilePath), proj) |> dce.Trigger)
             // TODO: This is temporary till we wire up the Editor changed event handlers
-            fsw.Renamed.Add(fun e -> ((e.FullPath |> FilePath), proj) |> notifyChanged)
+            fsw.Renamed.Add(fun e -> ((e.FullPath |> FilePath), proj) |> dce.Trigger)
             fsw.EnableRaisingEvents <- true
             fsw
         
@@ -47,7 +47,8 @@ module ProjectExtensions =
             |> Seq.map createFSW
             |> Seq.toArray
         
-        { res with ItemWatchers = iws }
+        (*{ res with ItemWatchers = iws }*)
+        res
     
     let loadProject (s : Solution) (pid : ProjectId) = 
         let proj = s.Solution.GetProjects() |> Seq.tryFind (fun p -> p.UniqueName = pid.UniqueName)
@@ -107,35 +108,34 @@ module ProjectExtensions =
                    ex |> Option.fold (fun acc e -> e :: acc) acc) is2
         
         let dst, i = (root, p.Path) ||> copyToSnapshotRoot
-        { ProjectSnapshot.Path = dst
-          Issues = i |> Option.fold (fun acc e -> e :: acc) is3 }
+        let is4 = i |> Option.fold (fun acc e -> e :: acc) is3
+
+        SnapshotSuccess(dst, p, is4 |> Seq.map (fun e -> e.ToString()))
     
-    let fixupProject (rmap : ProjectLoadResultMap) (psn : ProjectSnapshot) = 
-        let createFileRefIGFragment inc (hp : string) = 
+    let fixupProject bos (psnPath : FilePath) = 
+        let createFileRefIGFragment inc (hp : FilePath) = 
             XElement
                 (XName.Get("ItemGroup", "http://schemas.microsoft.com/developer/msbuild/2003"), 
                  XElement
                      (XName.Get("Reference", "http://schemas.microsoft.com/developer/msbuild/2003"), 
                       XAttribute(XName.Get("Include"), inc), 
-                      XElement(XName.Get("HintPath", "http://schemas.microsoft.com/developer/msbuild/2003"), hp), 
+                      XElement(XName.Get("HintPath", "http://schemas.microsoft.com/developer/msbuild/2003"), hp.ToString()), 
                       XElement(XName.Get("Private", "http://schemas.microsoft.com/developer/msbuild/2003"), "True")))
-        let xdoc = XDocument.Load(psn.Path.ToString())
+        let xdoc = XDocument.Load(psnPath.ToString())
         let xnm = XmlNamespaceManager(NameTable())
         xnm.AddNamespace("msb", "http://schemas.microsoft.com/developer/msbuild/2003")
         let ig1 = Extensions.XPathSelectElements(xdoc, "//msb:ItemGroup", xnm) |> Seq.nth 0
-        rmap
-        |> Seq.map (fun kv -> kv.Value.Outputs)
-        |> Seq.collect id
+        bos
         |> Seq.iter (fun o -> 
-               let oName = Path.GetFileNameWithoutExtension(o)
+               let oName = o |> Path.getFileNameWithoutExtension
                (oName, o)
                ||> createFileRefIGFragment
                |> ig1.AddBeforeSelf)
         Extensions.XPathSelectElements(xdoc, "//msb:ProjectReference", xnm) |> Seq.iter (fun x -> x.Remove())
-        xdoc.Save(psn.Path.ToString())
-        psn
+        xdoc.Save(psnPath.ToString())
+        psnPath
     
-    let buildSnapshot (psn : ProjectSnapshot) = 
+    let buildSnapshot proj (psnPath : FilePath) = 
         let wrapperProject = """<Project ToolsVersion="12.0" DefaultTargets="_TddStud10BuildProject" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Target Name="_TddStud10BuildProject">
     <MSBuild 
@@ -147,19 +147,19 @@ module ProjectExtensions =
   </Target>
 </Project>"""
         let wrapperProjectPath = 
-            (psn.Path |> Path.getDirectoryName, "tddstud10wrapper.proj" |> FilePath) ||> Path.combine
+            (psnPath |> Path.getDirectoryName, "tddstud10wrapper.proj" |> FilePath) ||> Path.combine
         File.WriteAllText(wrapperProjectPath.ToString(), wrapperProject)
         let properties = 
             Map.empty
-            |> Map.add "_TddStud10Project" (psn.Path.ToString())
+            |> Map.add "_TddStud10Project" (psnPath.ToString())
             |> Map.add "_TddStud10Target" "Build"
         
         let l = BuildLogger()
         let p = ProjectInstance(wrapperProjectPath.ToString(), properties :> IDictionary<_, _>, "12.0")
         let status = p.Build([| "_TddStud10BuildProject" |], [ l :> ILogger ])
-        let outputs = p.GetItems("_TddStud10TargetOutputs") |> Seq.map (fun i -> i.EvaluatedInclude)
-        { Status = status
-          ItemWatchers = Seq.empty
-          Warnings = l.Warnings
-          Errors = l.Errors
-          Outputs = outputs }
+        let outputs = p.GetItems("_TddStud10TargetOutputs") |> Seq.map (fun i -> i.EvaluatedInclude |> FilePath)
+        let is = l.Warnings |> Seq.append l.Errors
+        if (status) then
+            BuildSuccess(proj, outputs, is)
+        else
+            BuildFailure(proj, is)

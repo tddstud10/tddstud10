@@ -56,12 +56,13 @@
     <Compile Include="ListExtensions.fs" />
     <Compile Include="EnvDTEExtensions.fs" />
     <Compile Include="DomainExtensions.fs" />
-    <Compile Include="AutoCancelAgent.fs" />
     <Compile Include="ProjectExtensions.fs" />
+    <Compile Include="AutoCancelAgent.fs" />
     <Compile Include="ProjectLoaderAgent.fs" />
-    <Compile Include="ProjectSnapshoterAgent.fs" />
+    <Compile Include="ProjectSyncAgent.fs" />
+    <Compile Include="ProjectBuilderAgent.fs" />
     <Compile Include="BatchedDeltaProcessorAgent.fs" />
-    <Compile Include="WorkspaceSynchronizerAgent.fs" />
+    <Compile Include="SolutionSyncAgent.fs" />
     <Compile Include="IncrementalBuildPipeline.fs" />
   </ItemGroup>
   <ItemGroup>

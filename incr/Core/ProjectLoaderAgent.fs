@@ -1,63 +1,43 @@
-﻿namespace R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage
+﻿module R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.ProjectLoaderAgent
 
 open R4nd0mApps.TddStud10.Common.Domain
 open System
 open System.Threading
+open FSharpx.Collections
+open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 
-type ProjectLoaderAgent(notifyChanged) = 
-    let mutable disposed = false
-    let onProjectLoaded = Event<_>()
-    let syncContext = SynchronizationContext.CaptureCurrent()
+let private processProject (sc : SynchronizationContext) s p (rmap : ProjectLoadResultMap) = 
+    let failedPrereqs = 
+        rmap
+        |> Map.valueList
+        |> List.choose (function | LoadInProgress -> Some p | LoadSuccess _ -> None | LoadFailure _ -> Some p)
+    if (failedPrereqs |> Seq.length > 0) then 
+        failedPrereqs 
+        |> List.map (fun kv -> sprintf "Required project %s failed to load." kv.UniqueName)
+        |> LoadFailure
+    else 
+        let proj = sc.Execute (fun () -> (s, p) ||> ProjectExtensions.loadProject)
+        match proj with
+        | Some proj -> proj |> LoadSuccess
+        | None -> 
+            [ sprintf "Project %s failed to load." p.UniqueName ] |> LoadFailure
     
-    let processProject s p (rmap : ProjectLoadResultMap) = 
-        let failedPrereqs = 
-            rmap
-            |> Seq.filter (fun kv -> not kv.Value.Status)
-        if (failedPrereqs |> Seq.length > 0) then 
-            failedPrereqs 
-            |> Seq.map (fun kv -> sprintf "Required project %s failed to build." kv.Key.UniqueName)
-            |> ProjectLoadResult.createFailedResult
-        else 
-            // TODO: Pull this out into a helper
-            let proj : Project option ref = ref None
-            syncContext.Send((fun _ -> proj := (s, p) ||> ProjectExtensions.loadProject), null)
-            match !proj with
-            | Some proj -> 
-                let res = 
-                    proj
-                    |> ProjectExtensions.createSnapshot s
-                    |> ProjectExtensions.fixupProject rmap
-                    |> ProjectExtensions.buildSnapshot
-                (proj, res, notifyChanged) |||> ProjectExtensions.subscribeToChangeNotifications
-            | None -> [ sprintf "Required project %s failed to load." p.UniqueName ] |> ProjectLoadResult.createFailedResult
-    
-    let rec processor (inbox : Agent<_>) = 
-        async { 
-            let! msg = inbox.Receive()
-            match msg with
-            | LoadProject(s, p, rmap) -> 
-                let res = 
-                    try 
-                        processProject s p rmap
-                    with e ->
-                        [ e.ToString() ] |> ProjectLoadResult.createFailedResult
-                Common.safeExec (fun () -> onProjectLoaded.Trigger(p, res))
-                return! processor inbox
-        }
-    
-    let agent = AutoCancelAgent.Start(processor)
-    
-    let dispose disposing = 
-        if not disposed then 
-            if (disposing) then (agent :> IDisposable).Dispose()
-            disposed <- true
-    
-    override __.Finalize() = dispose false
-    
-    interface IDisposable with
-        member self.Dispose() : _ = 
-            dispose true
-            GC.SuppressFinalize(self)
-    
-    member __.LoadProject s p rmap = agent.Post((s, p, rmap) |> LoadProject)
-    member __.OnProjectLoaded = onProjectLoaded.Publish
+let rec private processor (sc : SynchronizationContext) nc (ple : Event<_>) (mbox : Agent<_>) = 
+    async { 
+        Logger.logInfof "PLA: #### Starting loop."
+        let! msg = mbox.Receive()
+        Logger.logInfof "PLA: #### Processing message %A." msg
+        match msg with
+        | LoadProject(s, rmap, pid) -> 
+            Logger.logInfof "PLA: Loading project %A." pid
+            let res = 
+                try 
+                    processProject sc s pid rmap
+                with e ->
+                    [ e.ToString() ] |> LoadFailure
+            ple.SafeTrigger(pid,res)
+            Logger.logInfof "PLA: Loading project %s done: Result = %A." pid.UniqueName res
+        return! processor sc nc ple mbox
+    }
+
+let create sc nc ple = (sc, nc, ple) |||> processor |> AutoCancelAgent.Start

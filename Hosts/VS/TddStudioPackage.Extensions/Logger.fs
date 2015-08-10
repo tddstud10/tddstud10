@@ -36,4 +36,7 @@ type internal Logger() =
     static member public logInfof format = Logger.invokeLogf EventLevel.Informational Logger.I.LogInfo format
     
     [<NonEvent>]
+    static member public logWarnf format = Logger.invokeLogf EventLevel.Warning Logger.I.LogInfo format
+    
+    [<NonEvent>]
     static member public logErrorf format = Logger.invokeLogf EventLevel.Error Logger.I.LogError format

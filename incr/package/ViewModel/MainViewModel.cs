@@ -103,15 +103,15 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
                                                 var project = _solutionViewModel.Projects.Find(p => p.ProjectId == args.Item1);
                                                 if (project != null)
                                                 {
-                                                    project.Errors.AddRange(args.Item2.Warnings);
-                                                    project.Errors.AddRange(args.Item2.Errors);
-                                                    if (args.Item2.Status)
+                                                    if (args.Item2.IsLoadSuccess)
                                                     {
                                                         project.State = ProjectState.Monitoring;
                                                     }
                                                     else
                                                     {
+                                                        var lf = args.Item2 as ProjectLoadResult.LoadFailure;
                                                         project.State = ProjectState.ErrorCreatingSnapshot;
+                                                        project.Errors.AddRange(lf.Item);
                                                     }
                                                 }
                                             }), null);
