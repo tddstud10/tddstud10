@@ -10,7 +10,7 @@ let private processProject (sc : SynchronizationContext) s p (rmap : ProjectLoad
     let failedPrereqs = 
         rmap
         |> Map.valueList
-        |> List.choose (function | LoadInProgress -> Some p | LoadSuccess _ -> None | LoadFailure _ -> Some p)
+        |> List.choose (function | None -> Some p | Some r -> match r with | LoadSuccess _ -> None | LoadFailure _ -> Some p)
     if (failedPrereqs |> Seq.length > 0) then 
         failedPrereqs 
         |> List.map (fun kv -> sprintf "Required project %s failed to load." kv.UniqueName)
@@ -36,7 +36,7 @@ let rec private processor (sc : SynchronizationContext) nc (ple : Event<_>) (mbo
                 with e ->
                     [ e.ToString() ] |> LoadFailure
             ple.SafeTrigger(pid,res)
-            Logger.logInfof "PLA: Loading project %s done: Result = %A." pid.UniqueName res
+            Logger.logInfof "PLA: Done loading project %s: Result = %A." pid.UniqueName res
         return! processor sc nc ple mbox
     }
 

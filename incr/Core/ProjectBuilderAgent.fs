@@ -25,7 +25,7 @@ let rec private processor (pbce : Event<_>) (pbse : Event<_>) (mbox : Agent<_>) 
                     with e -> p, BuildFailure(p, is |> Seq.append [ e.ToString() ])
                 | SnapshotFailure(p, is) -> p, BuildFailure(p, is)
             pbce.SafeTrigger(p, pbr)
-            Logger.logInfof "PBA: Building %s done: Result = %A." p.Id.UniqueName pbr
+            Logger.logInfof "PBA: Done building %s: Result = %A." p.Id.UniqueName pbr
         return! processor pbce pbse mbox
     }
 

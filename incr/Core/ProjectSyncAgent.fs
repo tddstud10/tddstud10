@@ -20,7 +20,7 @@ let rec private processor (psce : Event<_>) dce (mbox : Agent<_>) =
                     syncProject s rmap p
                 with e -> (p, e.ToString() |> Seq.singleton) |> SnapshotFailure
             psn |> psce.SafeTrigger
-            Logger.logInfof "PSA: Syncing project %s done: Result = %A." p.Id.UniqueName psn
+            Logger.logInfof "PSA: Done syncing project %s: Result = %A." p.Id.UniqueName psn
         return! processor psce dce mbox
     }
 

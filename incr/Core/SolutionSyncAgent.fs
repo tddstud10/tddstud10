@@ -14,14 +14,17 @@ module SolutionSyncAgent =
           Es : SolutionSyncEvents
           MBox : Agent<SolutionSyncMessages> }
     
-    let startOpOnSln<'TRes, 'TNEArgs> fDone fv (pose : Event<_>) (pone : Event<_ * Map<_, 'TRes> * 'TNEArgs>) fnep 
-        (fe : Event<_>) sln (dg : DependencyGraph) (rmap : Map<ProjectId, 'TRes>) = 
+    let startOpOnSln<'TRes, 'TNEArgs when 'TRes : equality> fDone (pose : Event<_>) (pone : Event<_ * Map<_, 'TRes option> * 'TNEArgs>) fnep 
+        (fe : Event<_>) sln (dg : DependencyGraph) (rmap : Map<ProjectId, 'TRes option>) = 
         let roots = 
             dg.Roots()
             |> Seq.filter (rmap.ContainsKey >> not)
             |> Seq.sortBy dg.OutDegree
-        if ((roots |> Seq.isEmpty) |> not)
-        then 
+        let pending =
+            rmap
+            |> Seq.filter (fun kv -> kv.Value = None)
+        if (not (roots |> Seq.isEmpty)) then 
+            Logger.logInfof "SSA: %d roots available now. Starting operations on all of them." (roots |> Seq.length)
             let fldr (rmap : Map<_, _>) pid = 
                 pose.SafeTrigger(pid)
                 let m = 
@@ -29,25 +32,31 @@ module SolutionSyncAgent =
                     |> Seq.map (fun id -> id, rmap.[id])
                     |> Map.ofSeq
                 pone.SafeTrigger(sln, m, pid |> fnep)
-                rmap |> Map.add pid (pid |> fv)
+                rmap |> Map.add pid None
             roots |> Seq.fold fldr rmap
+        else if (not (pending |> Seq.isEmpty)) then
+            Logger.logInfof "SSA: %d Project Ops still pending. Not seeking next set of roots." (pending |> Seq.length)
+            rmap
         else 
+            Logger.logInfof "SSA: All project operations complete. Done with solution."
             fe.SafeTrigger(sln)
             fDone()
             rmap
     
-    let completeOpOnProject<'TRes> (fe : Event<_>) (dg : AdjacencyGraph<_, _>) pid (rmap : Map<ProjectId, 'TRes>) r = 
-        let rmap = rmap |> Map.updateWith (fun _ -> Some(r)) pid
+    let completeOpOnProject<'TRes> (fe : Event<_>) (dg : AdjacencyGraph<_, _>) pid (rmap : Map<ProjectId, 'TRes option>) 
+        r = 
+        let rmap = 
+            rmap |> Map.updateWith (fun _ -> Some(Some(r))) pid
         dg.RemoveVertex(pid) |> ignore
         fe.SafeTrigger(pid, r)
         rmap
     
     let loadSolution (mbox : Agent<_>) es sln (dg : DependencyGraph) (rmap : ProjectLoadResultMap) = 
-        startOpOnSln (fun () -> mbox.Post(SyncAndBuildSolution)) (fun _ -> LoadInProgress) es.ProjectLoadStarting 
-            es.ProjectLoadNeeded id es.LoadFinished sln dg rmap
+        startOpOnSln (fun () -> mbox.Post(SyncAndBuildSolution)) es.ProjectLoadStarting es.ProjectLoadNeeded id 
+            es.LoadFinished sln dg rmap
     let syncAndBuildSolution es sln (pmap : ProjectMap) (dg : AdjacencyGraph<_, _>) (rmap : ProjectBuildResultMap) = 
-        startOpOnSln id (fun p -> BuildInProgress pmap.[p]) es.ProjectSyncAndBuildStarting es.ProjectSyncAndBuildNeeded 
-            (fun p -> pmap.[p]) es.LoadFinished sln dg rmap
+        startOpOnSln id es.ProjectSyncAndBuildStarting es.ProjectSyncAndBuildNeeded (fun p -> pmap.[p]) es.LoadFinished 
+            sln dg rmap
     
     let continueOnInvalidState s msg = 
         Logger.logInfof "SSA: #### Continuing on invalid state transition. %A <- %A." s msg
@@ -91,13 +100,12 @@ module SolutionSyncAgent =
             let pmap, is = 
                 l.PlrMap |> Seq.fold (fun (pmap, is) e -> 
                                 match e.Value with
-                                | LoadInProgress -> pmap, (sprintf "Project %A is still loading" e.Key) :: is
-                                | LoadSuccess p -> pmap |> Map.add p.Id p, is
-                                | LoadFailure is' -> pmap, is' @ is) (Map.empty, [])
-            if (is
-                |> List.isEmpty
-                |> not)
-            then 
+                                | Some r -> 
+                                    match r with
+                                    | LoadSuccess p -> pmap |> Map.add p.Id p, is
+                                    | LoadFailure is' -> pmap, is' @ is
+                                | None -> pmap, (sprintf "Project %A is still loading" e.Key) :: is) (Map.empty, [])
+            if (not (is |> List.isEmpty)) then 
                 la.Es.LoadFailed.SafeTrigger(l.Sln)
                 l |> Loading
             else 

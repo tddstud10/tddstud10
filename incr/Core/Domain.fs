@@ -54,16 +54,14 @@ type ProjectSnapshot =
 [<DebuggerDisplay("{AsString}")>]
 [<StructuredFormatDisplay("{AsString}")>]
 type ProjectLoadResult = 
-    | LoadInProgress
     | LoadSuccess of Project
     | LoadFailure of list<string>
     member self.AsString = 
         match self with
-        | LoadInProgress -> sprintf "InProgres"
         | LoadSuccess p -> sprintf "Success: %A." p
         | LoadFailure is -> sprintf "Failure: Issues = %d." (is |> Seq.length)
 
-type ProjectLoadResultMap = Map<ProjectId, ProjectLoadResult>
+type ProjectLoadResultMap = Map<ProjectId, ProjectLoadResult option>
 
 [<DebuggerDisplay("{AsString}")>]
 [<StructuredFormatDisplay("{AsString}")>]
@@ -78,17 +76,15 @@ type ProjectLoaderMessages =
 [<DebuggerDisplay("{AsString}")>]
 [<StructuredFormatDisplay("{AsString}")>]
 type ProjectBuildResult = 
-    | BuildInProgress of Project
     | BuildSuccess of Project * seq<FilePath> * seq<string>
     | BuildFailure of Project * seq<string>
     member self.AsString = 
         match self with
-        | BuildInProgress(p) -> sprintf "InProgress: %A" p.Id
         | BuildSuccess(p, bos, ws) -> 
             sprintf "Success: %A. Os : %d. Ws: %d." p.Id (bos |> Seq.length) (ws |> Seq.length)
         | BuildFailure(p, es) -> sprintf "Failure: %A. Es: %d." p.Id (es |> Seq.length)
 
-type ProjectBuildResultMap = Map<ProjectId, ProjectBuildResult>
+type ProjectBuildResultMap = Map<ProjectId, ProjectBuildResult option>
 
 [<DebuggerDisplay("{AsString}")>]
 [<StructuredFormatDisplay("{AsString}")>]
