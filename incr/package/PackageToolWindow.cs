@@ -63,6 +63,7 @@ v Parallel graph looper [consider an agent based design]
 - Additional Items should move to ProjectItem enumeration
   - snk
   - Nuget items
+- Make DG immutable
 - Remove all build warnings
 - Repo of test projects + test in VS2015
 - Make work multi-threaded - How to make multiple agents listen to same queue

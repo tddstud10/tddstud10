@@ -14,15 +14,15 @@ module SolutionSyncAgent =
           Es : SolutionSyncEvents
           MBox : Agent<SolutionSyncMessages> }
     
-    let startOpOnSln<'TRes, 'TNEArgs when 'TRes : equality> fDone (pose : Event<_>) (pone : Event<_ * Map<_, 'TRes option> * 'TNEArgs>) fnep 
-        (fe : Event<_>) sln (dg : DependencyGraph) (rmap : Map<ProjectId, 'TRes option>) = 
+    let startOpOnSln<'TRes, 'TNEArgs when 'TRes : equality> fDone (pose : Event<_>) 
+        (pone : Event<_ * Map<_, 'TRes option> * 'TNEArgs>) fnep (fe : Event<_>) sln (dg : DependencyGraph) 
+        (rmap : Map<ProjectId, 'TRes option>) = 
         let roots = 
             dg.Roots()
             |> Seq.filter (rmap.ContainsKey >> not)
             |> Seq.sortBy dg.OutDegree
-        let pending =
-            rmap
-            |> Seq.filter (fun kv -> kv.Value = None)
+        
+        let pending = rmap |> Seq.filter (fun kv -> kv.Value = None)
         if (not (roots |> Seq.isEmpty)) then 
             Logger.logInfof "SSA: %d roots available now. Starting operations on all of them." (roots |> Seq.length)
             let fldr (rmap : Map<_, _>) pid = 
@@ -33,30 +33,22 @@ module SolutionSyncAgent =
                     |> Map.ofSeq
                 pone.SafeTrigger(sln, m, pid |> fnep)
                 rmap |> Map.add pid None
-            roots |> Seq.fold fldr rmap
-        else if (not (pending |> Seq.isEmpty)) then
+            false, roots |> Seq.fold fldr rmap
+        else if (not (pending |> Seq.isEmpty)) then 
             Logger.logInfof "SSA: %d Project Ops still pending. Not seeking next set of roots." (pending |> Seq.length)
-            rmap
+            false, rmap
         else 
             Logger.logInfof "SSA: All project operations complete. Done with solution."
             fe.SafeTrigger(sln)
-            fDone()
-            rmap
+            true, rmap
     
-    let completeOpOnProject<'TRes> (fe : Event<_>) (dg : AdjacencyGraph<_, _>) pid (rmap : Map<ProjectId, 'TRes option>) 
-        r = 
-        let rmap = 
-            rmap |> Map.updateWith (fun _ -> Some(Some(r))) pid
-        dg.RemoveVertex(pid) |> ignore
-        fe.SafeTrigger(pid, r)
-        rmap
-    
-    let loadSolution (mbox : Agent<_>) es sln (dg : DependencyGraph) (rmap : ProjectLoadResultMap) = 
-        startOpOnSln (fun () -> mbox.Post(SyncAndBuildSolution)) es.ProjectLoadStarting es.ProjectLoadNeeded id 
-            es.LoadFinished sln dg rmap
-    let syncAndBuildSolution es sln (pmap : ProjectMap) (dg : AdjacencyGraph<_, _>) (rmap : ProjectBuildResultMap) = 
-        startOpOnSln id es.ProjectSyncAndBuildStarting es.ProjectSyncAndBuildNeeded (fun p -> pmap.[p]) es.LoadFinished 
-            sln dg rmap
+    let completeOpOnProject<'TRes> (pofe : Event<_>) (dg : AdjacencyGraph<_, _>) pid 
+        (rmap : Map<ProjectId, 'TRes option>) r = 
+        r |> Option.fold (fun _ r -> 
+                 let rmap = rmap |> Map.updateWith (fun _ -> Some(Some(r))) pid
+                 dg.RemoveVertex(pid) |> ignore
+                 pofe.SafeTrigger(pid, r)
+                 dg, rmap) (dg, Map.empty)
     
     let continueOnInvalidState s msg = 
         Logger.logInfof "SSA: #### Continuing on invalid state transition. %A <- %A." s msg
@@ -68,72 +60,149 @@ module SolutionSyncAgent =
         |> Seq.map (fun p -> p.Watchers)
         |> Seq.collect id
         |> Seq.iter (fun w -> w.Dispose())
-        Unloaded
+        ReadyToLoaded
     
-    let processUnloadedState la msg = 
+    let handleMessagesInReadyToLoadState la msg = 
         match msg with
         | LoadSolution sln -> 
             la.Es.LoadStarting.SafeTrigger(sln)
             let dg = sln.DGraph
-            let plrm = Map.empty |> loadSolution la.MBox la.Es sln dg
-            { Sln = sln
-              PlrMap = plrm
-              DGraph = dg }
-            |> Loading
+            let slnDone, plrm = 
+                Map.empty
+                |> startOpOnSln id la.Es.ProjectLoadStarting la.Es.ProjectLoadNeeded id la.Es.LoadFinished sln dg
+            
+            let l = 
+                { Sln = sln
+                  PlrMap = plrm
+                  DGraph = dg }
+            if (slnDone) then 
+                la.MBox.Post(PrepareForSyncAndBuild)
+                l |> FinishedLoad
+            else l |> DoingLoad
         | ProcessLoadedProject _ -> continueOnInvalidState la.State msg
         | SyncAndBuildSolution -> continueOnInvalidState la.State msg
         | ProcessSyncedAndBuiltProject(_, _) -> continueOnInvalidState la.State msg
+        | PrepareForSyncAndBuild -> continueOnInvalidState la.State msg
         | ProcessDeltas(_) -> continueOnInvalidState la.State msg
         | UnloadSolution -> continueOnInvalidState la.State msg
     
-    let processLoadingState la msg (l : LoadingState) = 
+    let handleMessagesInDoingLoadState la msg (l : LoadingState) = 
         match msg with
         | LoadSolution _ -> continueOnInvalidState la.State msg
         | ProcessLoadedProject(pid, plr) -> 
-            let plrm = 
+            let dg = l.DGraph
+            
+            let slnDone, plrm = 
                 plr
-                |> completeOpOnProject la.Es.ProjectLoadFinished l.DGraph pid l.PlrMap
-                |> loadSolution la.MBox la.Es l.Sln l.DGraph
-            { l with PlrMap = plrm } |> Loading
-        | SyncAndBuildSolution -> 
-            la.Es.LoadStarting.SafeTrigger(l.Sln)
-            let pmap, is = 
-                l.PlrMap |> Seq.fold (fun (pmap, is) e -> 
-                                match e.Value with
-                                | Some r -> 
-                                    match r with
-                                    | LoadSuccess p -> pmap |> Map.add p.Id p, is
-                                    | LoadFailure is' -> pmap, is' @ is
-                                | None -> pmap, (sprintf "Project %A is still loading" e.Key) :: is) (Map.empty, [])
-            if (not (is |> List.isEmpty)) then 
-                la.Es.LoadFailed.SafeTrigger(l.Sln)
-                l |> Loading
-            else 
-                let dg = l.Sln.DGraph
-                let bmap = Map.empty |> syncAndBuildSolution la.Es l.Sln pmap dg
-                { Sln = l.Sln
-                  PMap = pmap
-                  PbrMap = bmap
-                  DGraph = dg }
-                |> SyncAndBuild
+                |> Some
+                |> completeOpOnProject la.Es.ProjectLoadFinished dg pid l.PlrMap
+                ||> startOpOnSln id la.Es.ProjectLoadStarting la.Es.ProjectLoadNeeded id la.Es.LoadFinished l.Sln
+            
+            let l = { l with PlrMap = plrm }
+            if (slnDone) then 
+                la.MBox.Post(PrepareForSyncAndBuild)
+                l |> FinishedLoad
+            else l |> DoingLoad
+        | SyncAndBuildSolution -> continueOnInvalidState la.State msg
         | ProcessSyncedAndBuiltProject(_, _) -> continueOnInvalidState la.State msg
+        | PrepareForSyncAndBuild -> continueOnInvalidState la.State msg
         | ProcessDeltas(_) -> continueOnInvalidState la.State msg
         | UnloadSolution -> continueOnInvalidState la.State msg
     
-    let processSyncAndBuildState la msg (sab : SyncAndBuildState) = 
+    let handleMessagesInFinishedLoadState la msg (l : LoadingState) = 
+        match msg with
+        | LoadSolution _ -> continueOnInvalidState la.State msg
+        | ProcessLoadedProject(_, _) -> continueOnInvalidState la.State msg
+        | SyncAndBuildSolution -> continueOnInvalidState la.State msg
+        | ProcessSyncedAndBuiltProject(_, _) -> continueOnInvalidState la.State msg
+        | PrepareForSyncAndBuild ->
+            let pmap = 
+                l.PlrMap |> Seq.fold (fun pmap e -> 
+                                match e.Value with
+                                | Some r -> 
+                                    match r with
+                                    | LoadSuccess p -> pmap |> Map.add p.Id p
+                                    | LoadFailure _ -> pmap
+                                | None -> pmap) Map.empty
+            if (pmap.Count <> l.PlrMap.Count) then 
+                Logger.logInfof "SSA: Some projects (%d) have not loaded. Going back to FinishedLoad state. Will stay there till a full reset" (l.PlrMap.Count - pmap.Count) 
+                la.Es.LoadFailed.SafeTrigger(l.Sln)
+                l |> FinishedLoad
+            else 
+                la.MBox.Post(SyncAndBuildSolution)
+                { ReadyToSyncAndBuildState.Sln = l.Sln
+                  PMap = pmap } |> ReadyToSyncAndBuild
+        | ProcessDeltas(_) -> continueOnInvalidState la.State msg
+        | UnloadSolution -> continueOnInvalidState la.State msg
+    
+    let handleMessagesInReadyToSyncAndBuildState la msg (sab : ReadyToSyncAndBuildState) = 
+        match msg with
+        | LoadSolution _ -> continueOnInvalidState la.State msg
+        | ProcessLoadedProject _ -> continueOnInvalidState la.State msg
+        | SyncAndBuildSolution ->
+            la.Es.SyncAndBuildStarting.SafeTrigger(sab.Sln)
+            let dg = sab.Sln.DGraph
+            let slnDone, plrm = 
+                Map.empty
+                |> startOpOnSln id la.Es.ProjectSyncAndBuildStarting la.Es.ProjectSyncAndBuildNeeded (fun p -> sab.PMap.[p]) la.Es.SyncAndBuildFinished sab.Sln dg
+            
+            let sab = 
+                { Sln = sab.Sln
+                  PMap = sab.PMap
+                  PbrMap = plrm
+                  DGraph = dg }
+            if (slnDone) then 
+                la.MBox.Post(PrepareForSyncAndBuild)
+                sab |> FinishedSyncAndBuild
+            else 
+                sab |> DoingSyncAndBuild
+        | ProcessSyncedAndBuiltProject(p, pbr) -> continueOnInvalidState la.State msg
+        | PrepareForSyncAndBuild -> continueOnInvalidState la.State msg
+        | ProcessDeltas(_) -> continueOnInvalidState la.State msg
+        | UnloadSolution -> continueAfterUnloadingSolution sab.PMap
+    
+    let handleMessagesInDoingSyncAndBuildState la msg (sab : SyncAndBuildState) = 
         match msg with
         | LoadSolution _ -> continueOnInvalidState la.State msg
         | ProcessLoadedProject _ -> continueOnInvalidState la.State msg
         | SyncAndBuildSolution -> continueOnInvalidState la.State msg
         | ProcessSyncedAndBuiltProject(p, pbr) -> 
-            let bmap = 
+            let slnDone, bmap = 
                 pbr
+                |> Some
                 |> completeOpOnProject la.Es.ProjectSyncAndBuildFinished sab.DGraph p.Id sab.PbrMap
-                |> syncAndBuildSolution la.Es sab.Sln sab.PMap sab.DGraph
-            { sab with PbrMap = bmap } |> SyncAndBuild
-        | ProcessDeltas(_) -> 
-            Logger.logWarnf "SSA: Not implemented yet. We should cancel current pipeline and retart."
-            continueOnInvalidState la.State msg
+                ||> startOpOnSln id la.Es.ProjectSyncAndBuildStarting la.Es.ProjectSyncAndBuildNeeded 
+                        (fun p -> sab.PMap.[p]) la.Es.SyncAndBuildFinished sab.Sln
+            let sab = { sab with PbrMap = bmap }
+            if (slnDone) then 
+                la.MBox.Post(PrepareForSyncAndBuild)
+                sab |> FinishedSyncAndBuild
+            else 
+                sab |> DoingSyncAndBuild
+        | PrepareForSyncAndBuild -> continueOnInvalidState la.State msg
+        | ProcessDeltas(_) -> continueOnInvalidState la.State msg
+        | UnloadSolution -> continueAfterUnloadingSolution sab.PMap
+
+    let handleMessagesInFinishedSyncAndBuildState la msg (sab : SyncAndBuildState) = 
+        match msg with
+        | LoadSolution _ -> continueOnInvalidState la.State msg
+        | ProcessLoadedProject _ -> continueOnInvalidState la.State msg
+        | SyncAndBuildSolution -> continueOnInvalidState la.State msg
+        | ProcessSyncedAndBuiltProject(p, pbr) -> continueOnInvalidState la.State msg
+        | PrepareForSyncAndBuild ->
+            let bmap = 
+                sab.PbrMap |> Seq.fold (fun bmap e -> 
+                                match e.Value with
+                                | Some r -> 
+                                    match r with
+                                    | BuildSuccess(p, _) -> bmap |> Map.add e.Key ()
+                                    | BuildFailure _ -> bmap
+                                | None -> bmap) Map.empty
+            if (bmap.Count <> sab.PMap.Count) then 
+                la.Es.SyncAndBuildFailed.SafeTrigger(sab.Sln)
+            { ReadyToSyncAndBuildState.Sln = sab.Sln
+              PMap = sab.PMap } |> ReadyToSyncAndBuild
+        | ProcessDeltas(_) -> continueOnInvalidState la.State msg
         | UnloadSolution -> continueAfterUnloadingSolution sab.PMap
     
     let rec private loop la = 
@@ -142,20 +211,29 @@ module SolutionSyncAgent =
             let! msg = la.MBox.Receive()
             Logger.logInfof "SSA: #### Processing message %A" msg
             match la.State with
-            | Unloaded -> 
-                let state' = processUnloadedState la msg
+            | ReadyToLoaded -> 
+                let state' = handleMessagesInReadyToLoadState la msg
                 return! loop { la with State = state' }
-            | Loading l -> 
-                let state' = processLoadingState la msg l
+            | DoingLoad l -> 
+                let state' = handleMessagesInDoingLoadState la msg l
                 return! loop { la with State = state' }
-            | SyncAndBuild sab -> 
-                let state' = processSyncAndBuildState la msg sab
+            | FinishedLoad l -> 
+                let state' = handleMessagesInFinishedLoadState la msg l
+                return! loop { la with State = state' }
+            | ReadyToSyncAndBuild rsab -> 
+                let state' = handleMessagesInReadyToSyncAndBuildState la msg rsab
+                return! loop { la with State = state' }
+            | DoingSyncAndBuild sab -> 
+                let state' = handleMessagesInDoingSyncAndBuildState la msg sab
+                return! loop { la with State = state' }
+            | FinishedSyncAndBuild sab -> 
+                let state' = handleMessagesInFinishedSyncAndBuildState la msg sab
                 return! loop { la with State = state' }
         }
     
     let create es = 
         AutoCancelAgent.Start(fun mbox -> 
-            loop { State = Unloaded
+            loop { State = ReadyToLoaded
                    Es = es
                    MBox = mbox })
     

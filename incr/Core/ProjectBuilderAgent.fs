@@ -19,11 +19,11 @@ let rec private processor (pbce : Event<_>) (pbse : Event<_>) (mbox : Agent<_>) 
                     try 
                         let bos = Seq.empty
                         let ws = is
-                        let r = BuildSuccess(p, bos, ws)
+                        let r = BuildSuccess(bos, ws)
                         pbse.SafeTrigger(p.Id, bos, ws)
                         p, r
-                    with e -> p, BuildFailure(p, is |> Seq.append [ e.ToString() ])
-                | SnapshotFailure(p, is) -> p, BuildFailure(p, is)
+                    with e -> p, BuildFailure(is |> Seq.append [ e.ToString() ])
+                | SnapshotFailure(p, is) -> p, BuildFailure(is)
             pbce.SafeTrigger(p, pbr)
             Logger.logInfof "PBA: Done building %s: Result = %A." p.Id.UniqueName pbr
         return! processor pbce pbse mbox

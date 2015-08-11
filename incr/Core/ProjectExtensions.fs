@@ -160,6 +160,6 @@ module ProjectExtensions =
         let outputs = p.GetItems("_TddStud10TargetOutputs") |> Seq.map (fun i -> i.EvaluatedInclude |> FilePath)
         let is = l.Warnings |> Seq.append l.Errors
         if (status) then
-            BuildSuccess(proj, outputs, is)
+            BuildSuccess(outputs, is)
         else
-            BuildFailure(proj, is)
+            BuildFailure(is)

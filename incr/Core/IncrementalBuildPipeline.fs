@@ -21,11 +21,14 @@ type IncrementalBuildPipeline(bcs : Solution -> unit, bcps : ProjectId -> unit, 
           ProjectLoadStarting = Event<_>()
           ProjectLoadNeeded = Event<_>()
           ProjectLoadFinished = Event<_>()
+          LoadFailed = Event<_>()
+          LoadFinished = Event<_>()
+          SyncAndBuildStarting = Event<_>()
           ProjectSyncAndBuildStarting = Event<_>()
           ProjectSyncAndBuildNeeded = Event<_>()
           ProjectSyncAndBuildFinished = Event<_>()
-          LoadFailed = Event<_>()
-          LoadFinished = Event<_>() }
+          SyncAndBuildFailed = Event<_>()
+          SyncAndBuildFinished = Event<_>() }
     let ssa = SolutionSyncAgent.create ssaes
     // ProjectLoader Agent & Events
     let plaple = Event<_>()

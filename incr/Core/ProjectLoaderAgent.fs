@@ -10,17 +10,17 @@ let private processProject (sc : SynchronizationContext) s p (rmap : ProjectLoad
     let failedPrereqs = 
         rmap
         |> Map.valueList
-        |> List.choose (function | None -> Some p | Some r -> match r with | LoadSuccess _ -> None | LoadFailure _ -> Some p)
+        |> Seq.choose (function | None -> Some p | Some r -> match r with | LoadSuccess _ -> None | LoadFailure _ -> Some p)
     if (failedPrereqs |> Seq.length > 0) then 
         failedPrereqs 
-        |> List.map (fun kv -> sprintf "Required project %s failed to load." kv.UniqueName)
+        |> Seq.map (fun kv -> sprintf "Required project %s failed to load." kv.UniqueName)
         |> LoadFailure
     else 
         let proj = sc.Execute (fun () -> (s, p) ||> ProjectExtensions.loadProject)
         match proj with
         | Some proj -> proj |> LoadSuccess
         | None -> 
-            [ sprintf "Project %s failed to load." p.UniqueName ] |> LoadFailure
+            sprintf "Project %s failed to load." p.UniqueName |> Seq.singleton |> LoadFailure
     
 let rec private processor (sc : SynchronizationContext) nc (ple : Event<_>) (mbox : Agent<_>) = 
     async { 
@@ -34,7 +34,7 @@ let rec private processor (sc : SynchronizationContext) nc (ple : Event<_>) (mbo
                 try 
                     processProject sc s pid rmap
                 with e ->
-                    [ e.ToString() ] |> LoadFailure
+                    e.ToString() |> Seq.singleton |> LoadFailure
             ple.SafeTrigger(pid,res)
             Logger.logInfof "PLA: Done loading project %s: Result = %A." pid.UniqueName res
         return! processor sc nc ple mbox

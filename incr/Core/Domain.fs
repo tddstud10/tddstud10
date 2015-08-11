@@ -55,7 +55,7 @@ type ProjectSnapshot =
 [<StructuredFormatDisplay("{AsString}")>]
 type ProjectLoadResult = 
     | LoadSuccess of Project
-    | LoadFailure of list<string>
+    | LoadFailure of seq<string>
     member self.AsString = 
         match self with
         | LoadSuccess p -> sprintf "Success: %A." p
@@ -76,13 +76,13 @@ type ProjectLoaderMessages =
 [<DebuggerDisplay("{AsString}")>]
 [<StructuredFormatDisplay("{AsString}")>]
 type ProjectBuildResult = 
-    | BuildSuccess of Project * seq<FilePath> * seq<string>
-    | BuildFailure of Project * seq<string>
+    | BuildSuccess of seq<FilePath> * seq<string>
+    | BuildFailure of seq<string>
     member self.AsString = 
         match self with
-        | BuildSuccess(p, bos, ws) -> 
-            sprintf "Success: %A. Os : %d. Ws: %d." p.Id (bos |> Seq.length) (ws |> Seq.length)
-        | BuildFailure(p, es) -> sprintf "Failure: %A. Es: %d." p.Id (es |> Seq.length)
+        | BuildSuccess(bos, ws) -> 
+            sprintf "Success: Os : %d. Ws: %d." (bos |> Seq.length) (ws |> Seq.length)
+        | BuildFailure(es) -> sprintf "Failure: Es: %d." (es |> Seq.length)
 
 type ProjectBuildResultMap = Map<ProjectId, ProjectBuildResult option>
 
@@ -108,41 +108,16 @@ type ProjectSyncMessages =
 
 // SolutionSync Agent States, Messages and Event Arguments
 //
-[<DebuggerDisplay("{AsString}")>]
-[<StructuredFormatDisplay("{AsString}")>]
-type SolutionSyncMessages = 
-    | LoadSolution of Solution
-    | ProcessLoadedProject of ProjectId * ProjectLoadResult
-    | SyncAndBuildSolution
-    | ProcessSyncedAndBuiltProject of Project * ProjectBuildResult
-    | ProcessDeltas of seq<FilePath * Project>
-    | UnloadSolution
-    member self.AsString = 
-        match self with
-        | LoadSolution s -> sprintf "LoadSolution: %O" s.Path
-        | ProcessLoadedProject(pid, _) -> sprintf "ProcessLoadedProject: %s" pid.UniqueName
-        | SyncAndBuildSolution -> sprintf "SyncAndBuildSolution"
-        | ProcessSyncedAndBuiltProject(p, _) -> sprintf "ProcessSyncedAndBuiltProject %s" p.Id.UniqueName
-        | ProcessDeltas ds -> sprintf "ProcessDeltas %d" (ds |> Seq.length)
-        | UnloadSolution -> sprintf "UnloadSolution"
-
-type SolutionSyncEvents = 
-    { LoadStarting : Event<Solution>
-      ProjectLoadStarting : Event<ProjectId>
-      ProjectLoadNeeded : Event<Solution * ProjectLoadResultMap * ProjectId>
-      ProjectLoadFinished : Event<ProjectId * ProjectLoadResult>
-      ProjectSyncAndBuildStarting : Event<ProjectId>
-      ProjectSyncAndBuildNeeded : Event<Solution * ProjectBuildResultMap * Project>
-      ProjectSyncAndBuildFinished : Event<ProjectId * ProjectBuildResult>
-      LoadFailed : Event<Solution>
-      LoadFinished : Event<Solution> }
-
 type DependencyGraph = AdjacencyGraph<ProjectId, SEquatableEdge<ProjectId>>
 
 type LoadingState = 
     { Sln : Solution
       PlrMap : ProjectLoadResultMap
       DGraph : DependencyGraph }
+
+type ReadyToSyncAndBuildState = 
+    { Sln : Solution
+      PMap : ProjectMap }
 
 type SyncAndBuildState = 
     { Sln : Solution
@@ -153,14 +128,54 @@ type SyncAndBuildState =
 [<DebuggerDisplay("{AsString}")>]
 [<StructuredFormatDisplay("{AsString}")>]
 type SolutionSyncState = 
-    | Unloaded
-    | Loading of LoadingState
-    | SyncAndBuild of SyncAndBuildState
+    | ReadyToLoaded
+    | DoingLoad of LoadingState
+    | FinishedLoad of LoadingState
+    | ReadyToSyncAndBuild of ReadyToSyncAndBuildState
+    | DoingSyncAndBuild of SyncAndBuildState
+    | FinishedSyncAndBuild of SyncAndBuildState
     member self.AsString = 
         match self with
-        | Unloaded -> sprintf "Unloaded"
-        | Loading l -> sprintf "Loading S = %A. PlrMap = %d items." l.Sln l.PlrMap.Count
-        | SyncAndBuild sab -> sprintf "Loading S = %A. PlrMap = %d items." sab.Sln sab.PbrMap.Count
+        | ReadyToLoaded -> sprintf "ReadyToLoaded"
+        | DoingLoad l -> sprintf "DoingLoad S = %A. PlrMap = %d items." l.Sln l.PlrMap.Count
+        | FinishedLoad l -> sprintf "FinishedLoad S = %A. PlrMap = %d items." l.Sln l.PlrMap.Count
+        | ReadyToSyncAndBuild rsab -> sprintf "ReadyToSyncAndBuild S = %A. # of Projects = %d." rsab.Sln rsab.PMap.Count
+        | DoingSyncAndBuild sab -> sprintf "DoingSyncAndBuild S = %A. PlrMap = %d items." sab.Sln sab.PbrMap.Count
+        | FinishedSyncAndBuild sab -> sprintf "FinishedSyncAndBuild S = %A. PlrMap = %d items." sab.Sln sab.PbrMap.Count
+
+[<DebuggerDisplay("{AsString}")>]
+[<StructuredFormatDisplay("{AsString}")>]
+type SolutionSyncMessages = 
+    | LoadSolution of Solution
+    | ProcessLoadedProject of ProjectId * ProjectLoadResult
+    | SyncAndBuildSolution
+    | ProcessSyncedAndBuiltProject of Project * ProjectBuildResult
+    | PrepareForSyncAndBuild
+    | ProcessDeltas of seq<FilePath * Project>
+    | UnloadSolution
+    member self.AsString = 
+        match self with
+        | LoadSolution s -> sprintf "LoadSolution: %O" s.Path
+        | ProcessLoadedProject(pid, _) -> sprintf "ProcessLoadedProject: %s" pid.UniqueName
+        | SyncAndBuildSolution -> sprintf "SyncAndBuildSolution"
+        | ProcessSyncedAndBuiltProject(p, _) -> sprintf "ProcessSyncedAndBuiltProject %s" p.Id.UniqueName
+        | PrepareForSyncAndBuild -> sprintf "WaitForDeltas"
+        | ProcessDeltas ds -> sprintf "ProcessDeltas %d" (ds |> Seq.length)
+        | UnloadSolution -> sprintf "UnloadSolution"
+
+type SolutionSyncEvents = 
+    { LoadStarting : Event<Solution>
+      ProjectLoadStarting : Event<ProjectId>
+      ProjectLoadNeeded : Event<Solution * ProjectLoadResultMap * ProjectId>
+      ProjectLoadFinished : Event<ProjectId * ProjectLoadResult>
+      LoadFailed : Event<Solution>
+      LoadFinished : Event<Solution> 
+      SyncAndBuildStarting : Event<Solution>
+      ProjectSyncAndBuildStarting : Event<ProjectId>
+      ProjectSyncAndBuildNeeded : Event<Solution * ProjectBuildResultMap * Project>
+      ProjectSyncAndBuildFinished : Event<ProjectId * ProjectBuildResult>
+      SyncAndBuildFailed : Event<Solution>
+      SyncAndBuildFinished : Event<Solution> }
 
 // DeltaBatching Agent Messages and Event Arguments
 //
