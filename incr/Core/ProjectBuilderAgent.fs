@@ -5,31 +5,32 @@ open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 open System
 open System.Collections.Generic
 
-let rec private processor (pbce : Event<_>) (pbse : Event<_>) (mbox : Agent<_>) = 
+let rec private processor (pbes : ProjectBuildEvents) (mbox : Agent<_>) = 
     async { 
         Logger.logInfof "PBA: #### Starting loop."
         let! msg = mbox.Receive()
         Logger.logInfof "PBA: #### Processing message %A." msg
         match msg with
-        | BuildProject psn -> 
+        | BuildProject(p, psn) -> 
             Logger.logInfof "PBA: Building project %A." psn
+            pbes.BuildStarting.SafeTrigger(p)
             let p, pbr = 
                 match psn with
-                | SnapshotSuccess(_, p, is) -> 
+                | Success(_, is) -> 
                     try 
                         let bos = Seq.empty
                         let ws = is
-                        let r = BuildSuccess(bos, ws)
-                        pbse.SafeTrigger(p.Id, bos, ws)
+                        let r = Success(bos, ws)
                         p, r
-                    with e -> p, BuildFailure(is |> Seq.append [ e.ToString() ])
-                | SnapshotFailure(p, is) -> p, BuildFailure(is)
-            pbce.SafeTrigger(p, pbr)
+                    with e -> p, Failure(is |> Seq.append [ e.ToString() ])
+                | Failure is -> p, Failure(is)
+            do! Async.Sleep 3000
+            pbes.BuildFinished.SafeTrigger(p, pbr)
             Logger.logInfof "PBA: Done building %s: Result = %A." p.Id.UniqueName pbr
-        return! processor pbce pbse mbox
+        return! processor pbes mbox
     }
 
-let create pbce pbse = 
-    (pbce, pbse)
-    ||> processor
+let create pbes = 
+    pbes
+    |> processor
     |> AutoCancelAgent.Start

@@ -5,7 +5,20 @@ open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 open System
 open System.Threading
 
-type IncrementalBuildPipeline(bcs : Solution -> unit, bcps : ProjectId -> unit, ecps : ProjectId * ProjectLoadResult -> unit, ecs : Solution -> unit) = 
+[<CLIMutable>]
+type IncrementalBuildPipelineEventsHandlers =
+    { LoadStarting : Solution -> unit 
+      ProjectLoadStarting : ProjectId -> unit 
+      ProjectLoadFinished : ProjectId * ProjectLoadResult -> unit 
+      LoadFinished : Solution * SolutionOperationResult -> unit
+      SyncAndBuildStarting : Solution -> unit
+      ProjectSyncStarting : Project -> unit
+      ProjectSyncFinished : Project * ProjectSyncResult -> unit
+      ProjectBuildStarting : Project -> unit
+      ProjectBuildFinished : Project * ProjectBuildResult -> unit
+      SyncAndBuildFinished : Solution * SolutionOperationResult -> unit }
+
+type IncrementalBuildPipeline(plehs : IncrementalBuildPipelineEventsHandlers) = 
     do Logger.logInfof "In IncrementalBuildPipeline - Initializing..."
     let mutable disposed = false
     let sc = SynchronizationContext.CaptureCurrent()
@@ -18,62 +31,61 @@ type IncrementalBuildPipeline(bcs : Solution -> unit, bcps : ProjectId -> unit, 
     // SolutionSynchronizer Agent & Events
     let ssaes = 
         { LoadStarting = Event<_>()
-          ProjectLoadStarting = Event<_>()
           ProjectLoadNeeded = Event<_>()
-          ProjectLoadFinished = Event<_>()
-          LoadFailed = Event<_>()
           LoadFinished = Event<_>()
           SyncAndBuildStarting = Event<_>()
-          ProjectSyncAndBuildStarting = Event<_>()
           ProjectSyncAndBuildNeeded = Event<_>()
-          ProjectSyncAndBuildFinished = Event<_>()
-          SyncAndBuildFailed = Event<_>()
           SyncAndBuildFinished = Event<_>() }
     let ssa = SolutionSyncAgent.create ssaes
     // ProjectLoader Agent & Events
-    let plaple = Event<_>()
+    let ples = 
+        { ProjectLoadEvents.LoadStarting = Event<_>()
+          LoadFinished = Event<_>() }
     let dce = Event<_>()
-    let pla = ProjectLoaderAgent.create sc dce plaple
+    let pla = ProjectLoaderAgent.create sc dce ples
     // DeltaBatching Agent & Events
     let dbabce = Event<_>()
     let ndse = dbabce |> normalizeDeltaStream
     let bdpa = DeltaBatchingAgent.create 100 500 dbabce
     // ProjectSynchronizer Agent & Events
+    let pses = 
+        { ProjectSyncEvents.SyncStarting = Event<_>()
+          SyncFinished = Event<_>() }
     let psapsce = Event<_>()
-    let psa = ProjectSyncAgent.create dce psapsce
+    let psa = ProjectSyncAgent.create dce pses
     // ProjectBuilder Agent & Events
-    let pbapbce = Event<_>()
-    let pbapbse = Event<_>()
-    let pba = ProjectBuilderAgent.create pbapbce pbapbse
-
+    let pbes = 
+        { ProjectBuildEvents.BuildStarting = Event<_>()
+          BuildFinished = Event<_>() }
+    let pba = ProjectBuilderAgent.create pbes
 
     // Wire up Agents to form the agent grid
     //
-    let ssaolges = ssaes.LoadStarting.Publish.Subscribe(bcs)
-    let ssaoplges = ssaes.ProjectLoadStarting.Publish.Subscribe(bcps)
-    let ssaopldes = ssaes.ProjectLoadFinished.Publish.Subscribe(ecps)
-    let ssaoldes = ssaes.LoadFinished.Publish.Subscribe(ecs)
+    let subs = [
+        ssaes.LoadStarting.Publish.Subscribe(plehs.LoadStarting)
+        ssaes.LoadFinished.Publish.Subscribe(plehs.LoadFinished)
+        ssaes.SyncAndBuildStarting.Publish.Subscribe(plehs.SyncAndBuildStarting)
+        ssaes.SyncAndBuildFinished.Publish.Subscribe(plehs.SyncAndBuildFinished)
     
-    let plaples = plaple.Publish.Subscribe(ProcessLoadedProject >> ssa.Post)
-    let ssaplnes = ssaes.ProjectLoadNeeded.Publish.Subscribe(LoadProject >> pla.Post)
+        ssaes.ProjectLoadNeeded.Publish.Subscribe(LoadProject >> pla.Post)
+        ples.LoadFinished.Publish.Subscribe(ProcessLoadedProject >> ssa.Post)
+        ples.LoadStarting.Publish.Subscribe(plehs.ProjectLoadStarting)
+        ples.LoadFinished.Publish.Subscribe(plehs.ProjectLoadFinished)
 
+        ssaes.ProjectSyncAndBuildNeeded.Publish.Subscribe(SyncProject >> psa.Post)
+        pbes.BuildFinished.Publish.Subscribe(ProcessSyncedAndBuiltProject >> ssa.Post)
+        pbes.BuildStarting.Publish.Subscribe(plehs.ProjectBuildStarting)
+        pbes.BuildFinished.Publish.Subscribe(plehs.ProjectBuildFinished)
 
-    let ssapsabnes = ssaes.ProjectSyncAndBuildNeeded.Publish.Subscribe(SyncProject >> psa.Post)
-    let pbapbces = pbapbce.Publish.Subscribe(ProcessSyncedAndBuiltProject >> ssa.Post)
-    let psapsapsces = psapsce.Publish.Subscribe(BuildProject >> pba.Post)
+        pses.SyncFinished.Publish.Subscribe(BuildProject >> pba.Post)
+        pses.SyncStarting.Publish.Subscribe(plehs.ProjectSyncStarting)
+        pses.SyncFinished.Publish.Subscribe(plehs.ProjectSyncFinished)
+    ]
 
     let dispose disposing = 
         if not disposed then 
             if (disposing) then 
-                psapsapsces.Dispose()
-                pbapbces.Dispose()
-                ssapsabnes.Dispose()
-                ssaplnes.Dispose()
-                plaples.Dispose()
-                ssaoldes.Dispose()
-                ssaopldes.Dispose()
-                ssaoplges.Dispose()
-                ssaolges.Dispose()
+                subs |> List.fold (fun () e -> e.Dispose()) ()
                 (psa :> IDisposable).Dispose()
                 (psa :> IDisposable).Dispose()
                 (bdpa :> IDisposable).Dispose()

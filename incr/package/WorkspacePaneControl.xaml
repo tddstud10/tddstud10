@@ -27,22 +27,18 @@
             </Rectangle.RenderTransform>
             <Rectangle.Style>
               <Style TargetType="Rectangle">
-                <Setter Property="Fill" Value="Gray" />
+                <Setter Property="Fill" Value="Green" />
                 <Style.Triggers>
-                  <DataTrigger 
-                    Binding="{Binding State}"
-                    Value="CreatingSnapshot">
+                  <DataTrigger Binding="{Binding Path=OperationState, Mode=OneWay}" Value="Running">
                     <DataTrigger.EnterActions>
                       <BeginStoryboard>
                         <Storyboard>
-                          <DoubleAnimation Storyboard.TargetProperty="(Rectangle.RenderTransform).(RotateTransform.Angle)" To="360" Duration="0:0:1" RepeatBehavior="Forever"/>
+                          <DoubleAnimation Storyboard.TargetProperty="(Rectangle.RenderTransform).(RotateTransform.Angle)" From="0" To="360" Duration="0:0:1" RepeatBehavior="Forever"/>
                         </Storyboard>
                       </BeginStoryboard>
                     </DataTrigger.EnterActions>
                   </DataTrigger>
-                  <DataTrigger 
-                    Binding="{Binding State}"
-                    Value="ErrorCreatingSnapshot">
+                  <DataTrigger Binding="{Binding Path=OperationState, Mode=OneWay}" Value="Failed">
                     <Setter Property="Fill" Value="Red" />
                     <DataTrigger.EnterActions>
                       <BeginStoryboard>
@@ -52,10 +48,7 @@
                       </BeginStoryboard>
                     </DataTrigger.EnterActions>
                   </DataTrigger>
-                  <DataTrigger 
-                    Binding="{Binding State}"
-                    Value="Monitoring">
-                    <Setter Property="Fill" Value="Green" />
+                  <DataTrigger Binding="{Binding Path=OperationState, Mode=OneWay}" Value="Succeeded">
                     <DataTrigger.EnterActions>
                       <BeginStoryboard>
                         <Storyboard>
@@ -76,59 +69,40 @@
         <TextBlock Text="{Binding FullName}"/>
       </DataTemplate>
 
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Style/TreeViewStyle.xaml"></ResourceDictionary>
-      </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </UserControl.Resources>
 
   <Grid>
     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
       <RowDefinition Height="100*"/>
       <RowDefinition Height="50*"/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <TextBlock 
-      HorizontalAlignment="Center" VerticalAlignment="Center" 
-      Margin="1,1,1,1"
-    >
-      <TextBlock.Style>
-        <Style TargetType="TextBlock">
-          <Setter Property="Visibility" Value="Hidden" />
-          <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=SolutionViewModel.State}" Value="Unloaded">
-              <Setter Property="Visibility" Value="Visible" />
-              <Setter Property="Text" Value="Workspace unloaded" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Path=SolutionViewModel.State}" Value="Loading">
-              <Setter Property="Visibility" Value="Visible" />
-              <Setter Property="Text" Value="Workspace loading..." />
-            </DataTrigger>
-          </Style.Triggers>
-        </Style>
-      </TextBlock.Style>
-    </TextBlock>
+    <ProgressBar
+      IsIndeterminate="{Binding Mode=OneWay, Path=SolutionViewModel.CurrentOperationInProgress}"
+      />
+    <TextBlock
+      Text="{Binding Mode=OneWay, Path=SolutionViewModel.CurrentOperation}"
+      HorizontalAlignment="Center" VerticalAlignment="Center" />
     <TreeView 
+      Grid.Row="1" 
       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
       Margin="1,1,1,1"
       ItemsSource="{Binding Mode=OneWay, Path=SolutionViewModel.Projects}"
     >
       <i:Interaction.Behaviors>
-        <vm:TreeViewSelectedItemBlendBehavior
-                    SelectedItem="{Binding SelectedProject}" />
+        <vm:TreeViewSelectedItemBlendBehavior SelectedItem="{Binding SelectedProject}" />
       </i:Interaction.Behaviors>
       <TreeView.ItemContainerStyle>
         <Style TargetType="{x:Type TreeViewItem}">
           <Setter Property="IsExpanded" Value="False"/>
         </Style>
-      </TreeView.ItemContainerStyle>      
+      </TreeView.ItemContainerStyle>
       <TreeView.Style>
         <Style TargetType="TreeView">
           <Setter Property="Visibility" Value="Hidden" />
           <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=SolutionViewModel.State}" Value="Initializing">
-              <Setter Property="Visibility" Value="Visible" />
-            </DataTrigger>
             <DataTrigger Binding="{Binding Path=SolutionViewModel.State}" Value="Loaded">
               <Setter Property="Visibility" Value="Visible" />
             </DataTrigger>
@@ -137,13 +111,13 @@
       </TreeView.Style>
     </TreeView>
     <ListBox 
-      Grid.Row="1" 
+      Grid.Row="2" 
       HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
       Margin="1,1,1,1" 
-      ItemsSource="{Binding SelectedProject.Errors}"
+      ItemsSource="{Binding SelectedProject.Issues}"
     />
     <Button 
-      Grid.Row="2" 
+      Grid.Row="3" 
       HorizontalAlignment="Center" VerticalAlignment="Center" 
       Margin="1,1,1,1" 
       Width="75"
@@ -151,13 +125,13 @@
     >
       <Button.Style>
         <Style TargetType="Button">
-          <Setter Property="Content" Value="Enable" />
+          <Setter Property="Content" Value="Load" />
           <Style.Triggers>
             <DataTrigger Binding="{Binding Path=SolutionViewModel.State}" Value="Loaded">
-              <Setter Property="Content" Value="Disable" />
+              <Setter Property="Content" Value="Unload" />
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=SolutionViewModel.State}" Value="Unloaded">
-              <Setter Property="Content" Value="Enable" />
+              <Setter Property="Content" Value="Load" />
             </DataTrigger>
           </Style.Triggers>
         </Style>

@@ -17,18 +17,3 @@ v Subscribes to events during create, correctly unsubscribes on dispose
 Question:
 - Does OnAfterRenameDirectories result in rename file?
  *)
-
-[<Fact>]
-let ``Subscribes to events during create, correctly unsubscribes on dispose``() = 
-    let tpd = SpyVsTrackProjectDocuments2()
-    let pel = new ProjectEventsListener(tpd :> IVsTrackProjectDocuments2)
-    Assert.Equal(pel :> IVsTrackProjectDocumentsEvents2, tpd.AdviseEventsCalledWith)
-    (pel :> IDisposable).Dispose()
-    Assert.True(tpd.VerifyUnadviseEvents())
-
-[<Fact>]
-let ``OnAfterAddFilesEx raises ProjectItemAdded event``() = 
-    let tpd = SpyVsTrackProjectDocuments2()
-    use pel = new ProjectEventsListener(tpd :> IVsTrackProjectDocuments2) 
-    let tpde = pel :> IVsTrackProjectDocumentsEvents2 
-    tpde.OnAfterAddFilesEx(1, 1, )

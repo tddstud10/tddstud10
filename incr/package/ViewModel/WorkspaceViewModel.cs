@@ -1,10 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
-using QuickGraph;
-using QuickGraph.Algorithms;
 using R4nd0mApps.TddStud10.Common.Domain;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
@@ -13,24 +9,20 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
     {
         Unloaded,
         Loading,
-        Initializing,
         Loaded,
-        Unloading,
     }
 
-    public enum ProjectState
+    public enum ProjectOperationState
     {
-        Loaded,
-        CreatingSnapshot,
-        ErrorCreatingSnapshot,
-        Monitoring,
+        Running,
+        Failed,
+        Succeeded,
     }
 
     public class SolutionViewModel : ViewModelBase
     {
-        private List<ProjectViewModel> _projects = new List<ProjectViewModel>();
-
-        public List<ProjectViewModel> Projects
+        private ObservableCollection<ProjectViewModel> _projects = new ObservableCollection<ProjectViewModel>();
+        public ObservableCollection<ProjectViewModel> Projects
         {
             get { return _projects; }
             set
@@ -46,7 +38,6 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
         }
 
         private SolutionState _state = SolutionState.Unloaded;
-
         public SolutionState State
         {
             get { return _state; }
@@ -62,6 +53,40 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
             }
         }
 
+        private string _currentOperation = "Solution not loaded...";
+        public string CurrentOperation
+        {
+            get { return _currentOperation; }
+
+            set
+            {
+                if (_currentOperation == value)
+                {
+                    return;
+                }
+
+                _currentOperation = value;
+                RaisePropertyChanged(() => CurrentOperation);
+            }
+        }
+
+        private bool _currentOperationInProgress = false;
+        public bool CurrentOperationInProgress
+        {
+            get { return _currentOperationInProgress; }
+
+            set
+            {
+                if (_currentOperationInProgress == value)
+                {
+                    return;
+                }
+
+                _currentOperationInProgress = value;
+                RaisePropertyChanged(() => CurrentOperationInProgress);
+            }
+        }
+
         public void StartLoad(Solution workspace)
         {
             if (State != SolutionState.Unloaded)
@@ -70,56 +95,16 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
             }
 
             State = SolutionState.Loading;
-
-            Projects = CreateSolutionViewModelAsync(workspace);
-
-            State = SolutionState.Initializing;
         }
 
         public void FinishLoad(Solution workspace)
         {
-            if (State != SolutionState.Initializing)
+            if (State != SolutionState.Loading)
             {
                 return;
             }
 
             State = SolutionState.Loaded;
-        }
-
-        private List<ProjectViewModel> CreateSolutionViewModelAsync(Solution solution)
-        {
-            var projects = new List<ProjectViewModel>();
-            var keys = from kvp in solution.DependencyMap
-                       select kvp.Key;
-            var dg = keys.ToAdjacencyGraph<ProjectId, SEquatableEdge<ProjectId>>(s => solution.DependencyMap[s].Select(t => new SEquatableEdge<ProjectId>(s, t)));
-
-            var pvmMap = new Dictionary<ProjectId, ProjectViewModel>();
-            var sw = new Stopwatch();
-            sw.Start();
-            while (true)
-            {
-                var v = dg.Sinks().FirstOrDefault();
-                if (v == null)
-                {
-                    break;
-                }
-
-                var pvm = new ProjectViewModel();
-                pvm.FullName = v.UniqueName;
-                pvm.ProjectId = v;
-                pvm.Children.AddRange(solution.DependencyMap[v].Select(r => pvmMap[r]));
-                //pvm.Children.AddRange(solution.Projects[v].FileReferences.Select(f => new FileReferenceViewModel { FullName = f.Item }));
-                //pvm.Children.AddRange(solution.Projects[v].Items.Select(i => new ProjectItemViewModel { FullName = i.Item }));
-
-                pvmMap[v] = pvm;
-
-                projects.Add(pvm);
-
-                dg.RemoveVertex(v);
-            }
-            sw.Stop();
-            Debug.WriteLine(">>>>>> TIME: {0}", sw.ElapsedMilliseconds);
-            return projects;
         }
 
         public async Task Unload()
@@ -129,19 +114,19 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
                 return;
             }
 
-            State = SolutionState.Unloading;
-
-            Projects = new List<ProjectViewModel>();
+            Projects.Clear();
             await Task.Run(() => { });
+
+            CurrentOperation = "Solution unloaded";
+            CurrentOperationInProgress = false;
             State = SolutionState.Unloaded;
         }
     }
 
     public class ProjectViewModel : ViewModelBase
     {
-        private List<object> _children = new List<object>();
-
-        public List<object> Children
+        private ObservableCollection<object> _children = new ObservableCollection<object>();
+        public ObservableCollection<object> Children
         {
             get { return _children; }
             set
@@ -156,8 +141,7 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
             }
         }
 
-        private string _fullName;
-
+        private string _fullName = string.Empty;
         public string FullName
         {
             get { return _fullName; }
@@ -175,51 +159,23 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
 
         public ProjectId ProjectId { get; set; }
 
-        private ProjectState _state = ProjectState.Loaded;
-
-        public ProjectState State
+        private ProjectOperationState _operationState = ProjectOperationState.Succeeded;
+        public ProjectOperationState OperationState
         {
-            get { return _state; }
+            get { return _operationState; }
             set
             {
-                if (_state == value)
+                if (_operationState == value)
                 {
                     return;
                 }
 
-                _state = value;
-                RaisePropertyChanged(() => State);
+                _operationState = value;
+                RaisePropertyChanged(() => OperationState);
             }
         }
 
-        private List<string> _warnings = new List<string>();
-
-        public List<string> Warnings
-        {
-            get
-            {
-                return _warnings;
-            }
-            set
-            {
-                Set(() => Warnings, ref _warnings, value);
-            }
-        }
-
-
-        private List<string> _errors = new List<string>();
-
-        public List<string> Errors
-        {
-            get
-            {
-                return _errors;
-            }
-            set
-            {
-                Set(() => Errors, ref _errors, value);
-            }
-        }
+        public ObservableCollection<string> Issues { get; set; }
     }
 
     public abstract class ProjectChildBaseViewModel : ViewModelBase

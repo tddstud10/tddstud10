@@ -110,7 +110,7 @@ module ProjectExtensions =
         let dst, i = (root, p.Path) ||> copyToSnapshotRoot
         let is4 = i |> Option.fold (fun acc e -> e :: acc) is3
 
-        SnapshotSuccess(dst, p, is4 |> Seq.map (fun e -> e.ToString()))
+        Success(dst, is4 |> Seq.map (fun e -> e.ToString()))
     
     let fixupProject bos (psnPath : FilePath) = 
         let createFileRefIGFragment inc (hp : FilePath) = 
@@ -160,6 +160,6 @@ module ProjectExtensions =
         let outputs = p.GetItems("_TddStud10TargetOutputs") |> Seq.map (fun i -> i.EvaluatedInclude |> FilePath)
         let is = l.Warnings |> Seq.append l.Errors
         if (status) then
-            BuildSuccess(outputs, is)
+            Success(outputs, is)
         else
-            BuildFailure(is)
+            Failure(is)

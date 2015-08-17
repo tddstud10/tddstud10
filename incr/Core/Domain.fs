@@ -41,25 +41,19 @@ type Solution =
 
 [<DebuggerDisplay("{AsString}")>]
 [<StructuredFormatDisplay("{AsString}")>]
-type ProjectSnapshot = 
-    | SnapshotSuccess of FilePath * Project * seq<string>
-    | SnapshotFailure of Project * seq<string>
+type OperationResult<'TSuccess, 'TFailure> = 
+    | Success of 'TSuccess
+    | Failure of 'TFailure
     member self.AsString = 
         match self with
-        | SnapshotSuccess(sp, p, ws) -> sprintf "Success: %A. Ws : %d. Snapshot Path: %O." p.Id (ws |> Seq.length) sp
-        | SnapshotFailure(p, es) -> sprintf "Failure: %A. Es: %d." p.Id (es |> Seq.length)
+        | Success _ -> sprintf "Success"
+        | Failure _ -> sprintf "Failure"
+
+type ProjectSnapshot = OperationResult<FilePath * seq<string>, seq<string>>
 
 // ProjectLoader Agent Messages and Event Arguments
 //
-[<DebuggerDisplay("{AsString}")>]
-[<StructuredFormatDisplay("{AsString}")>]
-type ProjectLoadResult = 
-    | LoadSuccess of Project
-    | LoadFailure of seq<string>
-    member self.AsString = 
-        match self with
-        | LoadSuccess p -> sprintf "Success: %A." p
-        | LoadFailure is -> sprintf "Failure: Issues = %d." (is |> Seq.length)
+type ProjectLoadResult = OperationResult<Project, seq<string>>
 
 type ProjectLoadResultMap = Map<ProjectId, ProjectLoadResult option>
 
@@ -71,28 +65,29 @@ type ProjectLoaderMessages =
         match self with
         | LoadProject(_, _, pid) -> sprintf "LoadProject: %A." pid
 
+[<CLIMutable>]
+type ProjectLoadEvents =
+    { LoadStarting : Event<ProjectId>
+      LoadFinished : Event<ProjectId * ProjectLoadResult> }
+
 // ProjectBuilder Agent Messages and Event Arguments
 //
-[<DebuggerDisplay("{AsString}")>]
-[<StructuredFormatDisplay("{AsString}")>]
-type ProjectBuildResult = 
-    | BuildSuccess of seq<FilePath> * seq<string>
-    | BuildFailure of seq<string>
-    member self.AsString = 
-        match self with
-        | BuildSuccess(bos, ws) -> 
-            sprintf "Success: Os : %d. Ws: %d." (bos |> Seq.length) (ws |> Seq.length)
-        | BuildFailure(es) -> sprintf "Failure: Es: %d." (es |> Seq.length)
+type ProjectBuildResult = OperationResult<seq<FilePath> * seq<string>, seq<string>>
 
 type ProjectBuildResultMap = Map<ProjectId, ProjectBuildResult option>
 
 [<DebuggerDisplay("{AsString}")>]
 [<StructuredFormatDisplay("{AsString}")>]
 type ProjectBuilderMessages = 
-    | BuildProject of ProjectSnapshot
+    | BuildProject of Project * ProjectSnapshot
     member self.AsString = 
         match self with
-        | BuildProject psn -> sprintf "BuildProject: %A." psn
+        | BuildProject (p, psn) -> sprintf "BuildProject: %A, %A." p psn
+
+[<CLIMutable>]
+type ProjectBuildEvents =
+    { BuildStarting : Event<Project>
+      BuildFinished : Event<Project * ProjectBuildResult> }
 
 // ProjectSynchronizer Agent Messages and Event Arguments
 //
@@ -105,6 +100,11 @@ type ProjectSyncMessages =
     member self.AsString = 
         match self with
         | SyncProject(_, _, p) -> sprintf "SyncProject: %A." p
+
+[<CLIMutable>]
+type ProjectSyncEvents =
+    { SyncStarting : Event<Project>
+      SyncFinished : Event<Project * ProjectSyncResult> }
 
 // SolutionSync Agent States, Messages and Event Arguments
 //
@@ -159,25 +159,45 @@ type SolutionSyncMessages =
         | ProcessLoadedProject(pid, _) -> sprintf "ProcessLoadedProject: %s" pid.UniqueName
         | SyncAndBuildSolution -> sprintf "SyncAndBuildSolution"
         | ProcessSyncedAndBuiltProject(p, _) -> sprintf "ProcessSyncedAndBuiltProject %s" p.Id.UniqueName
-        | PrepareForSyncAndBuild -> sprintf "WaitForDeltas"
+        | PrepareForSyncAndBuild -> sprintf "PrepareForSyncAndBuild"
         | ProcessDeltas ds -> sprintf "ProcessDeltas %d" (ds |> Seq.length)
         | UnloadSolution -> sprintf "UnloadSolution"
 
+type SolutionOperationResult = OperationResult<unit, unit>
+
 type SolutionSyncEvents = 
     { LoadStarting : Event<Solution>
-      ProjectLoadStarting : Event<ProjectId>
       ProjectLoadNeeded : Event<Solution * ProjectLoadResultMap * ProjectId>
-      ProjectLoadFinished : Event<ProjectId * ProjectLoadResult>
-      LoadFailed : Event<Solution>
-      LoadFinished : Event<Solution> 
+      LoadFinished : Event<Solution * SolutionOperationResult> 
       SyncAndBuildStarting : Event<Solution>
-      ProjectSyncAndBuildStarting : Event<ProjectId>
       ProjectSyncAndBuildNeeded : Event<Solution * ProjectBuildResultMap * Project>
-      ProjectSyncAndBuildFinished : Event<ProjectId * ProjectBuildResult>
-      SyncAndBuildFailed : Event<Solution>
-      SyncAndBuildFinished : Event<Solution> }
+      SyncAndBuildFinished : Event<Solution * SolutionOperationResult> }
 
 // DeltaBatching Agent Messages and Event Arguments
 //
 type DeltaBatchingMessages = 
     | ProcessDelta of FilePath * Project
+
+[<CLIMutable>]
+type IncrementalBuildPipelineEvents =
+    { LoadStarting : Solution -> unit 
+      ProjectLoadEvents : ProjectLoadEvents
+      LoadFinished : Solution * SolutionOperationResult -> unit
+      SyncAndBuildStarting : Solution -> unit
+      ProjectSyncEvents : ProjectSyncEvents
+      ProjectBuildEvents : ProjectBuildEvents
+      SyncAndBuildFinished : Solution * SolutionOperationResult -> unit }
+
+(*
+Simplifications:
+- GOAL: View in UI
+---------
+v Event fired only by respective agents
+v Combine Sln Finished/Failed Events
+- Parameter to IBP is a struct
+---------
+---------
+- ASAP Cancellation of all pipeline operations on next event
+---------
+- ProjectLoaded is not a seperate agent - not required, revisit when making the engine external hosted
+ *)

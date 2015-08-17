@@ -5,9 +5,10 @@ open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 open System
 open System.Collections.Generic
 
-let private syncProject s rmap p = SnapshotSuccess("" |> FilePath, p, Seq.empty)
+let private syncProject s rmap p = 
+    Success("" |> FilePath, Seq.empty)
 
-let rec private processor (psce : Event<_>) dce (mbox : Agent<_>) = 
+let rec private processor (pses : ProjectSyncEvents) dce (mbox : Agent<_>) = 
     async { 
         Logger.logInfof "PSA: #### Starting loop."
         let! msg = mbox.Receive()
@@ -15,17 +16,19 @@ let rec private processor (psce : Event<_>) dce (mbox : Agent<_>) =
         match msg with
         | SyncProject(s, rmap, p) -> 
             Logger.logInfof "PSA: Syncing project %A." p
+            pses.SyncStarting.SafeTrigger(p)
             let psn = 
                 try 
                     syncProject s rmap p
-                with e -> (p, e.ToString() |> Seq.singleton) |> SnapshotFailure
-            psn |> psce.SafeTrigger
+                with e -> e.ToString() |> Seq.singleton |> Failure
+            do! Async.Sleep 3000
+            pses.SyncFinished.SafeTrigger(p, psn)
             Logger.logInfof "PSA: Done syncing project %s: Result = %A." p.Id.UniqueName psn
-        return! processor psce dce mbox
+        return! processor pses dce mbox
     }
 
-let create dce psce = 
-    (psce, dce)
+let create dce pses = 
+    (pses, dce)
     ||> processor
     |> AutoCancelAgent.Start
 //            let res = 

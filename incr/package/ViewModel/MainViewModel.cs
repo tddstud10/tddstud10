@@ -2,14 +2,14 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.FSharp.Core;
 using R4nd0mApps.TddStud10.Common.Domain;
+using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Interactivity;
 
 namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
 {
@@ -19,14 +19,12 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
         private IncrementalBuildPipeline _pipeline;
 
         private SolutionViewModel _solutionViewModel = new SolutionViewModel();
-
         public SolutionViewModel SolutionViewModel
         {
             get { return _solutionViewModel; }
         }
 
         private ProjectViewModel _selectedProject = null;
-
         public ProjectViewModel SelectedProject
         {
             get
@@ -56,9 +54,14 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
                     new ProjectViewModel
                     {
                         FullName = "Jello",
-                        Children = new List<object>
+                        OperationState = ProjectOperationState.Running,
+                        Children = new ObservableCollection<object>
                         {
-                            new ProjectViewModel { FullName = "Bello" }
+                            new ProjectViewModel 
+                            { 
+                                FullName = "Bello",
+                                OperationState = ProjectOperationState.Running,
+                            }
                         }
                     });
             }
@@ -66,116 +69,217 @@ namespace Microsoft.Samples.VisualStudio.IDE.ToolWindow.ViewModel
             LoadUnloadWorkspace = new RelayCommand(
                 async () =>
                 {
-                    if (_solutionViewModel.State == SolutionState.Unloaded)
+                    if (SolutionViewModel.State == SolutionState.Unloaded)
                     {
                         _pipeline = new IncrementalBuildPipeline(
-                            FuncConvert.ToFSharpFunc<Solution>(
-                                sln =>
-                                {
-                                    _syncContext.Send(
-                                        new SendOrPostCallback(
-                                            _ =>
-                                            {
-                                                _solutionViewModel.StartLoad(sln);
-                                            }), null);
-                                }),
-                            FuncConvert.ToFSharpFunc<ProjectId>(
-                                pid =>
-                                {
-                                    _syncContext.Send(
-                                        new SendOrPostCallback(
-                                            _ =>
-                                            {
-                                                var x = _solutionViewModel.Projects.Find(p => p.ProjectId == pid);
-                                                if (x != null)
-                                                {
-                                                    x.State = ProjectState.CreatingSnapshot;
-                                                }
-                                            }), null);
-                                }),
-                            FuncConvert.ToFSharpFunc<Tuple<ProjectId, ProjectLoadResult>>(
-                                args =>
-                                {
-                                    _syncContext.Send(
-                                        new SendOrPostCallback(
-                                            _ =>
-                                            {
-                                                var project = _solutionViewModel.Projects.Find(p => p.ProjectId == args.Item1);
-                                                if (project != null)
-                                                {
-                                                    if (args.Item2.IsLoadSuccess)
+                            new IncrementalBuildPipelineEventsHandlers
+                            {
+                                LoadStarting =
+                                    FuncConvert.ToFSharpFunc<Solution>(
+                                        sln =>
+                                        {
+                                            _syncContext.Send(
+                                                new SendOrPostCallback(
+                                                    _ =>
                                                     {
-                                                        project.State = ProjectState.Monitoring;
-                                                    }
-                                                    else
+                                                        SolutionViewModel.StartLoad(sln);
+                                                        SolutionViewModel.CurrentOperation = "Loading Solution...";
+                                                        SolutionViewModel.CurrentOperationInProgress = true;
+                                                    }), null);
+                                        }),
+                                ProjectLoadStarting =
+                                    FuncConvert.ToFSharpFunc<ProjectId>(
+                                        pid =>
+                                        {
+                                            _syncContext.Send(
+                                                new SendOrPostCallback(
+                                                    _ =>
                                                     {
-                                                        var lf = args.Item2 as ProjectLoadResult.LoadFailure;
-                                                        project.State = ProjectState.ErrorCreatingSnapshot;
-                                                        project.Errors.AddRange(lf.Item);
-                                                    }
-                                                }
-                                            }), null);
-                                }),
-                            FuncConvert.ToFSharpFunc<Solution>(
-                                sln =>
-                                {
-                                    _syncContext.Send(
-                                        new SendOrPostCallback(
-                                            _ =>
-                                            {
-                                                _solutionViewModel.FinishLoad(sln);
-                                            }), null);
-                                }));
+                                                        var project = new ProjectViewModel
+                                                        {
+                                                            ProjectId = pid,
+                                                            FullName = pid.UniqueName + " (Loading...)",
+                                                            OperationState = ProjectOperationState.Succeeded
+                                                        };
+                                                        SolutionViewModel.Projects.Add(project);
+                                                    }), null);
+                                        }),
+                                ProjectLoadFinished =
+                                    FuncConvert.ToFSharpFunc<Tuple<ProjectId, OperationResult<Project, IEnumerable<string>>>>(
+                                        args =>
+                                        {
+                                            _syncContext.Send(
+                                                new SendOrPostCallback(
+                                                    _ =>
+                                                    {
+                                                        var project = SolutionViewModel.Projects.FirstOrDefault(p => p.ProjectId.Equals(args.Item1));
+                                                        if (project != null)
+                                                        {
+                                                            project.FullName = project.ProjectId.UniqueName;
+                                                            if (args.Item2.IsSuccess)
+                                                            {
+                                                                project.OperationState = ProjectOperationState.Succeeded;
+                                                                var res = args.Item2 as OperationResult<Project, IEnumerable<string>>.Success;
+                                                                foreach (var pid in res.Item.ProjectReferences)
+                                                                {
+                                                                    var pref = SolutionViewModel.Projects.FirstOrDefault(p => p.ProjectId.Equals(pid));
+                                                                    if (pref != null)
+                                                                    {
+                                                                        project.Children.Add(pref);
+                                                                    }
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                project.OperationState = ProjectOperationState.Failed;
+                                                                var res = args.Item2 as OperationResult<Project, IEnumerable<string>>.Failure;
+                                                                res.Item.Aggregate(project.Issues, (acc, e) => { acc.Add(e); return acc; });
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            Logger.I.LogError("Project {0} not found in the view model.", args.Item1);
+                                                        }
+                                                    }), null);
+                                        }),
+                                LoadFinished =
+                                    FuncConvert.ToFSharpFunc<Tuple<Solution, OperationResult<Unit, Unit>>>(
+                                        args =>
+                                        {
+                                            _syncContext.Send(
+                                                new SendOrPostCallback(
+                                                    _ =>
+                                                    {
+                                                        SolutionViewModel.CurrentOperation = "Solution Loaded...";
+                                                        SolutionViewModel.CurrentOperationInProgress = false;
+                                                        SolutionViewModel.FinishLoad(args.Item1);
+                                                    }), null);
+                                        }),
+                                SyncAndBuildStarting =
+                                    FuncConvert.ToFSharpFunc<Solution>(
+                                        sln =>
+                                        {
+                                            _syncContext.Send(
+                                                new SendOrPostCallback(
+                                                    _ =>
+                                                    {
+                                                        SolutionViewModel.CurrentOperation = "Build and Sync Starting...";
+                                                        SolutionViewModel.CurrentOperationInProgress = true;
+                                                    }), null);
+                                        }),
+                                ProjectSyncStarting =
+                                    FuncConvert.ToFSharpFunc<Project>(
+                                        args =>
+                                        {
+                                            _syncContext.Send(
+                                                new SendOrPostCallback(
+                                                    _ =>
+                                                    {
+                                                        var project = SolutionViewModel.Projects.FirstOrDefault(p => p.ProjectId.Equals(args.Id));
+                                                        if (project != null)
+                                                        {
+                                                            project.FullName = project.ProjectId.UniqueName + " (syncing...)";
+                                                            project.OperationState = ProjectOperationState.Running;
+                                                        }
+                                                    }), null);
+                                        }),
+                                ProjectSyncFinished =
+                                    FuncConvert.ToFSharpFunc<Tuple<Project, OperationResult<Tuple<FilePath, IEnumerable<string>>, IEnumerable<string>>>>(
+                                        args =>
+                                        {
+                                            _syncContext.Send(
+                                                new SendOrPostCallback(
+                                                    _ =>
+                                                    {
+                                                        var project = SolutionViewModel.Projects.FirstOrDefault(p => p.ProjectId.Equals(args.Item1.Id));
+                                                        if (project != null)
+                                                        {
+                                                            project.FullName = project.ProjectId.UniqueName;
+                                                            if (args.Item2.IsSuccess)
+                                                            {
+                                                                project.OperationState = ProjectOperationState.Succeeded;
+                                                            }
+                                                            else
+                                                            {
+                                                                var res = args.Item2 as OperationResult<Tuple<FilePath, IEnumerable<string>>, IEnumerable<string>>.Failure;
+                                                                project.OperationState = ProjectOperationState.Failed;
+                                                                res.Item.Aggregate(project.Issues, (acc, e) => { acc.Add(e); return acc; });
+                                                            }
+                                                        }
+                                                    }), null);
+                                        }),
+                                ProjectBuildStarting =
+                                    FuncConvert.ToFSharpFunc<Project>(
+                                        args =>
+                                        {
+                                            _syncContext.Send(
+                                                new SendOrPostCallback(
+                                                    _ =>
+                                                    {
+                                                        var project = SolutionViewModel.Projects.FirstOrDefault(p => p.ProjectId.Equals(args.Id));
+                                                        if (project != null)
+                                                        {
+                                                            project.FullName = project.ProjectId.UniqueName + " (building...)";
+                                                            project.OperationState = ProjectOperationState.Running;
+                                                        }
+                                                    }), null);
+                                        }),
+                                ProjectBuildFinished =
+                                    FuncConvert.ToFSharpFunc<Tuple<Project, OperationResult<Tuple<IEnumerable<FilePath>, IEnumerable<string>>, IEnumerable<string>>>>(
+                                        args =>
+                                        {
+                                            _syncContext.Send(
+                                                new SendOrPostCallback(
+                                                    _ =>
+                                                    {
+                                                        var project = SolutionViewModel.Projects.FirstOrDefault(p => p.ProjectId.Equals(args.Item1.Id));
+                                                        if (project != null)
+                                                        {
+                                                            project.FullName = project.ProjectId.UniqueName;
+                                                            if (args.Item2.IsSuccess)
+                                                            {
+                                                                project.OperationState = ProjectOperationState.Succeeded;
+                                                                var res = args.Item2 as OperationResult<Tuple<IEnumerable<FilePath>, IEnumerable<string>>, IEnumerable<string>>.Success;
+                                                                res.Item.Item2.Aggregate(project.Issues, (acc, e) => { acc.Add(e); return acc; });
+                                                            }
+                                                            else
+                                                            {
+                                                                project.OperationState = ProjectOperationState.Failed;
+                                                                var res = args.Item2 as OperationResult<Tuple<IEnumerable<FilePath>, IEnumerable<string>>, IEnumerable<string>>.Failure;
+                                                                res.Item.Aggregate(project.Issues, (acc, e) => { acc.Add(e); return acc; });
+                                                            }
+                                                        }
+                                                    }), null);
+                                        }),
+                                SyncAndBuildFinished =
+                                    FuncConvert.ToFSharpFunc<Tuple<Solution, OperationResult<Unit, Unit>>>(
+                                        args =>
+                                        {
+                                            _syncContext.Send(
+                                                new SendOrPostCallback(
+                                                    _ =>
+                                                    {
+                                                        SolutionViewModel.CurrentOperation = "Build and Sync Finished...";
+                                                        SolutionViewModel.CurrentOperationInProgress = false;
+                                                    }), null);
+                                        }),
+                            });
 
                         _pipeline.Trigger(Services.GetService<EnvDTE.DTE>().Solution);
                     }
-                    else if (_solutionViewModel.State == SolutionState.Loaded)
+                    else if (SolutionViewModel.State == SolutionState.Loaded)
                     {
                         _pipeline.Unload();
                         ((IDisposable)_pipeline).Dispose();
-                        await _solutionViewModel.Unload();
+                        await SolutionViewModel.Unload();
                     }
                     else
                     {
-                        // Should not have come here as the command should have been disabled!
+                        Logger.I.LogError("Should not have come here as the command should have been disabled!");
                     }
                 },
-                () => _solutionViewModel.State == SolutionState.Loaded || _solutionViewModel.State == SolutionState.Unloaded);
-        }
-    }
-
-    public class TreeViewSelectedItemBlendBehavior : Behavior<TreeView>
-    {
-        //dependency property
-        public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.Register("SelectedItem", typeof(object),
-            typeof(TreeViewSelectedItemBlendBehavior),
-            new FrameworkPropertyMetadata(null) { BindsTwoWayByDefault = true });
-
-        //property wrapper
-        public object SelectedItem
-        {
-            get { return (object)GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
-        }
-
-        protected override void OnAttached()
-        {
-            base.OnAttached();
-            this.AssociatedObject.SelectedItemChanged += OnTreeViewSelectedItemChanged;
-        }
-
-        protected override void OnDetaching()
-        {
-            base.OnDetaching();
-            if (this.AssociatedObject != null)
-                this.AssociatedObject.SelectedItemChanged -= OnTreeViewSelectedItemChanged;
-        }
-
-        private void OnTreeViewSelectedItemChanged(object sender,
-            RoutedPropertyChangedEventArgs<object> e)
-        {
-            this.SelectedItem = e.NewValue;
+                () =>
+                    SolutionViewModel.State == SolutionState.Loaded || SolutionViewModel.State == SolutionState.Unloaded);
         }
     }
 }
