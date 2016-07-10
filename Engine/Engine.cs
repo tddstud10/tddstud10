@@ -217,6 +217,11 @@ namespace R4nd0mApps.TddStud10.Engine
         {
             foreach (var src in Directory.EnumerateFiles(folder, "*", searchOpt))
             {
+                if (src.IndexOf(@"\.git\", 0, StringComparison.OrdinalIgnoreCase) != -1)
+                {
+                    continue;
+                }
+
                 var dst = src.ToUpperInvariant().Replace(solutionGrandParentPath.ToUpperInvariant(), PathBuilder.snapShotRoot);
                 var srcInfo = new FileInfo(src);
                 var dstInfo = new FileInfo(dst);
