@@ -1,12 +1,12 @@
-﻿using System;
-using System.ComponentModel.Composition;
-using System.ComponentModel.Design;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Text.Editor;
+﻿using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
+using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
+using System;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Design;
 
 #if DONT_COMPILE
 
@@ -96,17 +96,20 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
         [Import]
         private IBufferTagAggregatorFactoryService _aggregatorFactory = null;
 
-        [Import(typeof(SVsServiceProvider), AllowDefault = true)]
-        private IServiceProvider _serviceProvider = null;
-
         public IWpfTextViewMargin CreateMargin(IWpfTextViewHost textViewHost, IWpfTextViewMargin containerMargin)
         {
+            var menuCmdService = TddStud10Package.Instance.GetService<IMenuCommandService>();
+            if (menuCmdService == null)
+            {
+                Logger.I.LogError("Unable to get IMenuCommandService. Context menus will be disabled!");
+            }
+
             return new Margin(
                 textViewHost.TextView,
                 _aggregatorFactory.CreateTagAggregator<IMarginGlyphTag>(textViewHost.TextView.TextBuffer),
-                _serviceProvider != null
-                    ? _serviceProvider.GetService<IMenuCommandService>().ShowContextMenu
-                    : new Action<System.ComponentModel.Design.CommandID, int, int>((_, __, ___) => { }));
+                menuCmdService != null
+                    ? menuCmdService.ShowContextMenu
+                    : new Action<CommandID, int, int>((_, __, ___) => { }));
         }
     }
 }

@@ -120,6 +120,14 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             }
         }
 
+        public HostVersion HostVersion
+        {
+            get
+            {
+                return HostVersion.VS2013;
+            }
+        }
+
         private bool _currentRunCancelled;
         private readonly EditorHostLoader _editorHostLoader;
         private readonly EditorHost _editorHost;

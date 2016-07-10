@@ -1,22 +1,47 @@
-﻿using System;
+﻿using Microsoft.Build.Construction;
+using R4nd0mApps.TddStud10.Common.Domain;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace R4nd0mApps.TddStud10
 {
-    public class Solution
+    public class VsProject
+    {
+        public string ProjectName { get; set; }
+        public string RelativePath { get; set; }
+    }
+
+    public static class VsSolution
+    {
+        public static IEnumerable<VsProject> GetProjects(HostVersion version, string solutionFilePath)
+        {
+            if (version == HostVersion.VS2013)
+            {
+                return new SolutionFile2013(solutionFilePath).Projects.Select(p => new VsProject { ProjectName = p.ProjectName, RelativePath = p.RelativePath });
+            }
+            else if (version == HostVersion.VS2015)
+            {
+                return SolutionFile.Parse(solutionFilePath).ProjectsInOrder.Select(p => new VsProject { ProjectName = p.ProjectName, RelativePath = p.RelativePath }); ;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(string.Format("Unknown host: {0}", version));
+            }
+        }
+    }
+
+    public class SolutionFile2013
     {
         static readonly Type s_SolutionParser;
         static readonly PropertyInfo s_SolutionParser_solutionReader;
         static readonly MethodInfo s_SolutionParser_parseSolution;
         static readonly PropertyInfo s_SolutionParser_projects;
 
-        static Solution()
+        static SolutionFile2013()
         {
             s_SolutionParser = Type.GetType("Microsoft.Build.Construction.SolutionParser, Microsoft.Build, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", false, false);
             if (s_SolutionParser != null)
@@ -27,9 +52,9 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        public List<SolutionProject> Projects { get; private set; }
+        public List<ProjectInSolution2013> Projects { get; private set; }
 
-        public Solution(string solutionFileName)
+        public SolutionFile2013(string solutionFileName)
         {
             if (s_SolutionParser == null)
             {
@@ -41,18 +66,18 @@ namespace R4nd0mApps.TddStud10
                 s_SolutionParser_solutionReader.SetValue(solutionParser, streamReader, null);
                 s_SolutionParser_parseSolution.Invoke(solutionParser, null);
             }
-            var projects = new List<SolutionProject>();
+            var projects = new List<ProjectInSolution2013>();
             var array = (Array)s_SolutionParser_projects.GetValue(solutionParser, null);
             for (int i = 0; i < array.Length; i++)
             {
-                projects.Add(new SolutionProject(array.GetValue(i)));
+                projects.Add(new ProjectInSolution2013(array.GetValue(i)));
             }
             this.Projects = projects;
         }
     }
 
     [DebuggerDisplay("{ProjectName}, {RelativePath}, {ProjectGuid}")]
-    public class SolutionProject
+    public class ProjectInSolution2013
     {
         static readonly Type s_ProjectInSolution;
         static readonly PropertyInfo s_ProjectInSolution_ProjectName;
@@ -60,7 +85,7 @@ namespace R4nd0mApps.TddStud10
         static readonly PropertyInfo s_ProjectInSolution_ProjectGuid;
         static readonly PropertyInfo s_ProjectInSolution_ProjectType;
 
-        static SolutionProject()
+        static ProjectInSolution2013()
         {
             s_ProjectInSolution = Type.GetType("Microsoft.Build.Construction.ProjectInSolution, Microsoft.Build, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", false, false);
             if (s_ProjectInSolution != null)
@@ -77,7 +102,7 @@ namespace R4nd0mApps.TddStud10
         public string ProjectGuid { get; private set; }
         public string ProjectType { get; private set; }
 
-        public SolutionProject(object solutionProject)
+        public ProjectInSolution2013(object solutionProject)
         {
             this.ProjectName = s_ProjectInSolution_ProjectName.GetValue(solutionProject, null) as string;
             this.RelativePath = s_ProjectInSolution_RelativePath.GetValue(solutionProject, null) as string;

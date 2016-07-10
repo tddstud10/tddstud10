@@ -1,5 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using GalaSoft.MvvmLight;
+using R4nd0mApps.TddStud10.Common.Domain;
+using R4nd0mApps.TddStud10.Hosts.Common;
+using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
+using System;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,16 +10,13 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Threading;
-using GalaSoft.MvvmLight;
-using R4nd0mApps.TddStud10.Engine.Core;
-using R4nd0mApps.TddStud10.Hosts.Common;
-using R4nd0mApps.TddStud10.Common.Domain;
-using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
 {
     public class VsStatusBarIconHost : ObservableObject
     {
+        private int _injectControlAttempts;
+
         private Dispatcher _statusBarThreadDispatcher;
 
         private RunState _runState = RunState.Initial;
@@ -39,18 +39,117 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
         }
 
+        private static bool IsUnmodifiedStatusBar(StatusBar statusBar)
+        {
+            DependencyObject child = VisualTreeHelper.GetChild(statusBar, 0);
+            return child is DockPanel;
+        }
+
+        private void InjectControl()
+        {
+            Window mainWindow = Application.Current.MainWindow;
+            FrameworkElement frameworkElement = FindChild(mainWindow, "ResizeGripControl") as FrameworkElement;
+            if (frameworkElement == null)
+            {
+                return;
+            }
+            DockPanel dockPanel = frameworkElement.Parent as DockPanel;
+            if (dockPanel == null)
+            {
+                return;
+            }
+            FrameworkElement frameworkElement2 = FindStatusBarContainer(dockPanel);
+            if (frameworkElement2 == null)
+            {
+                return;
+            }
+            if (!TryInjectMonitorControl(frameworkElement2))
+            {
+                ScheduleRetryInjectMonitorControl(frameworkElement2);
+            }
+        }
+
+        private void ScheduleRetryInjectMonitorControl(object statusBarContainer)
+        {
+            DispatcherTimer dispatcherTimer = new DispatcherTimer(DispatcherPriority.Background);
+            dispatcherTimer.Tag = statusBarContainer;
+            dispatcherTimer.Tick += new EventHandler(OnRetryTimerTick);
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(1.0);
+            dispatcherTimer.Start();
+        }
+
+        private void OnRetryTimerTick(object sender, EventArgs e)
+        {
+            DispatcherTimer dispatcherTimer = (DispatcherTimer)sender;
+            object tag = dispatcherTimer.Tag;
+            if (TryInjectMonitorControl(tag) || ++_injectControlAttempts == 5)
+            {
+                dispatcherTimer.Tick -= new EventHandler(OnRetryTimerTick);
+                dispatcherTimer.Tag = null;
+                dispatcherTimer.Stop();
+            }
+        }
+
+        private bool TryInjectMonitorControl(object statusBarContainer)
+        {
+            FieldInfo field = statusBarContainer.GetType().GetField("statusBarElement", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (field == null)
+            {
+                return false;
+            }
+            StatusBar statusBar = field.GetValue(statusBarContainer) as StatusBar;
+            if (statusBar == null)
+            {
+                return false;
+            }
+            _statusBarThreadDispatcher = statusBar.Dispatcher;
+            _statusBarThreadDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action<StatusBar>(InjectStatusBarIcon), statusBar);
+            return true;
+        }
+
+        private static DependencyObject FindChild(DependencyObject parent, string childName)
+        {
+            if (parent == null)
+            {
+                return null;
+            }
+            int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < childrenCount; i++)
+            {
+                DependencyObject dependencyObject = VisualTreeHelper.GetChild(parent, i);
+                FrameworkElement frameworkElement = dependencyObject as FrameworkElement;
+                if (frameworkElement != null && frameworkElement.Name == childName)
+                {
+                    return frameworkElement;
+                }
+                dependencyObject = FindChild(dependencyObject, childName);
+                if (dependencyObject != null)
+                {
+                    return dependencyObject;
+                }
+            }
+            return null;
+        }
+
+        private static FrameworkElement FindStatusBarContainer(Panel panel)
+        {
+            foreach (object current in panel.Children)
+            {
+                FrameworkElement frameworkElement = current as FrameworkElement;
+                if (frameworkElement != null && frameworkElement.Name == "StatusBarContainer")
+                {
+                    return frameworkElement;
+                }
+            }
+            return null;
+        }
+
         public static VsStatusBarIconHost CreateAndInjectIntoVsStatusBar()
         {
             Logger.I.LogInfo("Attempting to inject icon into VS' status bar.");
-            StatusBar statusBarElement = FindVsStatusBar();
 
             VsStatusBarIconHost iconHost = new VsStatusBarIconHost();
-            iconHost._statusBarThreadDispatcher = statusBarElement.Dispatcher;
-
-            iconHost.InvokeAsyncOnStatusBarThread(new Action(() =>
-            {
-                iconHost.InjectStatusBarIcon(statusBarElement);
-            }));
+            iconHost.InjectControl();
 
             return iconHost;
         }
@@ -60,10 +159,15 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             _statusBarThreadDispatcher.InvokeAsync(action);
         }
 
-        private void InjectStatusBarIcon(StatusBar statusBarElement)
+        private void InjectStatusBarIcon(StatusBar statusBar)
         {
             Logger.I.LogInfo("... In status bar thread.");
-            var rootDockPanel = (DockPanel)VisualTreeHelper.GetChild(statusBarElement, 0);
+            if (!IsUnmodifiedStatusBar(statusBar))
+            {
+                return;
+            }
+
+            var rootDockPanel = (DockPanel)VisualTreeHelper.GetChild(statusBar, 0);
             try
             {
                 rootDockPanel.LastChildFill = false;
@@ -100,23 +204,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             sbIcon.SetBinding(StatusBarNotificationIcon.IconColorProperty, cBinding);
             var tBinding = CreateBindingForRunStateProperty<RunStateToIconTextConverter>();
             sbIcon.SetBinding(StatusBarNotificationIcon.IconTextProperty, tBinding);
-        }
-
-        private static StatusBar FindVsStatusBar()
-        {
-            Window mainWindow = Application.Current.MainWindow;
-            var contentPresenter = VisualTreeHelper.GetChild(mainWindow, 0);
-            Grid rootGrid = (Grid)VisualTreeHelper.GetChild(contentPresenter, 0);
-            DockPanel statusBarPanel = (DockPanel)VisualTreeHelper.GetChild(rootGrid, 3);
-            var statusBarContainer = statusBarPanel.Children[1];
-            Logger.I.LogInfo("... Obtained statusBarContainer.");
-
-            Assembly asm = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName == "Microsoft.VisualStudio.Shell.UI.Internal, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a").First();
-            Type type = asm.GetType("Microsoft.VisualStudio.PlatformUI.WorkerThreadStatusBarContainer");
-            FieldInfo statusBarElementField = type.GetField("statusBarElement", BindingFlags.Instance | BindingFlags.NonPublic);
-            StatusBar statusBarElement = (StatusBar)statusBarElementField.GetValue(statusBarContainer);
-            Logger.I.LogInfo("... Obtained statusBarElement.");
-            return statusBarElement;
         }
 
         private Binding CreateBindingForRunStateProperty<T>() where T : IValueConverter, new()

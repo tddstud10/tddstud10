@@ -1,20 +1,21 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Threading;
-using Microsoft.VisualStudio;
+﻿using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
+using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
+using System;
+using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
 {
     [ProvideBindingPath]
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("#110", "#112", "0.3.4.0", IconResourceID = 400)]
+    [InstalledProductRegistration("#110", "#112", "0.4.0.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
     [Guid(PkgGuids.GuidTddStud10Pkg)]
@@ -33,6 +34,14 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         private VsStatusBarIconHost _iconHost;
 
         public static TddStud10Package Instance { get; private set; }
+
+        public HostVersion HostVersion
+        {
+            get
+            {
+                return HostVersionExtensions.fromDteVersion(_dte.Version);
+            }
+        }
 
         public void InvokeOnUIThread(Action action)
         {

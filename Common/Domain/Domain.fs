@@ -203,6 +203,11 @@ type RunEvent =
     | RunError of Exception
 
 // ==========================================================
+type HostVersion =
+    | VS2013
+    | VS2015
+
 type public IRunExecutorHost = 
+    abstract HostVersion : HostVersion
     abstract CanContinue : unit -> bool
     abstract RunStateChanged : RunState -> unit

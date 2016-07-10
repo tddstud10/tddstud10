@@ -195,9 +195,8 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private static RunStepResult TakeSolutionSnapshot(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
         {
-            var sln = new Solution(rsp.solutionPath.Item);
             var solutionGrandParentPath = Path.GetDirectoryName(Path.GetDirectoryName(rsp.solutionPath.Item));
-            sln.Projects.ForEach(p =>
+            VsSolution.GetProjects(host.HostVersion, rsp.solutionPath.Item).ToList().ForEach(p =>
             {
                 if (!host.CanContinue())
                 {
@@ -206,22 +205,29 @@ namespace R4nd0mApps.TddStud10.Engine
 
                 var projectFile = Path.Combine(Path.GetDirectoryName(rsp.solutionPath.Item), p.RelativePath);
                 var folder = Path.GetDirectoryName(projectFile);
-                foreach (var src in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
-                {
-                    var dst = src.ToUpperInvariant().Replace(solutionGrandParentPath.ToUpperInvariant(), PathBuilder.snapShotRoot);
-                    var srcInfo = new FileInfo(src);
-                    var dstInfo = new FileInfo(dst);
-
-                    if (srcInfo.LastWriteTimeUtc > dstInfo.LastWriteTimeUtc)
-                    {
-                        Directory.CreateDirectory(Path.GetDirectoryName(dst));
-                        Logger.I.LogInfo("Copying: {0} - {1}.", src, dst);
-                        File.Copy(src, dst, true);
-                    }
-                }
+                CopyFiles(solutionGrandParentPath, folder, SearchOption.AllDirectories);
             });
+            CopyFiles(solutionGrandParentPath, Path.GetDirectoryName(rsp.solutionPath.Item), SearchOption.TopDirectoryOnly);
+            CopyFiles(solutionGrandParentPath, Path.Combine(Path.GetDirectoryName(rsp.solutionPath.Item), "packages"), SearchOption.AllDirectories);
 
             return RunStepStatus.Succeeded.ToRSR(RunData.NoData, "What was done - TBD");
+        }
+
+        private static void CopyFiles(string solutionGrandParentPath, string folder, SearchOption searchOpt)
+        {
+            foreach (var src in Directory.EnumerateFiles(folder, "*", searchOpt))
+            {
+                var dst = src.ToUpperInvariant().Replace(solutionGrandParentPath.ToUpperInvariant(), PathBuilder.snapShotRoot);
+                var srcInfo = new FileInfo(src);
+                var dstInfo = new FileInfo(dst);
+
+                if (srcInfo.LastWriteTimeUtc > dstInfo.LastWriteTimeUtc)
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(dst));
+                    Logger.I.LogInfo("Copying: {0} - {1}.", src, dst);
+                    File.Copy(src, dst, true);
+                }
+            }
         }
 
         private static RunStepResult DeleteBuildOutput(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)

@@ -6,7 +6,8 @@ open R4nd0mApps.TddStud10.Engine.TestFramework
 type public TestHost(cancelStep : int) = 
     let mutable callCount = 0
     interface IRunExecutorHost with
-        
+        member __.HostVersion = VS2015
+
         member __.CanContinue() = 
             callCount <- callCount + 1
             callCount <= cancelStep
