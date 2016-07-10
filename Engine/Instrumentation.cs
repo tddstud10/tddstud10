@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
 using R4nd0mApps.TddStud10.Common;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 
 namespace R4nd0mApps.TddStud10
 {
@@ -30,7 +30,7 @@ namespace R4nd0mApps.TddStud10
             return null;
         }
 
-        public static PerDocumentSequencePoints GenerateSequencePointInfoImpl(IRunExecutorHost host, RunStartParams rsp)
+        private static PerDocumentSequencePoints GenerateSequencePointInfoImpl(IRunExecutorHost host, RunStartParams rsp)
         {
             var timeFilter = rsp.startTime;
             var buildOutputRoot = rsp.solutionBuildRoot.Item;
@@ -104,7 +104,7 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        public static void InstrumentImpl(IRunExecutorHost host, RunStartParams rsp, Func<DocumentLocation, IEnumerable<TestCase>> findTest)
+        private static void InstrumentImpl(IRunExecutorHost host, RunStartParams rsp, Func<DocumentLocation, IEnumerable<TestCase>> findTest)
         {
             var timeFilter = rsp.startTime;
             var solutionSnapshotRoot = Path.GetDirectoryName(rsp.solutionSnapshotPath.Item);
