@@ -1,5 +1,4 @@
-﻿using Microsoft.Build.Construction;
-using R4nd0mApps.TddStud10.Common.Domain;
+﻿using R4nd0mApps.TddStud10.Common.Domain;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,7 +24,8 @@ namespace R4nd0mApps.TddStud10
             }
             else if (version == HostVersion.VS2015)
             {
-                return SolutionFile.Parse(solutionFilePath).ProjectsInOrder.Select(p => new VsProject { ProjectName = p.ProjectName, RelativePath = p.RelativePath }); ;
+                return null;
+                //return SolutionFile.Parse(solutionFilePath).ProjectsInOrder.Select(p => new VsProject { ProjectName = p.ProjectName, RelativePath = p.RelativePath }); ;
             }
             else
             {
