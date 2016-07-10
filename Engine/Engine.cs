@@ -215,6 +215,11 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private static void CopyFiles(string solutionGrandParentPath, string folder, SearchOption searchOpt)
         {
+            if (!new DirectoryInfo(folder).Exists)
+            {
+                return;
+            }
+
             foreach (var src in Directory.EnumerateFiles(folder, "*", searchOpt))
             {
                 if (src.IndexOf(@"\.git\", 0, StringComparison.OrdinalIgnoreCase) != -1)
