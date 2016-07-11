@@ -24,8 +24,14 @@ namespace R4nd0mApps.TddStud10
             }
             else if (version == HostVersion.VS2015)
             {
-                return null;
-                //return SolutionFile.Parse(solutionFilePath).ProjectsInOrder.Select(p => new VsProject { ProjectName = p.ProjectName, RelativePath = p.RelativePath }); ;
+                var t = Type.GetType("Microsoft.Build.Construction.SolutionFile, Microsoft.Build, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", false, false);
+                var sln = t
+                    .GetMethod("Parse", BindingFlags.Public | BindingFlags.Static)
+                    .Invoke(null, new object[] { solutionFilePath });
+                var projects = t
+                    .GetProperty("ProjectsInOrder", BindingFlags.Public | BindingFlags.Instance)
+                    .GetValue(sln) as IEnumerable<dynamic>;
+                return projects.Select(p => new VsProject { ProjectName = p.ProjectName, RelativePath = p.RelativePath });
             }
             else
             {
