@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
   - Open source alternative to nCrunch
   - Eventually not just unit tests - but a collection of facilities that makes TDD a joy! e.g. TODO list, hotspot analysis, etc.
 
-# Features that currently work
+# Features that currently work [[Demo](https://www.youtube.com/watch?v=Bdo_Z-tj_T8)]
   - Enable/Disable TDDStudio
   - Run build/test cycle on every change to any file under the solution folder
   - Incrementalv0 - i.e. build/test happen only for projects that have changed

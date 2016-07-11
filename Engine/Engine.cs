@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.FSharp.Control;
+﻿using Microsoft.FSharp.Control;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using R4nd0mApps.TddStud10.Common;
 using R4nd0mApps.TddStud10.Common.Domain;
@@ -14,6 +6,14 @@ using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
 using R4nd0mApps.TddStud10.TestExecution.Adapters;
 using R4nd0mApps.TddStud10.TestRuntime;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace R4nd0mApps.TddStud10.Engine
 {
@@ -21,7 +21,7 @@ namespace R4nd0mApps.TddStud10.Engine
     {
         public static RunStep[] CreateRunSteps()
         {
-            return new[] 
+            return new[]
             {
                 TddStud10Runner.CreateRunStep(new RunStepInfo("Creating Solution Snapshot".ToRSN(), RunStepKind.Build, RunStepSubKind.CreateSnapshot), TakeSolutionSnapshot)
                 , TddStud10Runner.CreateRunStep(new RunStepInfo("Deleting Build Output".ToRSN(), RunStepKind.Build, RunStepSubKind.DeleteBuildOutput), DeleteBuildOutput)
@@ -179,7 +179,8 @@ namespace R4nd0mApps.TddStud10.Engine
             var output = ExecuteProcess(
                 @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe",
                 string.Format(
-                    @"/m /v:minimal /p:CreateVsixContainer=false /p:DeployExtension=false /p:CopyVsixExtensionFiles=false /p:VisualStudioVersion=12.0 /p:OutDir={0} {1}",
+                    @"/m /v:minimal /p:CreateVsixContainer=false /p:DeployExtension=false /p:CopyVsixExtensionFiles=false /p:VisualStudioVersion={0} /p:OutDir={1} {2}",
+                    host.HostVersion.ToString(),
                     rsp.solutionBuildRoot.Item,
                     rsp.solutionSnapshotPath.Item)
             );
@@ -284,7 +285,7 @@ namespace R4nd0mApps.TddStud10.Engine
             // attach the event handler for OutputDataReceived before runStarting the process
             process.OutputDataReceived += new DataReceivedEventHandler
             (
-                delegate(object sender, DataReceivedEventArgs e)
+                delegate (object sender, DataReceivedEventArgs e)
                 {
                     // append the new data to the data already read-in
                     consoleOutput.Enqueue(e.Data);
@@ -293,7 +294,7 @@ namespace R4nd0mApps.TddStud10.Engine
             );
             process.ErrorDataReceived += new DataReceivedEventHandler
             (
-                delegate(object sender, DataReceivedEventArgs e)
+                delegate (object sender, DataReceivedEventArgs e)
                 {
                     // append the new data to the data already read-in
                     consoleOutput.Enqueue(e.Data);

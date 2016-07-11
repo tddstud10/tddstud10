@@ -206,6 +206,10 @@ type RunEvent =
 type HostVersion =
     | VS2013
     | VS2015
+    override x.ToString() = 
+        match x with
+        | VS2013 -> "12.0"
+        | VS2015 -> "14.0"
 
 type public IRunExecutorHost = 
     abstract HostVersion : HostVersion
