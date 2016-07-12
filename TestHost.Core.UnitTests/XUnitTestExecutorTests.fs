@@ -7,8 +7,15 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open FSharp.Configuration
 open System.Runtime.Serialization
 open System.Xml
+open System
+open System.Reflection
 
 type ResX = ResXProvider< file="Resources\Resources.resx" >
+
+let testBinDir = 
+    (new Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath
+    |> Path.GetFullPath
+    |> Path.GetDirectoryName
 
 let expectedTests = 
     [ "XUnit20FSPortable.UnitTests.Fact Test 1", TestOutcome.Passed
@@ -31,7 +38,7 @@ let rehydrateTestCases tcs =
 [<Fact>]
 let ``Can run re-hydrated tests``() = 
     let te, tos = createExecutor()
-    let tests = rehydrateTestCases ResX.Resources.XUnit20FSPortableTests
+    let tests = rehydrateTestCases (ResX.Resources.XUnit20FSPortableTests.Replace(@"D:\src\r4nd0mapps\tddstud10\TestHost.Core.UnitTests\bin\Debug", testBinDir))
     tests |> te.ExecuteTests
     let actualTests = 
         tos
