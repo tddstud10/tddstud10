@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/ustuq9veqf22qenb?svg=true)](https://ci.appveyor.com/project/parthopdas/tddstud10)
+
 ﻿> **Test Driven Development Studio - An environment for practicing Kent Beck style Test Driven Development.**
 >
 >Copyright (C) 2015  Partho P. Das.
@@ -20,25 +22,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
   - Open source alternative to nCrunch
   - Eventually not just unit tests - but a collection of facilities that makes TDD a joy! e.g. TODO list, hotspot analysis, etc.
 
-# Features that currently work [[Demo](https://www.youtube.com/watch?v=Bdo_Z-tj_T8)]
+# Features that currently work 
   - Enable/Disable TDDStudio
   - Run build/test cycle on every change to any file under the solution folder
   - Incrementalv0 - i.e. build/test happen only for projects that have changed
   - Show code coverage indicators next to each line [green => tests covering it have all passed, red => otherwise]
   - nCrunch style status indicator at the bottom-right in VS Status Bar.
 
-# TODO
-  - disable tdd, takes icon away, persist settings
-  - generalize test discovery and execution by loading test adapter from project output dir 
-  - hardcoding: d:\xcrunch, c:\..\msbuild.exe
-  - FxCop, StyleCop, FSharpLint and AppVeyor
-  - telemetry
-  - perf
-  - hover to see List of tests, status, errors
-  - click on icon -> Window with build + test errors, status - messages from build, test
-  - run/debug single test
-  - quicker feedback: incremental tests, failed tests fast
-  - test: itself, xunit, nunit, opencover, roslyn
+# Demo
+  [![Everything Is AWESOME](http://img.youtube.com/vi/Bdo_Z-tj_T8/0.jpg)](https://www.youtube.com/watch?v=Bdo_Z-tj_T8 "TDD Studio - Making TDD a joy!")
 
 # Acceptance Tests
   - Help About - icon, version, name
@@ -90,9 +82,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.`
     - Mouse
   - C#/F#/VB, xunit/nunit
 
-  [[Markdown](http://daringfireball.net/projects/markdown/) syntax]
-
-  # Feature Set #
+  # Wish list and stuff really far off into the future #
   - Unit Test Frameworks [nUnit, xUnit, VS' CppUnit] 
   - Languages [C++/C#/F#] 
   - Hosts [VS2013/VS2015/Atom/VSCode] 
