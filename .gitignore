@@ -163,6 +163,9 @@ PublishScripts/
 ## NuGet v3's project.json files produces more ignoreable files
 #*.nuget.props
 #*.nuget.targets
+# Remove these lines after uncommenting the above
+packages/FAKE/
+packages/xunit.runner.console/
 
 # Microsoft Azure Build Output
 csx/
