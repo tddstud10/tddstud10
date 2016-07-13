@@ -319,7 +319,6 @@
       </IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
