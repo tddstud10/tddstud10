@@ -1,5 +1,4 @@
 ﻿using Microsoft.FSharp.Control;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using R4nd0mApps.TddStud10.Common;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine.Core;
@@ -108,7 +107,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 rss = RunStepStatus.Failed;
             }
 
-            var testResults = PerTestIdResults.Deserialize(FilePath.NewFilePath(testResultsStore));
+            var testResults = PerTestIdDResults.Deserialize(FilePath.NewFilePath(testResultsStore));
             var coverageSession = PerSequencePointIdTestRunId.Deserialize(FilePath.NewFilePath(coverageSessionStore));
             var testFailureInfo = PerDocumentLocationTestFailureInfo.Deserialize(FilePath.NewFilePath(testFailureInfoStore));
 
@@ -137,7 +136,7 @@ namespace R4nd0mApps.TddStud10.Engine
             var buildOutputRoot = rsp.solutionBuildRoot.Item;
             var timeFilter = rsp.startTime;
 
-            var testsPerAssembly = new PerDocumentLocationTestCases();
+            var testsPerAssembly = new PerDocumentLocationDTestCases();
             Engine.FindAndExecuteForEachAssembly(
                 host,
                 buildOutputRoot,
@@ -147,13 +146,13 @@ namespace R4nd0mApps.TddStud10.Engine
                     var asmPath = FilePath.NewFilePath(assemblyPath);
                     var disc = new XUnitTestDiscoverer();
                     disc.TestDiscovered.AddHandler(
-                        new FSharpHandler<TestCase>(
+                        new FSharpHandler<DTestCase>(
                             (o, ea) =>
                             {
-                                var cfp = PathBuilder.rebaseCodeFilePath(rsp, FilePath.NewFilePath(ea.CodeFilePath));
-                                ea.CodeFilePath = cfp.Item;
-                                var dl = new DocumentLocation { document = cfp, line = DocumentCoordinate.NewDocumentCoordinate(ea.LineNumber) };
-                                var tests = testsPerAssembly.GetOrAdd(dl, _ => new ConcurrentBag<TestCase>());
+                                var cfp = PathBuilder.rebaseCodeFilePath(rsp, ea.CodeFilePath);
+                                ea = new DTestCase(ea.FullyQualifiedName, ea.DisplayName, ea.Source, cfp, ea.LineNumber);
+                                var dl = new DocumentLocation { document = ea.CodeFilePath, line = ea.LineNumber };
+                                var tests = testsPerAssembly.GetOrAdd(dl, _ => new ConcurrentBag<DTestCase>());
                                 tests.Add(ea);
                             }));
                     disc.DiscoverTests(FilePath.NewFilePath(assemblyPath));

@@ -7,9 +7,6 @@ open System
 open System.Reflection
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open R4nd0mApps.TddStud10.Common.Domain
-open System.Runtime.Serialization
-open System.Text
-open System.Xml
 
 let expectedTests = 
     [ "XUnit20FSPortable.UnitTests.Fact Test 1"; "XUnit20FSPortable.UnitTests.Fact Test 2"; 
@@ -24,7 +21,7 @@ let testBin =
 
 let createDiscoverer() = 
     let td = new XUnitTestDiscoverer()
-    let tcs = new ConcurrentBag<TestCase>()
+    let tcs = new ConcurrentBag<DTestCase>()
     td.TestDiscovered |> Observable.add tcs.Add
     td, tcs
 

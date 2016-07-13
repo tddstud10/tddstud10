@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Diagnostics;
-using System.Linq;
-using System.ServiceModel;
-using System.Threading.Tasks;
-using Microsoft.FSharp.Control;
+﻿using Microsoft.FSharp.Control;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.TestExecution.Adapters;
 using R4nd0mApps.TddStud10.TestHost.Diagnostics;
 using R4nd0mApps.TddStud10.TestRuntime;
+using System;
+using System.Collections.Concurrent;
+using System.Diagnostics;
+using System.Linq;
+using System.ServiceModel;
+using System.Threading.Tasks;
 
 namespace R4nd0mApps.TddStud10.TestHost
 {
@@ -81,7 +81,7 @@ namespace R4nd0mApps.TddStud10.TestHost
             var perAssemblyTestIds = PerDocumentLocationTestCases.Deserialize(FilePath.NewFilePath(discoveredUnitTestsStore));
             var tests = from dc in perAssemblyTestIds.Keys
                         from t in perAssemblyTestIds[dc]
-                        group t by FilePath.NewFilePath(t.Source);
+                        group t by t.Source;
             Parallel.ForEach(
                 tests,
                 new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount },

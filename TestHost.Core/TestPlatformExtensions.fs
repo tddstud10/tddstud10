@@ -7,6 +7,7 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
 open Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open System.Collections.Generic
+open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.TestHost.Diagnostics
 
 let getLocalPath() = 
@@ -24,6 +25,13 @@ let loadTestAdapter() =
     Logger.logInfof "Test Adapter loaded"
     ta
 
+let toDTestCase (tc : TestCase) =
+    { FullyQualifiedName = tc.FullyQualifiedName
+      DisplayName = tc.DisplayName
+      Source = FilePath tc.Source
+      CodeFilePath = FilePath tc.CodeFilePath
+      LineNumber = DocumentCoordinate tc.LineNumber }
+
 let createDiscoveryContext() = 
     { new IDiscoveryContext with
           member __.RunSettings : IRunSettings = 
@@ -37,7 +45,7 @@ let createMessageLogger() =
 
 let createDiscoverySink td = 
     { new ITestCaseDiscoverySink with
-          member __.SendTestCase(discoveredTest : TestCase) : unit = td (discoveredTest) }
+          member __.SendTestCase(discoveredTest : TestCase) : unit = discoveredTest |> (toDTestCase >> td) }
 
 let createRunContext() = 
     { new IRunContext with

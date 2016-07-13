@@ -1,6 +1,5 @@
 ﻿namespace R4nd0mApps.TddStud10.Engine.Core
 
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open R4nd0mApps.TddStud10.Common.Domain
 
 (* NOTE: Keep this entity free of intelligence. It just needs to be able to store/retrive data.
@@ -8,9 +7,9 @@ open R4nd0mApps.TddStud10.Common.Domain
 type DataStore() = 
     static let instance = Lazy.Create(fun () -> DataStore())
     let mutable runStartParams = None
-    let mutable testCases = PerDocumentLocationTestCases()
+    let mutable testCases = PerDocumentLocationDTestCases()
     let mutable sequencePoints = PerDocumentSequencePoints()
-    let mutable testResults = PerTestIdResults()
+    let mutable testResults = PerTestIdDResults()
     let mutable testFailureInfo = PerDocumentLocationTestFailureInfo()
     let mutable coverageInfo = PerSequencePointIdTestRunId()
     let testCasesUpdated = Event<_>()
@@ -45,7 +44,7 @@ type DataStore() =
                 coverageInfo <- ci
                 Common.safeExec (fun () -> coverageInfoUpdated.Trigger(coverageInfo))
         
-        member __.FindTest dl : TestCase seq = (dl, testCases) ||> Dict.tryGetValue Seq.empty (fun v -> v :> seq<_>)
+        member __.FindTest dl : DTestCase seq = (dl, testCases) ||> Dict.tryGetValue Seq.empty (fun v -> v :> seq<_>)
         member __.GetSequencePointsForFile p : SequencePoint seq = 
             (p, sequencePoints) ||> Dict.tryGetValue Seq.empty (fun v -> v :> seq<_>)
         member __.FindTestFailureInfo dl : TestFailureInfo seq = 

@@ -5,7 +5,6 @@ open R4nd0mApps.TddStud10.Engine.Core
 open R4nd0mApps.TddStud10.Common.Domain
 open System
 open R4nd0mApps.TddStud10.Common.TestFramework
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open System.Collections.Concurrent
 open R4nd0mApps.TddStud10.Hosts.Common.TestCode
 open Microsoft.VisualStudio.Text
@@ -23,16 +22,14 @@ let createTST s pdltp p t =
     |> ds.UpdateData
     ds, tb, tmt, spy
 
-let createPDLTP (ts : (string * string * int) seq) = 
-    let tpa = PerDocumentLocationTestCases()
+let createPDLTP (ts : (string * FilePath * DocumentCoordinate) seq) = 
+    let tpa = PerDocumentLocationDTestCases()
     
-    let addTestCase (acc : PerDocumentLocationTestCases) (f, d, l) = 
-        let tc = TestCase(f, Uri("exec://utf"), "src")
-        tc.CodeFilePath <- d
-        tc.LineNumber <- l
+    let addTestCase (acc : PerDocumentLocationDTestCases) (f, d, l) = 
+        let tc = { FullyQualifiedName = f; DisplayName = ""; Source = FilePath "src"; CodeFilePath = d; LineNumber = l }
         let b = 
-            acc.GetOrAdd({ document = FilePath d
-                           line = DocumentCoordinate l }, fun _ -> ConcurrentBag<_>())
+            acc.GetOrAdd({ document = d
+                           line = l }, fun _ -> ConcurrentBag<_>())
         b.Add(tc) |> ignore
         acc
     ts |> Seq.fold addTestCase tpa
@@ -47,12 +44,12 @@ let getNSSC n (tb : ITextBuffer) =
 
 [<Fact>]
 let ``Datastore TestCasesUpdated event fires TagsChanged event``() = 
-    let _, tb, _, s = createTST @"c:\a.sln" (PerDocumentLocationTestCases()) "" ""
+    let _, tb, _, s = createTST @"c:\a.sln" (PerDocumentLocationDTestCases()) "" ""
     Assert.True(s.CalledWith |> Option.exists (fun ssea -> ssea.Span.Snapshot.Equals(tb.CurrentSnapshot)))
 
 [<Fact>]
 let ``GetTags returns empty if no tests are found in datastore``() = 
-    let _, tb, tmt, _ = createTST @"sln.sln" (PerDocumentLocationTestCases()) @"a.cs" """Line
+    let _, tb, tmt, _ = createTST @"sln.sln" (PerDocumentLocationDTestCases()) @"a.cs" """Line
 Line 2
 """
     let ts = tmt.GetTags(tb |> getNSSC 1)
@@ -60,11 +57,10 @@ Line 2
 
 [<Fact>]
 let ``GetTags returns right tag for 1 empty and 1 each found and not found in datastore``() = 
-    let pdltp = [ ("FQN:2nd line", @"a.cs", 2) ] |> createPDLTP
+    let pdltp = [ ("FQN:2nd line", FilePath @"a.cs", DocumentCoordinate 2) ] |> createPDLTP
     let _, tb, tmt, _ = createTST @"sln.sln" pdltp @"a.cs" """
 Line 2
 """
-    let ss = tb.CurrentSnapshot.Lines |> Seq.map (fun l -> l.Extent)
     let ts = tmt.GetTags(tb |> getNSSC 1)
     Assert.Empty(ts)
     let ts = tmt.GetTags(tb |> getNSSC 2)

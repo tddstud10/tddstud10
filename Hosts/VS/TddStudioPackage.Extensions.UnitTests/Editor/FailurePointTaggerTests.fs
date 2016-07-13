@@ -18,7 +18,7 @@ let createFPT s pdltfi p t =
     let spy = CallSpy1<SnapshotSpanEventArgs>(Throws(Exception()))
     tmt.TagsChanged.Add(spy.Func >> ignore)
     RunStartParamsExtensions.create DateTime.Now (FilePath s) |> ds.UpdateRunStartParams
-    (PerTestIdResults(), pdltfi, PerSequencePointIdTestRunId())
+    (PerTestIdDResults(), pdltfi, PerSequencePointIdTestRunId())
     |> TestRunOutput
     |> ds.UpdateData
     ds, tb, tmt, spy

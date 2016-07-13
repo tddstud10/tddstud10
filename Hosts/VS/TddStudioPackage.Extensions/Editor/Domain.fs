@@ -2,7 +2,6 @@
 
 open Microsoft.VisualStudio.Text.Tagging
 open System.ComponentModel.Design
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open R4nd0mApps.TddStud10.Common.Domain
 open System.Windows.Media
 
@@ -14,7 +13,7 @@ type IMarginGlyphTag =
     inherit ITag
 
 type TestStartTag = 
-    { testCases : TestCase seq
+    { testCases : DTestCase seq
       location : DocumentLocation }
     interface IMarginGlyphTag
 
@@ -24,7 +23,7 @@ type FailurePointTag =
 
 type CodeCoverageTag = 
     { sp : SequencePoint
-      testResults : TestResult seq }
+      testResults : DTestResult seq }
     interface IMarginGlyphTag
 
 (* NOTE: This should have an 1-1 mapping with the FrameworkElement being displayed in the Margin Canvas. 

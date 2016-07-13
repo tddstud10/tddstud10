@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Engine.Core;
@@ -128,10 +127,10 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             _dte.SetBreakPoint(tst.sp.document.Item, tst.sp.startLine.Item);
 
-            var tpa = new PerDocumentLocationTestCases();
-            var bag = new ConcurrentBag<TestCase>();
+            var tpa = new PerDocumentLocationDTestCases();
+            var bag = new ConcurrentBag<DTestCase>();
             bag.Add(tst.tests);
-            tpa.TryAdd(new DocumentLocation { document = FilePath.NewFilePath(tst.tests.CodeFilePath), line = DocumentCoordinate.NewDocumentCoordinate(tst.tests.LineNumber) }, bag);
+            tpa.TryAdd(new DocumentLocation { document = tst.tests.CodeFilePath, line = tst.tests.LineNumber }, bag);
             var duts = Path.Combine(DataStore.Instance.RunStartParams.Value.solutionBuildRoot.Item, "Z_debug.xml");
             tpa.Serialize(FilePath.NewFilePath(duts));
 

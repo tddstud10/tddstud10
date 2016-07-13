@@ -2,16 +2,15 @@
 
 open System.Collections.Concurrent
 open System
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
 [<Serializable>]
-type PerTestIdResults = 
-    inherit DataStoreEntityBase<TestId, ConcurrentBag<TestResult>>
+type PerTestIdDResults = 
+    inherit DataStoreEntityBase<TestId, ConcurrentBag<DTestResult>>
     
     new() = 
         { inherit DataStoreEntityBase<_, _>() }
         then ()
     
-    member public t.Serialize path = DataStoreEntityExtensions.Serialize<PerTestIdResults> path t
+    member public t.Serialize path = DataStoreEntityExtensions.Serialize<PerTestIdDResults> path t
 
-    static member public Deserialize path = DataStoreEntityExtensions.Deserialize<PerTestIdResults> (path)
+    static member public Deserialize path = DataStoreEntityExtensions.Deserialize<PerTestIdDResults> (path)

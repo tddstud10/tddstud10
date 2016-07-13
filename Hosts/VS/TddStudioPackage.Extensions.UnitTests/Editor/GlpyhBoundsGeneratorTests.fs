@@ -1,25 +1,31 @@
 ﻿module R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor.GlpyhBoundGeneratorTests
 
-open Xunit
-open Microsoft.VisualStudio.Text.Formatting
-open System.Windows
-open Microsoft.VisualStudio.Text.Tagging
-open R4nd0mApps.TddStud10.Hosts.Common.TestCode
-open Microsoft.VisualStudio.Text.Editor
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
-open System
 open Microsoft.VisualStudio.Text
-open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
+open Microsoft.VisualStudio.Text.Editor
+open Microsoft.VisualStudio.Text.Formatting
+open Microsoft.VisualStudio.Text.Tagging
 open R4nd0mApps.TddStud10.Common.Domain
+open R4nd0mApps.TddStud10.Hosts.Common.TestCode
+open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
+open System.Windows
+open Xunit
 
 let zl = 2.5
-let getZL = fun() -> zl
+let getZL = fun () -> zl
 
 let getMTSForline (ss : SnapshotSpan) : IMappingTagSpan<_> seq = 
     let mts = FakeMappingTagSpan<TestStartTag>()
-    let f () p =
-        mts.Tag <- { testCases = [ TestCase("FQN:" + ss.GetText(), Uri("ext://test"), "source") ]
-                     location = { document = p; line = DocumentCoordinate(ss.Start.GetContainingLine().LineNumber + 1) } }
+    
+    let f () p = 
+        mts.Tag <- { testCases = 
+                         [ { FullyQualifiedName = "FQN:" + ss.GetText()
+                             DisplayName = ""
+                             Source = FilePath "source"
+                             CodeFilePath = FilePath ""
+                             LineNumber = DocumentCoordinate 0 } ]
+                     location = 
+                         { document = p
+                           line = DocumentCoordinate(ss.Start.GetContainingLine().LineNumber + 1) } }
     ss.Snapshot.TextBuffer.FilePath |> Option.fold f ()
     upcast [ mts :> IMappingTagSpan<_> ]
 

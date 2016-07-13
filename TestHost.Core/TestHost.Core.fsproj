@@ -82,6 +82,8 @@
       <Link>Constants.fs</Link>
     </Compile>
     <Compile Include="Logger.fs" />
+    <Compile Include="PerDocumentLocationTestCases.fs" />
+    <Compile Include="PerTestIdResults.fs" />
     <Compile Include="CoverageDataCollector.fs" />
     <Compile Include="TestPlatformExtensions.fs" />
     <Compile Include="XUnitTestDiscoverer.fs" />

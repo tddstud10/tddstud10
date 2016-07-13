@@ -9,7 +9,7 @@ type XUnitTestDiscoverer() =
     let ml = TestPlatformExtensions.createMessageLogger()
     let ds = TestPlatformExtensions.createDiscoverySink
     let testDiscovered = new Event<_>()
-    member public t.TestDiscovered = testDiscovered.Publish
-    member public t.DiscoverTests(FilePath asm) = 
+    member public __.TestDiscovered = testDiscovered.Publish
+    member public __.DiscoverTests(FilePath asm) = 
         let td = TestPlatformExtensions.loadTestAdapter() :?> ITestDiscoverer
         td.DiscoverTests([ asm ], dc, ml, ds testDiscovered.Trigger)
