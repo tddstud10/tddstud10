@@ -67,7 +67,7 @@ namespace R4nd0mApps.TddStud10
                                 int id = 0;
                                 foreach (var sp in sps)
                                 {
-                                    var fp = PathBuilder.rebaseCodeFilePath(rsp, FilePath.NewFilePath(sp.SequencePoint.Document.Url));
+                                    var fp = PathBuilder.rebaseCodeFilePath(rsp.solutionPath, rsp.solutionSnapshotPath, FilePath.NewFilePath(sp.SequencePoint.Document.Url));
                                     var seqPts = perDocSP.GetOrAdd(fp, _ => new ConcurrentBag<R4nd0mApps.TddStud10.Common.Domain.SequencePoint>());
 
                                     seqPts.Add(new R4nd0mApps.TddStud10.Common.Domain.SequencePoint
@@ -144,7 +144,7 @@ namespace R4nd0mApps.TddStud10
                            where m.Name == "ExitUnitTest"
                            select m;
 
-            Func<string, string> rebaseDocument = s => PathBuilder.rebaseCodeFilePath(rsp, FilePath.NewFilePath(s)).Item;
+            Func<string, string> rebaseDocument = s => PathBuilder.rebaseCodeFilePath(rsp.solutionPath, rsp.solutionSnapshotPath, FilePath.NewFilePath(s)).Item;
 
             Engine.Engine.FindAndExecuteForEachAssembly(
                 host,
@@ -402,7 +402,7 @@ namespace R4nd0mApps.TddStud10
                 return new Tuple<bool, TestId>(false, null);
             }
 
-            var dl = new DocumentLocation { document = PathBuilder.rebaseCodeFilePath(rsp, FilePath.NewFilePath(sp.Document.Url)), line = DocumentCoordinate.NewDocumentCoordinate(sp.StartLine) };
+            var dl = new DocumentLocation { document = PathBuilder.rebaseCodeFilePath(rsp.solutionPath, rsp.solutionSnapshotPath, FilePath.NewFilePath(sp.Document.Url)), line = DocumentCoordinate.NewDocumentCoordinate(sp.StartLine) };
             var test = findTest(dl).FirstOrDefault(t => t.Source.Equals(assemblyPath));
             if (test == null)
             {

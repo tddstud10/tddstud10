@@ -31,5 +31,5 @@ let ``Tests for rebaseCodeFilePath`` (slnPath, slnSnapPath, inp, outp) =
                 solutionPath = ~~slnPath
                 solutionSnapshotPath = ~~slnSnapPath
                 solutionBuildRoot = ~~"" }
-    let p = PathBuilder.rebaseCodeFilePath rsp ~~inp
+    let p = PathBuilder.rebaseCodeFilePath (rsp.solutionPath, rsp.solutionSnapshotPath) ~~inp
     Assert.Equal(~~outp, p)

@@ -1,17 +1,14 @@
 ﻿namespace R4nd0mApps.TddStud10.TestExecution.Adapters
 
-open System
-open R4nd0mApps.TddStud10.TestExecution
-open R4nd0mApps.TddStud10.Common.Domain
-open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
+open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
+open R4nd0mApps.TddStud10.TestExecution
 
 type XUnitTestExecutor() = 
-    let executorUri = new Uri("executor://xunit/VsTestRunner2")
     let rc = TestPlatformExtensions.createRunContext()
     let fh = TestPlatformExtensions.createFrameworkHandle
     let testExecuted = new Event<_>()
-    member public t.TestExecuted = testExecuted.Publish
-    member public t.ExecuteTests(tests : TestCase seq) = 
-        let te = TestPlatformExtensions.loadTestAdapter() :?> ITestExecutor
+    member public __.TestExecuted = testExecuted.Publish
+    member public __.ExecuteTests(binDir, tests : TestCase seq) = 
+        let te = binDir |> TestPlatformExtensions.loadTestAdapter :?> ITestExecutor
         te.RunTests(tests, rc, fh testExecuted.Trigger)

@@ -15,8 +15,8 @@ let getLocalPath() =
     |> Path.GetFullPath
     |> Path.GetDirectoryName
 
-let loadTestAdapter() = 
-    let aPath = getLocalPath() |> fun lp -> Path.Combine(lp, "xunit20\\xunit.runner.visualstudio.testadapter.dll")
+let loadTestAdapter binDir = 
+    let aPath = Path.Combine(binDir, "xunit.runner.visualstudio.testadapter.dll")
     Logger.logInfof "Loading Test Adapter from %s" aPath
     let ta = 
         Assembly.LoadFrom(aPath)
@@ -32,6 +32,21 @@ let toDTestCase (tc : TestCase) =
       CodeFilePath = FilePath tc.CodeFilePath
       LineNumber = DocumentCoordinate tc.LineNumber }
 
+let toDTestOutcome = function
+    | TestOutcome.None -> TONone
+    | TestOutcome.Passed -> TOPassed
+    | TestOutcome.Failed -> TOFailed
+    | TestOutcome.Skipped -> TOSkipped
+    | TestOutcome.NotFound -> TONotFound
+    | o -> failwithf "Unknown TestOutcome: %O" o
+
+let toDTestResult (tr : TestResult) =
+    { DisplayName = tr.DisplayName
+      TestCase = toDTestCase tr.TestCase
+      Outcome = toDTestOutcome tr.Outcome
+      ErrorStackTrace = tr.ErrorStackTrace
+      ErrorMessage = tr.ErrorMessage }
+
 let createDiscoveryContext() = 
     { new IDiscoveryContext with
           member __.RunSettings : IRunSettings = 
@@ -45,7 +60,7 @@ let createMessageLogger() =
 
 let createDiscoverySink td = 
     { new ITestCaseDiscoverySink with
-          member __.SendTestCase(discoveredTest : TestCase) : unit = discoveredTest |> (toDTestCase >> td) }
+          member __.SendTestCase(discoveredTest : TestCase) : unit = discoveredTest |> td }
 
 let createRunContext() = 
     { new IRunContext with
@@ -98,7 +113,7 @@ let createFrameworkHandle te =
           member __.RecordAttachments(_ : IList<AttachmentSet>) : unit = 
               Logger.logErrorf "TestPlatform: RecordAttachments call was unexpected"
           member __.RecordEnd(_ : TestCase, _ : TestOutcome) : unit = ()
-          member __.RecordResult(testResult : TestResult) : unit = te (testResult)
+          member __.RecordResult(testResult : TestResult) : unit = testResult |> (toDTestResult >> te) 
           member __.RecordStart(_ : TestCase) : unit = ()
           member __.SendMessage(testMessageLevel : TestMessageLevel, message : string) : unit = 
               Logger.logErrorf "TestPlatform: SendMessage call was unexpected : [%O] %s" testMessageLevel message }
