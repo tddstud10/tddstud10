@@ -54,16 +54,36 @@ namespace R4nd0mApps.TddStud10.TestHost
             }
             else
             {
-                var allTestsPassed = _debuggerAttached
-                    ? RunTests(buildRoot, testResultsStore, discoveredUnitTestsStore, testFailureInfoStore)
-                    : ExecuteTestWithCoverageDataCollection(() => RunTests(buildRoot, testResultsStore, discoveredUnitTestsStore, testFailureInfoStore), codeCoverageStore);
+                var allTestsPassed = false;
+                if (_debuggerAttached)
+                {
+                    allTestsPassed = RunTests(buildRoot, testResultsStore, testFailureInfoStore, GetTestToDebug(discoveredUnitTestsStore, discoveredUnitDTestsStore));
+                }
+                else
+                {
+                    allTestsPassed = ExecuteTestWithCoverageDataCollection(() => RunTests(buildRoot, testResultsStore, testFailureInfoStore, PerDocumentLocationTestCases.Deserialize(FilePath.NewFilePath(discoveredUnitTestsStore))), codeCoverageStore);
+                }
 
                 LogInfo("TestHost: Exiting Main.");
                 return allTestsPassed ? 0 : 1;
             }
         }
 
-        public static void FindAndExecuteForEachAssembly(string buildOutputRoot, DateTime timeFilter, Action<string> action, int? maxThreads = null)
+        private static PerDocumentLocationTestCases GetTestToDebug(string discoveredUnitTestsStore, string discoveredUnitDTestsStore)
+        {
+            var discoveredUnitTests = PerDocumentLocationTestCases.Deserialize(FilePath.NewFilePath(discoveredUnitTestsStore));
+            var discoveredUnitDTests = PerDocumentLocationDTestCases.Deserialize(FilePath.NewFilePath(discoveredUnitDTestsStore));
+
+            var dtc = discoveredUnitDTests.Values.First().First();
+            var dl = new DocumentLocation(dtc.CodeFilePath, dtc.LineNumber);
+
+            var testToDebug = new PerDocumentLocationTestCases();
+            testToDebug.TryAdd(dl, discoveredUnitTests[dl]);
+
+            return testToDebug;
+        }
+
+        private static void FindAndExecuteForEachAssembly(string buildOutputRoot, DateTime timeFilter, Action<string> action, int? maxThreads = null)
         {
             int madDegreeOfParallelism = maxThreads.HasValue ? maxThreads.Value : Environment.ProcessorCount;
             Logger.I.LogInfo("FindAndExecuteForEachAssembly: Running with {0} threads.", madDegreeOfParallelism);
@@ -155,7 +175,7 @@ namespace R4nd0mApps.TddStud10.TestHost
 
 #endif
 
-        private static bool RunTests(string buildRoot, string testResultsStore, string discoveredUnitTestsStore, string testFailureInfoStore)
+        private static bool RunTests(string buildRoot, string testResultsStore, string testFailureInfoStore, PerDocumentLocationTestCases discoveredUnitTests)
         {
             Stopwatch stopWatch = new Stopwatch();
 
@@ -163,7 +183,6 @@ namespace R4nd0mApps.TddStud10.TestHost
             stopWatch.Start();
             var testResults = new PerTestIdDResults();
             var testFailureInfo = new PerDocumentLocationTestFailureInfo();
-            var discoveredUnitTests = PerDocumentLocationTestCases.Deserialize(FilePath.NewFilePath(discoveredUnitTestsStore));
             var tests = from dc in discoveredUnitTests.Keys
                         from t in discoveredUnitTests[dc]
                         group t by t.Source;
