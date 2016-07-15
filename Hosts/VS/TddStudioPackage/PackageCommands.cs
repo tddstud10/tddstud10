@@ -10,8 +10,10 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using CommandEntry = System.Tuple<string, uint, System.EventHandler, System.EventHandler>;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
@@ -35,6 +37,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             new List<CommandEntry>()
             {
                 new CommandEntry(PkgGuids.GuidTddStud10CmdSet, PkgCmdID.ChangeTddStud10State, ExecuteChangeTddStud10State, OnBeforeQueryStatusChangeTddStud10State),
+                new CommandEntry(PkgGuids.GuidTddStud10CmdSet, PkgCmdID.ViewTddStud10Logs, ExecuteViewTddStud10Logs, (s, e) => { }),
                 new CommandEntry(PkgGuids.GuidGlyphContextCmdSet, PkgCmdID.DebugTest, ExecuteDebugTest, OnBeforeQueryStatusDebugTest),
             }.Aggregate(
                 _mcs,
@@ -90,6 +93,31 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             else
             {
                 cmd.Text = Properties.Resources.EnableTddStud10State;
+            }
+        }
+
+        #endregion
+
+        #region PkgCmdIDList.ViewTddStud10Logs
+
+        private void ExecuteViewTddStud10Logs(object sender, EventArgs e)
+        {
+            var pkgPath = Path.GetDirectoryName(Path.GetFullPath(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath));
+            var loggerPath = Path.Combine(pkgPath, @"rtlogs\RealTimeEtwListener.exe");
+            try
+            {
+                ProcessStartInfo info = new ProcessStartInfo(loggerPath);
+                info.UseShellExecute = true;
+                info.Verb = "runas";
+                Process.Start(info);
+            }
+            catch
+            {
+                Services
+                    .GetService<SVsUIShell, IVsUIShell>()
+                    .DisplayMessageBox(
+                        Properties.Resources.ProductTitle,
+                        string.Format(Properties.Resources.UnableToStartLogger, loggerPath));
             }
         }
 

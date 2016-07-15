@@ -19,7 +19,7 @@ module PathBuilder =
     
     let makeSlnBuildRoot (FilePath slnPath) = 
         let slnParentDirName = makeSlnParentDirName slnPath
-        FilePath(Path.Combine(snapShotRoot, slnParentDirName + ".out"))
+        FilePath(Path.Combine(snapShotRoot, slnParentDirName, "out"))
     
     let rebaseCodeFilePath ((FilePath slnPath), (FilePath slnSnapPath)) (FilePath p) = 
         p.ToUpperInvariant()

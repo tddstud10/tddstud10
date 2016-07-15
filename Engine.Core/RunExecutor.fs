@@ -2,9 +2,6 @@
 
 open System
 open R4nd0mApps.TddStud10.Common.Domain
-open System.IO
-open System.Reflection
-open R4nd0mApps.TddStud10.Common
 
 type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, stepWrapper : RunStepFuncWrapper) = 
     let runStarting = new Event<_>()

@@ -272,6 +272,13 @@
       <IncludeOutputGroupsInVSIXLocalOnly>
       </IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\RealTimeEtwListener\RealTimeEtwListener.csproj">
+      <Project>{9C043026-4D34-4B8C-A7B2-3BA39ECDFF22}</Project>
+      <Name>RealTimeEtwListener</Name>
+      <VSIXSubPath>rtlogs</VSIXSubPath>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b      </IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly></IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\TestExecution\TestRuntime\TestRuntime.csproj">
       <Project>{0FEA2E86-4EE0-4FD8-949D-C74189B855D9}</Project>
       <Name>TestRuntime</Name>

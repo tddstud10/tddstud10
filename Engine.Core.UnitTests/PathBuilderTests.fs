@@ -15,8 +15,8 @@ let ``Tests for makeSlnSnapshotPath`` (slnPath, snapShotPath) =
     Assert.Equal(snapShotPath, sp)
 
 [<Theory>]
-[<InlineData("c:\\folder\\file.sln", "d:\\tddstud10\\folder.out")>]
-[<InlineData("x:\\file.sln", "d:\\tddstud10\\file.out")>]
+[<InlineData("c:\\folder\\file.sln", "d:\\tddstud10\\folder\\out")>]
+[<InlineData("x:\\file.sln", "d:\\tddstud10\\file\\out")>]
 let ``Tests for makeSlnBuildRoot`` (slnPath, buildRoot) = 
     let (FilePath sp) = PathBuilder.makeSlnBuildRoot (FilePath slnPath)
     Assert.Equal(buildRoot, sp)

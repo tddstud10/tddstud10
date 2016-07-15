@@ -17,7 +17,7 @@ let createSteps n =
     [| for _ in 1..n do
            yield (new StepFunc()) |]
 
-let toRSF : StepFunc array -> RunStep array = Array.map (fun s -> RS s)
+let toRSF : StepFunc array -> RunStep array = Array.map RS
 let createHandlers() = (new CallSpy<RunStartParams>(), new CallSpy<Exception>(), new CallSpy<RunStartParams>())
 let createRE h ss f = RunExecutor.Create h (ss |> toRSF) f
 
@@ -51,7 +51,7 @@ let ``Executor initialized RunData``() =
         { startTime = now
           solutionPath = slnFile
           solutionSnapshotPath = ~~"d:\\tddstud10\\folder\\file.sln"
-          solutionBuildRoot = ~~"d:\\tddstud10\\folder.out"
+          solutionBuildRoot = ~~"d:\\tddstud10\\folder\\out"
           testHostPath = ~~"TddStud10.TestHost.exe" }
     Assert.Equal(expected, actual)
     Assert.Equal(err, None)

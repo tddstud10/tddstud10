@@ -173,9 +173,11 @@ namespace R4nd0mApps.TddStud10.Engine
         private static RunStepResult BuildSolutionSnapshot(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
         {
             var output = ExecuteProcess(
-                @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe",
+                Path.Combine(
+                    Environment.GetEnvironmentVariable("ProgramFiles(x86)"),
+                    string.Format(@"MSBuild\{0}\Bin\msbuild.exe", host.HostVersion)),
                 string.Format(
-                    @"/m /v:minimal /p:CreateVsixContainer=false /p:DeployExtension=false /p:CopyVsixExtensionFiles=false /p:VisualStudioVersion={0} /p:OutDir={1} {2}",
+                    @"/m /v:minimal /p:CreateVsixContainer=false /p:DeployExtension=false /p:CopyVsixExtensionFiles=false /p:OutDir={1} {2}",
                     host.HostVersion.ToString(),
                     rsp.solutionBuildRoot.Item,
                     rsp.solutionSnapshotPath.Item)
