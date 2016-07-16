@@ -9,6 +9,7 @@ open System.Runtime.Serialization
 open System.Xml
 open Xunit
 open R4nd0mApps.TddStud10.Common.Domain
+open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
 
 type ResX = ResXProvider< file="Resources\Resources.resx" >
 
@@ -32,13 +33,16 @@ let rehydrateTestCases tcs =
 
 [<Fact>]
 let ``Can run re-hydrated tests``() = 
-    let te, tos = createExecutor()
+    let it, tos = createExecutor()
     let tests = 
         rehydrateTestCases 
             (ResX.Resources.XUnit20FSPortableTests.Replace
                  (@"D:\src\r4nd0mapps\tddstud10\TestHost.Core.UnitTests\bin\Debug", 
                   TestPlatformExtensions.getLocalPath()))
-    te.ExecuteTests(TestPlatformExtensions.getLocalPath(), tests)
+    let te = 
+        TestPlatformExtensions.getLocalPath() 
+        |> TestPlatformExtensions.loadTestAdapter :?> ITestExecutor
+    it.ExecuteTests([ te ], tests)
     let actualTests = 
         tos
         |> Seq.map (fun t -> t.DisplayName, t.Outcome)

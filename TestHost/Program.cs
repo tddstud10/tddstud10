@@ -1,5 +1,6 @@
 ﻿using Microsoft.FSharp.Control;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
 using R4nd0mApps.TddStud10.Common;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.TestExecution;
@@ -46,22 +47,25 @@ namespace R4nd0mApps.TddStud10.TestHost
             var slnSnapPath = args[8];
             var discoveredUnitDTestsStore = args[9];
 
+            var searchPath = buildRoot;
             if (command == "discover")
             {
-                DiscoverUnitTests(slnPath, slnSnapPath, discoveredUnitTestsStore, discoveredUnitDTestsStore, buildRoot, new DateTime(long.Parse(timeFilter)));
+                var tds = new[] { (ITestDiscoverer)TestPlatformExtensions.loadTestAdapter(searchPath) };
+                DiscoverUnitTests(tds, slnPath, slnSnapPath, discoveredUnitTestsStore, discoveredUnitDTestsStore, buildRoot, new DateTime(long.Parse(timeFilter)));
                 LogInfo("TestHost: Exiting Main.");
                 return 0;
             }
             else
             {
+                var tes = new[] { (ITestExecutor)TestPlatformExtensions.loadTestAdapter(searchPath) };
                 var allTestsPassed = false;
                 if (_debuggerAttached)
                 {
-                    allTestsPassed = RunTests(buildRoot, testResultsStore, testFailureInfoStore, GetTestToDebug(discoveredUnitTestsStore, discoveredUnitDTestsStore));
+                    allTestsPassed = RunTests(tes, buildRoot, testResultsStore, testFailureInfoStore, GetTestToDebug(discoveredUnitTestsStore, discoveredUnitDTestsStore));
                 }
                 else
                 {
-                    allTestsPassed = ExecuteTestWithCoverageDataCollection(() => RunTests(buildRoot, testResultsStore, testFailureInfoStore, PerDocumentLocationTestCases.Deserialize(FilePath.NewFilePath(discoveredUnitTestsStore))), codeCoverageStore);
+                    allTestsPassed = ExecuteTestWithCoverageDataCollection(() => RunTests(tes, buildRoot, testResultsStore, testFailureInfoStore, PerDocumentLocationTestCases.Deserialize(FilePath.NewFilePath(discoveredUnitTestsStore))), codeCoverageStore);
                 }
 
                 LogInfo("TestHost: Exiting Main.");
@@ -109,7 +113,7 @@ namespace R4nd0mApps.TddStud10.TestHost
                 });
         }
 
-        private static void DiscoverUnitTests(string slnPath, string slnSnapPath, string discoveredUnitTestsStore, string discoveredUnitDTestsStore, string buildOutputRoot, DateTime timeFilter)
+        private static void DiscoverUnitTests(IEnumerable<ITestDiscoverer> tds, string slnPath, string slnSnapPath, string discoveredUnitTestsStore, string discoveredUnitDTestsStore, string buildOutputRoot, DateTime timeFilter)
         {
             var testsPerAssembly = new PerDocumentLocationTestCases();
             var dtestsPerAssembly = new PerDocumentLocationDTestCases();
@@ -132,7 +136,7 @@ namespace R4nd0mApps.TddStud10.TestHost
                                 var dtests = dtestsPerAssembly.GetOrAdd(dl, _ => new ConcurrentBag<DTestCase>());
                                 dtests.Add(TestPlatformExtensions.toDTestCase(ea));
                             }));
-                    disc.DiscoverTests(buildOutputRoot, FilePath.NewFilePath(assemblyPath));
+                    disc.DiscoverTests(tds, FilePath.NewFilePath(assemblyPath));
                 });
 
             testsPerAssembly.Serialize(FilePath.NewFilePath(discoveredUnitTestsStore));
@@ -165,17 +169,7 @@ namespace R4nd0mApps.TddStud10.TestHost
             LogError("Exception thrown in InvokeEngine: {0}.", e.ExceptionObject);
         }
 
-#if DONT_COMPILE
-
- x  sequencePoint               PerDocumentSequencePoints               IDE(G, C)   -
- ?  discoveredUnitTests         PerDocumentLocationDTestCases       *   IDE(   C)   TH(G, C)
- v  testResults                 PerTestIdDResults                   *   IDE(   C)   TH(G   )
- X  testFailureInfo             PerDocumentLocationTestFailureInfo      IDE(   C)   TH(G   )
- X  coverageSession             PerSequencePointIdTestRunId             IDE(   C)   TH(G   )
-
-#endif
-
-        private static bool RunTests(string buildRoot, string testResultsStore, string testFailureInfoStore, PerDocumentLocationTestCases discoveredUnitTests)
+        private static bool RunTests(IEnumerable<ITestExecutor> tes, string buildRoot, string testResultsStore, string testFailureInfoStore, PerDocumentLocationTestCases discoveredUnitTests)
         {
             Stopwatch stopWatch = new Stopwatch();
 
@@ -200,7 +194,7 @@ namespace R4nd0mApps.TddStud10.TestHost
                                 NoteTestResults(testResults, ea);
                                 NoteTestFailureInfo(testFailureInfo, ea);
                             }));
-                    exec.ExecuteTests(buildRoot, test);
+                    exec.ExecuteTests(tes, test);
                     LogInfo("Executing tests in {0}: Done.", test.Key);
                 });
 

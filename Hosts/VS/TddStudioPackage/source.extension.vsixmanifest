@@ -25,6 +25,5 @@
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="CommonUI" Path="|CommonUI|" AssemblyName="|CommonUI;AssemblyName|" />
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Domain" Path="|Domain|" AssemblyName="|Domain;AssemblyName|" />
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="TestRuntime" Path="|TestRuntime|" AssemblyName="|TestRuntime;AssemblyName|" />
-    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="TestHost" Path="|TestHost|" AssemblyName="|TestHost;AssemblyName|" />
   </Assets>
 </PackageManifest>

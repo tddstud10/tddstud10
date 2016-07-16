@@ -108,8 +108,6 @@ namespace R4nd0mApps.TddStud10.Engine
             discoveredUnitDTestsStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_discoveredUnitDTests.xml");
             testFailureInfoStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_testFailureInfo.xml");
             string testRunnerPath = rsp.testHostPath.Item;
-            // NOTE: We dont have a better option. VSIX does support installing non-assembly dependencies.
-            File.WriteAllText(testRunnerPath + ".config", Properties.Resources.TestHostAppConfig);
             var output = ExecuteProcess(
                 testRunnerPath,
                 string.Format(

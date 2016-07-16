@@ -10,6 +10,7 @@ type XUnitTestDiscoverer() =
     let ds = TestPlatformExtensions.createDiscoverySink
     let testDiscovered = new Event<_>()
     member public __.TestDiscovered = testDiscovered.Publish
-    member public __.DiscoverTests(binDir, FilePath asm) = 
-        let td = binDir |> TestPlatformExtensions.loadTestAdapter :?> ITestDiscoverer
-        td.DiscoverTests([ asm ], dc, ml, ds testDiscovered.Trigger)
+    member public __.DiscoverTests(tds : ITestDiscoverer seq, FilePath asm) = 
+        tds
+        |> Seq.map (fun td -> td.DiscoverTests([ asm ], dc, ml, ds testDiscovered.Trigger))
+        |> Seq.reduce (fun _ -> id)

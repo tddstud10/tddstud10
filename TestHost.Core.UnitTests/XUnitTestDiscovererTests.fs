@@ -5,6 +5,7 @@ open R4nd0mApps.TddStud10.TestExecution
 open System.Collections.Concurrent
 open System.IO
 open Xunit
+open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
 
 let expectedTests = 
     [ "XUnit20FSPortable.UnitTests.Fact Test 1"; "XUnit20FSPortable.UnitTests.Fact Test 2"; 
@@ -26,8 +27,11 @@ let createDiscoverer() =
 
 [<Fact>]
 let ``Can discover theory and facts from test assembly``() = 
-    let td, tcs = createDiscoverer()
-    td.DiscoverTests(TestPlatformExtensions.getLocalPath(), testBin)
+    let it, tcs = createDiscoverer()
+    let td = 
+        TestPlatformExtensions.getLocalPath() 
+        |> TestPlatformExtensions.loadTestAdapter :?> ITestDiscoverer
+    it.DiscoverTests([ td ], testBin)
     let actualTests = 
         tcs
         |> Seq.map (fun t -> t.DisplayName)
