@@ -10,7 +10,7 @@
     <RootNamespace>TddStudioPackage.Extensions</RootNamespace>
     <AssemblyName>R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
+    <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
     <Name>TddStudioPackage.Extensions</Name>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>d70ba092</NuGetPackageImportStamp>

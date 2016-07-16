@@ -263,7 +263,8 @@ namespace R4nd0mApps.TddStud10
                 var ret = IsSequencePointAtStartOfAUnitTest(rsp, spi.Select(i => i.SequencePoint).FirstOrDefault(), FilePath.NewFilePath(assemblyPath), findTest);
                 if (ret.Item1)
                 {
-                    if (!meth.IsConstructor && meth.ReturnType == module.TypeSystem.Void && !meth.IsAsync())
+                    // NOTE: Reeeealy need to bring this class under test. Commenting out the void check as Property tests can return boolean.
+                    if (!meth.IsConstructor /*&& meth.ReturnType == module.TypeSystem.Void*/ && !meth.IsAsync())
                     {
                         InjectExitUtCallInsideMethodWiseFinally(module, meth, ret.Item2, exitUTMR);
                     }
