@@ -33,7 +33,7 @@ let startRE (re : RunExecutor) = re.Start(now, slnFile)
 let areRdsSimillar rd1 rd2 = 
     match rd1 with
     | None -> false
-    | Some rd1 -> rd1.solutionPath = rd2.solutionPath
+    | Some rd1 -> rd1.Solution.Path = rd2.Solution.Path
 
 [<Fact>]
 let ``Executor initialized RunData``() = 
@@ -45,14 +45,22 @@ let ``Executor initialized RunData``() =
         |> Path.GetFileName
         |> FilePath
     
-    let actual = { rsp with testHostPath = (rsp.testHostPath |> getFileName) }
+    let actual = { rsp with TestHostPath = (rsp.TestHostPath |> getFileName) }
     
     let expected = 
-        { startTime = now
-          solutionPath = slnFile
-          solutionSnapshotPath = ~~"d:\\tddstud10\\folder\\file.sln"
-          solutionBuildRoot = ~~"d:\\tddstud10\\folder\\out"
-          testHostPath = ~~"TddStud10.TestHost.exe" }
+        { StartTime = now
+          TestHostPath = ~~"TddStud10.TestHost.exe"
+          Solution = 
+            { Path = slnFile
+              SnapshotPath = ~~"d:\\tddstud10\\folder\\file.sln"
+              BuildRoot = ~~"d:\\tddstud10\\folder\\out" }
+          DataFiles = 
+              { SequencePointStore = ~~"d:\\tddstud10\\folder\\out\\Z_sequencePointStore.xml"
+                CoverageSessionStore = ~~"d:\\tddstud10\\folder\\out\\Z_coverageresults.xml"
+                TestResultsStore = ~~"d:\\tddstud10\\folder\\out\\Z_testresults.xml"
+                DiscoveredUnitTestsStore = ~~"d:\\tddstud10\\folder\\out\\Z_discoveredUnitTests.xml"
+                DiscoveredUnitDTestsStore = ~~"d:\\tddstud10\\folder\\out\\Z_discoveredUnitDTests.xml"
+                TestFailureInfoStore = ~~"d:\\tddstud10\\folder\\out\\Z_testFailureInfo.xml" } }
     Assert.Equal(expected, actual)
     Assert.Equal(err, None)
 

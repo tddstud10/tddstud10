@@ -159,13 +159,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             var bag = new ConcurrentBag<DTestCase>();
             bag.Add(tst.tests);
             tpa.TryAdd(new DocumentLocation { document = tst.tests.CodeFilePath, line = tst.tests.LineNumber }, bag);
-            var uts = Path.Combine(DataStore.Instance.RunStartParams.Value.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
-            var duts = Path.Combine(DataStore.Instance.RunStartParams.Value.solutionBuildRoot.Item, "Z_debug.xml");
-            tpa.Serialize(FilePath.NewFilePath(duts));
+            tpa.Serialize(DataStore.Instance.RunStartParams.Value.DataFiles.DiscoveredUnitDTestsStore);
 
             _serviceProvider.GetService<SVsShellDebugger, IVsDebugger3>().Launch(
-                DataStore.Instance.RunStartParams.Value.testHostPath.Item,
-                string.Format(@"_na_ {0} _na_ _na_ {1} _na_ _na_ _na_ _na_ {2}", DataStore.Instance.RunStartParams.Value.solutionBuildRoot.Item, uts, duts));
+                DataStore.Instance.RunStartParams.Value.TestHostPath.Item,
+                Engine.Engine.BuildTestHostCommandLine("execute", DataStore.Instance.RunStartParams.Value));
         }
 
         private void OnBeforeQueryStatusDebugTest(object sender, EventArgs e)

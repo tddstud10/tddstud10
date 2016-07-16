@@ -7,6 +7,9 @@ open R4nd0mApps.TddStud10.Common.Domain
 module PathBuilder = 
     let snapShotRoot = Constants.SnapshotRoot
     
+    let combine = 
+        List.reduce (fun (FilePath acc) (FilePath e) -> Path.Combine(acc, e) |> FilePath)
+
     let private makeSlnParentDirName slnPath = 
         match Path.GetFileName(Path.GetDirectoryName(slnPath)) with
         | "" -> Path.GetFileNameWithoutExtension(slnPath)

@@ -31,8 +31,8 @@ namespace R4nd0mApps.TddStud10
 
         private static PerDocumentSequencePoints GenerateSequencePointInfoImpl(IRunExecutorHost host, RunStartParams rsp)
         {
-            var timeFilter = rsp.startTime;
-            var buildOutputRoot = rsp.solutionBuildRoot.Item;
+            var timeFilter = rsp.StartTime;
+            var buildOutputRoot = rsp.Solution.BuildRoot.Item;
             Logger.I.LogInfo(
                 "Generating sequence point info: Time filter - {0}, Build output root - {1}.",
                 timeFilter.ToLocalTime(),
@@ -82,7 +82,7 @@ namespace R4nd0mApps.TddStud10
                 int id = 0;
                 foreach (var sp in sps)
                 {
-                    var fp = PathBuilder.rebaseCodeFilePath(rsp.solutionPath, rsp.solutionSnapshotPath, FilePath.NewFilePath(sp.SequencePoint.Document.Url));
+                    var fp = PathBuilder.rebaseCodeFilePath(rsp.Solution.Path, rsp.Solution.SnapshotPath, FilePath.NewFilePath(sp.SequencePoint.Document.Url));
                     var seqPts = perDocSP.GetOrAdd(fp, _ => new ConcurrentBag<R4nd0mApps.TddStud10.Common.Domain.SequencePoint>());
 
                     seqPts.Add(new R4nd0mApps.TddStud10.Common.Domain.SequencePoint
@@ -116,10 +116,10 @@ namespace R4nd0mApps.TddStud10
 
         private static void InstrumentImpl(IRunExecutorHost host, RunStartParams rsp, Func<DocumentLocation, IEnumerable<DTestCase>> findTest)
         {
-            var timeFilter = rsp.startTime;
-            var solutionSnapshotRoot = Path.GetDirectoryName(rsp.solutionSnapshotPath.Item);
-            var solutionRoot = Path.GetDirectoryName(rsp.solutionPath.Item);
-            var buildOutputRoot = rsp.solutionBuildRoot.Item;
+            var timeFilter = rsp.StartTime;
+            var solutionSnapshotRoot = Path.GetDirectoryName(rsp.Solution.SnapshotPath.Item);
+            var solutionRoot = Path.GetDirectoryName(rsp.Solution.Path.Item);
+            var buildOutputRoot = rsp.Solution.BuildRoot.Item;
             Logger.I.LogInfo(
                 "Instrumenting: Time filter - {0}, Build output root - {1}.",
                 timeFilter.ToLocalTime(),
@@ -155,7 +155,7 @@ namespace R4nd0mApps.TddStud10
                            where m.Name == "ExitUnitTest"
                            select m;
 
-            Func<string, string> rebaseDocument = s => PathBuilder.rebaseCodeFilePath(rsp.solutionPath, rsp.solutionSnapshotPath, FilePath.NewFilePath(s)).Item;
+            Func<string, string> rebaseDocument = s => PathBuilder.rebaseCodeFilePath(rsp.Solution.Path, rsp.Solution.SnapshotPath, FilePath.NewFilePath(s)).Item;
 
             Engine.Engine.FindAndExecuteForEachAssembly(
                 host,
@@ -425,7 +425,7 @@ namespace R4nd0mApps.TddStud10
                 return new Tuple<bool, TestId>(false, null);
             }
 
-            var dl = new DocumentLocation { document = PathBuilder.rebaseCodeFilePath(rsp.solutionPath, rsp.solutionSnapshotPath, FilePath.NewFilePath(sp.Document.Url)), line = DocumentCoordinate.NewDocumentCoordinate(sp.StartLine) };
+            var dl = new DocumentLocation { document = PathBuilder.rebaseCodeFilePath(rsp.Solution.Path, rsp.Solution.SnapshotPath, FilePath.NewFilePath(sp.Document.Url)), line = DocumentCoordinate.NewDocumentCoordinate(sp.StartLine) };
             var test = findTest(dl).FirstOrDefault(t => t.Source.Equals(assemblyPath));
             if (test == null)
             {
