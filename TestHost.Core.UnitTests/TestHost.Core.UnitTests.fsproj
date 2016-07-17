@@ -125,10 +125,10 @@
       <Link>TestData\bins\XUnit20FSPortable\XUnit20FSPortable.XML</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="TestData\NoTestAdapters\bin\AUnit.TestAdapter.Runtime.dll">
+    <None Include="TestData\NoTestAdapters\bins\AUnit.TestAdapter.Runtime.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="TestData\NoTestAdapters\bin\BUnit.TestAdapter.Runtime.dll">
+    <None Include="TestData\NoTestAdapters\bins\BUnit.TestAdapter.Runtime.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="TestData\TestAdapters\A\AUnit.TestAdapter.dll">
