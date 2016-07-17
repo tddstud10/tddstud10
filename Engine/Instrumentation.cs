@@ -49,17 +49,12 @@ namespace R4nd0mApps.TddStud10
 
                     var assembly = AssemblyDefinition.ReadAssembly(assemblyPath, new ReaderParameters { ReadSymbols = true });
 
-                    foreach (var module in assembly.Modules)
-                    {
-                        foreach (var otype in module.Types)
+                    VisitAllTypes(
+                        assembly.Modules,
+                        (m, t) =>
                         {
-                            FindSequencePointForType(rsp, perDocSP, module, otype);
-                            foreach (var type in otype.NestedTypes)
-                            {
-                                FindSequencePointForType(rsp, perDocSP, module, type);
-                            }
-                        }
-                    }
+                            FindSequencePointForType(rsp, perDocSP, m, t);
+                        });
                 });
 
             return perDocSP;
@@ -111,6 +106,23 @@ namespace R4nd0mApps.TddStud10
             catch (Exception e)
             {
                 Logger.I.LogError("Failed to instrument. Exception: {0}", e);
+            }
+        }
+
+        private static void VisitAllTypes(IEnumerable<ModuleDefinition> modules, Action<ModuleDefinition, TypeDefinition> action)
+        {
+            foreach (var module in modules)
+            {
+                VisitAllTypes(module.Types, module, action);
+            }
+        }
+
+        private static void VisitAllTypes(IEnumerable<TypeDefinition> types, ModuleDefinition module, Action<ModuleDefinition, TypeDefinition> action)
+        {
+            foreach (var type in types)
+            {
+                action(module, type);
+                VisitAllTypes(type.NestedTypes, module, action);
             }
         }
 
@@ -176,17 +188,12 @@ namespace R4nd0mApps.TddStud10
                     MethodReference enterSPMR = assembly.MainModule.Import(enterSPMD.First());
                     MethodReference exitUTMR = assembly.MainModule.Import(exitUTMD.First());
 
-                    foreach (var module in assembly.Modules)
-                    {
-                        foreach (var otype in module.Types)
+                    VisitAllTypes(
+                        assembly.Modules,
+                        (m, t) =>
                         {
-                            InstrumentType(rsp, findTest, assemblyPath, rebaseDocument, enterSPMR, exitUTMR, module, otype);
-                            foreach (var type in otype.NestedTypes)
-                            {
-                                InstrumentType(rsp, findTest, assemblyPath, rebaseDocument, enterSPMR, exitUTMR, module, type);
-                            }
-                        }
-                    }
+                            InstrumentType(rsp, findTest, assemblyPath, rebaseDocument, enterSPMR, exitUTMR, m, t);
+                        });
 
                     var backupAssemblyPath = Path.ChangeExtension(assemblyPath, ".original");
                     File.Delete(backupAssemblyPath);
@@ -227,6 +234,15 @@ namespace R4nd0mApps.TddStud10
                 var instructions = spi.ToArray();
                 foreach (var sp in instructions)
                 {
+                    if (sp.Previous != null &&
+                        (sp.Previous.OpCode.Code == Code.Leave_S
+                        || sp.Previous.OpCode.Code == Code.Leave
+                        || sp.Previous.OpCode.Code == Code.Endfilter
+                        || sp.Previous.OpCode.Code == Code.Endfinally))
+                    {
+                        continue;
+                    }
+
                     /**********************************************************************************/
                     /*                                PDB Path Replace                                */
                     /**********************************************************************************/
