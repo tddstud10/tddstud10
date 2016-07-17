@@ -11,11 +11,13 @@ open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.TestHost.Diagnostics
 
 let getLocalPath() = 
-    (new Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath
+    Assembly.GetExecutingAssembly().CodeBase
+    |> fun cb -> (new Uri(cb)).LocalPath
     |> Path.GetFullPath
     |> Path.GetDirectoryName
+    |> FilePath
 
-let loadTestAdapter binDir = 
+let loadTestAdapter (FilePath binDir) = 
     let aPath = Path.Combine(binDir, "xunit.runner.visualstudio.testadapter.dll")
     Logger.logInfof "Loading Test Adapter from %s" aPath
     let ta = 
@@ -47,11 +49,17 @@ let toDTestResult (tr : TestResult) =
       ErrorStackTrace = tr.ErrorStackTrace
       ErrorMessage = tr.ErrorMessage }
 
+let createRunSettings() =
+    { new IRunSettings with
+          member __.GetSettings(_: string): ISettingsProvider = 
+              failwith "Not implemented yet"
+          member __.SettingsXml: string = 
+              "<RunSettings/>" }
+
 let createDiscoveryContext() = 
     { new IDiscoveryContext with
           member __.RunSettings : IRunSettings = 
-              Logger.logErrorf "TestPlatform: RunSettings call was unexpected"
-              failwith "Not implemented yet" }
+              createRunSettings() }
 
 let createMessageLogger() = 
     { new IMessageLogger with
@@ -88,7 +96,7 @@ let createRunContext() =
           
           member __.RunSettings : IRunSettings = 
               Logger.logErrorf "TestPlatform: RunSettings call was unexpected"
-              null
+              createRunSettings()   
           
           member __.SolutionDirectory : string = 
               Logger.logErrorf "TestPlatform: SolutionDirectory call was unexpected"

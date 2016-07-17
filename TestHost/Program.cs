@@ -47,17 +47,17 @@ namespace R4nd0mApps.TddStud10.TestHost
             var slnSnapPath = args[8];
             var discoveredUnitDTestsStore = args[9];
 
-            var searchPath = buildRoot;
+            var searchPath = FilePath.NewFilePath(Path.Combine(Path.GetDirectoryName(slnSnapPath), "packages"));
             if (command == "discover")
             {
-                var tds = new[] { (ITestDiscoverer)TestPlatformExtensions.loadTestAdapter(searchPath) };
+                var tds = TestAdapterExtensions.findTestDiscoverers(TestAdapterExtensions.knownAdaptersMap).Invoke(searchPath);
                 DiscoverUnitTests(tds, slnPath, slnSnapPath, discoveredUnitTestsStore, discoveredUnitDTestsStore, buildRoot, new DateTime(long.Parse(timeFilter)));
                 LogInfo("TestHost: Exiting Main.");
                 return 0;
             }
             else
             {
-                var tes = new[] { (ITestExecutor)TestPlatformExtensions.loadTestAdapter(searchPath) };
+                var tes = TestAdapterExtensions.findTestExecutors(TestAdapterExtensions.knownAdaptersMap).Invoke(searchPath);
                 var allTestsPassed = false;
                 if (_debuggerAttached)
                 {

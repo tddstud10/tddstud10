@@ -10,6 +10,13 @@ module PathBuilder =
     let combine = 
         List.reduce (fun (FilePath acc) (FilePath e) -> Path.Combine(acc, e) |> FilePath)
 
+    let getFileName (FilePath p) =
+        Path.GetFileName(p) |> FilePath
+    
+    let enumerateFiles so filter (FilePath path) =
+        Directory.EnumerateFiles(path, filter, so)
+        |> Seq.map FilePath
+
     let private makeSlnParentDirName slnPath = 
         match Path.GetFileName(Path.GetDirectoryName(slnPath)) with
         | "" -> Path.GetFileNameWithoutExtension(slnPath)

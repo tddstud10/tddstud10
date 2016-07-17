@@ -14,7 +14,7 @@ let expectedTests =
 let testBin = 
     ()
     |> TestPlatformExtensions.getLocalPath
-    |> fun p -> Path.Combine(p, "TestData\\bins\\XUnit20FSPortable\\XUnit20FSPortable.dll")
+    |> fun (FilePath p) -> Path.Combine(p, "TestData\\bins\\XUnit20FSPortable\\XUnit20FSPortable.dll")
     |> FilePath
 
 let createDiscoverer() = 

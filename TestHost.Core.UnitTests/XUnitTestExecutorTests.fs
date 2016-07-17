@@ -38,7 +38,7 @@ let ``Can run re-hydrated tests``() =
         rehydrateTestCases 
             (ResX.Resources.XUnit20FSPortableTests.Replace
                  (@"D:\src\r4nd0mapps\tddstud10\TestHost.Core.UnitTests\bin\Debug", 
-                  TestPlatformExtensions.getLocalPath()))
+                  TestPlatformExtensions.getLocalPath().ToString()))
     let te = 
         TestPlatformExtensions.getLocalPath() 
         |> TestPlatformExtensions.loadTestAdapter :?> ITestExecutor

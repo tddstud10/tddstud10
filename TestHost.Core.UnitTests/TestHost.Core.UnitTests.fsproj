@@ -125,10 +125,29 @@
       <Link>TestData\bins\XUnit20FSPortable\XUnit20FSPortable.XML</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="TestData\NoTestAdapters\bin\AUnit.TestAdapter.Runtime.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\NoTestAdapters\bin\BUnit.TestAdapter.Runtime.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\TestAdapters\A\AUnit.TestAdapter.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\TestAdapters\A\rt\AUnit.TestAdapter.Runtime.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\TestAdapters\B\BUnit.TestAdapter.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\TestAdapters\B\rt\BUnit.TestAdapter.Runtime.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="CoverageDataCollectorTests.fs" />
     <Compile Include="XUnitTestExecutorTests.fs" />
     <Compile Include="XUnitTestDiscovererTests.fs" />
     <Compile Include="TestFailureInfoExtensionsTests.fs" />
+    <Compile Include="TestAdapterExtensionsTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Foq">
