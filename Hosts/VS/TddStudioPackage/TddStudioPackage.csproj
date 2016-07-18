@@ -39,7 +39,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DeployExtension>True</DeployExtension>
+    <DeployExtension>False</DeployExtension>
     <CopyVsixExtensionFiles>False</CopyVsixExtensionFiles>
     <CreateVsixContainer>False</CreateVsixContainer>
   </PropertyGroup>

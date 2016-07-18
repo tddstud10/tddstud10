@@ -32,6 +32,11 @@ let rehydrateTestCases tcs =
     serializer.ReadObject(xtr) :?> TestCase []
 
 [<Fact>]
+let ``Can run successfully on assemblies with no tests``() = 
+    let it, _ = createExecutor()
+    it.ExecuteTests([ ], [||])
+
+[<Fact>]
 let ``Can run re-hydrated tests``() = 
     let it, tos = createExecutor()
     let tests = 

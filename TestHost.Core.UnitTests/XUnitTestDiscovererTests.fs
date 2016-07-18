@@ -26,6 +26,12 @@ let createDiscoverer() =
     td, tcs
 
 [<Fact>]
+let ``Can run successfully on assemblies with no tests``() = 
+    let it, _ = createDiscoverer()
+    it.DiscoverTests([ ], testBin)
+
+
+[<Fact>]
 let ``Can discover theory and facts from test assembly``() = 
     let it, tcs = createDiscoverer()
     let td = 

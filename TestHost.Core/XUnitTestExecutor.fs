@@ -12,4 +12,4 @@ type XUnitTestExecutor() =
     member public __.ExecuteTests(tes : ITestExecutor seq, tests : TestCase seq) = 
         tes
         |> Seq.map (fun te -> te.RunTests(tests, rc, fh testExecuted.Trigger))
-        |> Seq.reduce (fun _ -> id)
+        |> Seq.fold (fun _ -> id) ()

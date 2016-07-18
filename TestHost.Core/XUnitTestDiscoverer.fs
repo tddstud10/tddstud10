@@ -13,4 +13,4 @@ type XUnitTestDiscoverer() =
     member public __.DiscoverTests(tds : ITestDiscoverer seq, FilePath asm) = 
         tds
         |> Seq.map (fun td -> td.DiscoverTests([ asm ], dc, ml, ds testDiscovered.Trigger))
-        |> Seq.reduce (fun _ -> id)
+        |> Seq.fold (fun _ -> id) ()

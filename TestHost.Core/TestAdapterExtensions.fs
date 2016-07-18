@@ -7,7 +7,7 @@ module TestAdapterExtensions =
     open System
     open System.IO
     open System.Reflection
-
+    
     let knownAdaptersMap = 
         [ (FilePath "xunit.runner.visualstudio.testadapter.dll", 
            [ ("ITestDiscoverer", "Xunit.Runner.VisualStudio.TestAdapter.VsTestRunner")
@@ -23,22 +23,20 @@ module TestAdapterExtensions =
            |> Map.ofList) ]
         |> Map.ofList
     
-    let createAdapter adapterMap adapterType path =
+    let createAdapter adapterMap adapterType path = 
+        let loadAssembly (FilePath p) = Assembly.LoadFrom(p)
+        
         let asmResolver sp = 
-            let innerFn sp _ (args : ResolveEventArgs) =
-                let loadedAsm =
-                    ["*.dll"; "*.exe"]
-                    |> Seq.collect (fun extn -> PathBuilder.enumerateFiles SearchOption.AllDirectories (AssemblyName(args.Name).Name + extn) sp)
-                    |> Seq.tryFind (fun (FilePath p) -> File.Exists(p))
-                    |> Option.fold (fun _ (FilePath e) -> Assembly.LoadFrom(e)) null
-                loadedAsm
-            innerFn sp
-
-        let loadAssembly (FilePath p) =
-            Assembly.LoadFrom(p)
-                
+            let innerFn _ (args : ResolveEventArgs) = 
+                [ "*.dll"; "*.exe" ]
+                |> Seq.map ((+) (AssemblyName(args.Name).Name))
+                |> Seq.collect (fun name -> PathBuilder.enumerateFiles SearchOption.AllDirectories name sp)
+                |> Seq.tryFind PathBuilder.fileExists
+                |> Option.fold (fun _ -> loadAssembly) null
+            innerFn
+        
         let resolver = asmResolver (Path.GetDirectoryName(path.ToString()) |> FilePath)
-        try
+        try 
             AppDomain.CurrentDomain.add_AssemblyResolve (ResolveEventHandler resolver)
             path
             |> loadAssembly
@@ -50,16 +48,18 @@ module TestAdapterExtensions =
                 |> Option.bind (Activator.CreateInstance >> Some)
         finally
             AppDomain.CurrentDomain.remove_AssemblyResolve (ResolveEventHandler resolver)
-
-    let findAdapterAssemblies =
-        PathBuilder.enumerateFiles SearchOption.AllDirectories "*.testadapter.dll"
-
+    
+    let findAdapterAssemblies dir = 
+        if PathBuilder.directoryExists dir then 
+            PathBuilder.enumerateFiles SearchOption.AllDirectories "*.testadapter.dll" dir
+        else Seq.empty<FilePath>
+    
     let findTestDiscoverers adapterMap = 
         findAdapterAssemblies
         >> Seq.choose (createAdapter adapterMap "ITestDiscoverer")
         >> Seq.map (fun a -> a :?> ITestDiscoverer)
-
-    let findTestExecutors adapterMap= 
+    
+    let findTestExecutors adapterMap = 
         findAdapterAssemblies
         >> Seq.choose (createAdapter adapterMap "ITestExecutor")
         >> Seq.map (fun a -> a :?> ITestExecutor)

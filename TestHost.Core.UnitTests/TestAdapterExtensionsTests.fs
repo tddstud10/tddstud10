@@ -28,6 +28,14 @@ let ``Test Data for Nested search path with no adapters, return empty`` : obj ar
 
 [<Theory>]
 [<MemberData("Test Data for Nested search path with no adapters, return empty")>]
+let ``Non existant path, return empty`` (f : FilePath -> obj seq) = 
+    let sp = 
+        PathBuilder.combine [ testDataRoot
+                              FilePath "NonExistantPath" ]
+    Assert.Empty(sp |> f)
+
+[<Theory>]
+[<MemberData("Test Data for Nested search path with no adapters, return empty")>]
 let ``Nested search path with no adapters, return empty`` (f : FilePath -> obj seq) = 
     let sp = 
         PathBuilder.combine [ testDataRoot
@@ -51,7 +59,6 @@ let ``Nested Search path with 2 adapters, return both`` (f : FilePath -> obj seq
     let sp = 
         PathBuilder.combine [ testDataRoot
                               FilePath "TestAdapters" ]
-    
     let found = 
         sp
         |> f

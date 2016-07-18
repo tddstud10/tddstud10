@@ -17,6 +17,10 @@ module PathBuilder =
         Directory.EnumerateFiles(path, filter, so)
         |> Seq.map FilePath
 
+    let fileExists (FilePath p) = File.Exists(p)
+
+    let directoryExists (FilePath p) = Directory.Exists(p)
+
     let private makeSlnParentDirName slnPath = 
         match Path.GetFileName(Path.GetDirectoryName(slnPath)) with
         | "" -> Path.GetFileNameWithoutExtension(slnPath)

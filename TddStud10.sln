@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosts", "Hosts", "{FAAF6AD7-7EF0-4269-BAE9-17EA108D25F9}"
 EndProject
@@ -49,6 +49,11 @@ EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Domain", "Common\Domain\Domain.fsproj", "{E5FB2293-1833-4C4C-800E-A31AC891A931}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRuntime", "TestExecution\TestRuntime\TestRuntime.csproj", "{0FEA2E86-4EE0-4FD8-949D-C74189B855D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AcceptanceTests", "AcceptanceTests", "{AC424366-D4AC-44A1-9024-59BC06E8D6E9}"
+	ProjectSection(SolutionItems) = preProject
+		AcceptanceTests\README.md = AcceptanceTests\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
