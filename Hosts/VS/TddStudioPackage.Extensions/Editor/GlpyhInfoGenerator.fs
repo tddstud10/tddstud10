@@ -6,7 +6,6 @@ open System
 open System.Windows
 open System.Windows.Media
 open Microsoft.VisualStudio.Text.Tagging
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open R4nd0mApps.TddStud10.Common.Domain
 
 let tryGetTags<'T when 'T : equality and 'T :> IMarginGlyphTag> = 
@@ -28,7 +27,7 @@ let generate ((b, ts) : Rect * seq<IMappingTagSpan<IMarginGlyphTag>>) =
                 |> Seq.collect id
             match ccts with
             | ts when ts |> Seq.isEmpty -> Colors.WhiteSmoke
-            | ts when ts |> Seq.forall (fun t -> t.Outcome = TestOutcome.Passed) -> Colors.Green
+            | ts when ts |> Seq.forall (fun t -> t.Outcome = DTestOutcome.TOPassed) -> Colors.Green
             | _ -> Colors.Red
         
         let glyphType = 

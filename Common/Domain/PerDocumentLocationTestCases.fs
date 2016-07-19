@@ -2,16 +2,15 @@
 
 open System.Collections.Concurrent
 open System
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
 [<Serializable>]
-type PerDocumentLocationTestCases = 
-    inherit DataStoreEntityBase<DocumentLocation, ConcurrentBag<TestCase>>
+type PerDocumentLocationDTestCases = 
+    inherit DataStoreEntityBase<DocumentLocation, ConcurrentBag<DTestCase>>
     
     new() = 
         { inherit DataStoreEntityBase<_, _>() }
         then ()
 
-    member public t.Serialize path = DataStoreEntityExtensions.Serialize<PerDocumentLocationTestCases> path t
+    member public t.Serialize path = DataStoreEntityExtensions.Serialize<PerDocumentLocationDTestCases> path t
     
-    static member public Deserialize path = DataStoreEntityExtensions.Deserialize<PerDocumentLocationTestCases> (path)
+    static member public Deserialize path = DataStoreEntityExtensions.Deserialize<PerDocumentLocationDTestCases> (path)

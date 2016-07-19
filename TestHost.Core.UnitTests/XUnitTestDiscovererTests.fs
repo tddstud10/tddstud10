@@ -1,37 +1,43 @@
 ﻿module R4nd0mApps.TddStud10.TestExecution.Adapters.XUnitTestDiscovererTests
 
-open System.Collections.Concurrent
-open Xunit
-open System.IO
-open System
-open System.Reflection
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open R4nd0mApps.TddStud10.Common.Domain
-open System.Runtime.Serialization
-open System.Text
-open System.Xml
+open R4nd0mApps.TddStud10.TestExecution
+open System.Collections.Concurrent
+open System.IO
+open Xunit
+open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
 
 let expectedTests = 
     [ "XUnit20FSPortable.UnitTests.Fact Test 1"; "XUnit20FSPortable.UnitTests.Fact Test 2"; 
       "XUnit20FSPortable.UnitTests.Theory Tests(input: 1)"; "XUnit20FSPortable.UnitTests.Theory Tests(input: 2)" ]
 
 let testBin = 
-    (new Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath
-    |> Path.GetFullPath
-    |> Path.GetDirectoryName
-    |> fun p -> Path.Combine(p, "TestData\\bins\\XUnit20FSPortable\\XUnit20FSPortable.dll")
+    ()
+    |> TestPlatformExtensions.getLocalPath
+    |> fun (FilePath p) -> Path.Combine(p, "TestData\\bins\\XUnit20FSPortable\\XUnit20FSPortable.dll")
     |> FilePath
 
 let createDiscoverer() = 
     let td = new XUnitTestDiscoverer()
-    let tcs = new ConcurrentBag<TestCase>()
-    td.TestDiscovered |> Observable.add tcs.Add
+    let tcs = new ConcurrentBag<DTestCase>()
+    td.TestDiscovered 
+    |> Observable.map TestPlatformExtensions.toDTestCase
+    |> Observable.add tcs.Add
     td, tcs
 
 [<Fact>]
+let ``Can run successfully on assemblies with no tests``() = 
+    let it, _ = createDiscoverer()
+    it.DiscoverTests([ ], testBin)
+
+
+[<Fact>]
 let ``Can discover theory and facts from test assembly``() = 
-    let td, tcs = createDiscoverer()
-    testBin |> td.DiscoverTests
+    let it, tcs = createDiscoverer()
+    let td = 
+        TestPlatformExtensions.getLocalPath() 
+        |> TestPlatformExtensions.loadTestAdapter :?> ITestDiscoverer
+    it.DiscoverTests([ td ], testBin)
     let actualTests = 
         tcs
         |> Seq.map (fun t -> t.DisplayName)

@@ -144,43 +144,6 @@ type RunStepStatusAddendum =
         | FreeFormatData s -> s
         | ExceptionData e -> e.ToString()
 
-// ==================================================
-(*
-    Combination of the following variables:
-    - EngineOK, EngineError 
-    - Unknown, Red, Green
-    - None, Build, Test
-    - Running, Idle
-
-    Principles:
-    - [Any State] -> [Initial state] : Only by run start run
-    - Idle -> Runing : Any of the start steps
-    - Runing -> Idle : Ay of the end steps
-
-    Validity of combinations:
-      [EngineError]
-    - Unknown, None, Idle          [Final State]    [An internal engine error has occured]
-
-      [EngineOK]
-    - Unknown, None, Idle          [Initial state]  [The state right at the beginning]
-    - Unknown, None, Running                        
-    - Unknown, Build, Running
-    - x Unknown, Build, Idle
-    - x Unknown, Test, Running
-    - x Unknown, Test, Idle
-    - x Red, None, Running
-    - x Red, None, Idle
-    - Red, Build, Running
-    - Red, Build, Idle             [Final State]
-    - Red, Test, Running
-    - Red, Test, Idle              [Final State]
-    - x Green, None, Running
-    - x Green, None, Idle
-    - Green, Build, Running
-    - Green, Build, Idle
-    - Green, Test, Running
-    - Green, Test, Idle            [Final State]
- *)
 type RunState = 
     | Initial
     | EngineErrorDetected
@@ -202,7 +165,6 @@ type RunEvent =
     | RunStepEnded of RunStepKind * RunStepStatus
     | RunError of Exception
 
-// ==========================================================
 type HostVersion =
     | VS2013
     | VS2015
@@ -215,3 +177,24 @@ type public IRunExecutorHost =
     abstract HostVersion : HostVersion
     abstract CanContinue : unit -> bool
     abstract RunStateChanged : RunState -> unit
+
+type DTestCase =
+    { FullyQualifiedName : string
+      DisplayName : string
+      Source : FilePath
+      CodeFilePath : FilePath
+      LineNumber : DocumentCoordinate }
+
+type DTestOutcome =
+    | TONone
+    | TOPassed
+    | TOFailed
+    | TOSkipped
+    | TONotFound
+
+type DTestResult =
+    { DisplayName : string
+      TestCase : DTestCase
+      Outcome : DTestOutcome
+      ErrorStackTrace : string
+      ErrorMessage : string }

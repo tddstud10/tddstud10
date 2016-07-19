@@ -1,10 +1,7 @@
-﻿using Microsoft.FSharp.Control;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using R4nd0mApps.TddStud10.Common;
+﻿using R4nd0mApps.TddStud10.Common;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
-using R4nd0mApps.TddStud10.TestExecution.Adapters;
 using R4nd0mApps.TddStud10.TestRuntime;
 using System;
 using System.Collections.Concurrent;
@@ -75,32 +72,19 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private static RunStepResult RefreshTestRuntime(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
         {
-            var output = TestRunTimeInstaller.Install(rsp.solutionBuildRoot.Item);
+            var output = TestRunTimeInstaller.Install(rsp.Solution.BuildRoot.Item);
 
             return RunStepStatus.Succeeded.ToRSR(RunData.NoData, string.Format("Copied Test Runtime: {0}", output));
         }
 
         private static RunStepResult RunTests(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
         {
-            var coverageSessionStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_coverageresults.xml");
-            var testResultsStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_testresults.xml");
-            var discoveredUnitTestsStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
-            var testFailureInfoStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_testFailureInfo.xml");
-            string testRunnerPath = rsp.testHostPath.Item;
-            // NOTE: We dont have a better option. VSIX does support installing non-assembly dependencies.
-            File.WriteAllText(testRunnerPath + ".config", Properties.Resources.TestHostAppConfig);
-            var output = ExecuteProcess(
-                testRunnerPath,
-                string.Format(
-                    @"{0} {1} {2} {3} {4} {5}",
-                    rsp.solutionPath.Item,
-                    rsp.solutionBuildRoot.Item,
-                    coverageSessionStore,
-                    testResultsStore,
-                    discoveredUnitTestsStore,
-                    testFailureInfoStore
-                )
-            );
+            if (!host.CanContinue())
+            {
+                throw new OperationCanceledException();
+            }
+
+            var output = RunTestHost("execute", rsp);
 
             RunStepStatus rss = RunStepStatus.Succeeded;
             if (output.Item1 != 0)
@@ -108,23 +92,50 @@ namespace R4nd0mApps.TddStud10.Engine
                 rss = RunStepStatus.Failed;
             }
 
-            var testResults = PerTestIdResults.Deserialize(FilePath.NewFilePath(testResultsStore));
-            var coverageSession = PerSequencePointIdTestRunId.Deserialize(FilePath.NewFilePath(coverageSessionStore));
-            var testFailureInfo = PerDocumentLocationTestFailureInfo.Deserialize(FilePath.NewFilePath(testFailureInfoStore));
+            var testResults = PerTestIdDResults.Deserialize(FilePath.NewFilePath(rsp.DataFiles.TestResultsStore.Item));
+            var coverageSession = PerSequencePointIdTestRunId.Deserialize(FilePath.NewFilePath(rsp.DataFiles.CoverageSessionStore.Item));
+            var testFailureInfo = PerDocumentLocationTestFailureInfo.Deserialize(FilePath.NewFilePath(rsp.DataFiles.TestFailureInfoStore.Item));
 
             return rss.ToRSR(RunData.NewTestRunOutput(testResults, testFailureInfo, coverageSession), output.Item2);
         }
 
+        private static Tuple<int, string> RunTestHost(string command, RunStartParams rsp)
+        {
+            string testRunnerPath = rsp.TestHostPath.Item;
+            var output = ExecuteProcess(
+                testRunnerPath,
+                BuildTestHostCommandLine(command, rsp)
+            );
+
+            return output;
+        }
+
+        public static string BuildTestHostCommandLine(string command, RunStartParams rsp)
+        {
+            return string.Format(
+                "\"{0}\" \"{1}\" \"{2}\" \"{3}\" \"{4}\" \"{5}\" \"{6}\" \"{7}\" \"{8}\" \"{9}\"",
+                command,
+                rsp.Solution.BuildRoot.Item,
+                rsp.DataFiles.CoverageSessionStore.Item,
+                rsp.DataFiles.TestResultsStore.Item,
+                rsp.DataFiles.DiscoveredUnitTestsStore.Item,
+                rsp.DataFiles.TestFailureInfoStore.Item,
+                rsp.StartTime.Ticks.ToString(),
+                rsp.Solution.Path.Item,
+                rsp.Solution.SnapshotPath.Item,
+                rsp.DataFiles.DiscoveredUnitDTestsStore.Item
+            );
+        }
+
         private static RunStepResult DiscoverSequencePoints(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
         {
-            var sequencePointStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_sequencePointStore.xml");
-            var dict = Instrumentation.GenerateSequencePointInfo(host, rsp);
-            if (dict != null)
+            var sequencePoint = Instrumentation.GenerateSequencePointInfo(host, rsp);
+            if (sequencePoint != null)
             {
-                dict.Serialize(FilePath.NewFilePath(sequencePointStore));
+                sequencePoint.Serialize(rsp.DataFiles.SequencePointStore);
             }
 
-            return RunStepStatus.Succeeded.ToRSR(RunData.NewSequencePoints(dict), "Binaries Instrumented - which ones - TBD");
+            return RunStepStatus.Succeeded.ToRSR(RunData.NewSequencePoints(sequencePoint), "Binaries Instrumented - which ones - TBD");
         }
 
         private static RunStepResult DiscoverUnitTests(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
@@ -134,37 +145,17 @@ namespace R4nd0mApps.TddStud10.Engine
                 throw new OperationCanceledException();
             }
 
-            var buildOutputRoot = rsp.solutionBuildRoot.Item;
-            var timeFilter = rsp.startTime;
+            var output = RunTestHost("discover", rsp);
 
-            var testsPerAssembly = new PerDocumentLocationTestCases();
-            Engine.FindAndExecuteForEachAssembly(
-                host,
-                buildOutputRoot,
-                timeFilter,
-                (string assemblyPath) =>
-                {
-                    var asmPath = FilePath.NewFilePath(assemblyPath);
-                    var disc = new XUnitTestDiscoverer();
-                    disc.TestDiscovered.AddHandler(
-                        new FSharpHandler<TestCase>(
-                            (o, ea) =>
-                            {
-                                var cfp = PathBuilder.rebaseCodeFilePath(rsp, FilePath.NewFilePath(ea.CodeFilePath));
-                                ea.CodeFilePath = cfp.Item;
-                                var dl = new DocumentLocation { document = cfp, line = DocumentCoordinate.NewDocumentCoordinate(ea.LineNumber) };
-                                var tests = testsPerAssembly.GetOrAdd(dl, _ => new ConcurrentBag<TestCase>());
-                                tests.Add(ea);
-                            }));
-                    disc.DiscoverTests(FilePath.NewFilePath(assemblyPath));
-                });
+            RunStepStatus rss = RunStepStatus.Succeeded;
+            if (output.Item1 != 0)
+            {
+                rss = RunStepStatus.Failed;
+            }
 
-            var discoveredUnitTestsStore = Path.Combine(rsp.solutionBuildRoot.Item, "Z_discoveredUnitTests.xml");
-            testsPerAssembly.Serialize(FilePath.NewFilePath(discoveredUnitTestsStore));
+            var testsPerAssembly = PerDocumentLocationDTestCases.Deserialize(FilePath.NewFilePath(rsp.DataFiles.DiscoveredUnitDTestsStore.Item));
 
-            Logger.I.LogInfo("Written discovered unit tests to {0}.", discoveredUnitTestsStore);
-
-            return RunStepStatus.Succeeded.ToRSR(RunData.NewTestCases(testsPerAssembly), "Unit Tests Discovered - which ones - TBD");
+            return rss.ToRSR(RunData.NewTestCases(testsPerAssembly), "Unit Tests Discovered - which ones - TBD");
         }
 
         private static RunStepResult InstrumentBinaries(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
@@ -177,12 +168,14 @@ namespace R4nd0mApps.TddStud10.Engine
         private static RunStepResult BuildSolutionSnapshot(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
         {
             var output = ExecuteProcess(
-                @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe",
+                Path.Combine(
+                    Environment.GetEnvironmentVariable("ProgramFiles(x86)"),
+                    string.Format(@"MSBuild\{0}\Bin\msbuild.exe", host.HostVersion)),
                 string.Format(
-                    @"/m /v:minimal /p:CreateVsixContainer=false /p:DeployExtension=false /p:CopyVsixExtensionFiles=false /p:VisualStudioVersion={0} /p:OutDir={1} {2}",
+                    @"/m /v:minimal /p:CreateVsixContainer=false /p:DeployExtension=false /p:CopyVsixExtensionFiles=false /p:OutDir={1} {2}",
                     host.HostVersion.ToString(),
-                    rsp.solutionBuildRoot.Item,
-                    rsp.solutionSnapshotPath.Item)
+                    rsp.Solution.BuildRoot.Item,
+                    rsp.Solution.SnapshotPath.Item)
             );
 
             RunStepStatus rss = RunStepStatus.Succeeded;
@@ -196,20 +189,20 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private static RunStepResult TakeSolutionSnapshot(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
         {
-            var solutionGrandParentPath = Path.GetDirectoryName(Path.GetDirectoryName(rsp.solutionPath.Item));
-            VsSolution.GetProjects(host.HostVersion, rsp.solutionPath.Item).ToList().ForEach(p =>
+            var solutionGrandParentPath = Path.GetDirectoryName(Path.GetDirectoryName(rsp.Solution.Path.Item));
+            VsSolution.GetProjects(host.HostVersion, rsp.Solution.Path.Item).ToList().ForEach(p =>
             {
                 if (!host.CanContinue())
                 {
                     throw new OperationCanceledException();
                 }
 
-                var projectFile = Path.Combine(Path.GetDirectoryName(rsp.solutionPath.Item), p.RelativePath);
+                var projectFile = Path.Combine(Path.GetDirectoryName(rsp.Solution.Path.Item), p.RelativePath);
                 var folder = Path.GetDirectoryName(projectFile);
                 CopyFiles(solutionGrandParentPath, folder, SearchOption.AllDirectories);
             });
-            CopyFiles(solutionGrandParentPath, Path.GetDirectoryName(rsp.solutionPath.Item), SearchOption.TopDirectoryOnly);
-            CopyFiles(solutionGrandParentPath, Path.Combine(Path.GetDirectoryName(rsp.solutionPath.Item), "packages"), SearchOption.AllDirectories);
+            CopyFiles(solutionGrandParentPath, Path.GetDirectoryName(rsp.Solution.Path.Item), SearchOption.TopDirectoryOnly);
+            CopyFiles(solutionGrandParentPath, Path.Combine(Path.GetDirectoryName(rsp.Solution.Path.Item), "packages"), SearchOption.AllDirectories);
 
             return RunStepStatus.Succeeded.ToRSR(RunData.NoData, "What was done - TBD");
         }
@@ -243,9 +236,9 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private static RunStepResult DeleteBuildOutput(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
         {
-            if (Directory.Exists(rsp.solutionBuildRoot.Item))
+            if (Directory.Exists(rsp.Solution.BuildRoot.Item))
             {
-                foreach (var file in Directory.EnumerateFiles(rsp.solutionBuildRoot.Item, "*.pdb"))
+                foreach (var file in Directory.EnumerateFiles(rsp.Solution.BuildRoot.Item, "*.pdb"))
                 {
                     File.Delete(file);
 

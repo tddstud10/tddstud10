@@ -7,15 +7,18 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
 open Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open System.Collections.Generic
+open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.TestHost.Diagnostics
 
 let getLocalPath() = 
-    (new Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath
+    Assembly.GetExecutingAssembly().CodeBase
+    |> fun cb -> (new Uri(cb)).LocalPath
     |> Path.GetFullPath
     |> Path.GetDirectoryName
+    |> FilePath
 
-let loadTestAdapter() = 
-    let aPath = getLocalPath() |> fun lp -> Path.Combine(lp, "xunit20\\xunit.runner.visualstudio.testadapter.dll")
+let loadTestAdapter (FilePath binDir) = 
+    let aPath = Path.Combine(binDir, "xunit.runner.visualstudio.testadapter.dll")
     Logger.logInfof "Loading Test Adapter from %s" aPath
     let ta = 
         Assembly.LoadFrom(aPath)
@@ -24,11 +27,39 @@ let loadTestAdapter() =
     Logger.logInfof "Test Adapter loaded"
     ta
 
+let toDTestCase (tc : TestCase) =
+    { FullyQualifiedName = tc.FullyQualifiedName
+      DisplayName = tc.DisplayName
+      Source = FilePath tc.Source
+      CodeFilePath = FilePath tc.CodeFilePath
+      LineNumber = DocumentCoordinate tc.LineNumber }
+
+let toDTestOutcome = function
+    | TestOutcome.None -> TONone
+    | TestOutcome.Passed -> TOPassed
+    | TestOutcome.Failed -> TOFailed
+    | TestOutcome.Skipped -> TOSkipped
+    | TestOutcome.NotFound -> TONotFound
+    | o -> failwithf "Unknown TestOutcome: %O" o
+
+let toDTestResult (tr : TestResult) =
+    { DisplayName = tr.DisplayName
+      TestCase = toDTestCase tr.TestCase
+      Outcome = toDTestOutcome tr.Outcome
+      ErrorStackTrace = tr.ErrorStackTrace
+      ErrorMessage = tr.ErrorMessage }
+
+let createRunSettings() =
+    { new IRunSettings with
+          member __.GetSettings(_: string): ISettingsProvider = 
+              failwith "Not implemented yet"
+          member __.SettingsXml: string = 
+              "<RunSettings/>" }
+
 let createDiscoveryContext() = 
     { new IDiscoveryContext with
           member __.RunSettings : IRunSettings = 
-              Logger.logErrorf "TestPlatform: RunSettings call was unexpected"
-              failwith "Not implemented yet" }
+              createRunSettings() }
 
 let createMessageLogger() = 
     { new IMessageLogger with
@@ -37,7 +68,7 @@ let createMessageLogger() =
 
 let createDiscoverySink td = 
     { new ITestCaseDiscoverySink with
-          member __.SendTestCase(discoveredTest : TestCase) : unit = td (discoveredTest) }
+          member __.SendTestCase(discoveredTest : TestCase) : unit = discoveredTest |> td }
 
 let createRunContext() = 
     { new IRunContext with
@@ -65,7 +96,7 @@ let createRunContext() =
           
           member __.RunSettings : IRunSettings = 
               Logger.logErrorf "TestPlatform: RunSettings call was unexpected"
-              null
+              createRunSettings()   
           
           member __.SolutionDirectory : string = 
               Logger.logErrorf "TestPlatform: SolutionDirectory call was unexpected"
@@ -90,7 +121,7 @@ let createFrameworkHandle te =
           member __.RecordAttachments(_ : IList<AttachmentSet>) : unit = 
               Logger.logErrorf "TestPlatform: RecordAttachments call was unexpected"
           member __.RecordEnd(_ : TestCase, _ : TestOutcome) : unit = ()
-          member __.RecordResult(testResult : TestResult) : unit = te (testResult)
+          member __.RecordResult(testResult : TestResult) : unit = testResult |> (toDTestResult >> te) 
           member __.RecordStart(_ : TestCase) : unit = ()
           member __.SendMessage(testMessageLevel : TestMessageLevel, message : string) : unit = 
               Logger.logErrorf "TestPlatform: SendMessage call was unexpected : [%O] %s" testMessageLevel message }

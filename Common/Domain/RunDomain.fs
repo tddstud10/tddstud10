@@ -4,16 +4,28 @@ open System
 
 type RunData = 
     | NoData
-    | TestCases of PerDocumentLocationTestCases
+    | TestCases of PerDocumentLocationDTestCases
     | SequencePoints of PerDocumentSequencePoints
-    | TestRunOutput of PerTestIdResults * PerDocumentLocationTestFailureInfo * PerSequencePointIdTestRunId
+    | TestRunOutput of PerTestIdDResults * PerDocumentLocationTestFailureInfo * PerSequencePointIdTestRunId
+
+type RunDataFiles = 
+    { SequencePointStore : FilePath
+      CoverageSessionStore : FilePath
+      TestResultsStore : FilePath
+      DiscoveredUnitTestsStore : FilePath
+      TestFailureInfoStore : FilePath
+      DiscoveredUnitDTestsStore : FilePath }
+
+type SolutionPaths = 
+    { Path : FilePath
+      SnapshotPath : FilePath
+      BuildRoot : FilePath }
 
 type RunStartParams = 
-    { startTime : DateTime
-      testHostPath : FilePath
-      solutionPath : FilePath
-      solutionSnapshotPath : FilePath
-      solutionBuildRoot : FilePath }
+    { StartTime : DateTime
+      TestHostPath : FilePath
+      Solution : SolutionPaths
+      DataFiles : RunDataFiles }
 
 type RunStepInfo = 
     { name : RunStepName

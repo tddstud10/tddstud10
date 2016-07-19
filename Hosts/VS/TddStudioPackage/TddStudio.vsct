@@ -39,6 +39,15 @@
           <ButtonText>none</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidTddStud10CmdSet" id="viewTddStud10Logs" priority="0x0002" type="Button">
+        <Parent guid="guidTddStud10CmdSet" id="tddStud10MenuGroup" />
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DefaultDisabled</CommandFlag>
+        <Strings>
+          <ButtonText>View TDD Studio &amp;Logs</ButtonText>
+        </Strings>
+      </Button>
 
       <Button guid="guidGlyphContextCmdSet" id="cmdidDebugTest" priority="1" type="Button">
         <Parent guid="guidGlyphContextCmdSet" id="cmdIdGlyphContextGroup" />
@@ -68,6 +77,7 @@
     <GuidSymbol name="guidTddStud10CmdSet" value="{6c8e3ef8-58d8-44a6-b4eb-71bcccc8f2e0}">
       <IDSymbol name="tddStud10MenuGroup" value="0x1020" />
       <IDSymbol name="changeTddStud10State" value="0x0101" />
+      <IDSymbol name="viewTddStud10Logs" value="0x0102"/>
     </GuidSymbol>
   </Symbols>
 </CommandTable>

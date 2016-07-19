@@ -1,28 +1,24 @@
 ﻿module R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor.TestCommon
 
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open System
 open R4nd0mApps.TddStud10.Common.Domain
 open Xunit
 
 type SimpleTestCase = 
     { fqn : string
-      src : string
-      file : string
-      ln : int }
+      src : FilePath
+      file : FilePath
+      ln : DocumentCoordinate }
     
     member self.toTC() = 
-        let t = TestCase(self.fqn, Uri("exec://utf"), self.src)
-        t.CodeFilePath <- self.file
-        t.LineNumber <- self.ln
-        t
+        { FullyQualifiedName = self.fqn; DisplayName = ""; Source = self.src; CodeFilePath = self.file; LineNumber = self.ln }
     
     member self.toTID() = 
-        { source = FilePath self.src 
-          location = { document = FilePath self.file
-                       line = DocumentCoordinate self.ln } }
+        { source = self.src 
+          location = { document = self.file
+                       line = self.ln } }
     
-    static member fromTC (tc : TestCase) = 
+    static member fromTC (tc : DTestCase) = 
         { fqn = tc.FullyQualifiedName
           src = tc.Source
           file = tc.CodeFilePath
@@ -30,15 +26,12 @@ type SimpleTestCase =
 
 type SimpleTestResult = 
     { name : string
-      outcome : TestOutcome }
+      outcome : DTestOutcome }
     
     member self.toTR tc = 
-        let tr = TestResult(tc)
-        tr.DisplayName <- self.name
-        tr.Outcome <- self.outcome
-        tr
+        { DisplayName = self.name; TestCase = tc; Outcome = self.outcome; ErrorMessage = ""; ErrorStackTrace = "" }
     
-    static member fromTR (tr : TestResult) = { name = tr.DisplayName; outcome = tr.Outcome }
+    static member fromTR (tr : DTestResult) = { name = tr.DisplayName; outcome = tr.Outcome }
 
 type Assert with
     static member Equal<'T>((e : 'T), (ao : 'T option)) = 

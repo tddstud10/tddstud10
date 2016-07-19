@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.IO;
-using System.Linq;
-using Microsoft.VisualStudio.Shell;
+﻿using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using CommandEntry = System.Tuple<string, uint, System.EventHandler, System.EventHandler>;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
@@ -36,6 +37,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             new List<CommandEntry>()
             {
                 new CommandEntry(PkgGuids.GuidTddStud10CmdSet, PkgCmdID.ChangeTddStud10State, ExecuteChangeTddStud10State, OnBeforeQueryStatusChangeTddStud10State),
+                new CommandEntry(PkgGuids.GuidTddStud10CmdSet, PkgCmdID.ViewTddStud10Logs, ExecuteViewTddStud10Logs, (s, e) => { }),
                 new CommandEntry(PkgGuids.GuidGlyphContextCmdSet, PkgCmdID.DebugTest, ExecuteDebugTest, OnBeforeQueryStatusDebugTest),
             }.Aggregate(
                 _mcs,
@@ -96,6 +98,31 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         #endregion
 
+        #region PkgCmdIDList.ViewTddStud10Logs
+
+        private void ExecuteViewTddStud10Logs(object sender, EventArgs e)
+        {
+            var pkgPath = Path.GetDirectoryName(Path.GetFullPath(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath));
+            var loggerPath = Path.Combine(pkgPath, @"rtlogs\RealTimeEtwListener.exe");
+            try
+            {
+                ProcessStartInfo info = new ProcessStartInfo(loggerPath);
+                info.UseShellExecute = true;
+                info.Verb = "runas";
+                Process.Start(info);
+            }
+            catch
+            {
+                Services
+                    .GetService<SVsUIShell, IVsUIShell>()
+                    .DisplayMessageBox(
+                        Properties.Resources.ProductTitle,
+                        string.Format(Properties.Resources.UnableToStartLogger, loggerPath));
+            }
+        }
+
+        #endregion
+
         #region PkgCmdIDList.DebugTest
 
         private void ExecuteDebugTest(object sender, EventArgs e)
@@ -128,16 +155,15 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             _dte.SetBreakPoint(tst.sp.document.Item, tst.sp.startLine.Item);
 
-            var tpa = new PerDocumentLocationTestCases();
-            var bag = new ConcurrentBag<TestCase>();
+            var tpa = new PerDocumentLocationDTestCases();
+            var bag = new ConcurrentBag<DTestCase>();
             bag.Add(tst.tests);
-            tpa.TryAdd(new DocumentLocation { document = FilePath.NewFilePath(tst.tests.CodeFilePath), line = DocumentCoordinate.NewDocumentCoordinate(tst.tests.LineNumber) }, bag);
-            var duts = Path.Combine(DataStore.Instance.RunStartParams.Value.solutionBuildRoot.Item, "Z_debug.xml");
-            tpa.Serialize(FilePath.NewFilePath(duts));
+            tpa.TryAdd(new DocumentLocation { document = tst.tests.CodeFilePath, line = tst.tests.LineNumber }, bag);
+            tpa.Serialize(DataStore.Instance.RunStartParams.Value.DataFiles.DiscoveredUnitDTestsStore);
 
             _serviceProvider.GetService<SVsShellDebugger, IVsDebugger3>().Launch(
-                DataStore.Instance.RunStartParams.Value.testHostPath.Item,
-                string.Format(@"_na_ {0} _na_ _na_ {1} _na_", DataStore.Instance.RunStartParams.Value.solutionBuildRoot.Item, duts));
+                DataStore.Instance.RunStartParams.Value.TestHostPath.Item,
+                Engine.Engine.BuildTestHostCommandLine("execute", DataStore.Instance.RunStartParams.Value));
         }
 
         private void OnBeforeQueryStatusDebugTest(object sender, EventArgs e)

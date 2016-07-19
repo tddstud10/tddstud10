@@ -4,7 +4,6 @@ open Xunit
 open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.Engine.TestFramework
 open System
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open System.Collections.Concurrent
 
 let createDS slnPath = 
@@ -14,7 +13,7 @@ let createDS slnPath =
 
 let createDSWithPATC slnPath = 
     let ds = createDS slnPath
-    let spy = CallSpy<PerDocumentLocationTestCases>(Throws(Exception()))
+    let spy = CallSpy<PerDocumentLocationDTestCases>(Throws(Exception()))
     ds.TestCasesUpdated.Add(spy.Func >> ignore)
     ds, spy
 
@@ -26,7 +25,7 @@ let createDSWithPDSP slnPath =
 
 let createDSWithTRO slnPath = 
     let ds = createDS slnPath
-    let spy1 = CallSpy<PerTestIdResults>(Throws(Exception()))
+    let spy1 = CallSpy<PerTestIdDResults>(Throws(Exception()))
     ds.TestResultsUpdated.Add(spy1.Func >> ignore)
     let spy2 = CallSpy<PerDocumentLocationTestFailureInfo>(Throws(Exception()))
     ds.TestFailureInfoUpdated.Add(spy2.Func >> ignore)
@@ -34,22 +33,20 @@ let createDSWithTRO slnPath =
     ds.CoverageInfoUpdated.Add(spy3.Func >> ignore)
     ds, spy1, spy2, spy3
 
-let createPATC (ts : (string * string * string * int) list) = 
-    let patc = PerDocumentLocationTestCases()
+let createPATC (ts : (string * FilePath * FilePath * DocumentCoordinate) list) = 
+    let patc = PerDocumentLocationDTestCases()
     
-    let addTestCase (acc : PerDocumentLocationTestCases) (s, f, d, l) = 
-        let tc = TestCase(f, Uri("exec://utf"), s)
-        tc.CodeFilePath <- d
-        tc.LineNumber <- l
+    let addTestCase (acc : PerDocumentLocationDTestCases) (f, s, d, l) = 
+        let tc =  { FullyQualifiedName = f; DisplayName = ""; Source = s; CodeFilePath = d; LineNumber = l }
         let b = 
-            acc.GetOrAdd({ document = FilePath d
-                           line = DocumentCoordinate l }, fun _ -> ConcurrentBag<_>())
+            acc.GetOrAdd({ document = d
+                           line = l }, fun _ -> ConcurrentBag<_>())
         b.Add(tc) |> ignore
         acc
     ts |> Seq.fold addTestCase patc
 
 let createPDSP() = PerDocumentSequencePoints()
-let createTRO() = PerTestIdResults(), PerDocumentLocationTestFailureInfo(), PerSequencePointIdTestRunId()
+let createTRO() = PerTestIdDResults(), PerDocumentLocationTestFailureInfo(), PerSequencePointIdTestRunId()
 
 [<Fact>]
 let ``UpdateData with PATV causes event to be fired and crash in handler is ignored``() = 

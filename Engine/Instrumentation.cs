@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using Mono.Cecil;
+﻿using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
 using R4nd0mApps.TddStud10.Common;
@@ -32,8 +31,8 @@ namespace R4nd0mApps.TddStud10
 
         private static PerDocumentSequencePoints GenerateSequencePointInfoImpl(IRunExecutorHost host, RunStartParams rsp)
         {
-            var timeFilter = rsp.startTime;
-            var buildOutputRoot = rsp.solutionBuildRoot.Item;
+            var timeFilter = rsp.StartTime;
+            var buildOutputRoot = rsp.Solution.BuildRoot.Item;
             Logger.I.LogInfo(
                 "Generating sequence point info: Time filter - {0}, Build output root - {1}.",
                 timeFilter.ToLocalTime(),
@@ -50,49 +49,55 @@ namespace R4nd0mApps.TddStud10
 
                     var assembly = AssemblyDefinition.ReadAssembly(assemblyPath, new ReaderParameters { ReadSymbols = true });
 
-                    foreach (var module in assembly.Modules)
-                    {
-                        foreach (var type in module.Types)
-                            foreach (MethodDefinition meth in type.Methods)
-                            {
-                                if (meth.Body == null || meth.Body.Instructions.Count <= 0)
-                                {
-                                    continue;
-                                }
-
-                                var sps = from i in meth.Body.Instructions
-                                          where i.SequencePoint != null
-                                          where i.SequencePoint.StartLine != 0xfeefee
-                                          select new { module, meth, i.SequencePoint };
-
-                                int id = 0;
-                                foreach (var sp in sps)
-                                {
-                                    var fp = PathBuilder.rebaseCodeFilePath(rsp, FilePath.NewFilePath(sp.SequencePoint.Document.Url));
-                                    var seqPts = perDocSP.GetOrAdd(fp, _ => new ConcurrentBag<R4nd0mApps.TddStud10.Common.Domain.SequencePoint>());
-
-                                    seqPts.Add(new R4nd0mApps.TddStud10.Common.Domain.SequencePoint
-                                    {
-                                        id = new SequencePointId
-                                        {
-                                            methodId = new MethodId(AssemblyId.NewAssemblyId(sp.module.Mvid), MdTokenRid.NewMdTokenRid(sp.meth.MetadataToken.RID)),
-                                            uid = id++
-                                        },
-                                        document = fp,
-                                        startLine = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.StartLine),
-                                        startColumn = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.StartColumn),
-                                        endLine = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.EndLine),
-                                        endColumn = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.EndColumn),
-                                    });
-                                }
-                            }
-                    }
+                    VisitAllTypes(
+                        assembly.Modules,
+                        (m, t) =>
+                        {
+                            FindSequencePointForType(rsp, perDocSP, m, t);
+                        });
                 });
 
             return perDocSP;
         }
 
-        public static void Instrument(IRunExecutorHost host, RunStartParams rsp, Func<DocumentLocation, IEnumerable<TestCase>> findTest)
+        private static void FindSequencePointForType(RunStartParams rsp, PerDocumentSequencePoints perDocSP, ModuleDefinition module, TypeDefinition type)
+        {
+            foreach (MethodDefinition meth in type.Methods)
+            {
+                if (meth.Body == null || meth.Body.Instructions.Count <= 0)
+                {
+                    continue;
+                }
+
+                var sps = from i in meth.Body.Instructions
+                          where i.SequencePoint != null
+                          where i.SequencePoint.StartLine != 0xfeefee
+                          select new { module, meth, i.SequencePoint };
+
+                int id = 0;
+                foreach (var sp in sps)
+                {
+                    var fp = PathBuilder.rebaseCodeFilePath(rsp.Solution.Path, rsp.Solution.SnapshotPath, FilePath.NewFilePath(sp.SequencePoint.Document.Url));
+                    var seqPts = perDocSP.GetOrAdd(fp, _ => new ConcurrentBag<R4nd0mApps.TddStud10.Common.Domain.SequencePoint>());
+
+                    seqPts.Add(new R4nd0mApps.TddStud10.Common.Domain.SequencePoint
+                    {
+                        id = new SequencePointId
+                        {
+                            methodId = new MethodId(AssemblyId.NewAssemblyId(sp.module.Mvid), MdTokenRid.NewMdTokenRid(sp.meth.MetadataToken.RID)),
+                            uid = id++
+                        },
+                        document = fp,
+                        startLine = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.StartLine),
+                        startColumn = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.StartColumn),
+                        endLine = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.EndLine),
+                        endColumn = DocumentCoordinate.NewDocumentCoordinate(sp.SequencePoint.EndColumn),
+                    });
+                }
+            }
+        }
+
+        public static void Instrument(IRunExecutorHost host, RunStartParams rsp, Func<DocumentLocation, IEnumerable<DTestCase>> findTest)
         {
             try
             {
@@ -104,12 +109,29 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        private static void InstrumentImpl(IRunExecutorHost host, RunStartParams rsp, Func<DocumentLocation, IEnumerable<TestCase>> findTest)
+        private static void VisitAllTypes(IEnumerable<ModuleDefinition> modules, Action<ModuleDefinition, TypeDefinition> action)
         {
-            var timeFilter = rsp.startTime;
-            var solutionSnapshotRoot = Path.GetDirectoryName(rsp.solutionSnapshotPath.Item);
-            var solutionRoot = Path.GetDirectoryName(rsp.solutionPath.Item);
-            var buildOutputRoot = rsp.solutionBuildRoot.Item;
+            foreach (var module in modules)
+            {
+                VisitAllTypes(module.Types, module, action);
+            }
+        }
+
+        private static void VisitAllTypes(IEnumerable<TypeDefinition> types, ModuleDefinition module, Action<ModuleDefinition, TypeDefinition> action)
+        {
+            foreach (var type in types)
+            {
+                action(module, type);
+                VisitAllTypes(type.NestedTypes, module, action);
+            }
+        }
+
+        private static void InstrumentImpl(IRunExecutorHost host, RunStartParams rsp, Func<DocumentLocation, IEnumerable<DTestCase>> findTest)
+        {
+            var timeFilter = rsp.StartTime;
+            var solutionSnapshotRoot = Path.GetDirectoryName(rsp.Solution.SnapshotPath.Item);
+            var solutionRoot = Path.GetDirectoryName(rsp.Solution.Path.Item);
+            var buildOutputRoot = rsp.Solution.BuildRoot.Item;
             Logger.I.LogInfo(
                 "Instrumenting: Time filter - {0}, Build output root - {1}.",
                 timeFilter.ToLocalTime(),
@@ -145,7 +167,7 @@ namespace R4nd0mApps.TddStud10
                            where m.Name == "ExitUnitTest"
                            select m;
 
-            Func<string, string> rebaseDocument = s => PathBuilder.rebaseCodeFilePath(rsp, FilePath.NewFilePath(s)).Item;
+            Func<string, string> rebaseDocument = s => PathBuilder.rebaseCodeFilePath(rsp.Solution.Path, rsp.Solution.SnapshotPath, FilePath.NewFilePath(s)).Item;
 
             Engine.Engine.FindAndExecuteForEachAssembly(
                 host,
@@ -166,77 +188,12 @@ namespace R4nd0mApps.TddStud10
                     MethodReference enterSPMR = assembly.MainModule.Import(enterSPMD.First());
                     MethodReference exitUTMR = assembly.MainModule.Import(exitUTMD.First());
 
-                    foreach (var module in assembly.Modules)
-                    {
-                        foreach (var type in module.Types)
-                            foreach (MethodDefinition meth in type.Methods)
-                            {
-                                if (meth.Body == null || meth.Body.Instructions.Count <= 0)
-                                {
-                                    continue;
-                                }
-
-                                meth.Body.SimplifyMacros();
-
-                                var spi = from i in meth.Body.Instructions
-                                          where i.SequencePoint != null
-                                          where i.SequencePoint.StartLine != 0xfeefee
-                                          select i;
-
-                                var spId = 0;
-                                var instructions = spi.ToArray();
-                                foreach (var sp in instructions)
-                                {
-                                    /**********************************************************************************/
-                                    /*                                PDB Path Replace                                */
-                                    /**********************************************************************************/
-                                    sp.SequencePoint.Document.Url = rebaseDocument(sp.SequencePoint.Document.Url);
-
-                                    /**********************************************************************************/
-                                    /*                            Inject Enter Sequence Point                         */
-                                    /**********************************************************************************/
-                                    Instruction instrMarker = sp;
-                                    Instruction instr = null;
-                                    var ilProcessor = meth.Body.GetILProcessor();
-
-                                    // IL_000d: call void R4nd0mApps.TddStud10.TestHost.Marker::EnterSequencePoint(string, ldstr, ldstr)
-                                    instr = ilProcessor.Create(OpCodes.Call, enterSPMR);
-                                    ilProcessor.InsertBefore(instrMarker, instr);
-                                    instrMarker = instr;
-                                    // IL_000b: ldstr <spid>
-                                    instr = ilProcessor.Create(OpCodes.Ldstr, (spId++).ToString());
-                                    ilProcessor.InsertBefore(instrMarker, instr);
-                                    instrMarker = instr;
-                                    // IL_0006: ldstr <mdtoken>
-                                    instr = ilProcessor.Create(OpCodes.Ldstr, meth.MetadataToken.RID.ToString());
-                                    ilProcessor.InsertBefore(instrMarker, instr);
-                                    instrMarker = instr;
-                                    // IL_0001: ldstr <assemblyId>
-                                    instr = ilProcessor.Create(OpCodes.Ldstr, module.Mvid.ToString());
-                                    ilProcessor.InsertBefore(instrMarker, instr);
-                                    instrMarker = instr;
-                                }
-
-                                /*************************************************************************************/
-                                /*                            Inject Exit Unit Test                                  */
-                                /*************************************************************************************/
-                                var ret = IsSequencePointAtStartOfAUnitTest(rsp, spi.Select(i => i.SequencePoint).FirstOrDefault(), FilePath.NewFilePath(assemblyPath), findTest);
-                                if (ret.Item1)
-                                {
-                                    if (!meth.IsConstructor && meth.ReturnType == module.TypeSystem.Void && !meth.IsAsync())
-                                    {
-                                        InjectExitUtCallInsideMethodWiseFinally(module, meth, ret.Item2, exitUTMR);
-                                    }
-                                    else
-                                    {
-                                        Logger.I.LogError("Instrumentation: Unsupported method type: IsConstructo = {0}, Return Type = {1}, IsAsync = {2}.", meth.IsConstructor, meth.ReturnType, meth.IsAsync());
-                                    }
-                                }
-
-                                meth.Body.InitLocals = true;
-                                meth.Body.OptimizeMacros();
-                            }
-                    }
+                    VisitAllTypes(
+                        assembly.Modules,
+                        (m, t) =>
+                        {
+                            InstrumentType(rsp, findTest, assemblyPath, rebaseDocument, enterSPMR, exitUTMR, m, t);
+                        });
 
                     var backupAssemblyPath = Path.ChangeExtension(assemblyPath, ".original");
                     File.Delete(backupAssemblyPath);
@@ -255,6 +212,87 @@ namespace R4nd0mApps.TddStud10
 
                 },
                 1);
+        }
+
+        private static void InstrumentType(RunStartParams rsp, Func<DocumentLocation, IEnumerable<DTestCase>> findTest, string assemblyPath, Func<string, string> rebaseDocument, MethodReference enterSPMR, MethodReference exitUTMR, ModuleDefinition module, TypeDefinition type)
+        {
+            foreach (MethodDefinition meth in type.Methods)
+            {
+                if (meth.Body == null || meth.Body.Instructions.Count <= 0)
+                {
+                    continue;
+                }
+
+                meth.Body.SimplifyMacros();
+
+                var spi = from i in meth.Body.Instructions
+                          where i.SequencePoint != null
+                          where i.SequencePoint.StartLine != 0xfeefee
+                          select i;
+
+                var spId = 0;
+                var instructions = spi.ToArray();
+                foreach (var sp in instructions)
+                {
+                    if (sp.Previous != null &&
+                        (sp.Previous.OpCode.Code == Code.Leave_S
+                        || sp.Previous.OpCode.Code == Code.Leave
+                        || sp.Previous.OpCode.Code == Code.Endfilter
+                        || sp.Previous.OpCode.Code == Code.Endfinally))
+                    {
+                        continue;
+                    }
+
+                    /**********************************************************************************/
+                    /*                                PDB Path Replace                                */
+                    /**********************************************************************************/
+                    sp.SequencePoint.Document.Url = rebaseDocument(sp.SequencePoint.Document.Url);
+
+                    /**********************************************************************************/
+                    /*                            Inject Enter Sequence Point                         */
+                    /**********************************************************************************/
+                    Instruction instrMarker = sp;
+                    Instruction instr = null;
+                    var ilProcessor = meth.Body.GetILProcessor();
+
+                    // IL_000d: call void R4nd0mApps.TddStud10.TestHost.Marker::EnterSequencePoint(string, ldstr, ldstr)
+                    instr = ilProcessor.Create(OpCodes.Call, enterSPMR);
+                    ilProcessor.InsertBefore(instrMarker, instr);
+                    instrMarker = instr;
+                    // IL_000b: ldstr <spid>
+                    instr = ilProcessor.Create(OpCodes.Ldstr, (spId++).ToString());
+                    ilProcessor.InsertBefore(instrMarker, instr);
+                    instrMarker = instr;
+                    // IL_0006: ldstr <mdtoken>
+                    instr = ilProcessor.Create(OpCodes.Ldstr, meth.MetadataToken.RID.ToString());
+                    ilProcessor.InsertBefore(instrMarker, instr);
+                    instrMarker = instr;
+                    // IL_0001: ldstr <assemblyId>
+                    instr = ilProcessor.Create(OpCodes.Ldstr, module.Mvid.ToString());
+                    ilProcessor.InsertBefore(instrMarker, instr);
+                    instrMarker = instr;
+                }
+
+                /*************************************************************************************/
+                /*                            Inject Exit Unit Test                                  */
+                /*************************************************************************************/
+                var ret = IsSequencePointAtStartOfAUnitTest(rsp, spi.Select(i => i.SequencePoint).FirstOrDefault(), FilePath.NewFilePath(assemblyPath), findTest);
+                if (ret.Item1)
+                {
+                    // NOTE: Reeeealy need to bring this class under test. Commenting out the void check as Property tests can return boolean.
+                    if (!meth.IsConstructor /*&& meth.ReturnType == module.TypeSystem.Void*/ && !meth.IsAsync())
+                    {
+                        InjectExitUtCallInsideMethodWiseFinally(module, meth, ret.Item2, exitUTMR);
+                    }
+                    else
+                    {
+                        Logger.I.LogError("Instrumentation: Unsupported method type: IsConstructo = {0}, Return Type = {1}, IsAsync = {2}.", meth.IsConstructor, meth.ReturnType, meth.IsAsync());
+                    }
+                }
+
+                meth.Body.InitLocals = true;
+                meth.Body.OptimizeMacros();
+            }
         }
 
         private static void InjectExitUtCallInsideMethodWiseFinally(
@@ -396,15 +434,15 @@ namespace R4nd0mApps.TddStud10
             }
         }
 
-        private static Tuple<bool, TestId> IsSequencePointAtStartOfAUnitTest(RunStartParams rsp, Mono.Cecil.Cil.SequencePoint sp, FilePath assemblyPath, Func<DocumentLocation, IEnumerable<TestCase>> findTest)
+        private static Tuple<bool, TestId> IsSequencePointAtStartOfAUnitTest(RunStartParams rsp, Mono.Cecil.Cil.SequencePoint sp, FilePath assemblyPath, Func<DocumentLocation, IEnumerable<DTestCase>> findTest)
         {
             if (sp == null)
             {
                 return new Tuple<bool, TestId>(false, null);
             }
 
-            var dl = new DocumentLocation { document = PathBuilder.rebaseCodeFilePath(rsp, FilePath.NewFilePath(sp.Document.Url)), line = DocumentCoordinate.NewDocumentCoordinate(sp.StartLine) };
-            var test = findTest(dl).FirstOrDefault(t => FilePath.NewFilePath(t.Source).Equals(assemblyPath));
+            var dl = new DocumentLocation { document = PathBuilder.rebaseCodeFilePath(rsp.Solution.Path, rsp.Solution.SnapshotPath, FilePath.NewFilePath(sp.Document.Url)), line = DocumentCoordinate.NewDocumentCoordinate(sp.StartLine) };
+            var test = findTest(dl).FirstOrDefault(t => t.Source.Equals(assemblyPath));
             if (test == null)
             {
                 return new Tuple<bool, TestId>(false, null);

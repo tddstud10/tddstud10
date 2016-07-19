@@ -6,33 +6,32 @@ open R4nd0mApps.TddStud10.Hosts.Common.TestCode
 open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor.TestCommon
 open System
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open Microsoft.VisualStudio.Text.Tagging
 open System.Windows.Media
 
 let stubTC1 = 
     { fqn = "FQNTest#1"
-      src = "testdll1.dll"
-      file = "test1.cpp"
-      ln = 100 }
+      src = FilePath "testdll1.dll"
+      file = FilePath "test1.cpp"
+      ln = DocumentCoordinate 100 }
 
 let stubTC2 = 
     { fqn = "FQNTest#2"
-      src = "testdll2.dll"
-      file = "test2.cpp"
-      ln = 200 }
+      src = FilePath "testdll2.dll"
+      file = FilePath "test2.cpp"
+      ln = DocumentCoordinate 200 }
 
 let stubTR1p = 
     { name = "Test Result #1"
-      outcome = TestOutcome.Passed }
+      outcome = DTestOutcome.TOPassed }
 
 let stubTR2p = 
     { name = "Test Result #2"
-      outcome = TestOutcome.Passed }
+      outcome = DTestOutcome.TOPassed }
 
 let stubTR2f = 
     { name = "Test Result #2"
-      outcome = TestOutcome.Failed }
+      outcome = DTestOutcome.TOFailed }
 
 let newTST (tc : SimpleTestCase) = 
     let tst = FakeMappingTagSpan<IMarginGlyphTag>()

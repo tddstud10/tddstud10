@@ -11,23 +11,22 @@ open Microsoft.VisualStudio.Text.Tagging
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 open System.Collections.Concurrent
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor.TestCommon
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
 
 let createTB p t = FakeTextBuffer(t, p) :> ITextBuffer
-let stubTR1 = { name = "Test Result #1"; outcome = TestOutcome.Passed }
-let stubTR2 = { name = "Test Result #2"; outcome = TestOutcome.Failed }
+let stubTR1 = { name = "Test Result #1"; outcome = DTestOutcome.TOPassed }
+let stubTR2 = { name = "Test Result #2"; outcome = DTestOutcome.TOFailed }
 
 let stubTC1 = 
     { fqn = "FQNTest#1"
-      src = "testdll1.dll"
-      file = "test1.cpp"
-      ln = 100 }
+      src = FilePath "testdll1.dll"
+      file = FilePath "test1.cpp"
+      ln = DocumentCoordinate 100 }
 
 let stubTC2 = 
     { fqn = "FQNTest#2"
-      src = "testdll2.dll"
-      file = "test2.cpp"
-      ln = 200 }
+      src = FilePath "testdll2.dll"
+      file = FilePath "test2.cpp"
+      ln = DocumentCoordinate 200 }
 
 let stubSpidXLineNumber = 3 |> DocumentCoordinate
 let stubSpidXTb = createTB "code.cs" """
@@ -90,7 +89,7 @@ let stubSp2 = createSP stubSpidXTb stubSpid2 stubSpidXLineNumber
 
 let updateCoverageInfo (spCovData : list<SequencePointId * list<SimpleTestCase * option<SimpleTestResult>>>) 
     (ds : IDataStore) = 
-    let ptir = PerTestIdResults()
+    let ptir = PerTestIdDResults()
     let pspiri = PerSequencePointIdTestRunId()
     
     let fldr spid () (tc : SimpleTestCase, tr : SimpleTestResult option) = 
@@ -118,7 +117,7 @@ let ``Datastore SequencePointsUpdated event fires TagsChanged event``() =
 [<Fact>]
 let ``Datastore TestResultsUpdated and CoverageInfoUpdated event fires TagsChanged event``() = 
     let ds, tb, _, s = createCCT "a.sln" stubSpidXTb (fun _ -> Seq.empty)
-    (PerTestIdResults(), PerDocumentLocationTestFailureInfo(), PerSequencePointIdTestRunId())
+    (PerTestIdDResults(), PerDocumentLocationTestFailureInfo(), PerSequencePointIdTestRunId())
     |> TestRunOutput
     |> ds.UpdateData
     Assert.True(s.CalledWith |> Option.exists (fun ssea -> ssea.Span.Snapshot.Equals(tb.CurrentSnapshot)))

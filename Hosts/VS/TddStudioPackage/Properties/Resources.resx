@@ -138,4 +138,7 @@
   <data name="ToolWindowTitle" xml:space="preserve">
     <value>Test Driven Development Studio</value>
   </data>
+  <data name="UnableToStartLogger" xml:space="preserve">
+    <value>Unable to start TDD Studio logger. Launch manually from {0}.</value>
+  </data>
 </root>

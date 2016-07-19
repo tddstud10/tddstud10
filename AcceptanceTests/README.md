@@ -1,0 +1,49 @@
+﻿# Acceptance Tests
+  - Help About - icon, version, name
+  - Extensions and Updates - icon, version, name
+  - Vanilla project: Auto trigger, SequencePoint markers show, Icon changes state
+  - Notification Icon
+    - status icon on build failure
+    - status icon on test failure
+    - ? status icon on both
+    - status icon on close project
+    - enable shows indicator, disable takes indicator away
+  - Test Start Markers
+    - Glyph
+      - No lines on project open
+      - White marker appear mid-way during build
+      - Green markers for passing tests
+      - Red for failing tests
+      - Red for failing theories
+      - Green for making the tests pass again
+      - Zoom at 400 and back
+    - Context Menu
+      - Right click in design-mode -> breakpoint is inserted -> bp is hit
+      - Right click in debug-mode -> Empty context menu appears
+    - Tooltip
+    - Mouse
+  - Failure Point Markers
+    - Glyph
+      - No lines on project open
+      - Red marker appear for point of throw
+      - Red marker appear for caller of point of throw
+      - Goes away when the throw is fixed
+      - Zoom back to 70 and back
+    - Context Menu
+    - Tooltip
+    - Mouse
+  - Code Coverage Markers
+    - Glyph
+      - No lines on project open
+      - White markers appear mid-way during build
+      - All green for passing tests
+      - Red for code impacted by failing tests
+      - Red for code impacted by failing theories
+      - Green lines on making the tests pass
+      - White for uncovered lines
+    - Context Menu
+      - Right click in design-mode -> breakpoint is inserted -> bp is hit
+      - Right click in debug-mode -> Empty context menu appears
+    - Tooltip
+    - Mouse
+  - C#/F#/VB, xunit/nunit

@@ -35,12 +35,12 @@ let makeAndWireUpRSESpies () =
     makeAndWireUpRSESpies2 (ss, se, sf)
 
 let isHandlerCalled (s : CallSpy<RunStepStartingEventArg>) slnName stepName kind =
-    s.CalledWith |> Option.map (fun r -> r.sp.solutionPath) = Some(~~slnName) 
+    s.CalledWith |> Option.map (fun r -> r.sp.Solution.Path) = Some(~~slnName) 
     && s.CalledWith |> Option.map (fun r -> r.info.name) = Some(RunStepName stepName) 
     && s.CalledWith |> Option.map (fun r -> r.info.kind) = Some(kind) 
 
 let isErrorHandlerCalled (se : CallSpy<RunStepErrorEventArg>) slnName _ = 
-    se.CalledWith |> Option.map (fun rss -> rss.sp.solutionPath) = Some(~~slnName) 
+    se.CalledWith |> Option.map (fun rss -> rss.sp.Solution.Path) = Some(~~slnName) 
 
 let isErrorHandlerCalled2 (se : CallSpy<RunStepErrorEventArg>) slnName stepName status = 
     isErrorHandlerCalled se slnName stepName  
@@ -51,7 +51,7 @@ let isErrorHandlerCalled3 (se : CallSpy<RunStepErrorEventArg>) slnName stepName 
     && se.CalledWith |> Option.map (fun rss -> rss.rsr.addendum) = Some(addendum) 
 
 let isEndedHandlerCalled (se : CallSpy<RunStepEndedEventArg>) slnName _ = 
-    se.CalledWith |> Option.map (fun rss -> rss.sp.solutionPath) = Some(~~slnName) 
+    se.CalledWith |> Option.map (fun rss -> rss.sp.Solution.Path) = Some(~~slnName) 
 
 let isEndedHandlerCalled2 (se : CallSpy<RunStepEndedEventArg>) slnName stepName status = 
     isEndedHandlerCalled se slnName stepName  

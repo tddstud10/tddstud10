@@ -2,22 +2,31 @@
 
 open Xunit
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
-open System
 open R4nd0mApps.TddStud10.Common.Domain
 
 let createFailedTR() = 
-    let tr = TestResult(TestCase("fqn", Uri("a://b/c"), "a.dll"))
-    tr.Outcome <- TestOutcome.Failed
-    tr
+    { DisplayName = "???" 
+      TestCase =
+        { FullyQualifiedName = "fqn"
+          DisplayName = "???"
+          Source = FilePath "a.dll"
+          CodeFilePath = FilePath "???"
+          LineNumber = DocumentCoordinate 0 }
+      Outcome = TOFailed
+      ErrorStackTrace = null
+      ErrorMessage = null }
+
+let ``If not Failure return empty seq - data`` : obj array seq = 
+        [| TONone
+           TONotFound
+           TOPassed
+           TOSkipped |]
+        |> Seq.map (fun a -> [| box a |])
 
 [<Theory>]
-[<InlineData(TestOutcome.None)>]
-[<InlineData(TestOutcome.NotFound)>]
-[<InlineData(TestOutcome.Passed)>]
-[<InlineData(TestOutcome.Skipped)>]
-let ``If not Failure return empty seq`` o = 
-    let tr = createFailedTR()
-    tr.Outcome <- o
+[<MemberData("If not Failure return empty seq - data")>]
+let ``If not Failure return empty seq`` (o) = 
+    let tr = { createFailedTR() with Outcome = o }
     let it = tr |> TestFailureInfoExtensions.create
     Assert.Empty(it)
 
@@ -29,17 +38,17 @@ let ``If Failure and ErrorStackTrace is null or empty, return empty seq``() =
 
 [<Fact>]
 let ``If failure and ErrorStackTrace has 1 frame that cannot be parsed, return empty seq``() = 
-    let tr = createFailedTR()
-    tr.ErrorMessage <- "Test exception"
-    tr.ErrorStackTrace <- "Anything that cannot be parsed as a stack frame"
+    let tr = { createFailedTR() with
+                ErrorMessage = "Test exception"
+                ErrorStackTrace = "Anything that cannot be parsed as a stack frame" }
     let it = tr |> TestFailureInfoExtensions.create
     Assert.Empty(it)
 
 [<Fact>]
 let ``If failure and ErrorStackTrace has 1 frame that can be parsed, return that one with paths rebased``() = 
-    let tr = createFailedTR()
-    tr.ErrorMessage <- "Test exception"
-    tr.ErrorStackTrace <- @"at NS.C.M() in d:\s\p\f.cs:line 15"
+    let tr = { createFailedTR() with
+                ErrorMessage = "Test exception"
+                ErrorStackTrace = @"at NS.C.M() in d:\s\p\f.cs:line 15" }
     let it = tr |> TestFailureInfoExtensions.create
     
     let dl = 
@@ -54,11 +63,11 @@ let ``If failure and ErrorStackTrace has 1 frame that can be parsed, return that
 
 [<Fact>]
 let ``If failure and ErrorStackTrace has 2 frames, return that parseable one with paths rebased``() = 
-    let tr = createFailedTR()
-    tr.ErrorMessage <- null
-    tr.ErrorStackTrace <- """    at NS.C.M(T p) in d:\s1\p2\f3.cs:line 1000
+    let tr = { createFailedTR() with 
+                ErrorMessage = null
+                ErrorStackTrace = """    at NS.C.M(T p) in d:\s1\p2\f3.cs:line 1000
     at XNS.XC.XM()
-    at YNS.YC.YM(YT yp, XT xp) in d:\s5\p6\f7.cpp:line 5000"""
+    at YNS.YC.YM(YT yp, XT xp) in d:\s5\p6\f7.cpp:line 5000""" }
     let it = tr |> TestFailureInfoExtensions.create
     
     let dl1 = 
