@@ -113,7 +113,7 @@ namespace R4nd0mApps.TddStud10.Engine
         public static string BuildTestHostCommandLine(string command, RunStartParams rsp)
         {
             return string.Format(
-                @"{0} {1} {2} {3} {4} {5} {6} {7} {8} {9}",
+                "\"{0}\" \"{1}\" \"{2}\" \"{3}\" \"{4}\" \"{5}\" \"{6}\" \"{7}\" \"{8}\" \"{9}\"",
                 command,
                 rsp.Solution.BuildRoot.Item,
                 rsp.DataFiles.CoverageSessionStore.Item,

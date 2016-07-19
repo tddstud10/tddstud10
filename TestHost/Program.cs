@@ -34,6 +34,18 @@ namespace R4nd0mApps.TddStud10.TestHost
         [LoaderOptimization(LoaderOptimization.MultiDomain)]
         public static int Main(string[] args)
         {
+            try
+            {
+                return MainImpl(args);
+            }
+            catch
+            {
+                return 1;
+            }
+        }
+
+        private static int MainImpl(string[] args)
+        {
             LogInfo("TestHost: Entering Main.");
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomainUnhandledException);
             var command = args[0];
