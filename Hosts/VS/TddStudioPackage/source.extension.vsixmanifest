@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="6c8e3ef6-58d8-44a6-b4eb-71bcccc8f2e0" Version="0.4.5.0" Language="en-US" Publisher="Partho P. Das" />
+    <Identity Id="6c8e3ef6-58d8-44a6-b4eb-71bcccc8f2e0" Version="0.4.6.0" Language="en-US" Publisher="Partho P. Das" />
     <DisplayName>Test Driven Development Studio</DisplayName>
     <Description xml:space="preserve">An environment for practicing Kent Beck style Test Driven Development.</Description>
     <License>LICENSE</License>
