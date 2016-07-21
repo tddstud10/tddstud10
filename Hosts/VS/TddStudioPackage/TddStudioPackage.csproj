@@ -315,9 +315,9 @@
       <IncludeOutputGroupsInVSIXLocalOnly>
       </IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
-    <ProjectReference Include="..\TddStudioPackage.Extensions\TddStudioPackage.Extensions.fsproj">
+    <ProjectReference Include="..\TddStudioPackage.Core\TddStudioPackage.Core.fsproj">
       <Project>{0055b0cc-39ba-4dea-ad3e-231cffe4ed58}</Project>
-      <Name>TddStudioPackage.Extensions</Name>
+      <Name>TddStudioPackage.Core</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b
       </IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>

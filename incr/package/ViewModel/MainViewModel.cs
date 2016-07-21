@@ -4,7 +4,7 @@ using Microsoft.FSharp.Core;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage;
-using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
+using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -210,9 +210,9 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
-    <ProjectReference Include="..\..\Hosts\VS\TddStudioPackage.Extensions\TddStudioPackage.Extensions.fsproj">
+    <ProjectReference Include="..\..\Hosts\VS\TddStudioPackage.Core\TddStudioPackage.Core.fsproj">
       <Project>{0055b0cc-39ba-4dea-ad3e-231cffe4ed58}</Project>
-      <Name>TddStudioPackage.Extensions</Name>
+      <Name>TddStudioPackage.Core</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>

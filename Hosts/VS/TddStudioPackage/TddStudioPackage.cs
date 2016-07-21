@@ -6,7 +6,7 @@ using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage;
-using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
+using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -28,7 +28,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         private uint solutionEventsCookie;
 
         private IVsSolution2 _solution;
-        private IVsStatusbar _statusBar;
         private EnvDTE.DTE _dte;
 
         private VsStatusBarIconHost _iconHost;
@@ -64,8 +63,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             {
                 _solution.AdviseSolutionEvents(this, out solutionEventsCookie).ThrowOnFailure();
             }
-
-            _statusBar = Services.GetService<SVsStatusbar, IVsStatusbar>();
 
             _dte = Services.GetService<EnvDTE.DTE>();
 
@@ -155,14 +152,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsSolutionEvents.OnQueryCloseSolution(object pUnkReserved, ref int pfCancel)
         {
-            pfCancel = 0;
-            if (EngineLoader.IsRunInProgress())
-            {
-                Logger.I.LogInfo("Run in progress. Denying request to close solution.");
-                Services.GetService<SVsUIShell, IVsUIShell>().DisplayMessageBox(Properties.Resources.ProductTitle, Properties.Resources.CannotCloseSolution);
-                pfCancel = 1; // 1 => Veto closing of solution.
-            }
-
             return VSConstants.S_OK;
         }
 

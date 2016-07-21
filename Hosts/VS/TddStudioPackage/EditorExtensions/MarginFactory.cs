@@ -2,8 +2,8 @@
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
-using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions;
-using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Extensions.Editor;
+using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core;
+using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core.Editor;
 using System;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Design;

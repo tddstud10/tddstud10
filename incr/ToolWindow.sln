@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolWindow", "package\ToolWindow.csproj", "{E7729C46-9822-4D2C-BE5B-5C4AAC2FEA82}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TddStudioPackage.Extensions", "..\Hosts\VS\TddStudioPackage.Extensions\TddStudioPackage.Extensions.fsproj", "{0055B0CC-39BA-4DEA-AD3E-231CFFE4ED58}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TddStudioPackage.Core", "..\Hosts\VS\TddStudioPackage.Core\TddStudioPackage.Core.fsproj", "{0055B0CC-39BA-4DEA-AD3E-231CFFE4ED58}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Core", "Core\Core.fsproj", "{D08AFF82-D0C6-43E9-B44E-87B0A92CE94C}"
 EndProject
