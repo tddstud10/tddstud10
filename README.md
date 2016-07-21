@@ -17,6 +17,8 @@
 >  limitations under the License.
 
 # Goals, Intentions, Guidelines
+
+[![Join the chat at https://gitter.im/parthopdas/tddstud10](https://badges.gitter.im/parthopdas/tddstud10.svg)](https://gitter.im/parthopdas/tddstud10?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
   - Environment for practicing Kent Beck style TDD [F.I.R.S.T. Unit Tests, fast builds, No Mocks, Hexagonal architecture]
   - Open source alternative to nCrunch
   - Eventually not just unit tests - but a collection of facilities that makes TDD a joy! e.g. TODO list, hotspot analysis, etc.
