@@ -12,7 +12,7 @@
     <RootNamespace>TestHost.Core.UnitTests</RootNamespace>
     <AssemblyName>R4nd0mApps.TddStud10.TestHost.Core.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
+    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
     <Name>TestHost.Core.UnitTests</Name>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -150,14 +150,6 @@
     <Compile Include="TestAdapterExtensionsTests.fs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Foq">
-      <HintPath>..\packages\Foq.1.7\Lib\net45\Foq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="FSharp.Configuration">
-      <HintPath>..\packages\FSharp.Configuration.0.5.1\lib\net40\FSharp.Configuration.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
       <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.0.26\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
       <Private>True</Private>
@@ -184,10 +176,6 @@
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="SharpYaml">
-      <HintPath>..\packages\FSharp.Configuration.0.5.1\lib\net40\SharpYaml.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

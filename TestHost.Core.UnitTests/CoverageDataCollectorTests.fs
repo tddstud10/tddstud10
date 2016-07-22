@@ -1,11 +1,10 @@
-﻿module R4nd0mApps.TddStud10.TestHost.CoverageDataCollectorTests
+module R4nd0mApps.TddStud10.TestHost.CoverageDataCollectorTests
 
 open Xunit
 open R4nd0mApps.TddStud10.TestRuntime
 open System
 open R4nd0mApps.TddStud10.Common.Domain
 open System.Collections.Generic
-open Foq
 
 let asmId1 = Guid.NewGuid()
 let asmId2 = Guid.NewGuid()
@@ -106,14 +105,26 @@ let ``Different test - coverage data collected for both tests``() =
     let expected = createTRIDs [ ("b.dll", "b.cs", 200) ]
     Assert.MatchTRIDs expected cdc.CoverageData.[(asmId2, 600u, 200) |||> createSPID]
 
+type CdcMock() =
+    interface ICoverageDataCollector with
+        member x.EnterSequencePoint(_: string, _: string, _: string, _: string): unit = 
+            x.EnterSPCalled <- true
+        member x.ExitUnitTest(_: string, _: string, _: string, _: string): unit = 
+            x.ExitUTCalled <- true
+        member __.Ping(): unit = 
+            failwith "Not implemented yet"
+    member val EnterSPCalled = false with get, set
+    member val ExitUTCalled = false with get, set
+
+
 [<Fact>]
 let ``With debugger attached coverage info does not get registered``() = 
-    let cdc = Mock.Of<ICoverageDataCollector>()
+    let cdc = CdcMock()
     let m = createCDC2 cdc Attached
     m.RegisterEnterSequencePoint(asmId1.ToString(), "100", "1")
     m.RegisterExitUnitTest("a.dll", "a.cs", "100")
-    Mock.Verify(<@ cdc.EnterSequencePoint(any(), any(), any(), any()) @>, never)
-    Mock.Verify(<@ cdc.ExitUnitTest(any(), any(), any(), any()) @>, never)
+    Assert.False(cdc.EnterSPCalled)
+    Assert.False(cdc.ExitUTCalled)
 
 [<Fact>]
 let ``If sequence points not registered, exit unit test is ignored``() = 

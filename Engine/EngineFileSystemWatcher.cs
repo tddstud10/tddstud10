@@ -1,6 +1,6 @@
-﻿using System;
+﻿using R4nd0mApps.TddStud10.Engine.Diagnostics;
+using System;
 using System.IO;
-using R4nd0mApps.TddStud10.Engine.Diagnostics;
 
 namespace R4nd0mApps.TddStud10.Engine
 {
@@ -24,7 +24,7 @@ namespace R4nd0mApps.TddStud10.Engine
             efsWatcher.fsWatcher.Filter = "*";
             efsWatcher.fsWatcher.Path = Path.GetDirectoryName(solutionPath);
             // NOTE: Too many events otherwise. Let it be this way till we have figured out the right trigger mechanism.
-            efsWatcher.fsWatcher.IncludeSubdirectories = false; 
+            efsWatcher.fsWatcher.IncludeSubdirectories = true;
 
             efsWatcher.SubscribeToEvents();
 
@@ -111,25 +111,25 @@ namespace R4nd0mApps.TddStud10.Engine
 
         void FsWatcher_Created(object sender, FileSystemEventArgs e)
         {
-            Logger.I.LogInfo("FSWatcher: Got created event");
+            Logger.I.LogInfo("########: FSWatcher: Got created event: {0}", e.FullPath);
             _action(_sessionStartTimestamp, _solutionPath);
         }
 
         void FsWatcher_Changed(object sender, FileSystemEventArgs e)
         {
-            Logger.I.LogInfo("FSWatcher: Got changed event");
+            Logger.I.LogInfo("########: FSWatcher: Got changed event: {0}", e.FullPath);
             _action(_sessionStartTimestamp, _solutionPath);
         }
 
         void FsWatcher_Renamed(object sender, RenamedEventArgs e)
         {
-            Logger.I.LogInfo("FSWatcher: Got renamed event");
+            Logger.I.LogInfo("########: FSWatcher: Got renamed event: {0}", e.FullPath);
             _action(_sessionStartTimestamp, _solutionPath);
         }
 
         void FsWatcher_Deleted(object sender, FileSystemEventArgs e)
         {
-            Logger.I.LogInfo("FSWatcher: Got deleted event");
+            Logger.I.LogInfo("########: FSWatcher: Got deleted event: {0}", e.FullPath);
             _action(_sessionStartTimestamp, _solutionPath);
         }
 

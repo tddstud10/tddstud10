@@ -1,6 +1,5 @@
 ﻿module R4nd0mApps.TddStud10.TestExecution.Adapters.XUnitTestExecutorTests
 
-open FSharp.Configuration
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open R4nd0mApps.TddStud10.TestExecution
 open System.Collections.Concurrent
@@ -10,8 +9,8 @@ open System.Xml
 open Xunit
 open R4nd0mApps.TddStud10.Common.Domain
 open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
-
-type ResX = ResXProvider< file="Resources\Resources.resx" >
+open System.Resources
+open System.Reflection
 
 let expectedTests = 
     [ "XUnit20FSPortable.UnitTests.Fact Test 1", TOPassed
@@ -38,10 +37,11 @@ let ``Can run successfully on assemblies with no tests``() =
 
 [<Fact>]
 let ``Can run re-hydrated tests``() = 
+    let res = ResourceManager("Resources.Resources", Assembly.GetExecutingAssembly())
     let it, tos = createExecutor()
     let tests = 
         rehydrateTestCases 
-            (ResX.Resources.XUnit20FSPortableTests.Replace
+            (res.GetString("XUnit20FSPortableTests").Replace
                  (@"D:\src\r4nd0mapps\tddstud10\TestHost.Core.UnitTests\bin\Debug", 
                   TestPlatformExtensions.getLocalPath().ToString()))
     let te = 
