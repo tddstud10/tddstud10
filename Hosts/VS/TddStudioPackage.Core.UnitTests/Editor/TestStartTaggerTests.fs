@@ -12,7 +12,7 @@ open Microsoft.VisualStudio.Text.Tagging
 
 let createTST s pdltp p t = 
     let ds = DataStore() :> IDataStore
-    RunStartParamsExtensions.create DateTime.Now (FilePath s) |> ds.UpdateRunStartParams
+    RunStartParams.Create (EngineConfig()) DateTime.Now (FilePath s) |> ds.UpdateRunStartParams
     let tb = FakeTextBuffer(t, p) :> ITextBuffer
     let tmt = TestStartTagger(tb, ds) :> ITagger<_>
     let spy = CallSpy1<SnapshotSpanEventArgs>(Throws(Exception()))

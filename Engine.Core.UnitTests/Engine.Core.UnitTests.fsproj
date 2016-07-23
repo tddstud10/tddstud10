@@ -69,6 +69,7 @@
     <Compile Include="TestFramework.CallSpy.fs" />
     <Compile Include="TestDoubles.RunExecutor.fs" />
     <Content Include="packages.config" />
+    <Compile Include="EngineConfigLoaderTests.fs" />
     <Compile Include="StaleMessageIgnoringAgentTests.fs" />
     <Compile Include="PathBuilderTests.fs" />
     <Compile Include="RunStepFuncBehaviorTests.fs" />
@@ -99,6 +100,7 @@
       <Project>{e5fb2292-1833-4c4c-800e-a31ac891a931}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="xunit.abstractions">
       <HintPath>..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
       <Private>True</Private>

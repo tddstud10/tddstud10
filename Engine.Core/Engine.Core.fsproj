@@ -67,6 +67,9 @@
     <Compile Include="AssemblyAttributes.fs" />
     <Compile Include="Logger.fs" />
     <Compile Include="SafeExec.fs" />
+    <Compile Include="EngineConfig.fs" />
+    <Compile Include="EngineConfigLoader.fs" />
+    <Compile Include="RunStartParamsExtensions.fs" />
     <Compile Include="StaleMessageIgnoringAgent.fs" />
     <Compile Include="RunStepFuncBehaviors.fs" />
     <Compile Include="RunExecutor.fs" />
@@ -87,6 +90,7 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>

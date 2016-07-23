@@ -10,7 +10,5 @@ namespace R4nd0mApps.TddStud10
         public const string EtwProviderNameTestHost = "R4nd0mApps-TddStud10-TestHost";
         public const string EtwProviderNameEngine = "R4nd0mApps-TddStud10-Engine";
         public const string EtwProviderNameTestRuntime = "R4nd0mApps-TddStud10-TestRuntime";
-
-        public const string SnapshotRoot = "d:\\tddstud10";
     }
 }

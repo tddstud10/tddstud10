@@ -17,6 +17,3 @@ module internal Constants =
     let EtwProviderNameEngine = "R4nd0mApps-TddStud10-Engine";
     [<Literal>]
     let EtwProviderNameTestRuntime = "R4nd0mApps-TddStud10-TestRuntime";
-
-    [<Literal>]
-    let SnapshotRoot = "d:\\tddstud10";

@@ -31,9 +31,9 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
     member public __.OnRunStepError = onRunStepError.Publish
     member public __.RunStepEnded = runStepEnded.Publish
     
-    member public __.Start(startTime, solutionPath) = 
+    member public __.Start(cfg, startTime, solutionPath) = 
         (* NOTE: Need to ensure the started/errored/ended events go out no matter what*)
-        let rsp = RunStartParamsExtensions.create startTime solutionPath
+        let rsp = RunStartParams.Create cfg startTime solutionPath
         Common.safeExec (fun () -> runStarting.Trigger(rsp))
         let rses = 
             { onStart = runStepStarting

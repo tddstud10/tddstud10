@@ -1,4 +1,5 @@
-﻿using R4nd0mApps.TddStud10.Engine.Diagnostics;
+﻿using R4nd0mApps.TddStud10.Engine.Core;
+using R4nd0mApps.TddStud10.Engine.Diagnostics;
 using System;
 using System.IO;
 
@@ -6,23 +7,20 @@ namespace R4nd0mApps.TddStud10.Engine
 {
     internal sealed class EngineFileSystemWatcher : IDisposable
     {
-        private Action<DateTime, string> _action;
+        private Action<EngineLoaderParams> _action;
 
-        private string _solutionPath;
+        private EngineLoaderParams _loaderParams;
 
-        private DateTime _sessionStartTimestamp;
-
-        public static EngineFileSystemWatcher Create(string solutionPath, DateTime sessionStartTimestamp, Action<DateTime, string> runEngine)
+        public static EngineFileSystemWatcher Create(EngineLoaderParams loaderParams, Action<EngineLoaderParams> runEngine)
         {
             var efsWatcher = new EngineFileSystemWatcher();
 
-            efsWatcher._solutionPath = solutionPath;
-            efsWatcher._sessionStartTimestamp = sessionStartTimestamp;
+            efsWatcher._loaderParams = loaderParams;
 
             efsWatcher._action = runEngine;
             efsWatcher.fsWatcher = new FileSystemWatcher();
             efsWatcher.fsWatcher.Filter = "*";
-            efsWatcher.fsWatcher.Path = Path.GetDirectoryName(solutionPath);
+            efsWatcher.fsWatcher.Path = Path.GetDirectoryName(loaderParams.SolutionPath.ToString());
             // NOTE: Too many events otherwise. Let it be this way till we have figured out the right trigger mechanism.
             efsWatcher.fsWatcher.IncludeSubdirectories = true;
 
@@ -106,31 +104,31 @@ namespace R4nd0mApps.TddStud10.Engine
         void FsWatcher_Error(object sender, ErrorEventArgs e)
         {
             Logger.I.LogError(e.ToString());
-            _action(_sessionStartTimestamp, _solutionPath);
+            _action(_loaderParams);
         }
 
         void FsWatcher_Created(object sender, FileSystemEventArgs e)
         {
             Logger.I.LogInfo("########: FSWatcher: Got created event: {0}", e.FullPath);
-            _action(_sessionStartTimestamp, _solutionPath);
+            _action(_loaderParams);
         }
 
         void FsWatcher_Changed(object sender, FileSystemEventArgs e)
         {
             Logger.I.LogInfo("########: FSWatcher: Got changed event: {0}", e.FullPath);
-            _action(_sessionStartTimestamp, _solutionPath);
+            _action(_loaderParams);
         }
 
         void FsWatcher_Renamed(object sender, RenamedEventArgs e)
         {
             Logger.I.LogInfo("########: FSWatcher: Got renamed event: {0}", e.FullPath);
-            _action(_sessionStartTimestamp, _solutionPath);
+            _action(_loaderParams);
         }
 
         void FsWatcher_Deleted(object sender, FileSystemEventArgs e)
         {
             Logger.I.LogInfo("########: FSWatcher: Got deleted event: {0}", e.FullPath);
-            _action(_sessionStartTimestamp, _solutionPath);
+            _action(_loaderParams);
         }
 
         #endregion

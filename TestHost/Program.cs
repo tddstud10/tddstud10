@@ -218,7 +218,7 @@ namespace R4nd0mApps.TddStud10.TestHost
 
             stopWatch.Stop();
             var ts = stopWatch.Elapsed;
-            var elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            var elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                         ts.Hours, ts.Minutes, ts.Seconds,
                         ts.Milliseconds / 10);
             LogInfo("Done TestHost executing tests! [" + elapsedTime + "]");

@@ -8,7 +8,7 @@ open System.Collections.Concurrent
 
 let createDS slnPath = 
     let ds = DataStore() :> IDataStore
-    RunStartParamsExtensions.create DateTime.Now (FilePath slnPath) |> ds.UpdateRunStartParams
+    RunStartParams.Create (EngineConfig()) DateTime.Now (FilePath slnPath) |> ds.UpdateRunStartParams
     ds
 
 let createDSWithPATC slnPath = 

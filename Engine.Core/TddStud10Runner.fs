@@ -21,7 +21,7 @@ type public TddStud10Runner private (re, agent, rst) =
             |> RunStepFuncBehaviors.stepTimer
         
         let re = RunExecutor.Create host runSteps all
-        let agent = new StaleMessageIgnoringAgent<DateTime * FilePath>(re.Start >> ignore)
+        let agent = new StaleMessageIgnoringAgent<EngineConfig * DateTime * FilePath>(re.Start >> ignore)
         let rst = new RunStateTracker()
         re.RunStarting.Add(rst.OnRunStarting)
         re.RunStepStarting.Add(rst.OnRunStepStarting)
@@ -53,5 +53,5 @@ type public TddStud10Runner private (re, agent, rst) =
         re.RunStarting.RemoveHandler(sh)
         rst.RunStateChanged.RemoveHandler(rsc)
 
-    member public __.StartAsync startTime slnPath token = agent.SendMessageAsync (startTime, FilePath slnPath) token
+    member public __.StartAsync cfg startTime slnPath token = agent.SendMessageAsync (cfg, startTime, slnPath) token
     member public __.StopAsync(token) = agent.StopAsync(token)

@@ -22,7 +22,8 @@ type SolutionPaths =
       BuildRoot : FilePath }
 
 type RunStartParams = 
-    { StartTime : DateTime
+    { SnapShotRoot : FilePath
+      StartTime : DateTime
       TestHostPath : FilePath
       Solution : SolutionPaths
       DataFiles : RunDataFiles }

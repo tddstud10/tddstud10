@@ -74,7 +74,6 @@
     <Compile Include="WorkspaceDomain.fs" />
     <Compile Include="Code\PathBuilder.fs" />
     <Compile Include="Code\CollectionExtensions.fs" />
-    <Compile Include="Code\DomainExtensions.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Clide">

@@ -116,7 +116,16 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsSolutionEvents.OnAfterOpenSolution(object pUnkReserved, int fNewSolution)
         {
-            EngineLoader.Load(this, DataStore.Instance, GetSolutionPath(), DateTime.UtcNow);
+            var cfg = EngineConfigLoader.load(new EngineConfig(), FilePath.NewFilePath(GetSolutionPath()));
+            EngineLoader.Load(
+                this,
+                DataStore.Instance,
+                new EngineLoaderParams
+                {
+                    EngineConfig = cfg,
+                    SolutionPath = FilePath.NewFilePath(GetSolutionPath()),
+                    SessionStartTime = DateTime.UtcNow
+                });
             EngineLoader.EnableEngine();
 
             return VSConstants.S_OK;

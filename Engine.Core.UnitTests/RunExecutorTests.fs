@@ -7,11 +7,13 @@ open R4nd0mApps.TddStud10.Engine.TestDoubles
 open R4nd0mApps.TddStud10.Engine.TestFramework
 open System.IO
 
+let cfg = EngineConfig()
+cfg.SnapShotRoot <- "%HOMEPATH%"
 let now = DateTime.Now
 let host = new TestHost(Int32.MaxValue)
 let ex = (new InvalidOperationException("A mock method threw")) :> Exception
 let slnFile = ~~"c:\\folder\\file.sln"
-let stubRsp = RunStartParamsExtensions.create now slnFile
+let stubRsp = RunStartParams.Create cfg now slnFile
 
 let createSteps n = 
     [| for _ in 1..n do
@@ -28,7 +30,7 @@ let createRE2 h ss _ (sh : CallSpy<_>, erh : CallSpy<_>, eh : CallSpy<_>) =
     re.RunEnded.Add(eh.Func >> ignore)
     re
 
-let startRE (re : RunExecutor) = re.Start(now, slnFile)
+let startRE (re : RunExecutor) = re.Start(cfg, now, slnFile)
 
 let areRdsSimillar rd1 rd2 = 
     match rd1 with
@@ -47,20 +49,22 @@ let ``Executor initialized RunData``() =
     
     let actual = { rsp with TestHostPath = (rsp.TestHostPath |> getFileName) }
     
+    let ssRoot = Environment.ExpandEnvironmentVariables(cfg.SnapShotRoot)
     let expected = 
-        { StartTime = now
+        { SnapShotRoot = ~~ssRoot
+          StartTime = now
           TestHostPath = ~~"TddStud10.TestHost.exe"
           Solution = 
             { Path = slnFile
-              SnapshotPath = ~~"d:\\tddstud10\\folder\\file.sln"
-              BuildRoot = ~~"d:\\tddstud10\\folder\\out" }
+              SnapshotPath = ~~(ssRoot + @"\folder\file.sln")
+              BuildRoot = ~~(ssRoot + @"\folder\out") }
           DataFiles = 
-              { SequencePointStore = ~~"d:\\tddstud10\\folder\\out\\Z_sequencePointStore.xml"
-                CoverageSessionStore = ~~"d:\\tddstud10\\folder\\out\\Z_coverageresults.xml"
-                TestResultsStore = ~~"d:\\tddstud10\\folder\\out\\Z_testresults.xml"
-                DiscoveredUnitTestsStore = ~~"d:\\tddstud10\\folder\\out\\Z_discoveredUnitTests.xml"
-                DiscoveredUnitDTestsStore = ~~"d:\\tddstud10\\folder\\out\\Z_discoveredUnitDTests.xml"
-                TestFailureInfoStore = ~~"d:\\tddstud10\\folder\\out\\Z_testFailureInfo.xml" } }
+              { SequencePointStore = ~~(ssRoot + @"\folder\out\Z_sequencePointStore.xml")
+                CoverageSessionStore = ~~(ssRoot + @"\folder\out\Z_coverageresults.xml")
+                TestResultsStore = ~~(ssRoot + @"\folder\out\Z_testresults.xml")
+                DiscoveredUnitTestsStore = ~~(ssRoot + @"\folder\out\Z_discoveredUnitTests.xml")
+                DiscoveredUnitDTestsStore = ~~(ssRoot + @"\folder\out\Z_discoveredUnitDTests.xml")
+                TestFailureInfoStore = ~~(ssRoot + @"\folder\out\Z_testFailureInfo.xml") } }
     Assert.Equal(expected, actual)
     Assert.Equal(err, None)
 

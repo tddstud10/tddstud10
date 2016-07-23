@@ -15,7 +15,7 @@ type AgentMessage<'T> =
     | Pause of Duration
     | Stop of AsyncReplyChannel<unit>
 
-// NOTE: Do we need to implement IDisposable?
+// TODO: REFACTOR: Pull in Rx and replace this with Debounce.
 type StaleMessageIgnoringAgent<'T>(f) = 
     let errorEvent = Event<_>()
     

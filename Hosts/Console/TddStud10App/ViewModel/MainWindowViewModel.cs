@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Text;
-using System.Windows.Input;
-using EditorUtils;
+﻿using EditorUtils;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Threading;
@@ -13,6 +8,11 @@ using Microsoft.VisualStudio.Text.Editor;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Engine.Core;
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Text;
+using System.Windows.Input;
 
 namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
 {
@@ -214,7 +214,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
         {
             var textDocumentFactoryService = _editorHost.CompositionContainer.GetExportedValue<ITextDocumentFactoryService>();
             var textDocument = textDocumentFactoryService.CreateAndLoadTextDocument(filePath, _editorHost.ContentTypeRegistryService.GetContentType("code"));
-            var roles = new[] 
+            var roles = new[]
                 {
                     PredefinedTextViewRoles.PrimaryDocument,
                     PredefinedTextViewRoles.Document,
@@ -253,7 +253,16 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             }
 
             SolutionPath = slnPath;
-            EngineLoader.Load(this, DataStore.Instance, slnPath, DateTime.UtcNow);
+            var cfg = EngineConfigLoader.load(new EngineConfig(), FilePath.NewFilePath(slnPath));
+            EngineLoader.Load(
+                this,
+                DataStore.Instance,
+                new EngineLoaderParams
+                {
+                    EngineConfig = cfg,
+                    SolutionPath = FilePath.NewFilePath(slnPath),
+                    SessionStartTime = DateTime.UtcNow
+                });
             EngineLoader.EnableEngine();
             RaisePropertyChanged(() => EngineState);
             CommandManager.InvalidateRequerySuggested();

@@ -172,7 +172,7 @@ namespace R4nd0mApps.TddStud10.Engine
                     Environment.GetEnvironmentVariable("ProgramFiles(x86)"),
                     string.Format(@"MSBuild\{0}\Bin\msbuild.exe", host.HostVersion)),
                 string.Format(
-                    @"/m /v:minimal /p:CreateVsixContainer=false /p:DeployExtension=false /p:CopyVsixExtensionFiles=false /p:OutDir={1} {2}",
+                    @"/m /v:minimal /p:Configuration=Debug /p:CreateVsixContainer=false /p:DeployExtension=false /p:CopyVsixExtensionFiles=false /p:OutDir={1} {2}",
                     host.HostVersion.ToString(),
                     rsp.Solution.BuildRoot.Item,
                     rsp.Solution.SnapshotPath.Item)
@@ -199,15 +199,15 @@ namespace R4nd0mApps.TddStud10.Engine
 
                 var projectFile = Path.Combine(Path.GetDirectoryName(rsp.Solution.Path.Item), p.RelativePath);
                 var folder = Path.GetDirectoryName(projectFile);
-                CopyFiles(solutionGrandParentPath, folder, SearchOption.AllDirectories);
+                CopyFiles(rsp, solutionGrandParentPath, folder, SearchOption.AllDirectories);
             });
-            CopyFiles(solutionGrandParentPath, Path.GetDirectoryName(rsp.Solution.Path.Item), SearchOption.TopDirectoryOnly);
-            CopyFiles(solutionGrandParentPath, Path.Combine(Path.GetDirectoryName(rsp.Solution.Path.Item), "packages"), SearchOption.AllDirectories);
+            CopyFiles(rsp, solutionGrandParentPath, Path.GetDirectoryName(rsp.Solution.Path.Item), SearchOption.TopDirectoryOnly);
+            CopyFiles(rsp, solutionGrandParentPath, Path.Combine(Path.GetDirectoryName(rsp.Solution.Path.Item), "packages"), SearchOption.AllDirectories);
 
             return RunStepStatus.Succeeded.ToRSR(RunData.NoData, "What was done - TBD");
         }
 
-        private static void CopyFiles(string solutionGrandParentPath, string folder, SearchOption searchOpt)
+        private static void CopyFiles(RunStartParams rsp, string solutionGrandParentPath, string folder, SearchOption searchOpt)
         {
             if (!new DirectoryInfo(folder).Exists)
             {
@@ -221,7 +221,7 @@ namespace R4nd0mApps.TddStud10.Engine
                     continue;
                 }
 
-                var dst = src.ToUpperInvariant().Replace(solutionGrandParentPath.ToUpperInvariant(), PathBuilder.snapShotRoot);
+                var dst = src.ToUpperInvariant().Replace(solutionGrandParentPath.ToUpperInvariant(), rsp.SnapShotRoot.Item);
                 var srcInfo = new FileInfo(src);
                 var dstInfo = new FileInfo(dst);
 

@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.FSharp.Control;
+﻿using Microsoft.FSharp.Control;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace R4nd0mApps.TddStud10.Engine
 {
@@ -21,6 +21,13 @@ namespace R4nd0mApps.TddStud10.Engine
         void OnRunError(Exception ex);
 
         void RunEnded(RunStartParams rsp);
+    }
+
+    public class EngineLoaderParams
+    {
+        public EngineConfig EngineConfig { get; set; }
+        public FilePath SolutionPath { get; set; }
+        public DateTime SessionStartTime { get; set; }
     }
 
     // NOTE: This entity will continue to be alive till we figure out the final trigger mechanism(s)
@@ -42,9 +49,9 @@ namespace R4nd0mApps.TddStud10.Engine
         public static FSharpHandler<Exception> _onRunErrorHandler;
         public static FSharpHandler<RunStartParams> _runEndedHandler;
 
-        public static void Load(IEngineHost host, IDataStore dataStore, string solutionPath, DateTime sessionStartTimestamp)
+        public static void Load(IEngineHost host, IDataStore dataStore, EngineLoaderParams loaderParams)
         {
-            Logger.I.LogInfo("Loading Engine with solution {0}", solutionPath);
+            Logger.I.LogInfo("Loading Engine with solution {0}", loaderParams.SolutionPath);
 
             _host = host;
             _dataStore = dataStore;
@@ -77,7 +84,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 _onRunErrorHandler,
                 _runEndedHandler);
 
-            _efsWatcher = EngineFileSystemWatcher.Create(solutionPath, sessionStartTimestamp, RunEngine);
+            _efsWatcher = EngineFileSystemWatcher.Create(loaderParams, RunEngine);
         }
 
         public static bool IsEngineLoaded()
@@ -144,11 +151,11 @@ namespace R4nd0mApps.TddStud10.Engine
             return true;
         }
 
-        private static void RunEngine(DateTime runStartTime, string solutionPath)
+        private static void RunEngine(EngineLoaderParams loaderParams)
         {
             if (_runner != null)
             {
-                InvokeEngine(runStartTime, solutionPath);
+                InvokeEngine(loaderParams);
             }
             else
             {
@@ -156,7 +163,7 @@ namespace R4nd0mApps.TddStud10.Engine
             }
         }
 
-        private static void InvokeEngine(DateTime runStartTime, string solutionPath)
+        private static void InvokeEngine(EngineLoaderParams loaderParams)
         {
             try
             {
@@ -180,7 +187,7 @@ namespace R4nd0mApps.TddStud10.Engine
                     _currentRunCts.Dispose();
                 }
                 _currentRunCts = new CancellationTokenSource();
-                _currentRun = _runner.StartAsync(runStartTime, solutionPath, _currentRunCts.Token);
+                _currentRun = _runner.StartAsync(loaderParams.EngineConfig, loaderParams.SessionStartTime, loaderParams.SolutionPath, _currentRunCts.Token);
             }
             catch (Exception e)
             {

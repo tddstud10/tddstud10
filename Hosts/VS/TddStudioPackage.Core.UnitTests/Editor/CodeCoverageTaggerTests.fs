@@ -57,7 +57,7 @@ let getNSSC (DocumentCoordinate ln) (tb : ITextBuffer) =
 let createCCT s tb ta = 
     let ta : SnapshotSnapsToTagSpan<SequencePointTag> = ta
     let ds = DataStore() :> IDataStore
-    RunStartParamsExtensions.create DateTime.Now (FilePath s) |> ds.UpdateRunStartParams
+    RunStartParams.Create (EngineConfig()) DateTime.Now (FilePath s) |> ds.UpdateRunStartParams
     let tmt = CodeCoverageTagger(tb, ta, ds) :> ITagger<_>
     let spy = CallSpy1<SnapshotSpanEventArgs>(Throws(Exception()))
     tmt.TagsChanged.Add(spy.Func >> ignore)

@@ -20,7 +20,7 @@
     <AssemblyName>R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage</AssemblyName>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>..\..\..\tddstud10.snk</AssemblyOriginatorKeyFile>
-    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>    
+    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <StartAction>Program</StartAction>
     <StartProgram>$(DevEnvDir)\devenv.exe</StartProgram>

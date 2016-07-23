@@ -11,14 +11,14 @@ let inline (~~) s = FilePath s
 [<InlineData("c:\\folder\\file.sln", "d:\\tddstud10\\folder\\file.sln")>]
 [<InlineData("x:\\file.sln", "d:\\tddstud10\\file\\file.sln")>]
 let ``Tests for makeSlnSnapshotPath`` (slnPath, snapShotPath) = 
-    let (FilePath sp) = PathBuilder.makeSlnSnapshotPath (FilePath slnPath)
+    let (FilePath sp) = PathBuilder.makeSlnSnapshotPath (FilePath "d:\\tddstud10") (FilePath slnPath)
     Assert.Equal(snapShotPath, sp)
 
 [<Theory>]
-[<InlineData("c:\\folder\\file.sln", "d:\\tddstud10\\folder\\out")>]
-[<InlineData("x:\\file.sln", "d:\\tddstud10\\file\\out")>]
+[<InlineData("c:\\folder\\file.sln", "d:\\xxx\\folder\\out")>]
+[<InlineData("x:\\file.sln", "d:\\xxx\\file\\out")>]
 let ``Tests for makeSlnBuildRoot`` (slnPath, buildRoot) = 
-    let (FilePath sp) = PathBuilder.makeSlnBuildRoot (FilePath slnPath)
+    let (FilePath sp) = PathBuilder.makeSlnBuildRoot (FilePath "d:\\xxx") (FilePath slnPath)
     Assert.Equal(buildRoot, sp)
 
 [<Theory>]
