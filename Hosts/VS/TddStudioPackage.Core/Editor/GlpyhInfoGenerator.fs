@@ -26,7 +26,7 @@ let generate ((b, ts) : Rect * seq<IMappingTagSpan<IMarginGlyphTag>>) =
                 |> Seq.map (fun t -> t.testResults)
                 |> Seq.collect id
             match ccts with
-            | ts when ts |> Seq.isEmpty -> Colors.WhiteSmoke
+            | ts when ts |> Seq.isEmpty -> Colors.LightGray
             | ts when ts |> Seq.forall (fun t -> t.Outcome = DTestOutcome.TOPassed) -> Colors.Green
             | _ -> Colors.Red
         
