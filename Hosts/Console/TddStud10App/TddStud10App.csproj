@@ -42,8 +42,8 @@
     <AssemblyOriginatorKeyFile>..\..\..\tddstud10.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EditorUtils2010, Version=1.4.1.1, Culture=neutral, PublicKeyToken=3d1514c4742e0252, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\EditorUtils2010.1.4.1.1\lib\net40\EditorUtils2010.dll</HintPath>
+    <Reference Include="EditorUtils2010, Version=1.5.0.1, Culture=neutral, PublicKeyToken=3d1514c4742e0252, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EditorUtils2010.1.5.0.1\lib\net40\EditorUtils2010.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />

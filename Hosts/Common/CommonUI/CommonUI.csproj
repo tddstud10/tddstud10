@@ -107,11 +107,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RunStateToIconTextConverter.cs" />
-    <Compile Include="RunStateToIconColorConverter.cs" />
-    <Compile Include="RunStateToAnimationStateConverter.cs" />
-    <Compile Include="StatusBarNotificationIcon.xaml.cs">
-      <DependentUpon>StatusBarNotificationIcon.xaml</DependentUpon>
+    <Compile Include="StatusBar\RunStateToIconTextConverter.cs" />
+    <Compile Include="StatusBar\RunStateToIconColorConverter.cs" />
+    <Compile Include="StatusBar\RunStateToAnimationStateConverter.cs" />
+    <Compile Include="StatusBar\NotificationIcon.xaml.cs">
+      <DependentUpon>NotificationIcon.xaml</DependentUpon>
     </Compile>
     <Compile Include="TestCode\FakeMappingSpan.cs" />
     <Compile Include="TestCode\FakeMappingTagSpan.cs" />
@@ -125,7 +125,7 @@
     <Compile Include="TestCode\FakeWpfTextView.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="StatusBarNotificationIcon.xaml">
+    <Page Include="StatusBar\NotificationIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

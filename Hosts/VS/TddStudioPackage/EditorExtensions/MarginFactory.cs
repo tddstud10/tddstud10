@@ -23,7 +23,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 
         public IWpfTextViewMargin CreateMargin(IWpfTextViewHost textViewHost, IWpfTextViewMargin containerMargin)
         {
-            var menuCmdService = TddStud10Package.Instance.GetService<IMenuCommandService>();
+            var menuCmdService = TddStud10Package.Instance != null ? TddStud10Package.Instance.GetService<IMenuCommandService>() : null;
             if (menuCmdService == null)
             {
                 Logger.I.LogError("Unable to get IMenuCommandService. Context menus will be disabled!");

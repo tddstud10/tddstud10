@@ -2,11 +2,11 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace R4nd0mApps.TddStud10.Hosts.Common
+namespace R4nd0mApps.TddStud10.Hosts.Common.StatusBar
 {
-    public partial class StatusBarNotificationIcon : UserControl
+    public partial class NotificationIcon : UserControl
     {
-        public StatusBarNotificationIcon()
+        public NotificationIcon()
         {
             InitializeComponent();
         }
@@ -18,7 +18,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common
         }
 
         public static readonly DependencyProperty AnimateProperty =
-            DependencyProperty.Register("Animate", typeof(bool), typeof(StatusBarNotificationIcon), new PropertyMetadata(RunStateToAnimationStateConverter.AnimationOff));
+            DependencyProperty.Register("Animate", typeof(bool), typeof(NotificationIcon), new PropertyMetadata(RunStateToAnimationStateConverter.AnimationOff));
 
         public SolidColorBrush IconColor
         {
@@ -27,7 +27,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common
         }
 
         public static readonly DependencyProperty IconColorProperty =
-            DependencyProperty.Register("IconColor", typeof(SolidColorBrush), typeof(StatusBarNotificationIcon), new PropertyMetadata(new SolidColorBrush(RunStateToIconColorConverter.ColorForUnknown)));
+            DependencyProperty.Register("IconColor", typeof(SolidColorBrush), typeof(NotificationIcon), new PropertyMetadata(new SolidColorBrush(RunStateToIconColorConverter.ColorForUnknown)));
 
         public string IconText
         {
@@ -36,6 +36,6 @@ namespace R4nd0mApps.TddStud10.Hosts.Common
         }
 
         public static readonly DependencyProperty IconTextProperty =
-            DependencyProperty.Register("IconText", typeof(string), typeof(StatusBarNotificationIcon), new PropertyMetadata(RunStateToIconTextConverter.TextForUnknown));
+            DependencyProperty.Register("IconText", typeof(string), typeof(NotificationIcon), new PropertyMetadata(RunStateToIconTextConverter.TextForUnknown));
     }
 }
