@@ -8,6 +8,7 @@
   xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:StatusBar="clr-namespace:R4nd0mApps.TddStud10.Hosts.Common.StatusBar;assembly=R4nd0mApps.TddStud10.Hosts.CommonUI"
+  xmlns:CoveringTests="clr-namespace:R4nd0mApps.TddStud10.Hosts.Common.CoveringTests;assembly=R4nd0mApps.TddStud10.Hosts.CommonUI"
   Title="TddStud10 Console" Height="350" Width="721.575"
   WindowState="Maximized"
   DataContext="{Binding Path=Main, Source={StaticResource Locator}}">
@@ -33,6 +34,7 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition Height="5*"/>
       <RowDefinition Height="2*"/>
       <RowDefinition Height="Auto"/>
@@ -45,11 +47,15 @@
         <MenuItem Header="_Open File" Command="{Binding OpenFileCommand}" />
         <MenuItem Header="Open _Project/Solution" Command="{Binding OpenSolutionCommand}" />
         <Separator />
-        <MenuItem Header="Save _All Files" Command="{Binding SaveFileCommand}" />
+        <MenuItem Header="Save _All Files" Command="{Binding SaveAllCommand}" />
       </MenuItem>
     </Menu>
-    <Grid
+    <CoveringTests:MainUserControl
       Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="1"
+    >
+    </CoveringTests:MainUserControl>
+    <Grid
+      Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="1"
     >
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"/>
@@ -79,7 +85,7 @@
         Text="{Binding Mode=TwoWay, Path=SolutionPath}" IsReadOnly="True" />
     </Grid>
     <TabControl
-      Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="1"
+      Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="1"
       ItemsSource="{Binding Path=Tabs}" 
       SelectedItem="{Binding Path=SelectedTab}"
     >
@@ -97,7 +103,7 @@
       </TabControl.ContentTemplate>
     </TabControl>
     <Grid
-      Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="1"
+      Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan="1"
     >
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*"/>
@@ -119,7 +125,7 @@
         Text="{Binding Mode=OneWay, Path=StepResultAddendum}" />
     </Grid>
     <Grid
-      Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan="1"
+      Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3" Grid.RowSpan="1"
     >
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*"/>

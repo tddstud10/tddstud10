@@ -6,7 +6,6 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-  xmlns:local="clr-namespace:R4nd0mApps.TddStud10.Hosts.Common"
   mc:Ignorable="d"
   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
   MinHeight="21" MinWidth="21"
