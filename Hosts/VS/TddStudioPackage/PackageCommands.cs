@@ -138,9 +138,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             var tsts = from mt in mgts
                        let tt = mt as CodeCoverageTag
                        where tt != null
-                       let x = from tc in tt.testResults
+                       let x = from tc in tt.CCTTestResults
                                select tc.TestCase
-                       select new { sp = tt.sp, tests = x.FirstOrDefault() };
+                       select new { sp = tt.CCTSeqPoint, tests = x.FirstOrDefault() };
 
             if (!tsts.Any())
             {

@@ -23,7 +23,7 @@ let generate ((b, ts) : Rect * seq<IMappingTagSpan<IMarginGlyphTag>>) =
             let ccts = 
                 gs
                 |> tryGetTags<CodeCoverageTag>
-                |> Seq.map (fun t -> t.testResults)
+                |> Seq.map (fun t -> t.CCTTestResults)
                 |> Seq.collect id
             match ccts with
             | ts when ts |> Seq.isEmpty -> Colors.LightGray

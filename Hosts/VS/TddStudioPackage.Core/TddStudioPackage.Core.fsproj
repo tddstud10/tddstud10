@@ -82,8 +82,24 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>..\..\..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras">
+      <HintPath>..\..\..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform">
+      <HintPath>..\..\..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
       <HintPath>..\..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.0.26\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.CoreUtility">
@@ -120,6 +136,10 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\..\..\packages\MvvmLightLibs.5.1.1.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
@@ -133,6 +153,11 @@
     <ProjectReference Include="..\..\..\Engine.Core\Engine.Core.fsproj">
       <Name>Engine.Core</Name>
       <Project>{e5fb2292-1833-4c4c-800e-a31ac891a931}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\CommonUI\CommonUI.csproj">
+      <Name>CommonUI</Name>
+      <Project>{c578a684-2fff-4100-8620-c1220d05ea3e}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

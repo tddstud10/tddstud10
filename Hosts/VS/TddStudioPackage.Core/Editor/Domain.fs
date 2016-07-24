@@ -22,8 +22,8 @@ type FailurePointTag =
     interface IMarginGlyphTag
 
 type CodeCoverageTag = 
-    { sp : SequencePoint
-      testResults : DTestResult seq }
+    { CCTSeqPoint : SequencePoint
+      CCTTestResults : DTestResult seq }
     interface IMarginGlyphTag
 
 (* NOTE: This should have an 1-1 mapping with the FrameworkElement being displayed in the Margin Canvas. 

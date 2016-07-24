@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
-using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core.Editor;
 using System;
 using System.ComponentModel.Composition;
@@ -21,10 +20,12 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
         [Import]
         private IBufferTagAggregatorFactoryService _aggregatorFactory = null;
 
+        [Import]
+        public IMenuCommandService _menuCmdService = null;
+
         public IWpfTextViewMargin CreateMargin(IWpfTextViewHost textViewHost, IWpfTextViewMargin containerMargin)
         {
-            var menuCmdService = TddStud10Package.Instance != null ? TddStud10Package.Instance.GetService<IMenuCommandService>() : null;
-            if (menuCmdService == null)
+            if (_menuCmdService == null)
             {
                 Logger.I.LogError("Unable to get IMenuCommandService. Context menus will be disabled!");
             }
@@ -32,8 +33,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
             return new Margin(
                 textViewHost.TextView,
                 _aggregatorFactory.CreateTagAggregator<IMarginGlyphTag>(textViewHost.TextView.TextBuffer),
-                menuCmdService != null
-                    ? menuCmdService.ShowContextMenu
+                _menuCmdService != null
+                    ? _menuCmdService.ShowContextMenu
                     : new Action<CommandID, int, int>((_, __, ___) => { }));
         }
     }

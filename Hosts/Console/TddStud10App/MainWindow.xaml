@@ -34,7 +34,6 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
       <RowDefinition Height="5*"/>
       <RowDefinition Height="2*"/>
       <RowDefinition Height="Auto"/>
@@ -50,12 +49,8 @@
         <MenuItem Header="Save _All Files" Command="{Binding SaveAllCommand}" />
       </MenuItem>
     </Menu>
-    <CoveringTests:MainUserControl
-      Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="1"
-    >
-    </CoveringTests:MainUserControl>
     <Grid
-      Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="1"
+      Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="1"
     >
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"/>
@@ -85,7 +80,7 @@
         Text="{Binding Mode=TwoWay, Path=SolutionPath}" IsReadOnly="True" />
     </Grid>
     <TabControl
-      Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="1"
+      Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="1"
       ItemsSource="{Binding Path=Tabs}" 
       SelectedItem="{Binding Path=SelectedTab}"
     >
@@ -103,7 +98,7 @@
       </TabControl.ContentTemplate>
     </TabControl>
     <Grid
-      Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan="1"
+      Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Grid.RowSpan="1"
     >
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*"/>
@@ -125,7 +120,7 @@
         Text="{Binding Mode=OneWay, Path=StepResultAddendum}" />
     </Grid>
     <Grid
-      Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3" Grid.RowSpan="1"
+      Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan="1"
     >
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*"/>

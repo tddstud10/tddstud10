@@ -47,8 +47,8 @@ type CodeCoverageTagger(buffer : ITextBuffer, getspt : SnapshotSnapsToTagSpan<Se
                        |> Seq.collect id)
                 |> Seq.map (fun (tsp, trs) -> 
                        TagSpan<_>(tsp.Span, 
-                                  { CodeCoverageTag.sp = tsp.Tag.sp
-                                    testResults = trs }) :> ITagSpan<_>)
+                                  { CodeCoverageTag.CCTSeqPoint = tsp.Tag.sp
+                                    CCTTestResults = trs }) :> ITagSpan<_>)
             buffer.FilePath |> Option.fold getTags Seq.empty
         
         [<CLIEvent>]

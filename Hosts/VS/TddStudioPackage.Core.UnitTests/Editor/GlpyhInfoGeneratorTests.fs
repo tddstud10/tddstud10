@@ -64,8 +64,8 @@ let newCCT (tctrs : seq<SimpleTestCase * SimpleTestResult>) =
           endColumn = DocumentCoordinate 100 }
     
     let trs = tctrs |> Seq.fold (fun acc (tc, tr) -> (tc.toTC() |> tr.toTR) :: acc) []
-    cct.Tag <- { sp = sp
-                 testResults = trs }
+    cct.Tag <- { CCTSeqPoint = sp
+                 CCTTestResults = trs }
     cct :> IMappingTagSpan<_>
 
 [<Fact>]

@@ -8,63 +8,66 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
     mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="600"
-    DataContext="{Binding Main, Source={StaticResource CoveringTestsVMLocator}}">
+    Width="500" Height="200"
+>
+    <!--DataContext="{Binding Main, Source={StaticResource CoveringTestsVMLocator}}"-->
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
-        <!--<Style x:Key={x:Type Hyperlink}" TargetType="Hyperlink">
-            <Setter Property="TextDecorations"
-           Value="{x:Null}" />
-        </Style>-->
-        
-        <!--<Style TargetType="{x:Type Hyperlink}">
-            <Setter Property="TextBlock.TextDecorations" Value="{x:Null}" />
-        </Style>-->
     </UserControl.Resources>
     <Grid>
-        <ListView 
-            ItemsSource="{Binding CoveringTests}" 
-            HorizontalContentAlignment="Stretch"
-        >
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Image
-                            Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                            Source="Resources/testresultfailed.png"
-                            Width="16" Height="16" Margin="3"
-                        />
-                        <TextBlock
-                            Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                            Text="{Binding Path=DisplayName}"
-                        />
-                        <TextBlock
-                            Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                        >
-                            <TextBlock.Style>
-                                <Style>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=DetailsVisible}" Value="False">
-                                            <Setter Property="TextBlock.Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Path=DetailsVisible}" Value="True">
-                                            <Setter Property="TextBlock.Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
+        <Path 
+            Data="M 0 0 L 8 8 M 0 8 L 8 0" 
+            Fill="Blue" 
+            Stroke="Blue" 
+            StrokeThickness="2.0" MouseDown="Path_MouseDown" />
+        <Popup Name="MyPopup" Placement="Mouse">
+            <ListView 
+                ItemsSource="{Binding CoveringTests}" 
+                HorizontalContentAlignment="Stretch"
+            >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Image
+                                Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                                Source="Resources/testresultfailed.png"
+                                Width="16" Height="16" Margin="3"
+                            />
+                            <TextBox 
+                                Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Text="{Binding Path=DisplayName, Mode=OneWay}"
+                                IsReadOnly="True"
+                                TextWrapping="Wrap" 
+                            />
+                            <TextBlock
+                                Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                            >
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=DetailsVisible}" Value="False">
+                                                <Setter Property="TextBlock.Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=DetailsVisible}" Value="True">
+                                                <Setter Property="TextBlock.Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
                             <Hyperlink TextDecorations="{x:Null}" Command="{Binding ShowDetailsCommand}">
                                 <Image
                                     Source="Resources/actionexpand.png"
@@ -72,22 +75,22 @@
                                     ToolTip="More info"
                                 />
                             </Hyperlink>
-                        </TextBlock>
-                        <TextBlock
-                            Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                        >
-                            <TextBlock.Style>
-                                <Style>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Path=DetailsVisible}" Value="False">
-                                            <Setter Property="TextBlock.Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Path=DetailsVisible}" Value="True">
-                                            <Setter Property="TextBlock.Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock
+                                Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                            >
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=DetailsVisible}" Value="False">
+                                                <Setter Property="TextBlock.Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=DetailsVisible}" Value="True">
+                                                <Setter Property="TextBlock.Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
                             <Hyperlink TextDecorations="{x:Null}" Command="{Binding ShowDetailsCommand}">
                                 <Image
                                     Source="Resources/actioncollapse.png"
@@ -95,10 +98,10 @@
                                     ToolTip="Less info"
                                 />
                             </Hyperlink>
-                        </TextBlock>
-                        <TextBlock
-                            Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                        >
+                            </TextBlock>
+                            <TextBlock
+                                Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                            >
                             <Hyperlink TextDecorations="{x:Null}" Command="{Binding GotoTestCommand}">
                                 <Image
                                     Source="Resources/actiongototest.png"
@@ -106,10 +109,10 @@
                                     ToolTip="Go to test..."
                                 />
                             </Hyperlink>
-                        </TextBlock>
-                        <TextBlock
-                            Grid.Column="5" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                        >
+                            </TextBlock>
+                            <TextBlock
+                                Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                            >
                             <Hyperlink TextDecorations="{x:Null}" Command="{Binding StartWithDebuggingCommand}">
                                 <Image
                                     Source="Resources/actionstartwithdebug.png"
@@ -117,10 +120,10 @@
                                     ToolTip="Run test under debugger..."
                                 />
                             </Hyperlink>
-                        </TextBlock>
-                        <TextBlock
-                            Grid.Column="6" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                        >
+                            </TextBlock>
+                            <TextBlock
+                                Grid.Column="5" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                            >
                             <Hyperlink TextDecorations="{x:Null}" Command="{Binding StartWithoutDebuggingCommand}">
                                 <Image
                                     Source="Resources/actionstartwithoutdebug.png"
@@ -128,34 +131,38 @@
                                     ToolTip="Run test..."
                                 />
                             </Hyperlink>
-                        </TextBlock>
-                        <Grid
-                            Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="1"
-                            Visibility="{Binding Path=DetailsVisible, Converter={StaticResource BoolToVisibility}}"
-                        >
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1*"/>
-                                <RowDefinition Height="4*"/>
-                            </Grid.RowDefinitions>
-                            <ScrollViewer
-                                Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                            </TextBlock>
+                            <Grid
+                                Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="1"
+                                Visibility="{Binding Path=DetailsVisible, Converter={StaticResource BoolToVisibility}}"
                             >
-                                <TextBlock
-                                    Text="{Binding Path=ErrorMessage}"
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBox 
+                                    Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Text="{Binding Path=ErrorMessage, Mode=OneWay}"
+                                    IsReadOnly="True"
+                                    TextWrapping="Wrap" 
+                                    MaxWidth="500" MaxHeight="200"
                                 />
-                            </ScrollViewer>
-                            <ScrollViewer
-                                Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                            >
-                                <TextBlock
-                                    Text="{Binding Path=ErrorStackTrace}"
+                                <TextBox 
+                                    Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Text="{Binding Path=ErrorStackTrace, Mode=OneWay}"
+                                    IsReadOnly="True"
+                                    TextWrapping="Wrap" 
+                                    MaxWidth="500" MaxHeight="200"
                                 />
-                            </ScrollViewer>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Popup>
     </Grid>
 </UserControl>
