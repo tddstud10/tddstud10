@@ -7,34 +7,48 @@
     xmlns:local="clr-namespace:R4nd0mApps.TddStud10.Hosts.Common.CoveringTests"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
-    mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="600"
-    Width="500" Height="200"
 >
-    <!--DataContext="{Binding Main, Source={StaticResource CoveringTestsVMLocator}}"-->
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
     </UserControl.Resources>
     <Grid>
         <Path 
-            Data="M 0 0 L 8 8 M 0 8 L 8 0" 
-            Fill="Blue" 
-            Stroke="Blue" 
-            StrokeThickness="2.0" MouseDown="Path_MouseDown" />
-        <Popup Name="MyPopup" Placement="Mouse">
+            Data="{Binding Path=GlyphShape}" 
+            Fill="{Binding Path=GlyphColor}" 
+            Stroke="{Binding Path=GlyphColor}" 
+            StrokeThickness="{Binding Path=GlyphStrokeThickness}"
+        >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDown" >
+                    <i:InvokeCommandAction Command="{Binding ShowPopupCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Path>
+        <Popup 
+            IsOpen="{Binding PopupVisible}"
+            StaysOpen="False" 
+            Placement="MousePoint"
+            HorizontalOffset="-2"
+            VerticalOffset="-2"
+            AllowsTransparency="True"
+            PopupAnimation="Fade"
+        >
             <ListView 
                 ItemsSource="{Binding CoveringTests}" 
                 HorizontalContentAlignment="Stretch"
+                MinWidth="500"
+                MaxHeight="200"
             >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -42,65 +56,49 @@
                             </Grid.RowDefinitions>
                             <Image
                                 Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                                Source="Resources/testresultfailed.png"
                                 Width="16" Height="16" Margin="3"
-                            />
-                            <TextBox 
+                            >
+                                <Image.Style>
+                                    <Style>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=TestPassed}" Value="True">
+                                                <Setter Property="Image.Source" Value="Resources/testresultpassed.png"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=TestPassed}" Value="null">
+                                                <Setter Property="Image.Source" Value="Resources/testresultunknown.png"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=TestPassed}" Value="False">
+                                                <Setter Property="Image.Source" Value="Resources/testresultfailed.png"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                            <TextBlock
                                 Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                Text="{Binding Path=DisplayName, Mode=OneWay}"
-                                IsReadOnly="True"
-                                TextWrapping="Wrap" 
-                            />
-                            <TextBlock
-                                Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
                             >
-                                <TextBlock.Style>
-                                    <Style>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=DetailsVisible}" Value="False">
-                                                <Setter Property="TextBlock.Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Path=DetailsVisible}" Value="True">
-                                                <Setter Property="TextBlock.Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            <Hyperlink TextDecorations="{x:Null}" Command="{Binding ShowDetailsCommand}">
-                                <Image
-                                    Source="Resources/actionexpand.png"
-                                    Width="16" Height="16" Margin="3"
-                                    ToolTip="More info"
-                                />
-                            </Hyperlink>
+                                <Hyperlink TextDecorations="{x:Null}" Command="{Binding ShowDetailsCommand}">
+                                    <Image
+                                        Width="16" Height="16" Margin="3"
+                                        ToolTip="More info"
+                                    >
+                                        <Image.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=DetailsVisible}" Value="True">
+                                                        <Setter Property="Image.Source" Value="Resources/actioncollapse.png"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Path=DetailsVisible}" Value="False">
+                                                        <Setter Property="Image.Source" Value="Resources/actionexpand.png"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                </Hyperlink>
                             </TextBlock>
                             <TextBlock
                                 Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                            >
-                                <TextBlock.Style>
-                                    <Style>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=DetailsVisible}" Value="False">
-                                                <Setter Property="TextBlock.Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Path=DetailsVisible}" Value="True">
-                                                <Setter Property="TextBlock.Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            <Hyperlink TextDecorations="{x:Null}" Command="{Binding ShowDetailsCommand}">
-                                <Image
-                                    Source="Resources/actioncollapse.png"
-                                    Width="16" Height="16" Margin="3"
-                                    ToolTip="Less info"
-                                />
-                            </Hyperlink>
-                            </TextBlock>
-                            <TextBlock
-                                Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
                             >
                             <Hyperlink TextDecorations="{x:Null}" Command="{Binding GotoTestCommand}">
                                 <Image
@@ -111,7 +109,7 @@
                             </Hyperlink>
                             </TextBlock>
                             <TextBlock
-                                Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                                Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
                             >
                             <Hyperlink TextDecorations="{x:Null}" Command="{Binding StartWithDebuggingCommand}">
                                 <Image
@@ -122,7 +120,7 @@
                             </Hyperlink>
                             </TextBlock>
                             <TextBlock
-                                Grid.Column="5" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                                Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
                             >
                             <Hyperlink TextDecorations="{x:Null}" Command="{Binding StartWithoutDebuggingCommand}">
                                 <Image
@@ -132,8 +130,16 @@
                                 />
                             </Hyperlink>
                             </TextBlock>
+                            <TextBox 
+                                Grid.Column="5" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Text="{Binding Path=DisplayName, Mode=OneWay}"
+                                IsReadOnly="True"
+                                TextWrapping="Wrap" 
+                            />
                             <Grid
-                                Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="1"
+                                Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="5" Grid.RowSpan="1"
                                 Visibility="{Binding Path=DetailsVisible, Converter={StaticResource BoolToVisibility}}"
                             >
                                 <Grid.RowDefinitions>

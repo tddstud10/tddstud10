@@ -16,26 +16,18 @@ let generate (showCM : Action<CommandID, int, int>) getZL ((b, gi) : Rect * Marg
         ContextMenuData.Instance.GlyphTags <- t
         showCM.Invoke(menuID, int p.X, int p.Y)
     
-//    let e = 
-//        let p = Path()
-//        let gWidth = MarginConstants.Width * MarginConstants.GlyphWidthMarginWidthRatio * getZL()
-//        match gi.glyphType with
-//        | TestStart -> 
-//            p.Data <- Geometry.Parse
-//                          (String.Format("M {1} 0 L {0} {1} L {1} {0} M 0 {1} L {0} {1}", gWidth, gWidth / 2.0))
-//        | FailurePoint -> p.Data <- Geometry.Parse(String.Format("M 0 0 L {0} {0} M 0 {0} L {0} 0", gWidth))
-//        | CodeCoverage -> p.Data <- Geometry.Parse(String.Format("M 0 0 H {0} V {0} H 0 V 0", gWidth))
-//        p :> Shape
-//    
-//    e.Fill <- SolidColorBrush(gi.color)
-//    e.Stroke <- SolidColorBrush(gi.color)
-//    e.StrokeThickness <- 2.0 * getZL()
-//    e.MouseRightButtonUp.Add(showContextMenu gi.glyphTags e)
     let e = MainUserControl()
+    let geo =
+        let gWidth = MarginConstants.Width * MarginConstants.GlyphWidthMarginWidthRatio * getZL()
+        match gi.glyphType with
+        | TestStart -> Geometry.Parse(String.Format("M {1} 0 L {0} {1} L {1} {0} M 0 {1} L {0} {1}", gWidth, gWidth / 2.0))
+        | FailurePoint -> Geometry.Parse(String.Format("M 0 0 L {0} {0} M 0 {0} L {0} 0", gWidth))
+        | CodeCoverage -> Geometry.Parse(String.Format("M 0 0 H {0} V {0} H 0 V 0", gWidth))
+
     let ctrs = 
         gi.glyphTags 
         |> Seq.filter (fun it -> it :? CodeCoverageTag)
         |> Seq.map (fun it -> it :?> CodeCoverageTag)
         |> Seq.collect (fun it -> it.CCTTestResults)
-    e.DataContext <- MainViewModel(ctrs)
+    e.DataContext <- MainViewModel(geo, gi.color, 2.0 * getZL(), ctrs)
     b, e :> FrameworkElement

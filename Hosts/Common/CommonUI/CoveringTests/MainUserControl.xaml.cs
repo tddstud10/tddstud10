@@ -11,10 +11,5 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests
         {
             InitializeComponent();
         }
-
-        private void Path_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            MyPopup.IsOpen = true;
-        }
     }
 }

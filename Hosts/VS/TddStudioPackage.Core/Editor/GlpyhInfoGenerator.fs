@@ -45,5 +45,4 @@ let generate ((b, ts) : Rect * seq<IMappingTagSpan<IMarginGlyphTag>>) =
              { color = color
                glyphType = glyphType
                glyphTags = ts |> Seq.map (fun t -> t.Tag)
-               toolTipText = ""
                contextMenu = CommandID(Guid(PkgGuids.GuidGlyphContextCmdSet), PkgCmdID.GlyphContextMenu |> int) })

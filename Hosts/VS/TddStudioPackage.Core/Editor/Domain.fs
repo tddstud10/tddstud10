@@ -37,5 +37,4 @@ type MarginGlyphInfo =
     { color : Color
       glyphType : MarginGlyphType
       glyphTags : IMarginGlyphTag seq
-      toolTipText : string
       contextMenu : CommandID }

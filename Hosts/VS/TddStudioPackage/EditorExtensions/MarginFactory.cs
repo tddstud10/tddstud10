@@ -20,7 +20,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
         [Import]
         private IBufferTagAggregatorFactoryService _aggregatorFactory = null;
 
-        [Import]
+        //[Import]
         public IMenuCommandService _menuCmdService = null;
 
         public IWpfTextViewMargin CreateMargin(IWpfTextViewHost textViewHost, IWpfTextViewMargin containerMargin)

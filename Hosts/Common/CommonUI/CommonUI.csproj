@@ -128,7 +128,6 @@
     <Compile Include="TestCode\FakeTextDocument.cs" />
     <Compile Include="TestCode\FakeTextSnapshot.cs" />
     <Compile Include="TestCode\FakeTextSnapshotLine.cs" />
-    <Compile Include="TestCode\SpyVsTrackProjectDocuments2.cs" />
     <Compile Include="TestCode\FakeWpfTextViewLine.cs" />
     <Compile Include="TestCode\FakeWpfTextView.cs" />
     <Compile Include="CoveringTests\ViewModel\MainViewModel.cs" />
