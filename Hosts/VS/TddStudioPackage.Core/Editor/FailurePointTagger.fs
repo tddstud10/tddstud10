@@ -43,7 +43,7 @@ type FailurePointTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
                        |> Seq.isEmpty
                        |> not)
                 |> Seq.map 
-                       (fun (s, tfis) -> TagSpan<_>(SnapshotSpan(s.Start, s.Length), { tfis = tfis }) :> ITagSpan<_>)
+                       (fun (s, tfis) -> TagSpan<_>(SnapshotSpan(s.Start, s.Length), { Tfis = tfis }) :> ITagSpan<_>)
             buffer.FilePath |> Option.fold getTags Seq.empty
         
         [<CLIEvent>]

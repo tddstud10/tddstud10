@@ -17,13 +17,13 @@ let getMTSForline (ss : SnapshotSpan) : IMappingTagSpan<_> seq =
     let mts = FakeMappingTagSpan<TestStartTag>()
     
     let f () p = 
-        mts.Tag <- { testCases = 
+        mts.Tag <- { TstTestCases = 
                          [ { FullyQualifiedName = "FQN:" + ss.GetText()
                              DisplayName = ""
                              Source = FilePath "source"
                              CodeFilePath = FilePath ""
                              LineNumber = DocumentCoordinate 0 } ]
-                     location = 
+                     TstLocation = 
                          { document = p
                            line = DocumentCoordinate(ss.Start.GetContainingLine().LineNumber + 1) } }
     ss.Snapshot.TextBuffer.FilePath |> Option.fold f ()

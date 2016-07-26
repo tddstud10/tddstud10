@@ -72,7 +72,7 @@ let createCCT2 (tb : ITextBuffer) (DocumentCoordinate ln) sps =
         it :> seq<TagSpan<_>>
     
     let nssc = tb |> getNSSC (DocumentCoordinate ln)
-    let tss = sps |> List.map (fun sp -> TagSpan<SequencePointTag>(nssc.[0], { sp = sp }))
+    let tss = sps |> List.map (fun sp -> TagSpan<SequencePointTag>(nssc.[0], { SptSequencePoint = sp }))
     let ds, _, cct, _ = createCCT "a.sln" tb (getspt ln tss)
     ds, cct, nssc
 
@@ -140,16 +140,16 @@ let ``If SequencePoint has no test covering it - return empty``() =
     let ds, cct, nssc = createCCT2 stubSpidXTb stubSpidXLineNumber [ stubSp1 ]
     ds |> updateCoverageInfo [ stubSpid2, [] ]
     let ts = cct.GetTags(nssc) |> Seq.toArray
-    Assert.Equal((1, 0), (ts.Length, ts.[0].Tag.CCTTestResults |> Seq.length))
-    Assert.Equal([| |], ts.[0].Tag.CCTTestResults |> Seq.map SimpleTestResult.fromTR)
+    Assert.Equal((1, 0), (ts.Length, ts.[0].Tag.CctTestResults |> Seq.length))
+    Assert.Equal([| |], ts.[0].Tag.CctTestResults |> Seq.map SimpleTestResult.fromTR)
 
 [<Fact>]
 let ``If SequencePoint has no tests covering it but DataStore does have TestId and TestResult - return empty``() = 
     let ds, cct, nssc = createCCT2 stubSpidXTb stubSpidXLineNumber [ stubSp1 ]
     ds |> updateCoverageInfo [ stubSpid2, [ (stubTC1, Some stubTR1) ] ]
     let ts = cct.GetTags(nssc) |> Seq.toArray
-    Assert.Equal((1, 0), (ts.Length, ts.[0].Tag.CCTTestResults |> Seq.length))
-    Assert.Equal([| |], ts.[0].Tag.CCTTestResults |> Seq.map SimpleTestResult.fromTR)
+    Assert.Equal((1, 0), (ts.Length, ts.[0].Tag.CctTestResults |> Seq.length))
+    Assert.Equal([| |], ts.[0].Tag.CctTestResults |> Seq.map SimpleTestResult.fromTR)
     Assert.Equal([| stubTC1.toTID() |], 
                  stubSpid2
                  |> ds.GetRunIdsForTestsCoveringSequencePointId
@@ -160,17 +160,17 @@ let ``If SequencePoint has 1 TestId covering it but with 1 TestResults - return 
     let ds, cct, nssc = createCCT2 stubSpidXTb stubSpidXLineNumber [ stubSp1 ]
     ds |> updateCoverageInfo [ stubSpid1, [ (stubTC1, Some stubTR1) ] ]
     let ts = cct.GetTags(nssc) |> Seq.toArray
-    Assert.Equal((1, 1), (ts.Length, ts.[0].Tag.CCTTestResults |> Seq.length))
-    Assert.Equal([| stubTR1 |], ts.[0].Tag.CCTTestResults |> Seq.map SimpleTestResult.fromTR)
-    Assert.Equal([| stubTC1 |], ts.[0].Tag.CCTTestResults |> Seq.map (fun tr -> tr.TestCase |> SimpleTestCase.fromTC))
+    Assert.Equal((1, 1), (ts.Length, ts.[0].Tag.CctTestResults |> Seq.length))
+    Assert.Equal([| stubTR1 |], ts.[0].Tag.CctTestResults |> Seq.map SimpleTestResult.fromTR)
+    Assert.Equal([| stubTC1 |], ts.[0].Tag.CctTestResults |> Seq.map (fun tr -> tr.TestCase |> SimpleTestCase.fromTC))
 
 [<Fact>]
 let ``If SequencePoint has 1 TestId covering it but with 0 TestResults - return empty``() = 
     let ds, cct, nssc = createCCT2 stubSpidXTb stubSpidXLineNumber [ stubSp1 ]
     ds |> updateCoverageInfo [ stubSpid1, [ (stubTC1, None) ] ]
     let ts = cct.GetTags(nssc) |> Seq.toArray
-    Assert.Equal((1, 0), (ts.Length, ts.[0].Tag.CCTTestResults |> Seq.length))
-    Assert.Equal([| |], ts.[0].Tag.CCTTestResults |> Seq.map SimpleTestResult.fromTR)
+    Assert.Equal((1, 0), (ts.Length, ts.[0].Tag.CctTestResults |> Seq.length))
+    Assert.Equal([| |], ts.[0].Tag.CctTestResults |> Seq.map SimpleTestResult.fromTR)
 
 [<Fact>]
 let ``If SequencePoint has 1 TestId covering it but with 2 TestResults - return all TestResults``() = 
@@ -179,10 +179,10 @@ let ``If SequencePoint has 1 TestId covering it but with 2 TestResults - return 
                                [ (stubTC1, Some stubTR1)
                                  (stubTC1, Some stubTR2) ] ]
     let ts = cct.GetTags(nssc) |> Seq.toArray
-    Assert.Equal((1, 2), (ts.Length, ts.[0].Tag.CCTTestResults |> Seq.length))
-    Assert.Equal([| stubTR2; stubTR1 |], ts.[0].Tag.CCTTestResults |> Seq.map SimpleTestResult.fromTR)
+    Assert.Equal((1, 2), (ts.Length, ts.[0].Tag.CctTestResults |> Seq.length))
+    Assert.Equal([| stubTR2; stubTR1 |], ts.[0].Tag.CctTestResults |> Seq.map SimpleTestResult.fromTR)
     Assert.Equal
-        ([| stubTC1; stubTC1 |], ts.[0].Tag.CCTTestResults |> Seq.map (fun tr -> tr.TestCase |> SimpleTestCase.fromTC))
+        ([| stubTC1; stubTC1 |], ts.[0].Tag.CctTestResults |> Seq.map (fun tr -> tr.TestCase |> SimpleTestCase.fromTC))
 
 [<Fact>]
 let ``If SequencePoint has 2 TestId covering it but with 1 TestResults each - return all TestResults``() = 
@@ -191,10 +191,10 @@ let ``If SequencePoint has 2 TestId covering it but with 1 TestResults each - re
                                [ (stubTC1, Some stubTR1)
                                  (stubTC2, Some stubTR2) ] ]
     let ts = cct.GetTags(nssc) |> Seq.toArray
-    Assert.Equal((1, 2), (ts.Length, ts.[0].Tag.CCTTestResults |> Seq.length))
-    Assert.Equal([| stubTR2; stubTR1 |], ts.[0].Tag.CCTTestResults |> Seq.map SimpleTestResult.fromTR)
+    Assert.Equal((1, 2), (ts.Length, ts.[0].Tag.CctTestResults |> Seq.length))
+    Assert.Equal([| stubTR2; stubTR1 |], ts.[0].Tag.CctTestResults |> Seq.map SimpleTestResult.fromTR)
     Assert.Equal
-        ([| stubTC2; stubTC1 |], ts.[0].Tag.CCTTestResults |> Seq.map (fun tr -> tr.TestCase |> SimpleTestCase.fromTC))
+        ([| stubTC2; stubTC1 |], ts.[0].Tag.CctTestResults |> Seq.map (fun tr -> tr.TestCase |> SimpleTestCase.fromTC))
 
 [<Fact>]
 let ``If 2 SequencePoints have 1 TestId each covering it and with 1 TestResults each each with different TestOutcomes - return all of them``() = 
@@ -203,12 +203,12 @@ let ``If 2 SequencePoints have 1 TestId each covering it and with 1 TestResults 
                                (stubSpid2, [ (stubTC2, Some stubTR2) ]) ]
     let ts = cct.GetTags(nssc) |> Seq.toArray
     Assert.Equal(2, ts.Length)
-    Assert.Equal([| 1; 1 |], ts |> Seq.map (fun t -> t.Tag.CCTTestResults |> Seq.length))
+    Assert.Equal([| 1; 1 |], ts |> Seq.map (fun t -> t.Tag.CctTestResults |> Seq.length))
     Assert.Equal([| stubTR1; stubTR2 |], 
                  ts
-                 |> Seq.map (fun t -> t.Tag.CCTTestResults |> Seq.map SimpleTestResult.fromTR)
+                 |> Seq.map (fun t -> t.Tag.CctTestResults |> Seq.map SimpleTestResult.fromTR)
                  |> Seq.collect id)
     Assert.Equal([| stubTC1; stubTC2 |], 
                  ts
-                 |> Seq.map (fun t -> t.Tag.CCTTestResults |> Seq.map (fun tr -> tr.TestCase |> SimpleTestCase.fromTC))
+                 |> Seq.map (fun t -> t.Tag.CctTestResults |> Seq.map (fun tr -> tr.TestCase |> SimpleTestCase.fromTC))
                  |> Seq.collect id)

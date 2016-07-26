@@ -75,7 +75,7 @@ let ``If span corresponds to a full sequence point return that``() =
     let pdsp = createPDSP "file.cpp" [ (2, 1, 2, 6) ]
     let _, tb, spt, _ = createSPT "sln.sln" pdsp "file.cpp" t
     let ts = spt.GetTags(tb |> getNSSC 2)
-    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.sp))
+    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.SptSequencePoint))
     Assert.Equal([| (2, 1, 2, 6) |], ts |> Seq.map (fun t -> t.Span.Bounds1Based))
 
 [<Fact>]
@@ -88,7 +88,7 @@ let ``If span lies within a sequence point return that``() =
     let pdsp = createPDSP "file.cpp" [ (2, 4, 4, 2) ]
     let _, tb, spt, _ = createSPT "sln.sln" pdsp "file.cpp" t
     let ts = spt.GetTags(tb |> getNSSC 3)
-    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.sp))
+    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.SptSequencePoint))
     Assert.Equal([| (3, 1, 3, 6) |], ts |> Seq.map (fun t -> t.Span.Bounds1Based))
 
 [<Fact>]
@@ -99,7 +99,7 @@ let ``If span intersects with a start of a sequence point return that``() =
     let pdsp = createPDSP "file.cpp" [ (2, 5, 2, 8) ]
     let _, tb, spt, _ = createSPT "sln.sln" pdsp "file.cpp" t
     let ts = spt.GetTags(tb |> getNSSC 2)
-    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.sp))
+    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.SptSequencePoint))
     Assert.Equal([| (2, 1, 2, 8) |], ts |> Seq.map (fun t -> t.Span.Bounds1Based))
 
 [<Fact>]
@@ -110,7 +110,7 @@ let ``If span intersects with a end of a sequence point return that``() =
     let pdsp = createPDSP "file.cpp" [ (2, 1, 2, 6) ]
     let _, tb, spt, _ = createSPT "sln.sln" pdsp "file.cpp" t
     let ts = spt.GetTags(tb |> getNSSC 2)
-    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.sp))
+    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.SptSequencePoint))
     Assert.Equal([| (2, 1, 2, 6) |], ts |> Seq.map (fun t -> t.Span.Bounds1Based))
 
 [<Fact>]
@@ -121,7 +121,7 @@ let ``If span completely covers a sequence point return that``() =
     let pdsp = createPDSP "file.cpp" [ (2, 2, 2, 7) ]
     let _, tb, spt, _ = createSPT "sln.sln" pdsp "file.cpp" t
     let ts = spt.GetTags(tb |> getNSSC 2)
-    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.sp))
+    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.SptSequencePoint))
     Assert.Equal([| (2, 1, 2, 7) |], ts |> Seq.map (fun t -> t.Span.Bounds1Based))
 
 [<Fact>]
@@ -139,7 +139,7 @@ let ``If span covers leading end of SP1, full SP2, trailing start of SP3, return
     
     let _, tb, spt, _ = createSPT "sln.sln" pdsp "file.cpp" t
     let ts = spt.GetTags(tb |> getNSSC 3)
-    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.sp))
+    Assert.Equal(pdsp.[FilePath "file.cpp"].ToArray(), ts |> Seq.map (fun t -> t.Tag.SptSequencePoint))
     Assert.Equal([| (3, 1, 3, 11)
                     (3, 1, 3, 11)
                     (3, 1, 3, 11) |], ts |> Seq.map (fun t -> t.Span.Bounds1Based))

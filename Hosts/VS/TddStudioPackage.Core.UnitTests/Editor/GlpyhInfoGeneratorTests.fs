@@ -35,13 +35,13 @@ let stubTR2f =
 
 let newTST (tc : SimpleTestCase) = 
     let tst = FakeMappingTagSpan<IMarginGlyphTag>()
-    tst.Tag <- { testCases = [ tc.toTC() ]
-                 location = tc.toTID().location }
+    tst.Tag <- { TstTestCases = [ tc.toTC() ]
+                 TstLocation = tc.toTID().location }
     tst :> IMappingTagSpan<_>
 
 let newFPT (tr : SimpleTestResult) = 
     let fpt = FakeMappingTagSpan<IMarginGlyphTag>()
-    fpt.Tag <- { tfis = 
+    fpt.Tag <- { Tfis = 
                      [ { message = tr.name
                          stack = [| UnparsedFrame "Failure at line 100" |] } ] }
     fpt :> IMappingTagSpan<_>
@@ -64,8 +64,8 @@ let newCCT (tctrs : seq<SimpleTestCase * SimpleTestResult>) =
           endColumn = DocumentCoordinate 100 }
     
     let trs = tctrs |> Seq.fold (fun acc (tc, tr) -> (tc.toTC() |> tr.toTR) :: acc) []
-    cct.Tag <- { CCTSeqPoint = sp
-                 CCTTestResults = trs }
+    cct.Tag <- { CctSeqPoint = sp
+                 CctTestResults = trs }
     cct :> IMappingTagSpan<_>
 
 [<Fact>]
@@ -84,8 +84,8 @@ let ``Color test - 1 TST 1 FPT 1 CCTp 1 CCTf - return Red and all GlyphTags``() 
     
     let it = (Rect(), ts) |> GlyphInfoGenerator.generate
     Assert.Equal(Rect(), it |> Option.map (fun (r, _) -> r))
-    Assert.Equal(Colors.Red, it |> Option.map (fun (_, i) -> i.color))
-    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.glyphTags |> Seq.toList))
+    Assert.Equal(Colors.Red, it |> Option.map (fun (_, i) -> i.Color))
+    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.Tags |> Seq.toList))
 
 [<Fact>]
 let ``Color test - 1 TST 1 FPT 1 CCTp 1 CCTp - return Green and all GlyphTags``() = 
@@ -97,8 +97,8 @@ let ``Color test - 1 TST 1 FPT 1 CCTp 1 CCTp - return Green and all GlyphTags``(
     
     let it = (Rect(), ts) |> GlyphInfoGenerator.generate
     Assert.Equal(Rect(), it |> Option.map (fun (r, _) -> r))
-    Assert.Equal(Colors.Green, it |> Option.map (fun (_, i) -> i.color))
-    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.glyphTags |> Seq.toList))
+    Assert.Equal(Colors.Green, it |> Option.map (fun (_, i) -> i.Color))
+    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.Tags |> Seq.toList))
 
 [<Fact>]
 let ``Color test - 1 TST 1 FPT 0 CCT - return White and all GlyphTags``() = 
@@ -108,8 +108,8 @@ let ``Color test - 1 TST 1 FPT 0 CCT - return White and all GlyphTags``() =
     
     let it = (Rect(), ts) |> GlyphInfoGenerator.generate
     Assert.Equal(Rect(), it |> Option.map (fun (r, _) -> r))
-    Assert.Equal(Colors.LightGray, it |> Option.map (fun (_, i) -> i.color))
-    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.glyphTags |> Seq.toList))
+    Assert.Equal(Colors.LightGray, it |> Option.map (fun (_, i) -> i.Color))
+    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.Tags |> Seq.toList))
 
 [<Fact>]
 let ``Color test - 1 TST 1 FPT 1 CCTx - return White and all GlyphTags``() = 
@@ -120,8 +120,8 @@ let ``Color test - 1 TST 1 FPT 1 CCTx - return White and all GlyphTags``() =
     
     let it = (Rect(), ts) |> GlyphInfoGenerator.generate
     Assert.Equal(Rect(), it |> Option.map (fun (r, _) -> r))
-    Assert.Equal(Colors.LightGray, it |> Option.map (fun (_, i) -> i.color))
-    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.glyphTags |> Seq.toList))
+    Assert.Equal(Colors.LightGray, it |> Option.map (fun (_, i) -> i.Color))
+    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.Tags |> Seq.toList))
 
 [<Fact>]
 let ``GlyphType test - 1 TST 1 FPT 1 CCTp 1 CCTf - return TS and all GlyphTags``() = 
@@ -133,8 +133,8 @@ let ``GlyphType test - 1 TST 1 FPT 1 CCTp 1 CCTf - return TS and all GlyphTags``
     
     let it = (Rect(), ts) |> GlyphInfoGenerator.generate
     Assert.Equal(Rect(), it |> Option.map (fun (r, _) -> r))
-    Assert.Equal(TestStart, it |> Option.map (fun (_, i) -> i.glyphType))
-    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.glyphTags |> Seq.toList))
+    Assert.Equal(TestStart, it |> Option.map (fun (_, i) -> i.Type))
+    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.Tags |> Seq.toList))
 
 [<Fact>]
 let ``GlyphType test - 1 FPT 1 CCTp 1 CCTf - return FP and all GlyphTags``() = 
@@ -145,8 +145,8 @@ let ``GlyphType test - 1 FPT 1 CCTp 1 CCTf - return FP and all GlyphTags``() =
     
     let it = (Rect(), ts) |> GlyphInfoGenerator.generate
     Assert.Equal(Rect(), it |> Option.map (fun (r, _) -> r))
-    Assert.Equal(FailurePoint, it |> Option.map (fun (_, i) -> i.glyphType))
-    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.glyphTags |> Seq.toList))
+    Assert.Equal(FailurePoint, it |> Option.map (fun (_, i) -> i.Type))
+    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.Tags |> Seq.toList))
 
 [<Fact>]
 let ``GlyphType test - 1 CCTp 1 CCTf - return CCf and all GlyphTags``() = 
@@ -156,13 +156,13 @@ let ``GlyphType test - 1 CCTp 1 CCTf - return CCf and all GlyphTags``() =
     
     let it = (Rect(), ts) |> GlyphInfoGenerator.generate
     Assert.Equal(Rect(), it |> Option.map (fun (r, _) -> r))
-    Assert.Equal(CodeCoverage, it |> Option.map (fun (_, i) -> i.glyphType))
-    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.glyphTags |> Seq.toList))
+    Assert.Equal(CodeCoverage, it |> Option.map (fun (_, i) -> i.Type))
+    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.Tags |> Seq.toList))
 
 [<Fact>]
 let ``GlyphType test - 1 CCTx - return CC and all GlyphTags``() = 
     let ts = [ newCCT [] ]
     let it = (Rect(), ts) |> GlyphInfoGenerator.generate
     Assert.Equal(Rect(), it |> Option.map (fun (r, _) -> r))
-    Assert.Equal(CodeCoverage, it |> Option.map (fun (_, i) -> i.glyphType))
-    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.glyphTags |> Seq.toList))
+    Assert.Equal(CodeCoverage, it |> Option.map (fun (_, i) -> i.Type))
+    Assert.Equal(ts |> List.map (fun t -> t.Tag), it |> Option.map (fun (_, i) -> i.Tags |> Seq.toList))

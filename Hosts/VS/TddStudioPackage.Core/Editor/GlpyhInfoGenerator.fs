@@ -20,7 +20,7 @@ let generate ((b, ts) : Rect * seq<IMappingTagSpan<IMarginGlyphTag>>) =
             let ccts = 
                 gs
                 |> tryGetTags<CodeCoverageTag>
-                |> Seq.map (fun t -> t.CCTTestResults)
+                |> Seq.map (fun t -> t.CctTestResults)
                 |> Seq.collect id
             match ccts with
             | ts when ts |> Seq.isEmpty -> Colors.LightGray
@@ -39,6 +39,6 @@ let generate ((b, ts) : Rect * seq<IMappingTagSpan<IMarginGlyphTag>>) =
             else CodeCoverage
         
         Some(b, 
-             { color = color
-               glyphType = glyphType
-               glyphTags = ts |> Seq.map (fun t -> t.Tag) })
+             { Color = color
+               Type = glyphType
+               Tags = ts |> Seq.map (fun t -> t.Tag) })

@@ -66,4 +66,4 @@ Line 2
     let ts = tmt.GetTags(tb |> getNSSC 2)
     Assert.Equal
         ([| ("FQN:2nd line", { document = FilePath "a.cs"; line = DocumentCoordinate 2 }) |], 
-         ts |> Seq.collect (fun ts -> ts.Tag.testCases |> Seq.map (fun t -> t.FullyQualifiedName, ts.Tag.location)))
+         ts |> Seq.collect (fun ts -> ts.Tag.TstTestCases |> Seq.map (fun t -> t.FullyQualifiedName, ts.Tag.TstLocation)))
