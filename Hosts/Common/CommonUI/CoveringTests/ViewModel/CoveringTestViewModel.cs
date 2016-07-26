@@ -31,6 +31,30 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
             }
         }
 
+        private Guid _id;
+
+        public Guid Id
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                RaisePropertyChanged(() => Id);
+            }
+        }
+
+        private string _fullyQualifiedName;
+
+        public string FullyQualifiedName
+        {
+            get { return _fullyQualifiedName; }
+            set
+            {
+                _fullyQualifiedName = value;
+                RaisePropertyChanged(() => FullyQualifiedName);
+            }
+        }
+
         private string _displayName;
 
         public string DisplayName

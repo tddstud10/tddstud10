@@ -7,6 +7,7 @@ open Microsoft.VisualStudio.Text.Tagging
 open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.Hosts.Common.TestCode
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
+open System
 open System.Windows
 open Xunit
 
@@ -18,7 +19,8 @@ let getMTSForline (ss : SnapshotSpan) : IMappingTagSpan<_> seq =
     
     let f () p = 
         mts.Tag <- { TstTestCases = 
-                         [ { FullyQualifiedName = "FQN:" + ss.GetText()
+                         [ { DtcId = Guid()
+                             FullyQualifiedName = "FQN:" + ss.GetText()
                              DisplayName = ""
                              Source = FilePath "source"
                              CodeFilePath = FilePath ""

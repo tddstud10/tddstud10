@@ -26,7 +26,7 @@ let createPDLTP (ts : (string * FilePath * DocumentCoordinate) seq) =
     let tpa = PerDocumentLocationDTestCases()
     
     let addTestCase (acc : PerDocumentLocationDTestCases) (f, d, l) = 
-        let tc = { FullyQualifiedName = f; DisplayName = ""; Source = FilePath "src"; CodeFilePath = d; LineNumber = l }
+        let tc = { DtcId = Guid(); FullyQualifiedName = f; DisplayName = ""; Source = FilePath "src"; CodeFilePath = d; LineNumber = l }
         let b = 
             acc.GetOrAdd({ document = d
                            line = l }, fun _ -> ConcurrentBag<_>())

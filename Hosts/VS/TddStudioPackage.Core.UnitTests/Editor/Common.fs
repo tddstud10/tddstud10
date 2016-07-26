@@ -11,7 +11,7 @@ type SimpleTestCase =
       ln : DocumentCoordinate }
     
     member self.toTC() = 
-        { FullyQualifiedName = self.fqn; DisplayName = ""; Source = self.src; CodeFilePath = self.file; LineNumber = self.ln }
+        { DtcId = Guid(); FullyQualifiedName = self.fqn; DisplayName = ""; Source = self.src; CodeFilePath = self.file; LineNumber = self.ln }
     
     member self.toTID() = 
         { source = self.src 

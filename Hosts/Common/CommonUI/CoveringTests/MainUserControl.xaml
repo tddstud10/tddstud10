@@ -10,6 +10,17 @@
 >
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+        <Style TargetType="{x:Type Image}" x:Key="ImageButton">
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+            <Setter Property="Margin" Value="3" />
+        </Style>
+        <Style TargetType="{x:Type TextBox}" x:Key="TestCaseFields">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Path 
@@ -17,6 +28,9 @@
             StrokeThickness="{Binding GlyphInfo.OutlineThickness}"
         >
             <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseEnter" >
+                    <i:InvokeCommandAction Command="{Binding InitializeViewModelCommand}" />
+                </i:EventTrigger>
                 <i:EventTrigger EventName="MouseDown" >
                     <i:InvokeCommandAction Command="{Binding ShowPopupCommand}" />
                 </i:EventTrigger>
@@ -58,10 +72,9 @@
                             </Grid.RowDefinitions>
                             <Image
                                 Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                                Width="16" Height="16" Margin="3"
                             >
                                 <Image.Style>
-                                    <Style>
+                                    <Style TargetType="{x:Type Image}" BasedOn="{StaticResource ImageButton}">
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Path=TestPassed}" Value="True">
                                                 <Setter Property="Image.Source" Value="Resources/testresultpassed.png"/>
@@ -81,11 +94,10 @@
                             >
                                 <Hyperlink TextDecorations="{x:Null}" Command="{Binding ShowDetailsCommand}">
                                     <Image
-                                        Width="16" Height="16" Margin="3"
                                         ToolTip="More info"
                                     >
                                         <Image.Style>
-                                            <Style>
+                                            <Style TargetType="{x:Type Image}" BasedOn="{StaticResource ImageButton}">
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding Path=DetailsVisible}" Value="True">
                                                         <Setter Property="Image.Source" Value="Resources/actioncollapse.png"/>
@@ -105,7 +117,7 @@
                             <Hyperlink TextDecorations="{x:Null}" Command="{Binding GotoTestCommand}" CommandParameter="{Binding TestCase}">
                                 <Image
                                     Source="Resources/actiongototest.png"
-                                    Width="16" Height="16" Margin="3"
+                                    Style="{StaticResource ImageButton}"
                                     ToolTip="Go to test..."
                                 />
                             </Hyperlink>
@@ -116,7 +128,7 @@
                             <Hyperlink TextDecorations="{x:Null}" Command="{Binding DebugTestCommand}" CommandParameter="{Binding TestCase}">
                                 <Image
                                     Source="Resources/actionstartwithdebug.png"
-                                    Width="16" Height="16" Margin="3"
+                                    Style="{StaticResource ImageButton}"
                                     ToolTip="Run test under debugger..."
                                 />
                             </Hyperlink>
@@ -128,18 +140,15 @@
                             <Hyperlink TextDecorations="{x:Null}" Command="{Binding RunTestCommand}" CommandParameter="{Binding TestCase}">
                                 <Image
                                     Source="Resources/actionstartwithoutdebug.png"
-                                    Width="16" Height="16" Margin="3"
+                                    Style="{StaticResource ImageButton}"
                                     ToolTip="Run test..."
                                 />
                             </Hyperlink>
                             </TextBlock>
                             <TextBox 
                                 Grid.Column="5" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                                Background="Transparent"
-                                BorderThickness="0"
-                                Text="{Binding Path=DisplayName, Mode=OneWay}"
-                                IsReadOnly="True"
-                                TextWrapping="Wrap" 
+                                Text="{Binding FullyQualifiedName}"
+                                Style="{StaticResource TestCaseFields}"
                             />
                             <Grid
                                 Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="5" Grid.RowSpan="1"
@@ -151,21 +160,15 @@
                                 </Grid.RowDefinitions>
                                 <TextBox 
                                     Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Text="{Binding Path=ErrorMessage, Mode=OneWay}"
-                                    IsReadOnly="True"
-                                    TextWrapping="Wrap" 
+                                    Text="{Binding ErrorMessage}"
                                     MaxWidth="500" MaxHeight="200"
+                                    Style="{StaticResource TestCaseFields}"
                                 />
                                 <TextBox 
                                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Text="{Binding Path=ErrorStackTrace, Mode=OneWay}"
-                                    IsReadOnly="True"
-                                    TextWrapping="Wrap" 
+                                    Text="{Binding ErrorStackTrace}"
                                     MaxWidth="500" MaxHeight="200"
+                                    Style="{StaticResource TestCaseFields}"
                                 />
                             </Grid>
                         </Grid>

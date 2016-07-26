@@ -106,8 +106,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoveringTests\NullIdeHost.cs" />
-    <Compile Include="CoveringTests\IIdeHost.cs" />
     <Compile Include="CoveringTests\MainUserControl.xaml.cs">
       <DependentUpon>MainUserControl.xaml</DependentUpon>
     </Compile>

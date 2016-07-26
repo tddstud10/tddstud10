@@ -31,7 +31,7 @@ module HostIdeApiExtensions =
         |> ErrorHandlerExtensions.ThrowOnFailure
         results |> Array.iter (fun r -> Logger.logInfof "%d launched under debugger at %O" r.dwProcessId r.creationTime)
     
-    let private setBreakPoint (dte : EnvDTE.DTE) file line = dte.Debugger.Breakpoints.Add(null, file, line)
+    let private setBreakPoint (dte : EnvDTE.DTE) (FilePath file) (DocumentCoordinate line) = dte.Debugger.Breakpoints.Add(null, file, line)
     
     let gotoTest (dte : EnvDTE.DTE) = 
         let f (_, tc) () = 
@@ -42,8 +42,7 @@ module HostIdeApiExtensions =
     
     let debugTest dte dbg = 
         let f (sp : SequencePoint, tc) () = 
-            let ({ CodeFilePath = (FilePath file); LineNumber = (DocumentCoordinate line) }) = tc
-            setBreakPoint dte file line |> ignore
+            setBreakPoint dte sp.document sp.startLine |> ignore
             let tpa = PerDocumentLocationDTestCases()
             let bag = ConcurrentBag<DTestCase>()
             bag.Add(tc)

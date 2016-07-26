@@ -28,7 +28,8 @@ let loadTestAdapter (FilePath binDir) =
     ta
 
 let toDTestCase (tc : TestCase) =
-    { FullyQualifiedName = tc.FullyQualifiedName
+    { DtcId = tc.Id
+      FullyQualifiedName = tc.FullyQualifiedName
       DisplayName = tc.DisplayName
       Source = FilePath tc.Source
       CodeFilePath = FilePath tc.CodeFilePath

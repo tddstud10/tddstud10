@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using R4nd0mApps.TddStud10.Common.Domain;
+using System;
 using System.Collections.Generic;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
@@ -9,6 +10,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
         private static readonly IEnumerable<DTestResult> DesignTimeData = new List<DTestResult> {
                     new DTestResult("First test name",
                         new DTestCase(
+                            Guid.NewGuid(),
                             "test #1 fqn",
                             "First test name",
                             FilePath.NewFilePath(@"c:\a.dll"),
@@ -18,6 +20,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
                         null, null),
                     new DTestResult("Second test name",
                         new DTestCase(
+                            Guid.NewGuid(),
                             "test #2 fqn",
                             "Second test name",
                             FilePath.NewFilePath(@"c:\a.dll"),
@@ -27,6 +30,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
                         "Stack trace for second test", "failure in second test"),
                     new DTestResult("Second test name",
                         new DTestCase(
+                            Guid.NewGuid(),
                             "test #2 fqn",
                             "Second test name",
                             FilePath.NewFilePath(@"c:\a.dll"),
@@ -36,6 +40,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
                         "Stack trace for second test", "failure in second test"),
                     new DTestResult("Second test name",
                         new DTestCase(
+                            Guid.NewGuid(),
                             "test #2 fqn",
                             "Second test name",
                             FilePath.NewFilePath(@"c:\a.dll"),
@@ -45,6 +50,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
                         "Stack trace for second test", "failure in second test"),
                     new DTestResult("Second test name",
                         new DTestCase(
+                            Guid.NewGuid(),
                             "test #2 fqn",
                             "Second test name",
                             FilePath.NewFilePath(@"c:\a.dll"),
@@ -54,6 +60,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
                         "Stack trace for second test", "failure in second test"),
                     new DTestResult("Second test name",
                         new DTestCase(
+                            Guid.NewGuid(),
                             "test #2 fqn",
                             "Second test name",
                             FilePath.NewFilePath(@"c:\a.dll"),
@@ -63,6 +70,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
                         "Stack trace for second test", "failure in second test"),
                     new DTestResult("Second test name",
                         new DTestCase(
+                            Guid.NewGuid(),
                             "test #2 fqn",
                             "Second test name",
                             FilePath.NewFilePath(@"c:\a.dll"),
@@ -72,6 +80,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
                         "Stack trace for second test", "failure in second test"),
                     new DTestResult("Second test name",
                         new DTestCase(
+                            Guid.NewGuid(),
                             "test #2 fqn",
                             "Second test name",
                             FilePath.NewFilePath(@"c:\a.dll"),
@@ -81,6 +90,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
                         "Stack trace for second test", "failure in second test"),
                     new DTestResult("Second test name",
                         new DTestCase(
+                            Guid.NewGuid(),
                             "test #2 fqn",
                             "Second test name",
                             FilePath.NewFilePath(@"c:\a.dll"),
@@ -90,6 +100,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
                         "Stack trace for second test", "failure in second test"),
                     new DTestResult("Second test name",
                         new DTestCase(
+                            Guid.NewGuid(),
                             "test #2 fqn",
                             "Second test name",
                             FilePath.NewFilePath(@"c:\a.dll"),
@@ -99,6 +110,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
                         "Stack trace for second test", "failure in second test"),
                     new DTestResult("Second test name",
                         new DTestCase(
+                            Guid.NewGuid(),
                             "test #2 fqn",
                             "Second test name",
                             FilePath.NewFilePath(@"c:\a.dll"),
@@ -108,6 +120,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
                         "Stack trace for second test", "failure in second test"),
                     new DTestResult("Second test name",
                         new DTestCase(
+                            Guid.NewGuid(),
                             "test #2 fqn",
                             "Second test name",
                             FilePath.NewFilePath(@"c:\a.dll"),
@@ -117,6 +130,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
                         "Stack trace for second test", "failure in second test"),
                     new DTestResult("Second test name",
                         new DTestCase(
+                            Guid.NewGuid(),
                             "test #2 fqn",
                             "Second test name",
                             FilePath.NewFilePath(@"c:\a.dll"),
