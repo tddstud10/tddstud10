@@ -1,12 +1,9 @@
 ﻿module R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core.Editor.GlyphInfoGenerator
 
-open System.ComponentModel.Design
-open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core
-open System
-open System.Windows
-open System.Windows.Media
 open Microsoft.VisualStudio.Text.Tagging
 open R4nd0mApps.TddStud10.Common.Domain
+open System.Windows
+open System.Windows.Media
 
 let tryGetTags<'T when 'T : equality and 'T :> IMarginGlyphTag> = 
     Dict.tryGetValue Seq.empty id typeof<'T> >> Seq.map (fun t -> box t :?> 'T)
@@ -44,5 +41,4 @@ let generate ((b, ts) : Rect * seq<IMappingTagSpan<IMarginGlyphTag>>) =
         Some(b, 
              { color = color
                glyphType = glyphType
-               glyphTags = ts |> Seq.map (fun t -> t.Tag)
-               contextMenu = CommandID(Guid(PkgGuids.GuidGlyphContextCmdSet), PkgCmdID.GlyphContextMenu |> int) })
+               glyphTags = ts |> Seq.map (fun t -> t.Tag) })

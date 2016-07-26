@@ -6,8 +6,9 @@ open System
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 open System.Windows
 open Microsoft.VisualStudio.Text.Formatting
+open Microsoft.VisualStudio.Shell.Interop
 
-type Margin(textView : IWpfTextView, mgta : ITagAggregator<_>, __, painter, getMarginSize, getVisualElement) = 
+type Margin(textView : IWpfTextView, mgta : ITagAggregator<_>, painter, getMarginSize, getVisualElement) = 
     let mutable disposed = false
     
     let throwIfDisposed() = 
@@ -20,18 +21,18 @@ type Margin(textView : IWpfTextView, mgta : ITagAggregator<_>, __, painter, getM
     let lcSub = textView.LayoutChanged.Subscribe(fun _ -> paintGlyphs())
     let tcSub = mgta.TagsChanged.Subscribe(fun _ -> paintGlyphs())
     let zlcSub = textView.ZoomLevelChanged.Subscribe(fun _ -> paintGlyphs())
-    new(textView : IWpfTextView, mgta : ITagAggregator<_>, showCM) = 
+    static member Create (dte: EnvDTE.DTE) (dbg: IVsDebugger3) (textView : IWpfTextView) (mgta : ITagAggregator<_>) = 
         (* NOTE: Pure wireup code in this constructor. Hence not tested. *)
         let getZL = fun() -> textView.ZoomLevel / 100.0
+        let hia = createHostIdeApi dte dbg
         let canvas = MarginCanvas(getZL)
-        let f1 = GlpyhBoundsGenerator.generate getZL
-        let f2 = Seq.map (fun (b, (l : ITextViewLine)) -> b, l.Extent |> mgta.GetTags)
-        let f3 = Seq.choose GlyphInfoGenerator.generate
-        let f4 = Seq.map (GlyphGenerator.generate showCM getZL)
-        let f5 = canvas.Refresh 
-        new Margin(textView, mgta, showCM,
-            f1 >> f2 >> f3 >> f4 >> f5,
-            (fun () -> canvas.ActualWidth), (fun () -> canvas :> FrameworkElement))
+        let painter = 
+            GlpyhBoundsGenerator.generate getZL
+            >> (Seq.map (fun (b, (l : ITextViewLine)) -> b, l.Extent |> mgta.GetTags))
+            >> (Seq.choose GlyphInfoGenerator.generate)
+            >> (Seq.map (GlyphGenerator.generate hia getZL))
+            >> canvas.Refresh 
+        new Margin(textView, mgta, painter, (fun () -> canvas.ActualWidth), (fun () -> canvas :> FrameworkElement))
     override x.Finalize() = x.Dispose(false)
     
     member private __.Dispose(disposing : _) = 

@@ -5,7 +5,6 @@ using R4nd0mApps.TddStud10.Common.Domain;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Media;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
 {
@@ -23,39 +22,17 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
             }
         }
 
-        private Geometry _glyphShape;
+        private readonly HostIdeActions _hostActions;
 
-        public Geometry GlyphShape
+        private GlyphInfo _glyphInfo;
+
+        public GlyphInfo GlyphInfo
         {
-            get { return _glyphShape; }
+            get { return _glyphInfo; }
             set
             {
-                _glyphShape = value;
-                RaisePropertyChanged(() => GlyphShape);
-            }
-        }
-
-        private double _glyphStrokeThickness;
-
-        public double GlyphStrokeThickness
-        {
-            get { return _glyphStrokeThickness; }
-            set
-            {
-                _glyphStrokeThickness = value;
-                RaisePropertyChanged(() => GlyphStrokeThickness);
-            }
-        }
-
-        private SolidColorBrush _glyphColor;
-
-        public SolidColorBrush GlyphColor
-        {
-            get { return _glyphColor; }
-            set
-            {
-                _glyphColor = value;
-                RaisePropertyChanged(() => GlyphColor);
+                _glyphInfo = value;
+                RaisePropertyChanged(() => GlyphInfo);
             }
         }
 
@@ -75,25 +52,21 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
 
         [PreferredConstructor]
         public MainViewModel()
-            : this(
-                  Geometry.Parse(string.Format("M 0 0 L 8 8 M 0 8 L 8 0")),
-                  Colors.Green,
-                  2.0,
-                  DesignTimeData)
-        {
-        }
-
-        public MainViewModel(Geometry glyphShape, Color color, double strokeThickness, IEnumerable<DTestResult> coveringTestResults)
         {
             ShowPopupCommand = new RelayCommand(
-                () => 
+                () =>
                 {
                     PopupVisible = CoveringTests != null && CoveringTests.Any();
                 });
+        }
 
-            GlyphShape = glyphShape;
-            GlyphColor = new SolidColorBrush(color);
-            GlyphStrokeThickness = strokeThickness;
+        public MainViewModel(HostIdeActions hostActions, GlyphInfo glyphInfo, IEnumerable<DTestResult> coveringTestResults)
+            : this()
+        {
+            _hostActions = hostActions;
+
+            GlyphInfo = glyphInfo;
+
             _coveringTests = new ObservableCollection<CoveringTestViewModel>(
                 coveringTestResults.Select(it => new CoveringTestViewModel
                 {
@@ -102,7 +75,28 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
                     DisplayName = it.TestCase.FullyQualifiedName,
                     ErrorMessage = it.ErrorMessage,
                     ErrorStackTrace = it.ErrorStackTrace,
+                    GotoTestCommand = new RelayCommand<DTestCase>(GotoTest),
+                    DebugTestCommand = new RelayCommand<DTestCase>(DebugTest),
+                    RunTestCommand = new RelayCommand<DTestCase>(RunTest),
                 }));
+        }
+
+        private void GotoTest(DTestCase testCase)
+        {
+            PopupVisible = false;
+            _hostActions.GotoTest(testCase);
+        }
+
+        private void DebugTest(DTestCase testCase)
+        {
+            PopupVisible = false;
+            _hostActions.DebugTest(testCase);
+        }
+
+        private void RunTest(DTestCase testCase)
+        {
+            PopupVisible = false;
+            _hostActions.RunTest(testCase);
         }
     }
 }

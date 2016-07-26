@@ -42,7 +42,7 @@
     <Prefer32Bit>false</Prefer32Bit>
     <DeployExtension>True</DeployExtension>
     <CopyVsixExtensionFiles>False</CopyVsixExtensionFiles>
-    <CreateVsixContainer>True</CreateVsixContainer>
+    <CreateVsixContainer>False</CreateVsixContainer>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

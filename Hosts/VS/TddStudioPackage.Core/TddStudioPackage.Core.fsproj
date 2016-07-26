@@ -67,7 +67,7 @@
     <Compile Include="VsDebuggerExtensions.fs" />
     <Compile Include="EditorFrameworkExtensions.fs" />
     <Compile Include="Editor\Domain.fs" />
-    <Compile Include="Editor\ContextMenuData.fs" />
+    <Compile Include="Editor\HostIdeApi.fs" />
     <Compile Include="Editor\TestStartTagger.fs" />
     <Compile Include="Editor\SequencePointTagger.fs" />
     <Compile Include="Editor\CodeCoverageTagger.fs" />

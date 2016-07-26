@@ -1,7 +1,6 @@
 ﻿namespace R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core.Editor
 
 open Microsoft.VisualStudio.Text.Tagging
-open System.ComponentModel.Design
 open R4nd0mApps.TddStud10.Common.Domain
 open System.Windows.Media
 
@@ -36,5 +35,4 @@ type MarginGlyphType =
 type MarginGlyphInfo = 
     { color : Color
       glyphType : MarginGlyphType
-      glyphTags : IMarginGlyphTag seq
-      contextMenu : CommandID }
+      glyphTags : IMarginGlyphTag seq }

@@ -1,7 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using R4nd0mApps.TddStud10.Common.Domain;
-using System.Windows;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
 {
@@ -12,7 +11,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
         public bool DetailsVisible
         {
             get { return _expanded; }
-            set
+            private set
             {
                 _expanded = value;
                 RaisePropertyChanged(() => DetailsVisible);
@@ -55,34 +54,31 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
             }
         }
 
-        private string _stackTrace;
+        private string _errorStackTrace;
 
         public string ErrorStackTrace
         {
-            get { return _stackTrace; }
+            get { return _errorStackTrace; }
             set
             {
-                _stackTrace = value;
+                _errorStackTrace = value;
                 RaisePropertyChanged(() => ErrorStackTrace);
             }
         }
 
         public DTestResult TestResult { get; set; }
 
-        public RelayCommand ShowDetailsCommand { get; set; }
+        public RelayCommand ShowDetailsCommand { get; private set; }
 
-        public RelayCommand GotoTestCommand { get; set; }
+        public RelayCommand<DTestCase> GotoTestCommand { get; set; }
 
-        public RelayCommand StartWithDebuggingCommand { get; set; }
+        public RelayCommand<DTestCase> DebugTestCommand { get; set; }
 
-        public RelayCommand StartWithoutDebuggingCommand { get; set; }
+        public RelayCommand<DTestCase> RunTestCommand { get; set; }
 
         public CoveringTestViewModel()
         {
             ShowDetailsCommand = new RelayCommand(() => { DetailsVisible = !DetailsVisible; });
-            GotoTestCommand = new RelayCommand(() => { MessageBox.Show("Goto test..."); });
-            StartWithDebuggingCommand = new RelayCommand(() => { MessageBox.Show("Start with debugging..."); });
-            StartWithoutDebuggingCommand = new RelayCommand(() => { MessageBox.Show("Start without debugging..."); });
         }
     }
 }

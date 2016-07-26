@@ -106,11 +106,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoveringTests\NullIdeHost.cs" />
+    <Compile Include="CoveringTests\IIdeHost.cs" />
     <Compile Include="CoveringTests\MainUserControl.xaml.cs">
       <DependentUpon>MainUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CoveringTests\ViewModel\CoveringTestViewModel.cs" />
     <Compile Include="CoveringTests\ViewModel\MainViewModel.designtime.cs">
+      <DependentUpon>MainViewModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CoveringTests\ViewModel\MainViewModel.GlyphInfo.cs">
+      <DependentUpon>MainViewModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CoveringTests\ViewModel\MainViewModel.HostIdeActions.cs">
       <DependentUpon>MainViewModel.cs</DependentUpon>
     </Compile>
     <Compile Include="CoveringTests\ViewModel\ViewModelLocator.cs" />
