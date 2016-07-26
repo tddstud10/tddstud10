@@ -7,7 +7,7 @@ open System.Windows
 open System.Windows.Media
 
 let generate (ha : HostIdeApi) getZL ((b, mgi) : Rect * MarginGlyphInfo) = 
-    let ha = HostIdeActions(GotoTest = Action<_>(ha.GotoTest), DebugTest = Action<_>(ha.RunTest), RunTest = Action<_>(ha.DebugTest))
+    let ha = HostIdeActions(GotoTest = ha.GotoTest, DebugTest = ha.DebugTest, RunTest = ha.RunTest, IdeInDebugMode = ha.IdeInDebugMode)
 
     let gi = 
         let shape = 
@@ -22,9 +22,10 @@ let generate (ha : HostIdeApi) getZL ((b, mgi) : Rect * MarginGlyphInfo) =
     let ctrs = 
         mgi.Tags
         |> Seq.filter (fun it -> it :? CodeCoverageTag)
-        |> Seq.map (fun it -> it :?> CodeCoverageTag)
-        |> Seq.collect (fun it -> it.CctTestResults)
-    
+        |> Seq.map (fun it -> 
+                    let cct = it :?> CodeCoverageTag
+                    cct.CctSeqPoint, cct.CctTestResults)
+   
     let e = MainUserControl()
     e.DataContext <- MainViewModel(ha, gi, ctrs)
     b, e :> FrameworkElement

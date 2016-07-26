@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using R4nd0mApps.TddStud10.Common.Domain;
+using System;
 
 namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
 {
@@ -66,15 +67,15 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
             }
         }
 
-        public DTestResult TestResult { get; set; }
+        public Tuple<SequencePoint, DTestCase> TestCase { get; set; }
 
         public RelayCommand ShowDetailsCommand { get; private set; }
 
-        public RelayCommand<DTestCase> GotoTestCommand { get; set; }
+        public RelayCommand<Tuple<SequencePoint, DTestCase>> GotoTestCommand { get; set; }
 
-        public RelayCommand<DTestCase> DebugTestCommand { get; set; }
+        public RelayCommand<Tuple<SequencePoint, DTestCase>> DebugTestCommand { get; set; }
 
-        public RelayCommand<DTestCase> RunTestCommand { get; set; }
+        public RelayCommand<Tuple<SequencePoint, DTestCase>> RunTestCommand { get; set; }
 
         public CoveringTestViewModel()
         {

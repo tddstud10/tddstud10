@@ -64,7 +64,6 @@
     <Compile Include="PkgCmdID.fs" />
     <Compile Include="ErrorHandlerExtensions.fs" />
     <Compile Include="VsUIShellExtensions.fs" />
-    <Compile Include="VsDebuggerExtensions.fs" />
     <Compile Include="EditorFrameworkExtensions.fs" />
     <Compile Include="Editor\Domain.fs" />
     <Compile Include="Editor\HostIdeApi.fs" />

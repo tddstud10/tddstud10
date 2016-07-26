@@ -1,11 +1,11 @@
 ﻿using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
+using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core.Editor;
 using System.ComponentModel.Composition;
-using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core;
-using Microsoft.VisualStudio.Shell.Interop;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions
 {

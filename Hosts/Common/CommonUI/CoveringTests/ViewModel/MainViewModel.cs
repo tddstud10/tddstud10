@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using R4nd0mApps.TddStud10.Common.Domain;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -53,50 +54,61 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
         [PreferredConstructor]
         public MainViewModel()
         {
-            ShowPopupCommand = new RelayCommand(
-                () =>
-                {
-                    PopupVisible = CoveringTests != null && CoveringTests.Any();
-                });
         }
 
-        public MainViewModel(HostIdeActions hostActions, GlyphInfo glyphInfo, IEnumerable<DTestResult> coveringTestResults)
+        public MainViewModel(HostIdeActions hostActions, GlyphInfo glyphInfo, IEnumerable<Tuple<SequencePoint, IEnumerable<DTestResult>>> coveringTestResults)
             : this()
         {
             _hostActions = hostActions;
 
-            GlyphInfo = glyphInfo;
+            _glyphInfo = glyphInfo;
 
-            _coveringTests = new ObservableCollection<CoveringTestViewModel>(
-                coveringTestResults.Select(it => new CoveringTestViewModel
+            var vms =
+                coveringTestResults
+                .Select(
+                    it =>
+                        it.Item2.Select(tr =>
+                        new CoveringTestViewModel
+                        {
+                            TestCase = new Tuple<SequencePoint, DTestCase>(it.Item1, tr.TestCase),
+                            TestPassed = tr.Outcome.Equals(DTestOutcome.TOPassed) ? true : tr.Outcome.Equals(DTestOutcome.TOFailed) ? (bool?)false : null,
+                            DisplayName = tr.TestCase.FullyQualifiedName,
+                            ErrorMessage = tr.ErrorMessage,
+                            ErrorStackTrace = tr.ErrorStackTrace,
+                            GotoTestCommand = new RelayCommand<Tuple<SequencePoint, DTestCase>>(GotoTest),
+                            DebugTestCommand = new RelayCommand<Tuple<SequencePoint, DTestCase>>(DebugTest),
+                            RunTestCommand = new RelayCommand<Tuple<SequencePoint, DTestCase>>(RunTest),
+                        }))
+                .SelectMany(_ => _);
+
+            _coveringTests = new ObservableCollection<CoveringTestViewModel>(vms);
+
+            ShowPopupCommand = new RelayCommand(
+                () =>
                 {
-                    TestResult = it,
-                    TestPassed = it.Outcome.Equals(DTestOutcome.TOPassed) ? true : it.Outcome.Equals(DTestOutcome.TOFailed) ? (bool?)false : null,
-                    DisplayName = it.TestCase.FullyQualifiedName,
-                    ErrorMessage = it.ErrorMessage,
-                    ErrorStackTrace = it.ErrorStackTrace,
-                    GotoTestCommand = new RelayCommand<DTestCase>(GotoTest),
-                    DebugTestCommand = new RelayCommand<DTestCase>(DebugTest),
-                    RunTestCommand = new RelayCommand<DTestCase>(RunTest),
-                }));
+                    PopupVisible =
+                        CoveringTests != null
+                        && CoveringTests.Any()
+                        && !_hostActions.IdeInDebugMode.Invoke(null);
+                });
         }
 
-        private void GotoTest(DTestCase testCase)
+        private void GotoTest(Tuple<SequencePoint, DTestCase> testCase)
         {
             PopupVisible = false;
-            _hostActions.GotoTest(testCase);
+            _hostActions.GotoTest.Invoke(testCase);
         }
 
-        private void DebugTest(DTestCase testCase)
+        private void DebugTest(Tuple<SequencePoint, DTestCase> testCase)
         {
             PopupVisible = false;
-            _hostActions.DebugTest(testCase);
+            _hostActions.DebugTest.Invoke(testCase);
         }
 
-        private void RunTest(DTestCase testCase)
+        private void RunTest(Tuple<SequencePoint, DTestCase> testCase)
         {
             PopupVisible = false;
-            _hostActions.RunTest(testCase);
+            _hostActions.RunTest.Invoke(testCase);
         }
     }
 }

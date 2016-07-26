@@ -1,5 +1,4 @@
-﻿using R4nd0mApps.TddStud10.Common;
-using R4nd0mApps.TddStud10.Common.Domain;
+﻿using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Engine.Diagnostics;
 using R4nd0mApps.TddStud10.TestRuntime;
@@ -104,27 +103,10 @@ namespace R4nd0mApps.TddStud10.Engine
             string testRunnerPath = rsp.TestHostPath.Item;
             var output = ExecuteProcess(
                 testRunnerPath,
-                BuildTestHostCommandLine(command, rsp)
+                Core.TestHost.buildCommandLine(command, rsp)
             );
 
             return output;
-        }
-
-        public static string BuildTestHostCommandLine(string command, RunStartParams rsp)
-        {
-            return string.Format(
-                "\"{0}\" \"{1}\" \"{2}\" \"{3}\" \"{4}\" \"{5}\" \"{6}\" \"{7}\" \"{8}\" \"{9}\"",
-                command,
-                rsp.Solution.BuildRoot.Item,
-                rsp.DataFiles.CoverageSessionStore.Item,
-                rsp.DataFiles.TestResultsStore.Item,
-                rsp.DataFiles.DiscoveredUnitTestsStore.Item,
-                rsp.DataFiles.TestFailureInfoStore.Item,
-                rsp.StartTime.Ticks.ToString(),
-                rsp.Solution.Path.Item,
-                rsp.Solution.SnapshotPath.Item,
-                rsp.DataFiles.DiscoveredUnitDTestsStore.Item
-            );
         }
 
         private static RunStepResult DiscoverSequencePoints(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
