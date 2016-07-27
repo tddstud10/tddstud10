@@ -37,7 +37,7 @@ let createPATC (ts : (string * FilePath * FilePath * DocumentCoordinate) list) =
     let patc = PerDocumentLocationDTestCases()
     
     let addTestCase (acc : PerDocumentLocationDTestCases) (f, s, d, l) = 
-        let tc =  { FullyQualifiedName = f; DisplayName = ""; Source = s; CodeFilePath = d; LineNumber = l }
+        let tc =  { DtcId = Guid(); FullyQualifiedName = f; DisplayName = ""; Source = s; CodeFilePath = d; LineNumber = l }
         let b = 
             acc.GetOrAdd({ document = d
                            line = l }, fun _ -> ConcurrentBag<_>())

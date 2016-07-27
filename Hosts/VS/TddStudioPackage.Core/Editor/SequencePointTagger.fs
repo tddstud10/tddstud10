@@ -27,7 +27,7 @@ type SequencePointTagger(buffer : ITextBuffer, dataStore : IDataStore) =
                        |> Seq.map (fun sp -> ss, sp))
                 |> Seq.map 
                        (fun (ss, sp) -> 
-                       TagSpan<_>(SnapshotSpan(ss.Start, ss.Length), { SequencePointTag.sp = sp }) :> ITagSpan<_>)
+                       TagSpan<_>(SnapshotSpan(ss.Start, ss.Length), { SequencePointTag.SptSequencePoint = sp }) :> ITagSpan<_>)
             buffer.FilePath |> Option.fold getTags Seq.empty
         
         [<CLIEvent>]

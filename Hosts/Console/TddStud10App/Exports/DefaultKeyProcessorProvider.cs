@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.Composition;
-using Microsoft.VisualStudio.Text.Editor;
+﻿using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Utilities;
+using System.ComponentModel.Composition;
 
-namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App
+namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.Exports
 {
     [Export(typeof(IKeyProcessorProvider))]
     [ContentType("text")]

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using R4nd0mApps.TddStud10.Common.Domain;
+using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
-using R4nd0mApps.TddStud10.Common.Domain;
 
-namespace R4nd0mApps.TddStud10.Hosts.Common
+namespace R4nd0mApps.TddStud10.Hosts.Common.StatusBar
 {
     public class RunStateToIconColorConverter : IValueConverter
     {

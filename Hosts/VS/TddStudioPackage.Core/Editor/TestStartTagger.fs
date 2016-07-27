@@ -42,8 +42,8 @@ type TestStartTagger(buffer : ITextBuffer, dataStore : IDataStore) as self =
                 |> Seq.map 
                        (fun (s, ts) -> 
                        TagSpan<_>(SnapshotSpan(s.Start, s.Length), 
-                                  { testCases = ts
-                                    location = 
+                                  { TstTestCases = ts
+                                    TstLocation = 
                                         { document = path
                                           line = DocumentCoordinate(s.Start.GetContainingLine().LineNumber + 1) } }) :> ITagSpan<_>)
             buffer.FilePath |> Option.fold getTags Seq.empty

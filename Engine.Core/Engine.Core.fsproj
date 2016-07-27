@@ -76,6 +76,7 @@
     <Compile Include="RunStateTracker.fs" />
     <Compile Include="TddStud10Runner.fs" />
     <Compile Include="DataStore.fs" />
+    <Compile Include="TestHost.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">

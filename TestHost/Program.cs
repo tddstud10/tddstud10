@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace R4nd0mApps.TddStud10.TestHost
@@ -127,6 +128,7 @@ namespace R4nd0mApps.TddStud10.TestHost
 
         private static void DiscoverUnitTests(IEnumerable<ITestDiscoverer> tds, string slnPath, string slnSnapPath, string discoveredUnitTestsStore, string discoveredUnitDTestsStore, string buildOutputRoot, DateTime timeFilter)
         {
+            Logger.I.LogInfo("DiscoverUnitTests: starting discovering.");
             var testsPerAssembly = new PerDocumentLocationTestCases();
             var dtestsPerAssembly = new PerDocumentLocationDTestCases();
             FindAndExecuteForEachAssembly(

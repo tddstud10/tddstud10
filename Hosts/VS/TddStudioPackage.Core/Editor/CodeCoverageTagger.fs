@@ -37,7 +37,7 @@ type CodeCoverageTagger(buffer : ITextBuffer, getspt : SnapshotSnapsToTagSpan<Se
             let getTags _ _ = 
                 spans
                 |> getspt
-                |> Seq.map (fun tsp -> tsp, tsp.Tag.sp.id |> dataStore.GetRunIdsForTestsCoveringSequencePointId)
+                |> Seq.map (fun tsp -> tsp, tsp.Tag.SptSequencePoint.id |> dataStore.GetRunIdsForTestsCoveringSequencePointId)
                 |> Seq.map (fun (tsp, rids) -> 
                        tsp, 
                        rids
@@ -47,8 +47,8 @@ type CodeCoverageTagger(buffer : ITextBuffer, getspt : SnapshotSnapsToTagSpan<Se
                        |> Seq.collect id)
                 |> Seq.map (fun (tsp, trs) -> 
                        TagSpan<_>(tsp.Span, 
-                                  { CodeCoverageTag.sp = tsp.Tag.sp
-                                    testResults = trs }) :> ITagSpan<_>)
+                                  { CodeCoverageTag.CctSeqPoint = tsp.Tag.SptSequencePoint
+                                    CctTestResults = trs }) :> ITagSpan<_>)
             buffer.FilePath |> Option.fold getTags Seq.empty
         
         [<CLIEvent>]

@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.Composition.Hosting;
-using System.Reflection;
-using EditorUtils;
+﻿using EditorUtils;
+using R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.Exports;
 using R4nd0mApps.TddStud10.Hosts.VS.EditorExtensions;
+using System.ComponentModel.Composition.Hosting;
 
 namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App
 {

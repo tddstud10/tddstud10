@@ -6,9 +6,3 @@ module PkgCmdID =
     
     [<Literal>]
     let ViewTddStud10Logs = 0x102u
-
-    [<Literal>]
-    let GlyphContextMenu = 0x200u
-
-    [<Literal>]
-    let DebugTest = 0x202u

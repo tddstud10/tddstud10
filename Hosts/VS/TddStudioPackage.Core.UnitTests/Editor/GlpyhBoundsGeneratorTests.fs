@@ -7,6 +7,7 @@ open Microsoft.VisualStudio.Text.Tagging
 open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.Hosts.Common.TestCode
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
+open System
 open System.Windows
 open Xunit
 
@@ -17,13 +18,14 @@ let getMTSForline (ss : SnapshotSpan) : IMappingTagSpan<_> seq =
     let mts = FakeMappingTagSpan<TestStartTag>()
     
     let f () p = 
-        mts.Tag <- { testCases = 
-                         [ { FullyQualifiedName = "FQN:" + ss.GetText()
+        mts.Tag <- { TstTestCases = 
+                         [ { DtcId = Guid()
+                             FullyQualifiedName = "FQN:" + ss.GetText()
                              DisplayName = ""
                              Source = FilePath "source"
                              CodeFilePath = FilePath ""
                              LineNumber = DocumentCoordinate 0 } ]
-                     location = 
+                     TstLocation = 
                          { document = p
                            line = DocumentCoordinate(ss.Start.GetContainingLine().LineNumber + 1) } }
     ss.Snapshot.TextBuffer.FilePath |> Option.fold f ()

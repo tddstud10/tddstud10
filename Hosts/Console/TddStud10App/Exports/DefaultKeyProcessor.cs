@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.Text.Editor;
 
-namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App
+namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.Exports
 {
     public class DefaultKeyProcessor : KeyProcessor
     {

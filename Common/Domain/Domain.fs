@@ -179,7 +179,8 @@ type public IRunExecutorHost =
     abstract RunStateChanged : RunState -> unit
 
 type DTestCase =
-    { FullyQualifiedName : string
+    { DtcId : Guid
+      FullyQualifiedName : string
       DisplayName : string
       Source : FilePath
       CodeFilePath : FilePath

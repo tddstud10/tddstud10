@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using R4nd0mApps.TddStud10.Common.Domain;
-using R4nd0mApps.TddStud10.Hosts.Common;
+using R4nd0mApps.TddStud10.Hosts.Common.StatusBar;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using System;
 using System.Reflection;
@@ -173,7 +173,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                 rootDockPanel.LastChildFill = false;
                 var sbItem = new StatusBarItem();
                 sbItem.Visibility = Visibility.Visible;
-                var sbIcon = new StatusBarNotificationIcon();
+                var sbIcon = new NotificationIcon();
                 sbIcon.Visibility = Visibility.Visible;
                 DockPanel.SetDock(sbItem, Dock.Right);
 
@@ -183,7 +183,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                 sbItem.Margin = new Thickness(0);
                 sbItem.Padding = new Thickness(0);
                 rootDockPanel.Children.Insert(0, sbItem);
-                Logger.I.LogInfo("... StatusBarNotificationIcon successfully injected.");
+                Logger.I.LogInfo("... StatusBar NotificationIcon successfully injected.");
             }
             catch (Exception e)
             {
@@ -196,14 +196,14 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             Logger.I.LogInfo("... Exiting from status bar thread.");
         }
 
-        private void BindStatusIconProperties(StatusBarNotificationIcon sbIcon)
+        private void BindStatusIconProperties(NotificationIcon sbIcon)
         {
             var aBinding = CreateBindingForRunStateProperty<RunStateToAnimationStateConverter>();
-            sbIcon.SetBinding(StatusBarNotificationIcon.AnimateProperty, aBinding);
+            sbIcon.SetBinding(NotificationIcon.AnimateProperty, aBinding);
             var cBinding = CreateBindingForRunStateProperty<RunStateToIconColorConverter>();
-            sbIcon.SetBinding(StatusBarNotificationIcon.IconColorProperty, cBinding);
+            sbIcon.SetBinding(NotificationIcon.IconColorProperty, cBinding);
             var tBinding = CreateBindingForRunStateProperty<RunStateToIconTextConverter>();
-            sbIcon.SetBinding(StatusBarNotificationIcon.IconTextProperty, tBinding);
+            sbIcon.SetBinding(NotificationIcon.IconTextProperty, tBinding);
         }
 
         private Binding CreateBindingForRunStateProperty<T>() where T : IValueConverter, new()

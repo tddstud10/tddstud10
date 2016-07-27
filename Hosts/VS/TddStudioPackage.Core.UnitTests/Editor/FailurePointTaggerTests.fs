@@ -84,6 +84,6 @@ let ``If TestFailureInfo exists for current line, return those``() =
     Assert.Equal(pdltfi.[{document = "f3.cpp" |> FilePath; line = 1 |> DocumentCoordinate }]
                  |> Seq.toArray, 
                  it
-                 |> Seq.map (fun t -> t.Tag.tfis)
+                 |> Seq.map (fun t -> t.Tag.Tfis)
                  |> Seq.collect id)
     Assert.Equal([| (1, 1, 1, 6) |], it |> Seq.map (fun t -> t.Span.Bounds1Based))

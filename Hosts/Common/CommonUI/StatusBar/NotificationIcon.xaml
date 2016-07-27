@@ -1,12 +1,11 @@
 ﻿<UserControl 
-  x:Class="R4nd0mApps.TddStud10.Hosts.Common.StatusBarNotificationIcon"
+  x:Class="R4nd0mApps.TddStud10.Hosts.Common.StatusBar.NotificationIcon"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-  xmlns:local="clr-namespace:R4nd0mApps.TddStud10.Hosts.Common"
   mc:Ignorable="d"
   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
   MinHeight="21" MinWidth="21"

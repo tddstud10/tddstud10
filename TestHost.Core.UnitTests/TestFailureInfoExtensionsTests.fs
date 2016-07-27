@@ -1,13 +1,14 @@
 ﻿module R4nd0mApps.TddStud10.TestHost.TestFailureInfoExtensionsTests
 
-open Xunit
-open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open R4nd0mApps.TddStud10.Common.Domain
+open System
+open Xunit
 
 let createFailedTR() = 
     { DisplayName = "???" 
       TestCase =
-        { FullyQualifiedName = "fqn"
+        { DtcId = Guid()
+          FullyQualifiedName = "fqn"
           DisplayName = "???"
           Source = FilePath "a.dll"
           CodeFilePath = FilePath "???"
