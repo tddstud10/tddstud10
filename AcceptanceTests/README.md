@@ -1,4 +1,15 @@
-﻿# Acceptance Tests
+﻿2013, 2015
+- Install old + upgrade => verify logs
+- For each project
+  - Build -> notification icon (B) -> white markers -> test start markers -> notification icon (T) -> test green
+  - build red - notification icon
+  - test red - notification icon + failure test markers
+  - debug test -> bp inserted -> no test info on markers
+  - goto tests, test error details
+  - green test, debug, goto test
+  - cache in %temp%
+
+# Acceptance Tests
   - Help About - icon, version, name
   - Extensions and Updates - icon, version, name
   - Vanilla project: Auto trigger, SequencePoint markers show, Icon changes state

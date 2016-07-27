@@ -11,13 +11,13 @@ type Class1() =
         let revRevIsOrig (xs:list<int>) = List.rev(List.rev xs) = xs
         Check.QuickThrowOnFailure revRevIsOrig
 
-    let run c (s : string) = s.Split().[0]
+    let run c (s : string) = s.Split([|c|]).[0]
 
     [<Theory>]
     [<InlineData("an1 rest",           "an1")>]
     [<InlineData("?test bla",          "?test")>]
     let ``should parse symbol``(toParse:string, result:string) =
-        Assert.Equal(result, run ' ' result)
+        Assert.Equal(result, run ' ' toParse)
 
 //    [<Property>]
 //    let ``Reverse of reverse of a list is the original list ``(xs:list<int>) =

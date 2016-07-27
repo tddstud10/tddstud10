@@ -23,7 +23,7 @@ Target "Build" (fun _ ->
     !! solutionFile
     |> MSBuild buildDir "Build"
          [
-            "Configuration", "Debug"
+            "Configuration", "Release"
             "Platform", "Any CPU"
             "CreateVsixContainer", "true"
             "DeployExtension", "false"
