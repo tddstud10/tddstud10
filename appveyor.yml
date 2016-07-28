@@ -1,0 +1,18 @@
+version: 1.0.{build}
+image: Visual Studio 2013
+configuration: Release
+platform: Any CPU
+build:
+  project: TddStud10.sln
+  parallel: true
+  verbosity: minimal
+test:
+  assemblies: '**\*.UnitTests.dll'
+notifications:
+- provider: Email
+  to:
+  - this@parthopdas.com
+  - henrik.rxn@gmail.com
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true
