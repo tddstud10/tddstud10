@@ -24,13 +24,13 @@ type Margin(textView : IWpfTextView, mgta : ITagAggregator<_>, painter, getMargi
     static member Create (dte: EnvDTE.DTE) (dbg: IVsDebugger3) (textView : IWpfTextView) (mgta : ITagAggregator<_>) = 
         (* NOTE: Pure wireup code in this constructor. Hence not tested. *)
         let getZL = fun() -> textView.ZoomLevel / 100.0
-        let hia = createHostIdeApi dte dbg
+        let createHA = createHostActions dte dbg
         let canvas = MarginCanvas(getZL)
         let painter = 
             GlpyhBoundsGenerator.generate getZL
             >> (Seq.map (fun (b, (l : ITextViewLine)) -> b, l.Extent |> mgta.GetTags))
             >> (Seq.choose GlyphInfoGenerator.generate)
-            >> (Seq.map (GlyphGenerator.generate hia getZL))
+            >> (Seq.map (GlyphGenerator.generate createHA getZL))
             >> canvas.Refresh 
         new Margin(textView, mgta, painter, (fun () -> canvas.ActualWidth), (fun () -> canvas :> FrameworkElement))
     override x.Finalize() = x.Dispose(false)

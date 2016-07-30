@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\..\packages\xunit.runner.visualstudio.2.0.0\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\..\..\packages\xunit.runner.visualstudio.2.0.0\build\net20\xunit.runner.visualstudio.props')" />
   <Import Project="..\..\..\packages\xunit.core.2.0.0\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.props" Condition="Exists('..\..\..\packages\xunit.core.2.0.0\build\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.core.props')" />
@@ -72,6 +72,7 @@
     <Content Include="packages.config" />
     <Compile Include="Editor\Common.fs" />
     <Compile Include="Editor\TestStartTaggerTests.fs" />
+    <Compile Include="Editor\HostIdeApiTests.fs" />
     <Compile Include="Editor\SequencePointTaggerTests.fs" />
     <Compile Include="Editor\CodeCoverageTaggerTests.fs" />
     <Compile Include="Editor\FailurePointTaggerTests.fs" />

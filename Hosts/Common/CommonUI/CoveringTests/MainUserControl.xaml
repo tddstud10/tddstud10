@@ -28,9 +28,6 @@
             StrokeThickness="{Binding GlyphInfo.OutlineThickness}"
         >
             <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseEnter" >
-                    <i:InvokeCommandAction Command="{Binding InitializeViewModelCommand}" />
-                </i:EventTrigger>
                 <i:EventTrigger EventName="MouseDown" >
                     <i:InvokeCommandAction Command="{Binding ShowPopupCommand}" />
                 </i:EventTrigger>
@@ -44,7 +41,7 @@
         </Path>
         <Popup 
             IsOpen="{Binding PopupVisible}"
-            StaysOpen="False" 
+            StaysOpen="{Binding PopupStaysOpen}" 
             Placement="MousePoint"
             HorizontalOffset="-2"
             VerticalOffset="-2"
@@ -57,7 +54,9 @@
             >
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid
+                            ShowGridLines="{Binding ShowGridLines}"
+                        >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
@@ -161,14 +160,14 @@
                                 <TextBox 
                                     Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1"
                                     Text="{Binding ErrorMessage}"
-                                    MaxWidth="500" MaxHeight="200"
+                                    MaxHeight="200"
                                     Style="{StaticResource TestCaseFields}"
                                 />
                                 <TextBox 
                                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1"
                                     Text="{Binding ErrorStackTrace}"
-                                    MaxWidth="500" MaxHeight="200"
-                                    Style="{StaticResource TestCaseFields}"
+                                    MaxHeight="200"
+                                    Style="{StaticResource TestCaseFields}" 
                                 />
                             </Grid>
                         </Grid>

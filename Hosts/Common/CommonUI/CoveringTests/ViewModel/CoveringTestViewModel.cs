@@ -7,12 +7,25 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
 {
     public class CoveringTestViewModel : ViewModelBase
     {
+        // NOTE: Only a layout debugging aid. Can be removed once UI is stable.
+        private bool _showGridLines = false;
+
+        public bool ShowGridLines
+        {
+            get { return _showGridLines; }
+            set
+            {
+                _showGridLines = value;
+                RaisePropertyChanged(() => _showGridLines);
+            }
+        }
+
         private bool _expanded = false;
 
         public bool DetailsVisible
         {
             get { return _expanded; }
-            private set
+            set
             {
                 _expanded = value;
                 RaisePropertyChanged(() => DetailsVisible);
@@ -91,15 +104,15 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
             }
         }
 
-        public Tuple<SequencePoint, DTestCase> TestCase { get; set; }
+        public Tuple<SequencePoint, DTestResult> TestCase { get; set; }
 
         public RelayCommand ShowDetailsCommand { get; private set; }
 
-        public RelayCommand<Tuple<SequencePoint, DTestCase>> GotoTestCommand { get; set; }
+        public RelayCommand<Tuple<SequencePoint, DTestResult>> GotoTestCommand { get; set; }
 
-        public RelayCommand<Tuple<SequencePoint, DTestCase>> DebugTestCommand { get; set; }
+        public RelayCommand<Tuple<SequencePoint, DTestResult>> DebugTestCommand { get; set; }
 
-        public RelayCommand<Tuple<SequencePoint, DTestCase>> RunTestCommand { get; set; }
+        public RelayCommand<Tuple<SequencePoint, DTestResult>> RunTestCommand { get; set; }
 
         public CoveringTestViewModel()
         {
