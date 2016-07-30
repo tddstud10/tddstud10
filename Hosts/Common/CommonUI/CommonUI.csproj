@@ -112,7 +112,6 @@
   <ItemGroup>
     <None Include="..\..\..\tddstud10.snk" />
     <None Include="app.config" />
-    <None Include="CommonUICodeAnalysisRules.ruleset" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

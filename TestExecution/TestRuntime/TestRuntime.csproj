@@ -71,7 +71,6 @@
     <Compile Include="TestRunTimeInstaller.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="TestRuntimeCodeAnalysisRules.ruleset" />
     <None Include="packages.config" />
     <None Include="..\..\tddstud10.snk" />
   </ItemGroup>
