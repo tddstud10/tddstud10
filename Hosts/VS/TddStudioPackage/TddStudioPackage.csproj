@@ -60,8 +60,9 @@
     <Prefer32Bit>false</Prefer32Bit>
     <CreateVsixContainer>False</CreateVsixContainer>
     <DeployExtension>True</DeployExtension>
-    <CodeAnalysisRuleSet>CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>TddStudioPackageCodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisTreatWarningsAsErrors>True</CodeAnalysisTreatWarningsAsErrors>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup>
     <!-- Look for the SDK specific to the current version of Visual Studio -->
