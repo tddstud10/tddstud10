@@ -85,7 +85,6 @@
     <Compile Include="Editor\GlpyhBoundsGeneratorTests.fs" />
     <Compile Include="Editor\GlpyhInfoGeneratorTests.fs" />
     <Compile Include="Editor\MarginTests.fs" />
-    <None Include="CodeAnalysisRules.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />

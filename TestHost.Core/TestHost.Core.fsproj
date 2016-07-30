@@ -81,7 +81,6 @@
     <Compile Include="XUnitTestExecutor.fs" />
     <Compile Include="TestFailureInfoExtensions.fs" />
     <Compile Include="TestAdapterExtensions.fs" />
-    <None Include="CodeAnalysisRules.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">

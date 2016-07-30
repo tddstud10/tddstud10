@@ -92,7 +92,6 @@
     <Compile Include="Editor\MarginCanvas.fs" />
     <Compile Include="Editor\Margin.fs" />
     <Compile Include="HostVersionExtensions.fs" />
-    <None Include="CodeAnalysisRules.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />

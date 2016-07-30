@@ -81,7 +81,6 @@
     <Compile Include="WorkspaceDomain.fs" />
     <Compile Include="Code\PathBuilder.fs" />
     <Compile Include="Code\CollectionExtensions.fs" />
-    <None Include="CodeAnalysisRules.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Clide">

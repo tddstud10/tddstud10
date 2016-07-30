@@ -85,7 +85,6 @@
     <Compile Include="RunStateTrackerTests.fs" />
     <Compile Include="DataStoreTests.fs" />
     <Compile Include="CollectionExtensionTests.fs" />
-    <None Include="CodeAnalysisRules.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Domain\Domain.fsproj">

@@ -155,7 +155,6 @@
     <Compile Include="XUnitTestDiscovererTests.fs" />
     <Compile Include="TestFailureInfoExtensionsTests.fs" />
     <Compile Include="TestAdapterExtensionsTests.fs" />
-    <None Include="CodeAnalysisRules.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
