@@ -175,6 +175,18 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         public bool CanContinue()
         {
+            if (!this.GetService<SVsSolution, IVsSolution>().GetProperty<bool>((int)__VSPROPID4.VSPROPID_IsSolutionFullyLoaded))
+            {
+                Logger.I.LogInfo("Solution is not fully loaded. Asking to stop.");
+                return false;
+            }
+
+            if (this.GetService<SVsSolution, IVsSolution>().GetProperty<bool>((int)__VSPROPID2.VSPROPID_IsSolutionClosing))
+            {
+                Logger.I.LogInfo("Solution is closing. Asking to stop.");
+                return false;
+            }
+
             if (_dte.Solution.SolutionBuild.BuildState == EnvDTE.vsBuildState.vsBuildStateInProgress)
             {
                 Logger.I.LogInfo("Build in progress. Asking to stop.");
@@ -218,5 +230,17 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         }
 
         #endregion
+
+        private T GetPropertyValue<T>(IVsSolution solutionInterface, __VSPROPID solutionProperty)
+        {
+            object value = null;
+            T result = default(T);
+
+            if (solutionInterface.GetProperty((int)solutionProperty, out value) == Microsoft.VisualStudio.VSConstants.S_OK)
+            {
+                result = (T)value;
+            }
+            return result;
+        }
     }
 }

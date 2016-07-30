@@ -63,6 +63,7 @@
     <Compile Include="PkgGuids.fs" />
     <Compile Include="PkgCmdID.fs" />
     <Compile Include="ErrorHandlerExtensions.fs" />
+    <Compile Include="VsSolutionExtensions.fs" />
     <Compile Include="VsUIShellExtensions.fs" />
     <Compile Include="EditorFrameworkExtensions.fs" />
     <Compile Include="Editor\Domain.fs" />
