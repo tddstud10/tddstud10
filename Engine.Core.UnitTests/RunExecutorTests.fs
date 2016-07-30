@@ -2,6 +2,7 @@
 
 open Xunit
 open System
+open R4nd0mApps.TddStud10
 open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.Engine.TestDoubles
 open R4nd0mApps.TddStud10.Engine.TestFramework
@@ -53,7 +54,7 @@ let ``Executor initialized RunData``() =
     let expected = 
         { SnapShotRoot = ~~ssRoot
           StartTime = now
-          TestHostPath = ~~"TddStud10.TestHost.exe"
+          TestHostPath = ~~(sprintf "TddStud10.TestHost%s.exe" Constants.ProductVariant)
           Solution = 
             { Path = slnFile
               SnapshotPath = ~~(ssRoot + @"\folder\file.sln")

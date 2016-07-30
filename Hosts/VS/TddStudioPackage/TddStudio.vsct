@@ -28,11 +28,12 @@
       </Button>
       <Button guid="guidTddStud10CmdSet" id="viewTddStud10Logs" priority="0x0002" type="Button">
         <Parent guid="guidTddStud10CmdSet" id="tddStud10MenuGroup" />
+        <CommandFlag>TextChanges</CommandFlag>
         <CommandFlag>DynamicVisibility</CommandFlag>
         <CommandFlag>DefaultInvisible</CommandFlag>
         <CommandFlag>DefaultDisabled</CommandFlag>
         <Strings>
-          <ButtonText>View TDD Studio &amp;Logs</ButtonText>
+          <ButtonText>none</ButtonText>
         </Strings>
       </Button>
 

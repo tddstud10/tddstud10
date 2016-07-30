@@ -131,5 +131,14 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Properties {
                 return ResourceManager.GetString("UnableToStartLogger", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View TDD Studio &amp;Logs.
+        /// </summary>
+        internal static string ViewTddStud10Logs {
+            get {
+                return ResourceManager.GetString("ViewTddStud10Logs", resourceCulture);
+            }
+        }
     }
 }

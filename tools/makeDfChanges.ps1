@@ -13,6 +13,8 @@ namespace R4nd0mApps.TddStud10
 {
     internal class Constants
     {
+        public const string ProductVariant = ".df";
+
         public const string ProductName = "Test Driven Development Studio (dogfood)";
 
         public const string RealTimeSessionName = "R4nd0mApps-TddStud10-Realtime-Session-df";
@@ -21,8 +23,6 @@ namespace R4nd0mApps.TddStud10
         public const string EtwProviderNameTestHost = "R4nd0mApps-TddStud10-TestHost-df";
         public const string EtwProviderNameEngine = "R4nd0mApps-TddStud10-Engine-df";
         public const string EtwProviderNameTestRuntime = "R4nd0mApps-TddStud10-TestRuntime-df";
-
-        public const string SnapshotRoot = "d:\\tddstud10.df";
     }
 }
 "@)
@@ -30,6 +30,9 @@ namespace R4nd0mApps.TddStud10
 namespace R4nd0mApps.TddStud10
 
 module internal Constants =
+
+    [<Literal>]
+    let ProductVariant = ".df";
 
     [<Literal>]
     let ProductName = "Test Driven Development Studio (dogfood)";
@@ -46,9 +49,6 @@ module internal Constants =
     let EtwProviderNameEngine = "R4nd0mApps-TddStud10-Engine-df";
     [<Literal>]
     let EtwProviderNameTestRuntime = "R4nd0mApps-TddStud10-TestRuntime-df";
-
-    [<Literal>]
-    let SnapshotRoot = "d:\\tddstud10.df";
 "@)
 
 Write-Host "Change strings in resx files"

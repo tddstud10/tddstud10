@@ -33,7 +33,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             new List<CommandEntry>()
             {
                 new CommandEntry(PkgGuids.GuidTddStud10CmdSet, PkgCmdID.ChangeTddStud10State, ExecuteChangeTddStud10State, OnBeforeQueryStatusChangeTddStud10State),
-                new CommandEntry(PkgGuids.GuidTddStud10CmdSet, PkgCmdID.ViewTddStud10Logs, ExecuteViewTddStud10Logs, (s, e) => { }),
+                new CommandEntry(PkgGuids.GuidTddStud10CmdSet, PkgCmdID.ViewTddStud10Logs, ExecuteViewTddStud10Logs, OnBeforeQueryStatusViewTddStud10Logs),
             }.Aggregate(
                 _mcs,
                 (mcs, e) =>
@@ -95,10 +95,32 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         #region PkgCmdIDList.ViewTddStud10Logs
 
+        private void OnBeforeQueryStatusViewTddStud10Logs(object sender, EventArgs e)
+        {
+            Logger.I.LogInfo("Querying for ViewTddStud10Logs...");
+
+            var cmd = sender as OleMenuCommand;
+            if (cmd == null)
+            {
+                Logger.I.LogError("sender should have been an OleMenuCommand. This is unexpected.");
+                return;
+            }
+
+            if (!_dte.Solution.IsOpen)
+            {
+                Logger.I.LogInfo("Solution is not open.");
+                cmd.Visible = false;
+                return;
+            }
+
+            cmd.Visible = true;
+            cmd.Text = Properties.Resources.ViewTddStud10Logs;
+        }
+
         private void ExecuteViewTddStud10Logs(object sender, EventArgs e)
         {
             var pkgPath = Path.GetDirectoryName(Path.GetFullPath(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath));
-            var loggerPath = Path.Combine(pkgPath, @"rtlogs\RealTimeEtwListener.exe");
+            var loggerPath = Path.Combine(pkgPath, string.Format(@"rtlogs\RealTimeEtwListener{0}.exe", Constants.ProductVariant));
             try
             {
                 ProcessStartInfo info = new ProcessStartInfo(loggerPath);

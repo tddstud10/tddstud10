@@ -7,6 +7,7 @@ module RunStartParamsExtensions =
     open System.IO
     open System.Reflection
     open R4nd0mApps.TddStud10.Common.Domain
+    open R4nd0mApps.TddStud10
     
     let private getLocalPath() = 
         (Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath
@@ -19,7 +20,7 @@ module RunStartParamsExtensions =
             let buildRoot = PathBuilder.makeSlnBuildRoot snapShotRoot solutionPath
             { SnapShotRoot = snapShotRoot
               StartTime = startTime
-              TestHostPath = Path.Combine(() |> getLocalPath, "TddStud10.TestHost.exe") |> FilePath
+              TestHostPath = Path.Combine(() |> getLocalPath, sprintf "TddStud10.TestHost%s.exe" Constants.ProductVariant) |> FilePath
               Solution = 
                   { Path = solutionPath
                     SnapshotPath = PathBuilder.makeSlnSnapshotPath snapShotRoot solutionPath

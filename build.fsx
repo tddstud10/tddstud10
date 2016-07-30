@@ -33,7 +33,7 @@ Target "Build" (fun _ ->
 )
 
 Target "Test" (fun _ ->
-    !! (buildDir + "/*.UnitTests.dll")
+    !! (buildDir + "/*.UnitTests*.dll")
     |> xUnit (fun p ->
         { p with
             ToolPath = findToolInSubPath "xunit.console.exe" (currentDirectory @@ "tools" @@ "xUnit")

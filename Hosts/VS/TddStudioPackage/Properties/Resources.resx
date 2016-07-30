@@ -141,4 +141,7 @@
   <data name="UnableToStartLogger" xml:space="preserve">
     <value>Unable to start TDD Studio logger. Launch manually from {0}.</value>
   </data>
+  <data name="ViewTddStud10Logs" xml:space="preserve">
+    <value>View TDD Studio &amp;Logs</value>
+  </data>
 </root>
