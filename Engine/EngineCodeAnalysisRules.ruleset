@@ -8,7 +8,7 @@
     <Rule Id="FadedToken" Action="None" />
   </Rules>
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
-    <Rule Id="CA1000" Action="None" />
+    <Rule Id="CA1000" Action="Info" />
     <Rule Id="CA1001" Action="None" />
     <Rule Id="CA1002" Action="None" />
     <Rule Id="CA1003" Action="None" />
