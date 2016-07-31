@@ -318,7 +318,7 @@
       </IncludeOutputGroupsInVSIXLocalOnly>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\..\Common\CommonUI\CommonUI.csproj">
+    <ProjectReference Include="..\CommonUI\CommonUI.csproj">
       <Project>{C578A684-2FFF-4100-8620-C1220D05EA3E}</Project>
       <Name>CommonUI</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b

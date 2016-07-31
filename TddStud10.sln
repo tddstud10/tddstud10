@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{ED5D34
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestExecution", "TestExecution", "{198AE2D4-84E6-491B-BCAA-FE9CD7E1A7B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TddStud10App", "Hosts\Console\TddStud10App\TddStud10App.csproj", "{499B5F21-4AA4-47C2-82F0-1631CAE7DA78}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TddStud10App", "Hosts\VS\TddStud10App\TddStud10App.csproj", "{499B5F21-4AA4-47C2-82F0-1631CAE7DA78}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{96D4C703-953A-43F6-94FA-A5394B297703}"
 EndProject
@@ -45,7 +45,7 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TestHost.Core", "TestHost.C
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TestHost.Core.UnitTests", "TestHost.Core.UnitTests\TestHost.Core.UnitTests.fsproj", "{AEF3168D-A744-4C92-A5D5-8B1E1C8CA0F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonUI", "Hosts\Common\CommonUI\CommonUI.csproj", "{C578A684-2FFF-4100-8620-C1220D05EA3E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonUI", "Hosts\VS\CommonUI\CommonUI.csproj", "{C578A684-2FFF-4100-8620-C1220D05EA3E}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Domain", "Common\Domain\Domain.fsproj", "{E5FB2293-1833-4C4C-800E-A31AC891A931}"
 EndProject
