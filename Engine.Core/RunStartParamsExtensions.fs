@@ -25,6 +25,7 @@ module RunStartParamsExtensions =
                   { Path = solutionPath
                     SnapshotPath = PathBuilder.makeSlnSnapshotPath snapShotRoot solutionPath
                     BuildRoot = buildRoot }
+              IgnoredTests = cfg.IgnoredTests
               DataFiles = 
                   { SequencePointStore =
                         PathBuilder.combine [ buildRoot

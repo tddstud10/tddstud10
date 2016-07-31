@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Xunit;
 
 namespace CSXUnit1xNUnit3x
 {
@@ -29,6 +30,12 @@ namespace CSXUnit1xNUnit3x
 
             NUnit.Framework.Assert.That(sqrt >= 0.0);
             NUnit.Framework.Assert.That(sqrt * sqrt, NUnit.Framework.Is.EqualTo(num).Within(0.000001));
+        }
+
+        [Fact]
+        public void TestToSkip()
+        {
+            Assert.Equal(0, 0);
         }
     }
 

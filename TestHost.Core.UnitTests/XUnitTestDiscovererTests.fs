@@ -28,7 +28,7 @@ let createDiscoverer() =
 [<Fact>]
 let ``Can run successfully on assemblies with no tests``() = 
     let it, _ = createDiscoverer()
-    it.DiscoverTests([ ], testBin)
+    it.DiscoverTests([ ], testBin, Array.empty<string>)
 
 
 [<Fact>]
@@ -37,10 +37,28 @@ let ``Can discover theory and facts from test assembly``() =
     let td = 
         TestPlatformExtensions.getLocalPath() 
         |> TestPlatformExtensions.loadTestAdapter :?> ITestDiscoverer
-    it.DiscoverTests([ td ], testBin)
+    it.DiscoverTests([ td ], testBin, Array.empty<string>)
     let actualTests = 
         tcs
         |> Seq.map (fun t -> t.DisplayName)
         |> Seq.sort
         |> Seq.toList
     Assert.Equal<list<_>>(expectedTests, actualTests)
+
+[<Fact>]
+let ``Can ignore discover theory and facts from test assembly``() = 
+    let it, tcs = createDiscoverer()
+    let td = 
+        TestPlatformExtensions.getLocalPath() 
+        |> TestPlatformExtensions.loadTestAdapter :?> ITestDiscoverer
+    let filteredTestName = "XUnit20FSPortable.UnitTests.Theory Tests"
+   
+    it.DiscoverTests([ td ], testBin, [|filteredTestName|])
+    
+    let filteredTests = expectedTests |> List.filter (fun f -> f.StartsWith(filteredTestName) <> true)
+    let actualTests = 
+        tcs
+        |> Seq.map (fun t -> t.DisplayName)
+        |> Seq.sort
+        |> Seq.toList
+    Assert.Equal<list<_>>(filteredTests , actualTests)

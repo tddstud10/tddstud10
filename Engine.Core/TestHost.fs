@@ -5,7 +5,7 @@ module TestHost =
     open R4nd0mApps.TddStud10.Common.Domain
 
     let buildCommandLine cmd (rsp : RunStartParams) =
-        sprintf "\"%s\" \"%O\" \"%O\" \"%O\" \"%O\" \"%O\" \"%O\" \"%O\" \"%O\" \"%O\""
+        sprintf "\"%s\" \"%O\" \"%O\" \"%O\" \"%O\" \"%O\" \"%O\" \"%O\" \"%O\" \"%O\" \"%O\""
             cmd
             rsp.Solution.BuildRoot
             rsp.DataFiles.CoverageSessionStore
@@ -16,3 +16,4 @@ module TestHost =
             rsp.Solution.Path
             rsp.Solution.SnapshotPath
             rsp.DataFiles.DiscoveredUnitDTestsStore
+            rsp.IgnoredTests

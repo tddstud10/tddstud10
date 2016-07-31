@@ -7,6 +7,7 @@ using R4nd0mApps.TddStud10.Engine.Diagnostics;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -64,7 +65,7 @@ namespace R4nd0mApps.TddStud10
         {
             foreach (MethodDefinition meth in type.Methods)
             {
-                if (meth.Body == null || meth.Body.Instructions.Count <= 0)
+                if (IsMethodSkipped(meth))
                 {
                     continue;
                 }
@@ -218,7 +219,7 @@ namespace R4nd0mApps.TddStud10
         {
             foreach (MethodDefinition meth in type.Methods)
             {
-                if (meth.Body == null || meth.Body.Instructions.Count <= 0)
+                if (IsMethodSkipped(meth))
                 {
                     continue;
                 }
@@ -293,6 +294,11 @@ namespace R4nd0mApps.TddStud10
                 meth.Body.InitLocals = true;
                 meth.Body.OptimizeMacros();
             }
+        }
+
+        private static bool IsMethodSkipped(MethodDefinition meth)
+        {
+            return meth.Body == null || meth.Body.Instructions.Count <= 0;
         }
 
         private static void InjectExitUtCallInsideMethodWiseFinally(
