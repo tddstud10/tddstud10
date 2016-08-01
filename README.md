@@ -24,21 +24,22 @@
   - Eventually not just unit tests - but a collection of facilities that makes TDD a joy! e.g. TODO list, hotspot analysis, etc.
 
 # Features that currently work 
+  - Supported on VS2013 & VS2015
   - Enable/Disable TDDStudio
+  - Multiple Unit Test Frameworks [nUnit v2/v3, xUnit v1/v2]
+  - Multiple Languages [C#/F#/VB]
   - Run build/test cycle on every change to any file under the solution folder
   - Incrementalv0 - i.e. build/test happen only for projects that have changed
   - Show code coverage indicators next to each line [green => tests covering it have all passed, red => otherwise]
   - nCrunch style status indicator at the bottom-right in VS Status Bar.
+  - Each coverage marker has a rich list of covering tests with (a) error message/stacktrace (b) option to debug test
 
 # Demo
   [![TDD Studio - Making TDD a joy!](http://img.youtube.com/vi/Bdo_Z-tj_T8/0.jpg)](https://www.youtube.com/watch?v=Bdo_Z-tj_T8 "TDD Studio - Making TDD a joy!")
 
 # Wish list and stuff really far off into the future #
-  - Unit Test Frameworks [nUnit, xUnit, VS' CppUnit] 
-  - Languages [C++/C#/F#] 
-  - Hosts [VS2013/VS2015/Atom/VSCode] 
-  - Editor enhancements [Code Coverage, Test Markers] 
-  - Automated build and run test 
-  - Debug first failing 1 test 
+  - Other Unit Test Frameworks [VS' CppUnit] 
+  - Languages [C++] 
+  - Hosts [Atom/VSCode] 
   - Test List 
   - Automated change detection
