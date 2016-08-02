@@ -9,16 +9,17 @@ type XUnitTestDiscoverer() =
     let dc = TestPlatformExtensions.createDiscoveryContext()
     let ml = TestPlatformExtensions.createMessageLogger()
     let ds = TestPlatformExtensions.createDiscoverySink
-    let filteredTest = new Event<_>()
+    let filteredTest = new Event<Microsoft.VisualStudio.TestPlatform.ObjectModel.TestCase>()
+    let testDiscovered = new Event<_>()
+    let isValidTest = fun ignoredTests (testCase : Microsoft.VisualStudio.TestPlatform.ObjectModel.TestCase) -> 
+                                            not(
+                                                ignoredTests 
+                                                |> Array.exists (fun (ignoredTestPattern) -> testCase.FullyQualifiedName.StartsWith(ignoredTestPattern))
+                                               )
     member public __.TestDiscovered = filteredTest.Publish
     member public __.DiscoverTests(tds : ITestDiscoverer seq, FilePath asm, ignoredTests : string[]) = 
-        let testDiscovered = new Event<_>()
-        let handler = fun obj (testCase: Microsoft.VisualStudio.TestPlatform.ObjectModel.TestCase) -> 
-                            let exists = ignoredTests |> Array.exists (fun f -> testCase.FullyQualifiedName.StartsWith(f))
-                            match exists with
-                            | true -> ()
-                            | false -> filteredTest.Trigger(testCase)
-        testDiscovered.Publish.AddHandler(new Handler<Microsoft.VisualStudio.TestPlatform.ObjectModel.TestCase>(handler))
+        testDiscovered.Publish |> Event.filter(fun testCase -> isValidTest ignoredTests testCase)
+                               |> Event.add (fun testCase -> filteredTest.Trigger(testCase))
         tds
         |> Seq.map (fun td -> td.DiscoverTests([ asm ], dc, ml, ds testDiscovered.Trigger))
         |> Seq.fold (fun _ -> id) ()
