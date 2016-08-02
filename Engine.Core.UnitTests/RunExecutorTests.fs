@@ -59,6 +59,7 @@ let ``Executor initialized RunData``() =
             { Path = slnFile
               SnapshotPath = ~~(ssRoot + @"\folder\file.sln")
               BuildRoot = ~~(ssRoot + @"\folder\out") }
+          IgnoredTests = ""
           DataFiles = 
               { SequencePointStore = ~~(ssRoot + @"\folder\out\Z_sequencePointStore.xml")
                 CoverageSessionStore = ~~(ssRoot + @"\folder\out\Z_coverageresults.xml")

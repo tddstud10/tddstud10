@@ -67,6 +67,9 @@
       <SpecificVersion>True</SpecificVersion>
       <HintPath>..\VSSDK.References\Vs2013\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.0\lib\net40\Mono.Cecil.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />

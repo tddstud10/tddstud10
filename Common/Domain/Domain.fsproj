@@ -76,6 +76,9 @@
     <Compile Include="Code\CollectionExtensions.fs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\..\packages\Mono.Cecil.0.9.6.0\lib\net40\Mono.Cecil.dll</HintPath>
+    </Reference>
     <Reference Include="Clide">
       <HintPath>..\..\incr\packages\Clide.2.3.29\lib\net40\Clide.dll</HintPath>
       <Private>True</Private>

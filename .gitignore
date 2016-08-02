@@ -4,6 +4,7 @@
 # User-specific files
 *.suo
 *.user
+!CSXUnit1xNUnit3x.sln.tddstud10.user
 *.userosscache
 *.sln.docstates
 
@@ -255,3 +256,4 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+

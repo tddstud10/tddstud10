@@ -26,7 +26,8 @@ type RunStartParams =
       StartTime : DateTime
       TestHostPath : FilePath
       Solution : SolutionPaths
-      DataFiles : RunDataFiles }
+      DataFiles : RunDataFiles
+      IgnoredTests : string }
 
 type RunStepInfo = 
     { name : RunStepName
