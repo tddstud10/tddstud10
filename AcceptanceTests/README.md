@@ -6,8 +6,10 @@
   - test red - notification icon + failure test markers
   - debug test -> bp inserted -> no test info on markers
   - goto tests, test error details
-  - green test, debug, goto test
+  - ignore tests and make things green
+  - unignore, fix tests and make things green - green test, debug, goto test
   - cache in %temp%
+
 
 # Acceptance Tests
   - Help About - icon, version, name

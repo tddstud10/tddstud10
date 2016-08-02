@@ -26,6 +26,7 @@
 # Features that currently work 
   - Supported on VS2013 & VS2015
   - Enable/Disable TDDStudio
+  - Ability to ignore tests (e.g. long range/acceptance tests, using a setting in .sln.tddstud10.user)
   - Multiple Unit Test Frameworks [nUnit v2/v3, xUnit v1/v2]
   - Multiple Languages [C#/F#/VB]
   - Run build/test cycle on every change to any file under the solution folder
