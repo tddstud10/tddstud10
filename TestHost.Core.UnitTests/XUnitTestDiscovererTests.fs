@@ -55,7 +55,7 @@ let ``Can ignore discover theory and facts from test assembly``() =
    
     it.DiscoverTests([ td ], testBin, [|filteredTestName|])
     
-    let filteredTests = expectedTests |> List.filter (fun f -> f.StartsWith(filteredTestName) <> true)
+    let filteredTests = expectedTests |> List.filter (fun f -> not(f.StartsWith(filteredTestName)))
     let actualTests = 
         tcs
         |> Seq.map (fun t -> t.DisplayName)
