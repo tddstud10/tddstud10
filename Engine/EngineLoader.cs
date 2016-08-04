@@ -109,6 +109,7 @@ namespace R4nd0mApps.TddStud10.Engine
         public static void DisableEngine()
         {
             Logger.I.LogInfo("Disabling Engine...");
+            DataStore.Instance.ResetData();
             _efsWatcher.Disable();
         }
 

@@ -10,6 +10,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using R4nd0mApps.TddStud10.Common.Domain;
+using R4nd0mApps.TddStud10.Engine.Core;
 using CommandEntry = System.Tuple<string, uint, System.EventHandler, System.EventHandler>;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
@@ -18,12 +20,14 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
     public class PackageCommands
     {
         private IServiceProvider _serviceProvider;
+        private readonly Settings _settings;
         private EnvDTE.DTE _dte;
         private IMenuCommandService _mcs;
 
-        public PackageCommands(IServiceProvider serviceProvider)
+        public PackageCommands(IServiceProvider serviceProvider, Settings settings)
         {
             _serviceProvider = serviceProvider;
+            _settings = settings;
             _dte = serviceProvider.GetService<EnvDTE.DTE>();
             _mcs = serviceProvider.GetService<IMenuCommandService>();
         }
@@ -55,10 +59,12 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             if (EngineLoader.IsEngineEnabled())
             {
                 EngineLoader.DisableEngine();
+                _settings.SetSetting(Settings.IsTddStudioEnabled, false);
             }
             else
             {
                 EngineLoader.EnableEngine();
+                _settings.SetSetting(Settings.IsTddStudioEnabled, true);
             }
         }
 
@@ -81,14 +87,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             }
 
             cmd.Visible = true;
-            if (EngineLoader.IsEngineEnabled())
-            {
-                cmd.Text = Properties.Resources.DisableTddStud10State;
-            }
-            else
-            {
-                cmd.Text = Properties.Resources.EnableTddStud10State;
-            }
+            cmd.Text = _settings.GetSetting(Settings.IsTddStudioEnabled) 
+                        ? Properties.Resources.DisableTddStud10State 
+                        : Properties.Resources.EnableTddStud10State;
         }
 
         #endregion
