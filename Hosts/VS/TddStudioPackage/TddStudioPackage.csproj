@@ -132,10 +132,6 @@
       <HintPath>..\..\..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.ComponentModelHost, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\VSSDK.References\Vs2010\Microsoft.VisualStudio.ComponentModelHost.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\VSSDK.References\Vs2010\Microsoft.VisualStudio.CoreUtility.dll</HintPath>
     </Reference>
@@ -224,7 +220,6 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="PackageCommands.cs" />
-    <Compile Include="Settings.cs" />
     <Compile Include="VsStatusBarIconHost.cs" />
     <Compile Include="TddStudioPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

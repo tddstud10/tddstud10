@@ -10,7 +10,6 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Microsoft.VisualStudio.ComponentModelHost;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
 {
@@ -32,7 +31,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         private EnvDTE.DTE _dte;
 
         private VsStatusBarIconHost _iconHost;
-        private Settings _settings;
 
         public static TddStud10Package Instance { get; private set; }
 
@@ -59,7 +57,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         protected override void Initialize()
         {
             base.Initialize();
-            _settings = GetSettings();
+
             _solution = Services.GetService<SVsSolution, IVsSolution2>();
             if (_solution != null)
             {
@@ -68,7 +66,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             _dte = Services.GetService<EnvDTE.DTE>();
 
-            new PackageCommands(this, _settings).AddCommands();
+            new PackageCommands(this).AddCommands();
 
             _iconHost = VsStatusBarIconHost.CreateAndInjectIntoVsStatusBar();
 
@@ -76,8 +74,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             Logger.I.LogInfo("Initialized Package successfully.");
         }
-
-        
 
         protected override void Dispose(bool disposing)
         {
@@ -131,7 +127,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                     SessionStartTime = DateTime.UtcNow
                 });
 
-            if (_settings.GetSetting(Settings.IsTddStudioEnabled))
+            if (!cfg.IsDisabled)
             {
                 EngineLoader.EnableEngine();
             }
@@ -249,12 +245,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                 result = (T)value;
             }
             return result;
-        }
-
-        private Settings GetSettings()
-        {
-            var componentModel = (IComponentModel)GetService(typeof(SComponentModel));
-            return componentModel.DefaultExportProvider.GetExportedValue<Settings>();
         }
     }
 }

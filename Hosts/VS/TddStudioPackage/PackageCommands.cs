@@ -19,15 +19,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
     // NOTE: Move to FS when we make a change in this next.
     public class PackageCommands
     {
-        private IServiceProvider _serviceProvider;
-        private readonly Settings _settings;
         private EnvDTE.DTE _dte;
         private IMenuCommandService _mcs;
 
-        public PackageCommands(IServiceProvider serviceProvider, Settings settings)
+        public PackageCommands(IServiceProvider serviceProvider)
         {
-            _serviceProvider = serviceProvider;
-            _settings = settings;
             _dte = serviceProvider.GetService<EnvDTE.DTE>();
             _mcs = serviceProvider.GetService<IMenuCommandService>();
         }
@@ -59,13 +55,21 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             if (EngineLoader.IsEngineEnabled())
             {
                 EngineLoader.DisableEngine();
-                _settings.SetSetting(Settings.IsTddStudioEnabled, false);
+                SetTddStudioDisable(true);
             }
             else
             {
                 EngineLoader.EnableEngine();
-                _settings.SetSetting(Settings.IsTddStudioEnabled, true);
+                SetTddStudioDisable(false);
             }
+        }
+
+        private void SetTddStudioDisable(bool isDisabled)
+        {
+            var solutionPath = FilePath.NewFilePath(_dte.Solution.FileName);
+            var config = EngineConfigLoader.load(new EngineConfig(), solutionPath);
+            config.IsDisabled = isDisabled;
+            EngineConfigLoader.setConfig(solutionPath, config);
         }
 
         private void OnBeforeQueryStatusChangeTddStud10State(object sender, EventArgs e)
@@ -87,7 +91,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             }
 
             cmd.Visible = true;
-            cmd.Text = _settings.GetSetting(Settings.IsTddStudioEnabled) 
+            cmd.Text = EngineLoader.IsEngineEnabled()
                         ? Properties.Resources.DisableTddStud10State 
                         : Properties.Resources.EnableTddStud10State;
         }
