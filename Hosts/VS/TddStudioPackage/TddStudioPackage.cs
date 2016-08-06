@@ -126,7 +126,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                     SolutionPath = FilePath.NewFilePath(GetSolutionPath()),
                     SessionStartTime = DateTime.UtcNow
                 });
-            EngineLoader.EnableEngine();
+
+            if (!cfg.IsDisabled)
+            {
+                EngineLoader.EnableEngine();
+            }
 
             return VSConstants.S_OK;
         }

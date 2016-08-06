@@ -26,7 +26,17 @@ type DataStore() =
         member __.TestFailureInfoUpdated : IEvent<_> = testFailureInfoUpdated.Publish
         member __.CoverageInfoUpdated : IEvent<_> = coverageInfoUpdated.Publish
         member __.UpdateRunStartParams(rsp : RunStartParams) : unit = runStartParams <- rsp |> Some
-        
+        member __.ResetData() = 
+            sequencePoints <- new PerDocumentSequencePoints()
+            Common.safeExec (fun () -> sequencePointsUpdated.Trigger(sequencePoints))
+            testCases <- new PerDocumentLocationDTestCases()
+            Common.safeExec (fun () -> testCasesUpdated.Trigger(testCases))
+            testResults <- new PerTestIdDResults()
+            Common.safeExec (fun () -> testResultsUpdated.Trigger(testResults))
+            testFailureInfo <- new PerDocumentLocationTestFailureInfo()
+            Common.safeExec (fun () -> testFailureInfoUpdated.Trigger(testFailureInfo))
+            coverageInfo <- new PerSequencePointIdTestRunId()
+            Common.safeExec (fun () -> coverageInfoUpdated.Trigger(coverageInfo))
         member __.UpdateData(rd : RunData) : unit = 
             match rd with
             | NoData -> ()

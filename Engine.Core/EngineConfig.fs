@@ -7,6 +7,7 @@ open System.Runtime.Serialization
 type EngineConfig() = 
     let mutable snapShotRoot = @"%temp%\_tdd"
     let mutable ignoredTests = ""
+    let mutable isDisabled = false
     
     [<DataMember(IsRequired = false)>]
     member __.SnapShotRoot 
@@ -17,3 +18,8 @@ type EngineConfig() =
     member __.IgnoredTests 
         with get () = ignoredTests
         and set value = ignoredTests <- value
+
+    [<DataMember(IsRequired = false)>]
+    member __.IsDisabled 
+        with get () = isDisabled
+        and set value = isDisabled <- value

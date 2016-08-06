@@ -44,3 +44,7 @@ module EngineConfigLoader =
         Common.safeExec (fun () -> File.WriteAllText(cfgPath, json))
         copyNonDefaultProperties nullCfg defaultCfg cfg
         cfg
+
+    let setConfig (slnPath: FilePath) cfg =
+        let cfgPath = configPath slnPath
+        File.WriteAllText(cfgPath, cfg |> toJson)
