@@ -1,15 +1,23 @@
 version: 1.0.{build}
+
 image: 
 - Visual Studio 2013
 - Visual Studio 2015
+
 configuration: Release
+
 platform: Any CPU
+
 build:
   project: TddStud10.sln
   parallel: true
   verbosity: minimal
+
 test:
-  assemblies: '**\*.UnitTests.dll'
+  assemblies: 
+  - '**\*.UnitTests.dll'
+  - '**\*.ContractTests.dll'
+
 notifications:
 - provider: Email
   to:

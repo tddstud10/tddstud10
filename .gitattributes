@@ -1,2 +1,3 @@
 # Disable end of line normalization
-*    -text
+*				-text
+*.approved.*	binary

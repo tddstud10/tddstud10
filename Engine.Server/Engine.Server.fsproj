@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Compile Include="AssemblyInfo.fs" />
     <Compile Include="JsonSerializer.fs" />
     <Compile Include="Engine.Server.fs" />
     <None Include="App.config" />
