@@ -30,10 +30,14 @@ Target "Build" (fun _ ->
             "CopyVsixExtensionFiles", "false"
          ]
     |> Log "Build-Output: "
+
+    // AppVeyor workaround
+    !! "packages\**\Newtonsoft.Json.dll"
+    |> CopyFiles buildDir
 )
 
 Target "Test" (fun _ ->
-    !! (buildDir + "/*.UnitTests*.dll")
+    !! (buildDir + "/*.UnitTests*.dll") ++ (buildDir + "/*.ContractTests*.dll")
     |> xUnit (fun p ->
         { p with
             ToolPath = findToolInSubPath "xunit.console.exe" (currentDirectory @@ "tools" @@ "xUnit")

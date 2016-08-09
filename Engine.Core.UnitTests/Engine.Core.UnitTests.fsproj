@@ -65,7 +65,6 @@
   </Target>
   <ItemGroup>
     <Content Include="app.config" />
-    <Compile Include="Domain\FilePathTests.fs" />
     <Compile Include="TestFramework.CallSpy.fs" />
     <Compile Include="TestDoubles.RunExecutor.fs" />
     <Content Include="packages.config" />

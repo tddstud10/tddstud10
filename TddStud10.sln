@@ -56,6 +56,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Domain.UnitTests", "Common\
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Engine.Server", "Engine.Server\Engine.Server.fsproj", "{A4793DFF-5FCB-4660-A6DE-A041C8F4F003}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Engine.ContractTests", "Engine.ContractTests\Engine.ContractTests.fsproj", "{DFF1807F-E82D-4314-98EA-C7E78E94A61E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -126,6 +128,10 @@ Global
 		{A4793DFF-5FCB-4660-A6DE-A041C8F4F003}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4793DFF-5FCB-4660-A6DE-A041C8F4F003}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4793DFF-5FCB-4660-A6DE-A041C8F4F003}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFF1807F-E82D-4314-98EA-C7E78E94A61E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFF1807F-E82D-4314-98EA-C7E78E94A61E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFF1807F-E82D-4314-98EA-C7E78E94A61E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFF1807F-E82D-4314-98EA-C7E78E94A61E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
