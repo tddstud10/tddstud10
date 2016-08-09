@@ -42,20 +42,39 @@ type FilePath =
 
 type AssemblyId = 
     | AssemblyId of Guid
+    
+    override x.ToString() = 
+        match x with
+        | AssemblyId g -> g.ToString()
 
 type MdTokenRid = 
     | MdTokenRid of uint32
+    
+    override x.ToString() = 
+        match x with
+        | MdTokenRid m -> m.ToString()
 
 type DocumentCoordinate = 
     | DocumentCoordinate of int
+    
+    override x.ToString() = 
+        match x with
+        | DocumentCoordinate dc -> dc.ToString()
 
 type TestRunInstanceId = 
     | TestRunInstanceId of int
+    
+    override x.ToString() = 
+        match x with
+        | TestRunInstanceId t -> t.ToString()
 
 [<CLIMutable>]
 type DocumentLocation = 
     { document : FilePath
       line : DocumentCoordinate }
+    
+    override x.ToString() = 
+        sprintf "%O.%O" x.document x.line
 
 [<KnownType("KnownTypes")>]
 type StackFrame = 
@@ -74,6 +93,9 @@ type TestFailureInfo =
 type TestId = 
     { source : FilePath
       location : DocumentLocation }
+    
+    override x.ToString() = 
+        sprintf "%O.%O" x.source x.location
 
 [<CLIMutable>]
 type TestRunId = 
@@ -84,11 +106,17 @@ type TestRunId =
 type MethodId = 
     { assemblyId : AssemblyId
       mdTokenRid : MdTokenRid }
+    
+    override x.ToString() = 
+        sprintf "%O.%O" x.assemblyId x.mdTokenRid
 
 [<CLIMutable>]
 type SequencePointId = 
     { methodId : MethodId
       uid : int }
+    
+    override x.ToString() = 
+        sprintf "%O.%O" x.methodId x.uid
 
 [<CLIMutable>]
 type SequencePoint = 

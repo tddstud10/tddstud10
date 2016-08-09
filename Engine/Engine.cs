@@ -15,7 +15,7 @@ namespace R4nd0mApps.TddStud10.Engine
 {
     public static class Engine
     {
-        public static RunStep[] CreateRunSteps()
+        public static RunStep[] CreateRunSteps(Func<DocumentLocation, IEnumerable<DTestCase>> findTest)
         {
             return new[]
             {
@@ -25,7 +25,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 , TddStud10Runner.CreateRunStep(new RunStepInfo("Refresh Test Runtime".ToRSN(), RunStepKind.Build, RunStepSubKind.RefreshTestRuntime), RefreshTestRuntime)
                 , TddStud10Runner.CreateRunStep(new RunStepInfo("Discover Sequence Points".ToRSN(), RunStepKind.Build, RunStepSubKind.DiscoverSequencePoints), DiscoverSequencePoints)
                 , TddStud10Runner.CreateRunStep(new RunStepInfo("Discover Unit Tests".ToRSN(), RunStepKind.Build, RunStepSubKind.DiscoverTests), DiscoverUnitTests)
-                , TddStud10Runner.CreateRunStep(new RunStepInfo("Instrument Binaries".ToRSN(), RunStepKind.Build, RunStepSubKind.InstrumentBinaries), InstrumentBinaries)
+                , TddStud10Runner.CreateRunStep(new RunStepInfo("Instrument Binaries".ToRSN(), RunStepKind.Build, RunStepSubKind.InstrumentBinaries), InstrumentBinaries(findTest))
                 , TddStud10Runner.CreateRunStep(new RunStepInfo("Running Tests".ToRSN(), RunStepKind.Test, RunStepSubKind.RunTests), RunTests)
             };
         }
@@ -140,11 +140,14 @@ namespace R4nd0mApps.TddStud10.Engine
             return rss.ToRSR(RunData.NewTestCases(testsPerAssembly), "Unit Tests Discovered - which ones - TBD");
         }
 
-        private static RunStepResult InstrumentBinaries(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
+        private static Func<IRunExecutorHost, RunStartParams, RunStepInfo, RunStepResult> InstrumentBinaries(Func<DocumentLocation, IEnumerable<DTestCase>> findTest)
         {
-            Instrumentation.Instrument(host, rsp, DataStore.Instance.FindTest);
+            return (host, rsp, rsi) =>
+            {
+                Instrumentation.Instrument(host, rsp, findTest);
 
-            return RunStepStatus.Succeeded.ToRSR(RunData.NoData, "Binaries Instrumented - which ones - TBD");
+                return RunStepStatus.Succeeded.ToRSR(RunData.NoData, "Binaries Instrumented - which ones - TBD");
+            };
         }
 
         private static RunStepResult BuildSolutionSnapshot(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
