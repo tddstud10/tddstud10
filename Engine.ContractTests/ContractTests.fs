@@ -1,9 +1,5 @@
 ﻿module R4nd0mApps.TddStud10.Engine.Core
 
-// TODO:
-// - Test for RunStateChanged
-// - Introduce Errors and test w/ runstate
-// TODO: Rename class and file
 module ContractTests = 
     open ApprovalTests
     open ApprovalTests.Namers
