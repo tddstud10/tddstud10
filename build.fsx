@@ -30,9 +30,8 @@ Target "Build" (fun _ ->
             "CopyVsixExtensionFiles", "false"
          ]
     |> Log "Build-Output: "
-)
 
-Target "AppVeyor.Workaround" (fun _ ->
+    // AppVeyor workaround
     !! "packages\**\Newtonsoft.Json.dll"
     |> CopyFiles buildDir
 )
@@ -45,7 +44,7 @@ Target "Test" (fun _ ->
             WorkingDir = Some testDir })
 )
 
-"Clean" ==> "Build" ==> "AppVeyor.Workaround" ==> "Test"
+"Clean" ==> "Build" ==> "Test"
 
 // start build
 RunTargetOrDefault "Test"
