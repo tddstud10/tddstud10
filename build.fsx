@@ -32,6 +32,11 @@ Target "Build" (fun _ ->
     |> Log "Build-Output: "
 )
 
+Target "AppVeyor.Workaround" (fun _ ->
+    !! "packages\**\Newtonsoft.Json.dll"
+    |> CopyFiles buildDir
+)
+
 Target "Test" (fun _ ->
     !! (buildDir + "/*.UnitTests*.dll") ++ (buildDir + "/*.ContractTests*.dll")
     |> xUnit (fun p ->
@@ -40,7 +45,7 @@ Target "Test" (fun _ ->
             WorkingDir = Some testDir })
 )
 
-"Clean" ==> "Build" ==> "Test"
+"Clean" ==> "Build" ==> "AppVeyor.Workaround" ==> "Test"
 
 // start build
 RunTargetOrDefault "Test"
