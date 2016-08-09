@@ -20,7 +20,7 @@ module ContractTests =
         |> Path.GetFullPath
         |> Path.GetDirectoryName
     
-    let testProjectsRoot testProject = 
+    let getTestProjectsRoot testProject = 
         [ Path.GetFullPath(Path.Combine(binRoot, "..\..\..\AcceptanceTests\AdapterTests"))
           Path.GetFullPath(Path.Combine(binRoot, "..\AcceptanceTests\AdapterTests")) ]
         |> List.map (fun it -> Path.Combine(it, testProject))
@@ -68,11 +68,11 @@ module ContractTests =
     [<UseReporter(typeof<DiffReporter>)>]
     [<UseApprovalSubdirectory("approvals")>]
     let ``E2E Run for Project``() = 
-        let testProject = testProjectsRoot "1_VBXUnit1xNUnit2x.NET40\VBXUnit1xNUnit2x.sln"
         let ssr = sprintf @"%s\%O" binRoot (Guid.NewGuid())
         try 
             let r, ds, es = createRunnerAndDS()
             let cfg = EngineConfig(SnapShotRoot = ssr)
+            let testProject = getTestProjectsRoot "1_VBXUnit1xNUnit2x.NET40\VBXUnit1xNUnit2x.sln"
             r.StartAsync cfg (DateTime.UtcNow.AddMinutes(-1.0)) (testProject |> FilePath) (CancellationToken())
             |> Async.AwaitTask
             |> Async.RunSynchronously
