@@ -1,6 +1,6 @@
 version: 1.0.{build}
 
-image: 
+image:
 - Visual Studio 2013
 - Visual Studio 2015
 
@@ -8,15 +8,13 @@ configuration: Release
 
 platform: Any CPU
 
-build:
-  project: TddStud10.sln
-  parallel: true
-  verbosity: minimal
+build_script:
+- cmd: .\build.cmd Build
 
 test:
-  assemblies: 
-  - '**\*.UnitTests.dll'
-  - '**\*.ContractTests.dll'
+  assemblies:
+  - .\build\*.UnitTests.dll
+  - .\build\*.ContractTests.dll
 
 notifications:
 - provider: Email
@@ -25,9 +23,3 @@ notifications:
   on_build_success: true
   on_build_failure: true
   on_build_status_changed: true
-
-on_finish:
-- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-
-deploy_script:
-- ps: dir -rec -filt approvals -Directory | % { dir $_.FullName } | % { Push-AppveyorArtifact $_ -FileName $_.Name }
