@@ -9,7 +9,7 @@ open R4nd0mApps.TddStud10.Engine.TestFramework
 open System.IO
 
 let cfg = EngineConfig()
-cfg.SnapShotRoot <- "%HOMEPATH%"
+cfg.SnapShotRoot <- "%WINDIR%"
 let now = DateTime.Now
 let host = new TestHost(Int32.MaxValue)
 let ex = (new InvalidOperationException("A mock method threw")) :> Exception

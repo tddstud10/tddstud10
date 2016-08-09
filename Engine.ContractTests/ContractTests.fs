@@ -13,28 +13,43 @@ module ContractTests =
     open R4nd0mApps.TddStud10.Engine.Core
     open System
     open System.IO
+    open System.Reflection
     open System.Text.RegularExpressions
     open System.Threading
     open Xunit
     
-    let host = 
-        { new IRunExecutorHost with
-              member __.CanContinue() = true
-              member __.HostVersion = HostVersion.VS2013
-              member __.RunStateChanged(_) = () }
+    let binRoot = 
+        Assembly.GetExecutingAssembly().CodeBase
+        |> fun cb -> (new Uri(cb)).LocalPath
+        |> Path.GetFullPath
+        |> Path.GetDirectoryName
+    
+    let testProjectsRoot testProject = 
+        [ Path.GetFullPath(Path.Combine(binRoot, "..\..\..\AcceptanceTests\AdapterTests"))
+          Path.GetFullPath(Path.Combine(binRoot, "..\AcceptanceTests\AdapterTests")) ]
+        |> List.map (fun it -> Path.Combine(it, testProject))
+        |> List.find File.Exists
     
     let createRunnerAndDS() = 
+        let host = 
+            { new IRunExecutorHost with
+                  member __.CanContinue() = true
+                  member __.HostVersion = HostVersion.VS2013
+                  member __.RunStateChanged(_) = () }
+    
         let ds = DataStore()
         let ids = ds :> IDataStore
         let r = TddStud10Runner.Create host (Engine.CreateRunSteps(Func<_, _>(ids.FindTest)))
-        r.AttachHandlers (Handler(fun _ _ -> ())) (Handler(fun _ ea -> ids.UpdateRunStartParams(ea))) 
-            (Handler(fun _ _ -> ())) (Handler(fun _ _ -> ())) (Handler(fun _ ea -> ids.UpdateData(ea.rsr.runData))) 
-            (Handler(fun _ _ -> ())) (Handler(fun _ _ -> ()))
-        r, ds
+        let es = ResizeArray<obj>()
+        r.AttachHandlers (Handler(fun _ -> es.Add)) (Handler(fun _ ea -> ids.UpdateRunStartParams(ea))) 
+            (Handler(fun _ -> es.Add)) (Handler(fun _ -> es.Add)) (Handler(fun _ ea -> ids.UpdateData(ea.rsr.runData))) 
+            (Handler(fun _ -> es.Add)) (Handler(fun _ -> es.Add))
+        r, ds, es
     
-    let dataStoreToJson (ds : DataStore) = 
+    let runStateToJson es (ds : DataStore) = 
         let toJson o = JsonConvert.SerializeObject(o, Formatting.Indented)
-        [ toJson ds.RunStartParams
+        [ toJson es
+          toJson ds.RunStartParams
           toJson (ds.TestCases.ToArray() |> Array.sortBy (fun it -> it.Key.ToString()))
           toJson (ds.SequencePoints.ToArray() |> Array.sortBy (fun it -> it.Key.ToString()))
           toJson (ds.TestResults.ToArray() |> Array.sortBy (fun it -> it.Key.ToString()))
@@ -56,21 +71,18 @@ module ContractTests =
     [<Fact>]
     [<UseReporter(typeof<DiffReporter>)>]
     [<UseApprovalSubdirectory("approvals")>]
-    let ``A sample test``() = 
-        let binRoot = @"D:\src\gh\tddstud10\Engine.ContractTests\bin\Debug"
-        let testProjectsRoot = @"D:\SRC\GH\TDDSTUD10\AcceptanceTests\AdapterTests"
+    let ``E2E Run for Project``() = 
+        let testProject = testProjectsRoot "1_VBXUnit1xNUnit2x.NET40\VBXUnit1xNUnit2x.sln"
         let ssr = sprintf @"%s\%O" binRoot (Guid.NewGuid())
         try 
-            let r, ds = createRunnerAndDS()
+            let r, ds, es = createRunnerAndDS()
             let cfg = EngineConfig(SnapShotRoot = ssr)
-            r.StartAsync cfg (DateTime.UtcNow.AddMinutes(-1.0)) 
-                (sprintf @"%s\1_VBXUnit1xNUnit2x.NET40\VBXUnit1xNUnit2x.sln" testProjectsRoot |> FilePath) 
-                (CancellationToken())
+            r.StartAsync cfg (DateTime.UtcNow.AddMinutes(-1.0)) (testProject |> FilePath) (CancellationToken())
             |> Async.AwaitTask
             |> Async.RunSynchronously
             |> ignore
             Approvals.VerifyAll
-                (dataStoreToJson ds, "DataStore Entity", 
-                 Func<_, _>(normalizeJsonDoc binRoot (sprintf @"%s\1_VBXUnit1xNUnit2x.NET40" testProjectsRoot)))
+                (runStateToJson es ds, "DataStore Entity", 
+                 Func<_, _>(normalizeJsonDoc binRoot (Path.GetDirectoryName(testProject))))
         finally
             Directory.Delete(ssr, true)

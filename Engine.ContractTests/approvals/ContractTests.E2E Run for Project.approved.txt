@@ -1,4 +1,851 @@
-﻿DataStore Entity[0] = {
+﻿DataStore Entity[0] = [
+  {
+    "Case": "Initial"
+  },
+  {
+    "Case": "FirstBuildRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": ""
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Creating Solution Snapshot"
+        ]
+      },
+      "kind": {
+        "Case": "Build"
+      },
+      "subKind": {
+        "Case": "CreateSnapshot"
+      }
+    }
+  },
+  {
+    "Case": "BuildPassed"
+  },
+  {
+    "Case": "BuildRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": ""
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Deleting Build Output"
+        ]
+      },
+      "kind": {
+        "Case": "Build"
+      },
+      "subKind": {
+        "Case": "DeleteBuildOutput"
+      }
+    }
+  },
+  {
+    "Case": "BuildPassed"
+  },
+  {
+    "Case": "BuildRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": ""
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Building Solution Snapshot"
+        ]
+      },
+      "kind": {
+        "Case": "Build"
+      },
+      "subKind": {
+        "Case": "BuildSnapshot"
+      }
+    }
+  },
+  {
+    "Case": "BuildPassed"
+  },
+  {
+    "Case": "BuildRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": ""
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Refresh Test Runtime"
+        ]
+      },
+      "kind": {
+        "Case": "Build"
+      },
+      "subKind": {
+        "Case": "RefreshTestRuntime"
+      }
+    }
+  },
+  {
+    "Case": "BuildPassed"
+  },
+  {
+    "Case": "BuildRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": ""
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Discover Sequence Points"
+        ]
+      },
+      "kind": {
+        "Case": "Build"
+      },
+      "subKind": {
+        "Case": "DiscoverSequencePoints"
+      }
+    }
+  },
+  {
+    "Case": "BuildPassed"
+  },
+  {
+    "Case": "BuildRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": ""
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Discover Unit Tests"
+        ]
+      },
+      "kind": {
+        "Case": "Build"
+      },
+      "subKind": {
+        "Case": "DiscoverTests"
+      }
+    }
+  },
+  {
+    "Case": "BuildPassed"
+  },
+  {
+    "Case": "BuildRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": ""
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Instrument Binaries"
+        ]
+      },
+      "kind": {
+        "Case": "Build"
+      },
+      "subKind": {
+        "Case": "InstrumentBinaries"
+      }
+    }
+  },
+  {
+    "Case": "BuildPassed"
+  },
+  {
+    "Case": "TestRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": ""
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Running Tests"
+        ]
+      },
+      "kind": {
+        "Case": "Test"
+      },
+      "subKind": {
+        "Case": "RunTests"
+      }
+    }
+  },
+  {
+    "Case": "TestPassed"
+  },
+  {
+    "SnapShotRoot": {
+      "Case": "FilePath",
+      "Fields": [
+        "<binroot>\\<GUID>"
+      ]
+    },
+    "StartTime": "<DATETIME>",
+    "TestHostPath": {
+      "Case": "FilePath",
+      "Fields": [
+        "<binroot>\\TddStud10.TestHost.exe"
+      ]
+    },
+    "Solution": {
+      "Path": {
+        "Case": "FilePath",
+        "Fields": [
+          "<root>\\VBXUnit1xNUnit2x.sln"
+        ]
+      },
+      "SnapshotPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+        ]
+      },
+      "BuildRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+        ]
+      }
+    },
+    "DataFiles": {
+      "SequencePointStore": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+        ]
+      },
+      "CoverageSessionStore": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+        ]
+      },
+      "TestResultsStore": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+        ]
+      },
+      "DiscoveredUnitTestsStore": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+        ]
+      },
+      "TestFailureInfoStore": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+        ]
+      },
+      "DiscoveredUnitDTestsStore": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+        ]
+      }
+    },
+    "IgnoredTests": ""
+  }
+]
+DataStore Entity[1] = {
   "Case": "Some",
   "Fields": [
     {
@@ -77,7 +924,7 @@
     }
   ]
 }
-DataStore Entity[1] = [
+DataStore Entity[2] = [
   {
     "Key": {
       "document": {
@@ -202,7 +1049,7 @@ DataStore Entity[1] = [
     ]
   }
 ]
-DataStore Entity[2] = [
+DataStore Entity[3] = [
   {
     "Key": {
       "Case": "FilePath",
@@ -5399,7 +6246,7 @@ DataStore Entity[2] = [
     ]
   }
 ]
-DataStore Entity[3] = [
+DataStore Entity[4] = [
   {
     "Key": {
       "source": {
@@ -5572,8 +6419,8 @@ DataStore Entity[3] = [
     ]
   }
 ]
-DataStore Entity[4] = []
-DataStore Entity[5] = [
+DataStore Entity[5] = []
+DataStore Entity[6] = [
   {
     "Item1": {
       "Item1": {
