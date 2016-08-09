@@ -29,6 +29,6 @@ notifications:
 artifacts:
   - path: '%APPVEYOR_BUILD_FOLDER%\*.vsix'
     name: TddStud10 Visual Studio Extension
-	 
+
   - path: '**\approvals\*.txt'
     name: Approval Test Artifacts for debugging
