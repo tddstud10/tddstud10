@@ -1,4 +1,12 @@
 NUGET
   remote: https://www.nuget.org/api/v2
-    FAKE (4.30.1)
+    FAKE (4.37.2)
     xunit.runner.console (2.1)
+GIT
+  remote: https://github.com/parthopdas/tddstud10-testprojects.git
+     (a6f9e67f1ed25ec6945a2aab1993325cd34e0a99)
+      build: build.cmd Build
+      os: windows
+     (a6f9e67f1ed25ec6945a2aab1993325cd34e0a99)
+      build: build.cmd Build
+      os: mono

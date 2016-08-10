@@ -30,13 +30,13 @@
         "SnapshotPath": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
           ]
         },
         "BuildRoot": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
           ]
         }
       },
@@ -44,37 +44,37 @@
         "SequencePointStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
           ]
         },
         "CoverageSessionStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
           ]
         },
         "TestResultsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
           ]
         },
         "DiscoveredUnitTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
           ]
         },
         "TestFailureInfoStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
           ]
         },
         "DiscoveredUnitDTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
           ]
         }
       },
@@ -126,13 +126,13 @@
         "SnapshotPath": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
           ]
         },
         "BuildRoot": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
           ]
         }
       },
@@ -140,37 +140,37 @@
         "SequencePointStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
           ]
         },
         "CoverageSessionStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
           ]
         },
         "TestResultsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
           ]
         },
         "DiscoveredUnitTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
           ]
         },
         "TestFailureInfoStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
           ]
         },
         "DiscoveredUnitDTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
           ]
         }
       },
@@ -222,13 +222,13 @@
         "SnapshotPath": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
           ]
         },
         "BuildRoot": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
           ]
         }
       },
@@ -236,37 +236,37 @@
         "SequencePointStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
           ]
         },
         "CoverageSessionStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
           ]
         },
         "TestResultsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
           ]
         },
         "DiscoveredUnitTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
           ]
         },
         "TestFailureInfoStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
           ]
         },
         "DiscoveredUnitDTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
           ]
         }
       },
@@ -318,13 +318,13 @@
         "SnapshotPath": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
           ]
         },
         "BuildRoot": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
           ]
         }
       },
@@ -332,37 +332,37 @@
         "SequencePointStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
           ]
         },
         "CoverageSessionStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
           ]
         },
         "TestResultsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
           ]
         },
         "DiscoveredUnitTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
           ]
         },
         "TestFailureInfoStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
           ]
         },
         "DiscoveredUnitDTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
           ]
         }
       },
@@ -414,13 +414,13 @@
         "SnapshotPath": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
           ]
         },
         "BuildRoot": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
           ]
         }
       },
@@ -428,37 +428,37 @@
         "SequencePointStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
           ]
         },
         "CoverageSessionStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
           ]
         },
         "TestResultsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
           ]
         },
         "DiscoveredUnitTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
           ]
         },
         "TestFailureInfoStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
           ]
         },
         "DiscoveredUnitDTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
           ]
         }
       },
@@ -510,13 +510,13 @@
         "SnapshotPath": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
           ]
         },
         "BuildRoot": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
           ]
         }
       },
@@ -524,37 +524,37 @@
         "SequencePointStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
           ]
         },
         "CoverageSessionStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
           ]
         },
         "TestResultsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
           ]
         },
         "DiscoveredUnitTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
           ]
         },
         "TestFailureInfoStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
           ]
         },
         "DiscoveredUnitDTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
           ]
         }
       },
@@ -606,13 +606,13 @@
         "SnapshotPath": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
           ]
         },
         "BuildRoot": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
           ]
         }
       },
@@ -620,37 +620,37 @@
         "SequencePointStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
           ]
         },
         "CoverageSessionStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
           ]
         },
         "TestResultsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
           ]
         },
         "DiscoveredUnitTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
           ]
         },
         "TestFailureInfoStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
           ]
         },
         "DiscoveredUnitDTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
           ]
         }
       },
@@ -702,13 +702,13 @@
         "SnapshotPath": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
           ]
         },
         "BuildRoot": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
           ]
         }
       },
@@ -716,37 +716,37 @@
         "SequencePointStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
           ]
         },
         "CoverageSessionStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
           ]
         },
         "TestResultsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
           ]
         },
         "DiscoveredUnitTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
           ]
         },
         "TestFailureInfoStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
           ]
         },
         "DiscoveredUnitDTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
           ]
         }
       },
@@ -794,13 +794,13 @@
       "SnapshotPath": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
         ]
       },
       "BuildRoot": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
         ]
       }
     },
@@ -808,37 +808,37 @@
       "SequencePointStore": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
         ]
       },
       "CoverageSessionStore": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
         ]
       },
       "TestResultsStore": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
         ]
       },
       "DiscoveredUnitTestsStore": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
         ]
       },
       "TestFailureInfoStore": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
         ]
       },
       "DiscoveredUnitDTestsStore": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
         ]
       }
     },
@@ -872,13 +872,13 @@ DataStore Entity[1] = {
         "SnapshotPath": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
           ]
         },
         "BuildRoot": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
           ]
         }
       },
@@ -886,37 +886,37 @@ DataStore Entity[1] = {
         "SequencePointStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
           ]
         },
         "CoverageSessionStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
           ]
         },
         "TestResultsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
           ]
         },
         "DiscoveredUnitTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
           ]
         },
         "TestFailureInfoStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
           ]
         },
         "DiscoveredUnitDTestsStore": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
           ]
         }
       },
@@ -948,7 +948,7 @@ DataStore Entity[2] = [
         "Source": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
           ]
         },
         "CodeFilePath": {
@@ -989,7 +989,7 @@ DataStore Entity[2] = [
         "Source": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
           ]
         },
         "CodeFilePath": {
@@ -1030,7 +1030,7 @@ DataStore Entity[2] = [
         "Source": {
           "Case": "FilePath",
           "Fields": [
-            "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
           ]
         },
         "CodeFilePath": {
@@ -6252,7 +6252,7 @@ DataStore Entity[4] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6280,7 +6280,7 @@ DataStore Entity[4] = [
           "Source": {
             "Case": "FilePath",
             "Fields": [
-              "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+              "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
             ]
           },
           "CodeFilePath": {
@@ -6309,7 +6309,7 @@ DataStore Entity[4] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6337,7 +6337,7 @@ DataStore Entity[4] = [
           "Source": {
             "Case": "FilePath",
             "Fields": [
-              "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+              "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
             ]
           },
           "CodeFilePath": {
@@ -6366,7 +6366,7 @@ DataStore Entity[4] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6394,7 +6394,7 @@ DataStore Entity[4] = [
           "Source": {
             "Case": "FilePath",
             "Fields": [
-              "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+              "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
             ]
           },
           "CodeFilePath": {
@@ -6435,7 +6435,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6468,7 +6468,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6501,7 +6501,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6534,7 +6534,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6567,7 +6567,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6600,7 +6600,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6633,7 +6633,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6666,7 +6666,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6699,7 +6699,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6732,7 +6732,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6765,7 +6765,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6798,7 +6798,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6831,7 +6831,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6864,7 +6864,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6897,7 +6897,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6930,7 +6930,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6963,7 +6963,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -6996,40 +6996,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
-        ]
-      },
-      "location": {
-        "document": {
-          "Case": "FilePath",
-          "Fields": [
-            "<root>\\APPSETTINGTESTS.VB"
-          ]
-        },
-        "line": {
-          "Case": "DocumentCoordinate",
-          "Fields": [
-            23
-          ]
-        }
-      }
-    }
-  },
-  {
-    "Item1": {
-      "Item1": {
-        "Case": "MdTokenRid",
-        "Fields": [
-          19
-        ]
-      },
-      "Item2": 1
-    },
-    "Item2": {
-      "source": {
-        "Case": "FilePath",
-        "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7062,7 +7029,40 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          19
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7095,7 +7095,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7128,7 +7128,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7161,7 +7161,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7194,7 +7194,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7227,7 +7227,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7260,7 +7260,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7293,7 +7293,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7326,7 +7326,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7359,7 +7359,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7392,7 +7392,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7425,7 +7425,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7458,7 +7458,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7491,7 +7491,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7524,7 +7524,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7557,7 +7557,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7590,7 +7590,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7623,7 +7623,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7656,7 +7656,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7689,7 +7689,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7722,7 +7722,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {
@@ -7755,7 +7755,7 @@ DataStore Entity[6] = [
       "source": {
         "Case": "FilePath",
         "Fields": [
-          "<binroot>\\<GUID>\\1_VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
         ]
       },
       "location": {

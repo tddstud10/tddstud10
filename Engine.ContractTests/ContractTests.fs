@@ -21,8 +21,8 @@ module ContractTests =
         |> Path.GetDirectoryName
     
     let getTestProjectsRoot testProject = 
-        [ Path.GetFullPath(Path.Combine(binRoot, "..\..\..\AcceptanceTests\AdapterTests"))
-          Path.GetFullPath(Path.Combine(binRoot, "..\AcceptanceTests\AdapterTests")) ]
+        [ Path.GetFullPath(Path.Combine(binRoot, @"..\..\..\paket-files\github.com\parthopdas\tddstud10-testprojects\e2e"))
+          Path.GetFullPath(Path.Combine(binRoot, @"..\paket-files\github.com\parthopdas\tddstud10-testprojects\e2e")) ]
         |> List.map (fun it -> Path.Combine(it, testProject))
         |> List.find File.Exists
     
@@ -72,7 +72,7 @@ module ContractTests =
         try 
             let r, ds, es = createRunnerAndDS()
             let cfg = EngineConfig(SnapShotRoot = ssr)
-            let testProject = getTestProjectsRoot "1_VBXUnit1xNUnit2x.NET40\VBXUnit1xNUnit2x.sln"
+            let testProject = getTestProjectsRoot "VBXUnit1xNUnit2x.NET40\VBXUnit1xNUnit2x.sln"
             r.StartAsync cfg (DateTime.UtcNow.AddMinutes(-1.0)) (testProject |> FilePath) (CancellationToken())
             |> Async.AwaitTask
             |> Async.RunSynchronously
