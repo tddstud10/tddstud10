@@ -25,6 +25,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
 
             //SimpleIoc.Default.Register<IDataAccessService, DataAccessService>();
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<MainViewModel1>();
         }
 
         public MainViewModel Main
