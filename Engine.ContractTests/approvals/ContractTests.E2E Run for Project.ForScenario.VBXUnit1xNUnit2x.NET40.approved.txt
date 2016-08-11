@@ -1054,7 +1054,7 @@ DataStore Entity[3] = [
     "Key": {
       "Case": "FilePath",
       "Fields": [
-        "<GUID>1.VB"
+        ""
       ]
     },
     "Value": [
@@ -1070,7 +1070,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                16
+                34
               ]
             }
           },
@@ -1079,7 +1079,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1119,7 +1119,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                16
+                34
               ]
             }
           },
@@ -1128,7 +1128,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1152,7 +1152,7 @@ DataStore Entity[3] = [
         "endColumn": {
           "Case": "DocumentCoordinate",
           "Fields": [
-            39
+            114
           ]
         }
       },
@@ -1168,7 +1168,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                16
+                34
               ]
             }
           },
@@ -1177,7 +1177,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1217,7 +1217,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                16
+                34
               ]
             }
           },
@@ -1226,7 +1226,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1266,16 +1266,16 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                15
+                33
               ]
             }
           },
-          "uid": 7
+          "uid": 8
         },
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1315,16 +1315,16 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                15
+                33
               ]
             }
           },
-          "uid": 6
+          "uid": 7
         },
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1364,16 +1364,16 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                15
+                33
               ]
             }
           },
-          "uid": 5
+          "uid": 6
         },
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1413,7 +1413,56 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                15
+                33
+              ]
+            }
+          },
+          "uid": 5
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            336
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            21
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            336
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            27
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                33
               ]
             }
           },
@@ -1422,7 +1471,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1462,7 +1511,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                15
+                33
               ]
             }
           },
@@ -1471,7 +1520,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1511,7 +1560,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                15
+                33
               ]
             }
           },
@@ -1520,7 +1569,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1560,7 +1609,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                15
+                33
               ]
             }
           },
@@ -1569,7 +1618,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1609,7 +1658,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                15
+                33
               ]
             }
           },
@@ -1618,7 +1667,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1658,7 +1707,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                14
+                32
               ]
             }
           },
@@ -1667,7 +1716,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1707,7 +1756,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                14
+                32
               ]
             }
           },
@@ -1716,7 +1765,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1756,7 +1805,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                14
+                32
               ]
             }
           },
@@ -1765,7 +1814,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1805,7 +1854,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                13
+                31
               ]
             }
           },
@@ -1814,7 +1863,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1854,7 +1903,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                13
+                31
               ]
             }
           },
@@ -1863,7 +1912,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1903,7 +1952,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                13
+                31
               ]
             }
           },
@@ -1912,7 +1961,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -1952,16 +2001,16 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                12
+                30
               ]
             }
           },
-          "uid": 6
+          "uid": 5
         },
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2001,56 +2050,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                12
-              ]
-            }
-          },
-          "uid": 5
-        },
-        "document": {
-          "Case": "FilePath",
-          "Fields": [
-            "<GUID>1.VB"
-          ]
-        },
-        "startLine": {
-          "Case": "DocumentCoordinate",
-          "Fields": [
-            269
-          ]
-        },
-        "startColumn": {
-          "Case": "DocumentCoordinate",
-          "Fields": [
-            17
-          ]
-        },
-        "endLine": {
-          "Case": "DocumentCoordinate",
-          "Fields": [
-            269
-          ]
-        },
-        "endColumn": {
-          "Case": "DocumentCoordinate",
-          "Fields": [
-            23
-          ]
-        }
-      },
-      {
-        "id": {
-          "methodId": {
-            "assemblyId": {
-              "Case": "AssemblyId",
-              "Fields": [
-                "<GUID>"
-              ]
-            },
-            "mdTokenRid": {
-              "Case": "MdTokenRid",
-              "Fields": [
-                12
+                30
               ]
             }
           },
@@ -2059,7 +2059,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2099,7 +2099,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                12
+                30
               ]
             }
           },
@@ -2108,7 +2108,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2148,7 +2148,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                12
+                30
               ]
             }
           },
@@ -2157,7 +2157,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2197,7 +2197,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                12
+                30
               ]
             }
           },
@@ -2206,7 +2206,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2246,7 +2246,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                12
+                30
               ]
             }
           },
@@ -2255,7 +2255,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2295,7 +2295,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                11
+                29
               ]
             }
           },
@@ -2304,7 +2304,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2344,7 +2344,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                11
+                29
               ]
             }
           },
@@ -2353,7 +2353,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2393,7 +2393,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                11
+                29
               ]
             }
           },
@@ -2402,7 +2402,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2442,7 +2442,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                10
+                28
               ]
             }
           },
@@ -2451,7 +2451,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2491,7 +2491,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                10
+                28
               ]
             }
           },
@@ -2500,7 +2500,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2540,7 +2540,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                10
+                28
               ]
             }
           },
@@ -2549,7 +2549,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2589,7 +2589,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                9
+                27
               ]
             }
           },
@@ -2598,7 +2598,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2638,7 +2638,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                9
+                27
               ]
             }
           },
@@ -2647,7 +2647,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2687,7 +2687,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                9
+                27
               ]
             }
           },
@@ -2696,7 +2696,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2736,7 +2736,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                8
+                26
               ]
             }
           },
@@ -2745,7 +2745,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2785,7 +2785,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                8
+                26
               ]
             }
           },
@@ -2794,7 +2794,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2834,7 +2834,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                8
+                26
               ]
             }
           },
@@ -2843,7 +2843,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2892,7 +2892,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2941,7 +2941,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -2990,7 +2990,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3039,7 +3039,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3088,7 +3088,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3137,7 +3137,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3186,7 +3186,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3235,7 +3235,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3284,7 +3284,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3333,7 +3333,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3382,7 +3382,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3431,7 +3431,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3480,7 +3480,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3504,7 +3504,7 @@ DataStore Entity[3] = [
         "endColumn": {
           "Case": "DocumentCoordinate",
           "Fields": [
-            55
+            105
           ]
         }
       },
@@ -3529,7 +3529,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3553,7 +3553,7 @@ DataStore Entity[3] = [
         "endColumn": {
           "Case": "DocumentCoordinate",
           "Fields": [
-            46
+            136
           ]
         }
       },
@@ -3578,7 +3578,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3602,7 +3602,7 @@ DataStore Entity[3] = [
         "endColumn": {
           "Case": "DocumentCoordinate",
           "Fields": [
-            45
+            95
           ]
         }
       },
@@ -3627,7 +3627,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3651,7 +3651,7 @@ DataStore Entity[3] = [
         "endColumn": {
           "Case": "DocumentCoordinate",
           "Fields": [
-            50
+            97
           ]
         }
       },
@@ -3676,7 +3676,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3725,7 +3725,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3774,7 +3774,7 @@ DataStore Entity[3] = [
         "document": {
           "Case": "FilePath",
           "Fields": [
-            "<GUID>1.VB"
+            ""
           ]
         },
         "startLine": {
@@ -3824,7 +3824,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                20
+                18
               ]
             }
           },
@@ -3873,7 +3873,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                20
+                18
               ]
             }
           },
@@ -3922,7 +3922,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                20
+                18
               ]
             }
           },
@@ -3971,7 +3971,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                19
+                17
               ]
             }
           },
@@ -4020,7 +4020,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                19
+                17
               ]
             }
           },
@@ -4069,7 +4069,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                19
+                17
               ]
             }
           },
@@ -4118,7 +4118,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                18
+                16
               ]
             }
           },
@@ -4167,7 +4167,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                18
+                16
               ]
             }
           },
@@ -4216,7 +4216,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                18
+                16
               ]
             }
           },
@@ -4265,7 +4265,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                17
+                15
               ]
             }
           },
@@ -4314,7 +4314,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                17
+                15
               ]
             }
           },
@@ -4363,7 +4363,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                17
+                15
               ]
             }
           },
@@ -4412,7 +4412,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                17
+                15
               ]
             }
           },
@@ -4471,7 +4471,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                26
+                24
               ]
             }
           },
@@ -4520,7 +4520,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                26
+                24
               ]
             }
           },
@@ -4569,7 +4569,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                26
+                24
               ]
             }
           },
@@ -4618,7 +4618,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                25
+                23
               ]
             }
           },
@@ -4667,7 +4667,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                25
+                23
               ]
             }
           },
@@ -4716,7 +4716,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                25
+                23
               ]
             }
           },
@@ -4765,7 +4765,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                24
+                22
               ]
             }
           },
@@ -4814,7 +4814,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                24
+                22
               ]
             }
           },
@@ -4863,7 +4863,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                24
+                22
               ]
             }
           },
@@ -4912,7 +4912,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                23
+                21
               ]
             }
           },
@@ -4961,7 +4961,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                23
+                21
               ]
             }
           },
@@ -5010,7 +5010,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                22
+                20
               ]
             }
           },
@@ -5059,7 +5059,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                22
+                20
               ]
             }
           },
@@ -5108,7 +5108,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                22
+                20
               ]
             }
           },
@@ -5157,7 +5157,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                21
+                19
               ]
             }
           },
@@ -5206,7 +5206,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                21
+                19
               ]
             }
           },
@@ -5265,7 +5265,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                30
+                10
               ]
             }
           },
@@ -5314,7 +5314,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                30
+                10
               ]
             }
           },
@@ -5363,7 +5363,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                30
+                10
               ]
             }
           },
@@ -5412,7 +5412,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                29
+                9
               ]
             }
           },
@@ -5461,7 +5461,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                29
+                9
               ]
             }
           },
@@ -5510,7 +5510,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                29
+                9
               ]
             }
           },
@@ -5559,11 +5559,11 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                28
+                8
               ]
             }
           },
-          "uid": 6
+          "uid": 7
         },
         "document": {
           "Case": "FilePath",
@@ -5608,11 +5608,11 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                28
+                8
               ]
             }
           },
-          "uid": 5
+          "uid": 6
         },
         "document": {
           "Case": "FilePath",
@@ -5657,7 +5657,56 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                28
+                8
+              ]
+            }
+          },
+          "uid": 5
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            43
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            43
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                8
               ]
             }
           },
@@ -5706,7 +5755,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                28
+                8
               ]
             }
           },
@@ -5755,7 +5804,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                28
+                8
               ]
             }
           },
@@ -5804,7 +5853,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                28
+                8
               ]
             }
           },
@@ -5853,7 +5902,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                28
+                8
               ]
             }
           },
@@ -5912,7 +5961,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                34
+                14
               ]
             }
           },
@@ -5961,7 +6010,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                34
+                14
               ]
             }
           },
@@ -6010,7 +6059,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                34
+                14
               ]
             }
           },
@@ -6059,7 +6108,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                33
+                13
               ]
             }
           },
@@ -6108,7 +6157,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                33
+                13
               ]
             }
           },
@@ -6157,7 +6206,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                33
+                13
               ]
             }
           },
@@ -6206,7 +6255,7 @@ DataStore Entity[3] = [
             "mdTokenRid": {
               "Case": "MdTokenRid",
               "Fields": [
-                31
+                11
               ]
             }
           },
@@ -6426,7 +6475,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          17
+          15
         ]
       },
       "Item2": 0
@@ -6459,7 +6508,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          17
+          15
         ]
       },
       "Item2": 0
@@ -6492,7 +6541,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          17
+          15
         ]
       },
       "Item2": 0
@@ -6525,7 +6574,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          17
+          15
         ]
       },
       "Item2": 1
@@ -6558,7 +6607,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          17
+          15
         ]
       },
       "Item2": 1
@@ -6591,7 +6640,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          17
+          15
         ]
       },
       "Item2": 1
@@ -6624,7 +6673,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          17
+          15
         ]
       },
       "Item2": 2
@@ -6657,7 +6706,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          17
+          15
         ]
       },
       "Item2": 2
@@ -6690,7 +6739,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          17
+          15
         ]
       },
       "Item2": 2
@@ -6723,7 +6772,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          17
+          15
         ]
       },
       "Item2": 3
@@ -6756,7 +6805,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          17
+          15
         ]
       },
       "Item2": 3
@@ -6789,7 +6838,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          17
+          15
         ]
       },
       "Item2": 3
@@ -6822,7 +6871,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          18
+          16
         ]
       },
       "Item2": 0
@@ -6855,7 +6904,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          18
+          16
         ]
       },
       "Item2": 0
@@ -6888,7 +6937,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          18
+          16
         ]
       },
       "Item2": 1
@@ -6921,7 +6970,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          18
+          16
         ]
       },
       "Item2": 1
@@ -6944,6 +6993,138 @@ DataStore Entity[6] = [
           "Case": "DocumentCoordinate",
           "Fields": [
             33
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          17
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          17
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          17
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          17
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
           ]
         }
       }
@@ -7009,7 +7190,7 @@ DataStore Entity[6] = [
         "line": {
           "Case": "DocumentCoordinate",
           "Fields": [
-            23
+            33
           ]
         }
       }
@@ -7075,72 +7256,6 @@ DataStore Entity[6] = [
         "line": {
           "Case": "DocumentCoordinate",
           "Fields": [
-            23
-          ]
-        }
-      }
-    }
-  },
-  {
-    "Item1": {
-      "Item1": {
-        "Case": "MdTokenRid",
-        "Fields": [
-          21
-        ]
-      },
-      "Item2": 0
-    },
-    "Item2": {
-      "source": {
-        "Case": "FilePath",
-        "Fields": [
-          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
-        ]
-      },
-      "location": {
-        "document": {
-          "Case": "FilePath",
-          "Fields": [
-            "<root>\\APPSETTINGTESTS.VB"
-          ]
-        },
-        "line": {
-          "Case": "DocumentCoordinate",
-          "Fields": [
-            23
-          ]
-        }
-      }
-    }
-  },
-  {
-    "Item1": {
-      "Item1": {
-        "Case": "MdTokenRid",
-        "Fields": [
-          21
-        ]
-      },
-      "Item2": 0
-    },
-    "Item2": {
-      "source": {
-        "Case": "FilePath",
-        "Fields": [
-          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
-        ]
-      },
-      "location": {
-        "document": {
-          "Case": "FilePath",
-          "Fields": [
-            "<root>\\APPSETTINGTESTS.VB"
-          ]
-        },
-        "line": {
-          "Case": "DocumentCoordinate",
-          "Fields": [
             33
           ]
         }
@@ -7152,73 +7267,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          21
-        ]
-      },
-      "Item2": 1
-    },
-    "Item2": {
-      "source": {
-        "Case": "FilePath",
-        "Fields": [
-          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
-        ]
-      },
-      "location": {
-        "document": {
-          "Case": "FilePath",
-          "Fields": [
-            "<root>\\APPSETTINGTESTS.VB"
-          ]
-        },
-        "line": {
-          "Case": "DocumentCoordinate",
-          "Fields": [
-            23
-          ]
-        }
-      }
-    }
-  },
-  {
-    "Item1": {
-      "Item1": {
-        "Case": "MdTokenRid",
-        "Fields": [
-          21
-        ]
-      },
-      "Item2": 1
-    },
-    "Item2": {
-      "source": {
-        "Case": "FilePath",
-        "Fields": [
-          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
-        ]
-      },
-      "location": {
-        "document": {
-          "Case": "FilePath",
-          "Fields": [
-            "<root>\\APPSETTINGTESTS.VB"
-          ]
-        },
-        "line": {
-          "Case": "DocumentCoordinate",
-          "Fields": [
-            33
-          ]
-        }
-      }
-    }
-  },
-  {
-    "Item1": {
-      "Item1": {
-        "Case": "MdTokenRid",
-        "Fields": [
-          22
+          20
         ]
       },
       "Item2": 0
@@ -7251,7 +7300,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          22
+          20
         ]
       },
       "Item2": 0
@@ -7284,10 +7333,208 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          22
+          20
         ]
       },
       "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          20
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          20
+        ]
+      },
+      "Item2": 2
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          20
+        ]
+      },
+      "Item2": 2
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          21
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          21
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          22
+        ]
+      },
+      "Item2": 0
     },
     "Item2": {
       "source": {
@@ -7339,7 +7586,7 @@ DataStore Entity[6] = [
         "line": {
           "Case": "DocumentCoordinate",
           "Fields": [
-            28
+            23
           ]
         }
       }
@@ -7373,39 +7620,6 @@ DataStore Entity[6] = [
           "Case": "DocumentCoordinate",
           "Fields": [
             23
-          ]
-        }
-      }
-    }
-  },
-  {
-    "Item1": {
-      "Item1": {
-        "Case": "MdTokenRid",
-        "Fields": [
-          22
-        ]
-      },
-      "Item2": 2
-    },
-    "Item2": {
-      "source": {
-        "Case": "FilePath",
-        "Fields": [
-          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
-        ]
-      },
-      "location": {
-        "document": {
-          "Case": "FilePath",
-          "Fields": [
-            "<root>\\APPSETTINGTESTS.VB"
-          ]
-        },
-        "line": {
-          "Case": "DocumentCoordinate",
-          "Fields": [
-            28
           ]
         }
       }
@@ -7482,172 +7696,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          24
-        ]
-      },
-      "Item2": 0
-    },
-    "Item2": {
-      "source": {
-        "Case": "FilePath",
-        "Fields": [
-          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
-        ]
-      },
-      "location": {
-        "document": {
-          "Case": "FilePath",
-          "Fields": [
-            "<root>\\APPSETTINGTESTS.VB"
-          ]
-        },
-        "line": {
-          "Case": "DocumentCoordinate",
-          "Fields": [
-            23
-          ]
-        }
-      }
-    }
-  },
-  {
-    "Item1": {
-      "Item1": {
-        "Case": "MdTokenRid",
-        "Fields": [
-          24
-        ]
-      },
-      "Item2": 1
-    },
-    "Item2": {
-      "source": {
-        "Case": "FilePath",
-        "Fields": [
-          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
-        ]
-      },
-      "location": {
-        "document": {
-          "Case": "FilePath",
-          "Fields": [
-            "<root>\\APPSETTINGTESTS.VB"
-          ]
-        },
-        "line": {
-          "Case": "DocumentCoordinate",
-          "Fields": [
-            23
-          ]
-        }
-      }
-    }
-  },
-  {
-    "Item1": {
-      "Item1": {
-        "Case": "MdTokenRid",
-        "Fields": [
-          24
-        ]
-      },
-      "Item2": 2
-    },
-    "Item2": {
-      "source": {
-        "Case": "FilePath",
-        "Fields": [
-          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
-        ]
-      },
-      "location": {
-        "document": {
-          "Case": "FilePath",
-          "Fields": [
-            "<root>\\APPSETTINGTESTS.VB"
-          ]
-        },
-        "line": {
-          "Case": "DocumentCoordinate",
-          "Fields": [
-            23
-          ]
-        }
-      }
-    }
-  },
-  {
-    "Item1": {
-      "Item1": {
-        "Case": "MdTokenRid",
-        "Fields": [
-          25
-        ]
-      },
-      "Item2": 0
-    },
-    "Item2": {
-      "source": {
-        "Case": "FilePath",
-        "Fields": [
-          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
-        ]
-      },
-      "location": {
-        "document": {
-          "Case": "FilePath",
-          "Fields": [
-            "<root>\\APPSETTINGTESTS.VB"
-          ]
-        },
-        "line": {
-          "Case": "DocumentCoordinate",
-          "Fields": [
-            28
-          ]
-        }
-      }
-    }
-  },
-  {
-    "Item1": {
-      "Item1": {
-        "Case": "MdTokenRid",
-        "Fields": [
-          25
-        ]
-      },
-      "Item2": 1
-    },
-    "Item2": {
-      "source": {
-        "Case": "FilePath",
-        "Fields": [
-          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
-        ]
-      },
-      "location": {
-        "document": {
-          "Case": "FilePath",
-          "Fields": [
-            "<root>\\APPSETTINGTESTS.VB"
-          ]
-        },
-        "line": {
-          "Case": "DocumentCoordinate",
-          "Fields": [
-            28
-          ]
-        }
-      }
-    }
-  },
-  {
-    "Item1": {
-      "Item1": {
-        "Case": "MdTokenRid",
-        "Fields": [
-          25
+          23
         ]
       },
       "Item2": 2
@@ -7680,7 +7729,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          26
+          24
         ]
       },
       "Item2": 0
@@ -7713,7 +7762,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          26
+          24
         ]
       },
       "Item2": 1
@@ -7746,7 +7795,7 @@ DataStore Entity[6] = [
       "Item1": {
         "Case": "MdTokenRid",
         "Fields": [
-          26
+          24
         ]
       },
       "Item2": 2

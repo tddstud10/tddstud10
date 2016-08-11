@@ -19,6 +19,8 @@ Target "Clean" (fun _ ->
     CleanDirs [buildDir]
 )
 
+
+Target "Rebuild" DoNothing
 Target "Build" (fun _ ->
     !! solutionFile
     |> MSBuild buildDir "Build"
@@ -36,15 +38,26 @@ Target "Build" (fun _ ->
     |> CopyFiles buildDir
 )
 
-Target "Test" (fun _ ->
-    !! (buildDir + "/*.UnitTests*.dll") ++ (buildDir + "/*.ContractTests*.dll")
-    |> xUnit (fun p ->
-        { p with
-            ToolPath = findToolInSubPath "xunit.console.exe" (currentDirectory @@ "tools" @@ "xUnit")
-            WorkingDir = Some testDir })
-)
 
-"Clean" ==> "Build" ==> "Test"
+let runTest pattern =
+    fun _ ->
+        !! (buildDir + pattern)
+        |> xUnit (fun p ->
+            { p with
+                ToolPath = findToolInSubPath "xunit.console.exe" (currentDirectory @@ "tools" @@ "xUnit")
+                WorkingDir = Some testDir })
+
+Target "Test" DoNothing
+Target "UnitTests" (runTest "/*.UnitTests*.dll")
+Target "ContractTests" (runTest "/*.ContractTests*.dll")
+
+
+"Clean" ?=> "Build"
+"Clean" ==> "Rebuild" 
+"Build" ==> "Rebuild" 
+"Build" ?=> "UnitTests" ==> "Test"
+"Build" ?=> "ContractTests" ==> "Test"
+"Rebuild" ==> "Test"
 
 // start build
 RunTargetOrDefault "Test"
