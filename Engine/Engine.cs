@@ -157,7 +157,8 @@ namespace R4nd0mApps.TddStud10.Engine
                     Environment.GetEnvironmentVariable("ProgramFiles(x86)"),
                     string.Format(@"MSBuild\{0}\Bin\msbuild.exe", host.HostVersion)),
                     string.Format(
-                        @"/m /v:minimal /p:Configuration=Debug /p:CreateVsixContainer=false /p:DeployExtension=false /p:CopyVsixExtensionFiles=false /p:OutDir=""{0}\\"" ""{1}""",
+                        @"/m /v:minimal /p:Configuration=Debug /p:CreateVsixContainer=false /p:DeployExtension=false /p:CopyVsixExtensionFiles=false {0} /p:OutDir=""{1}\\"" ""{2}""",
+                        string.Join(" ", (rsp.AdditionalMSBuildProperties ?? new string[0]).Select(it => string.Format("/p:{0}", it))),
                         rsp.Solution.BuildRoot.Item,
                         rsp.Solution.SnapshotPath.Item)
             );

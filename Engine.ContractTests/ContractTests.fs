@@ -14,15 +14,14 @@ module ContractTests =
     let ``Test Data - E2E Run for Project`` : obj array seq = 
         [| @"CSXUnit1xNUnit3x.NET20\CSXUnit1xNUnit3x.sln"
            @"VBXUnit1xNUnit2x.NET40\VBXUnit1xNUnit2x.sln"
-           @"FSXUnit2xNUnit2x.NET45\FSXUnit2xNUnit2x.sln" |]
-        |> Seq.map (fun a -> [| box a |])
-
+           @"FSXUnit2xNUnit2x.NET45\FSXUnit2xNUnit2x.sln" |] |> Seq.map (fun a -> [| box a |])
+    
     [<UseReporter(typeof<DiffReporter>)>]
     [<UseApprovalSubdirectory("approvals")>]
     [<Theory>]
     [<MemberData("Test Data - E2E Run for Project")>]
     let ``E2E Run for Project`` (sln : string) = 
-        use __ = ApprovalResults.ForScenario(Path.GetDirectoryName(sln)) 
+        use __ = ApprovalResults.ForScenario(Path.GetDirectoryName(sln))
         let ssr = sprintf @"%s\%O" Helpers.binRoot (Guid.NewGuid())
         try 
             let r, ds, es = Helpers.createRunnerAndDS()

@@ -27,7 +27,7 @@ module Helpers =
         let host = 
             { new IRunExecutorHost with
                   member __.CanContinue() = true
-                  member __.HostVersion = HostVersion.VS2013
+                  member __.HostVersion = HostVersion.VS2015
                   member __.RunStateChanged(_) = () }
         
         let ds = DataStore()
