@@ -78,7 +78,8 @@
           ]
         }
       },
-      "IgnoredTests": ""
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
     },
     "info": {
       "name": {
@@ -174,7 +175,8 @@
           ]
         }
       },
-      "IgnoredTests": ""
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
     },
     "info": {
       "name": {
@@ -270,7 +272,8 @@
           ]
         }
       },
-      "IgnoredTests": ""
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
     },
     "info": {
       "name": {
@@ -366,7 +369,8 @@
           ]
         }
       },
-      "IgnoredTests": ""
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
     },
     "info": {
       "name": {
@@ -462,7 +466,8 @@
           ]
         }
       },
-      "IgnoredTests": ""
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
     },
     "info": {
       "name": {
@@ -558,7 +563,8 @@
           ]
         }
       },
-      "IgnoredTests": ""
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
     },
     "info": {
       "name": {
@@ -654,7 +660,8 @@
           ]
         }
       },
-      "IgnoredTests": ""
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
     },
     "info": {
       "name": {
@@ -750,7 +757,8 @@
           ]
         }
       },
-      "IgnoredTests": ""
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
     },
     "info": {
       "name": {
@@ -842,7 +850,8 @@
         ]
       }
     },
-    "IgnoredTests": ""
+    "IgnoredTests": "",
+    "AdditionalMSBuildProperties": []
   }
 ]
 DataStore Entity[1] = {
@@ -920,7 +929,8 @@ DataStore Entity[1] = {
           ]
         }
       },
-      "IgnoredTests": ""
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
     }
   ]
 }

@@ -49,7 +49,11 @@ let runTest pattern =
 
 Target "Test" DoNothing
 Target "UnitTests" (runTest "/*.UnitTests*.dll")
-Target "ContractTests" (runTest "/*.ContractTests*.dll")
+Target "ContractTests" 
+    (if "12.0" <> environVar "VisualStudioVersion" then 
+        runTest "/*.ContractTests*.dll" 
+    else 
+        fun () -> traceImportant "Not required to run ContractTests on VS2013 boxes for simplifying test matrix.")
 
 
 "Clean" ?=> "Build"
