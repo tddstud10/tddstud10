@@ -13,13 +13,13 @@ type Margin(textView : IWpfTextView, mgta : ITagAggregator<_>, painter, getMargi
     let throwIfDisposed() = 
         if disposed then raise (ObjectDisposedException(MarginConstants.Name))
     
-    let paintGlyphs = 
+    let paintGlyphs () = 
         throwIfDisposed()
         (textView.ViewportLocation, textView.TextViewLines :> _ seq) |> painter
     
-    let lcSub = textView.LayoutChanged.Subscribe(fun _ -> paintGlyphs)
-    let tcSub = mgta.TagsChanged.Subscribe(fun _ -> paintGlyphs)
-    let zlcSub = textView.ZoomLevelChanged.Subscribe(fun _ -> paintGlyphs)
+    let lcSub = textView.LayoutChanged.Subscribe(fun _ -> paintGlyphs())
+    let tcSub = mgta.TagsChanged.Subscribe(fun _ -> paintGlyphs())
+    let zlcSub = textView.ZoomLevelChanged.Subscribe(fun _ -> paintGlyphs())
     
     static member Create (dte : EnvDTE.DTE) (dbg : IVsDebugger3) (textView : IWpfTextView) (mgta : ITagAggregator<_>) = 
         (* NOTE: Pure wireup code in this constructor. Hence not tested. *)

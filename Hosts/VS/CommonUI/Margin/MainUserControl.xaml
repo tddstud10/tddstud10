@@ -69,7 +69,7 @@
                                             <DataTrigger Binding="{Binding Path=TestPassed}" Value="True">
                                                 <Setter Property="Image.Source" Value="Resources/testresultpassed.png"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Path=TestPassed}" Value="null">
+                                            <DataTrigger Binding="{Binding Path=TestPassed}" Value="{x:Null}">
                                                 <Setter Property="Image.Source" Value="Resources/testresultunknown.png"/>
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding Path=TestPassed}" Value="False">

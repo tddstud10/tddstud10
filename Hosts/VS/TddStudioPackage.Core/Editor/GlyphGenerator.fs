@@ -16,5 +16,4 @@ let generate createHA getZL ((b, mgi) : Rect * MarginGlyphInfo) =
     
     let br = SolidColorBrush(mgi.Color)
     let e = Path(Data = shape, Fill = br, Stroke = br, StrokeThickness = 2.0 * getZL())
-    e.Tag <- createHA mgi.Tags
-    b, e :> FrameworkElement
+    b, e :> FrameworkElement, createHA mgi.Tags
