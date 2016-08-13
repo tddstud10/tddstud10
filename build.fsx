@@ -3,6 +3,7 @@
 
 open Fake
 open Fake.Testing
+open System.IO
 
 // Directories
 let buildDir  = "./build/"
@@ -19,6 +20,8 @@ Target "Clean" (fun _ ->
     CleanDirs [buildDir]
 )
 
+
+Target "Rebuild" DoNothing
 Target "Build" (fun _ ->
     !! solutionFile
     |> MSBuild buildDir "Build"
@@ -36,15 +39,30 @@ Target "Build" (fun _ ->
     |> CopyFiles buildDir
 )
 
-Target "Test" (fun _ ->
-    !! (buildDir + "/*.UnitTests*.dll") ++ (buildDir + "/*.ContractTests*.dll")
-    |> xUnit (fun p ->
-        { p with
-            ToolPath = findToolInSubPath "xunit.console.exe" (currentDirectory @@ "tools" @@ "xUnit")
-            WorkingDir = Some testDir })
-)
 
-"Clean" ==> "Build" ==> "Test"
+let runTest pattern =
+    fun _ ->
+        !! (buildDir + pattern)
+        |> xUnit (fun p ->
+            { p with
+                ToolPath = findToolInSubPath "xunit.console.exe" (currentDirectory @@ "tools" @@ "xUnit")
+                WorkingDir = Some testDir })
+
+Target "Test" DoNothing
+Target "UnitTests" (runTest "/*.UnitTests*.dll")
+Target "ContractTests" 
+    (if File.Exists(sprintf @"%s\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe" <| environVar "ProgramFiles(x86)") then 
+        runTest "/*.ContractTests*.dll" 
+    else 
+        fun () -> traceImportant "Not required to run ContractTests on VS2013 boxes for simplifying test matrix.")
+
+
+"Clean" ?=> "Build"
+"Clean" ==> "Rebuild" 
+"Build" ==> "Rebuild" 
+"Build" ?=> "UnitTests" ==> "Test"
+"Build" ?=> "ContractTests" ==> "Test"
+"Rebuild" ==> "Test"
 
 // start build
 RunTargetOrDefault "Test"

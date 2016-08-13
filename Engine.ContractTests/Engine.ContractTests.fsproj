@@ -54,9 +54,10 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="ContractTests.fs" />
     <Content Include="packages.config" />
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Helpers.fs" />
+    <Compile Include="ContractTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ApprovalTests">
