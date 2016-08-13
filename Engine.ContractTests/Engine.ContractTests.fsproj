@@ -54,9 +54,6 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <None Include="approvals\ContractTests.E2E Run for Project.ForScenario.CSXUnit1xNUnit3x.NET20.approved.txt" />
-    <None Include="approvals\ContractTests.E2E Run for Project.ForScenario.VBXUnit1xNUnit2x.NET40.approved.txt" />
-    <None Include="approvals\ContractTests.E2E Run for Project.ForScenario.FSXUnit2xNUnit2x.NET45.approved.txt" />
     <Content Include="packages.config" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Helpers.fs" />

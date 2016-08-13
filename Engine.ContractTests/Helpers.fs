@@ -9,6 +9,7 @@ module Helpers =
     open System.IO
     open System.Reflection
     open System.Text.RegularExpressions
+    open System.Threading
     
     let binRoot = 
         Assembly.GetExecutingAssembly().CodeBase
@@ -34,31 +35,51 @@ module Helpers =
         let ids = ds :> IDataStore
         let r = TddStud10Runner.Create host (Engine.CreateRunSteps(Func<_, _>(ids.FindTest)))
         let es = ResizeArray<obj>()
-        r.AttachHandlers (Handler(fun _ -> es.Add)) (Handler(fun _ ea -> ids.UpdateRunStartParams(ea))) 
-            (Handler(fun _ -> es.Add)) (Handler(fun _ -> es.Add)) (Handler(fun _ ea -> ids.UpdateData(ea.rsr.runData))) 
-            (Handler(fun _ -> es.Add)) (Handler(fun _ -> es.Add))
+        r.AttachHandlers (Handler(fun _ -> es.Add)) (Handler(fun _ ea -> 
+                                                         es.Add(ea)
+                                                         ids.UpdateRunStartParams(ea))) (Handler(fun _ -> es.Add)) 
+            (Handler(fun _ ea -> es.Add(ea.sp, ea.info))) (Handler(fun _ ea -> 
+                                                               es.Add(ea.sp, ea.info)
+                                                               ids.UpdateData(ea.rsr.runData))) 
+            (Handler(fun _ ex -> es.Add(ex.Message))) (Handler(fun _ -> es.Add))
         r, ds, es
     
     let cfg = JsonSerializerSettings(ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
-
-    let runStateToJson es (ds : DataStore) = 
-        let toJson o = JsonConvert.SerializeObject(o, Formatting.Indented, cfg)
-        [ toJson es
-          toJson ds.RunStartParams
-          toJson (ds.TestCases.ToArray() |> Array.sortBy (fun it -> it.Key.ToString()))
-          toJson (ds.SequencePoints.ToArray() |> Array.sortBy (fun it -> it.Key.ToString()))
-          toJson (ds.TestResults.ToArray() |> Array.sortBy (fun it -> it.Key.ToString()))
-          toJson (ds.TestFailureInfo.ToArray() |> Array.sortBy (fun it -> it.Key.ToString()))
-          toJson (ds.CoverageInfo.ToArray()
-                  |> Array.collect 
-                         (fun kv -> 
-                         kv.Value.ToArray() |> Array.map (fun v -> (kv.Key.methodId.mdTokenRid, kv.Key.uid), v.testId))
-                  |> Array.sortBy (fun (um, tid : TestId) -> sprintf "%O.%O" um tid)) ]
+    
+    let normalizeEngineOutput es (ds : DataStore) = 
+        [ es :> obj
+          ds.RunStartParams :> obj
+          (ds.TestCases.ToArray() |> Array.sortBy (fun it -> it.Key.ToString())) :> obj
+          (ds.SequencePoints.ToArray() |> Array.sortBy (fun it -> it.Key.ToString())) :> obj
+          (ds.TestResults.ToArray() |> Array.sortBy (fun it -> it.Key.ToString())) :> obj
+          (ds.TestFailureInfo.ToArray() |> Array.sortBy (fun it -> it.Key.ToString())) :> obj
+          (ds.CoverageInfo.ToArray()
+           |> Array.collect 
+                  (fun kv -> 
+                  kv.Value.ToArray() |> Array.map (fun v -> (kv.Key.methodId.mdTokenRid, kv.Key.uid), v.testId))
+           |> Array.sortBy (fun (um, tid : TestId) -> sprintf "%O.%O" um tid)) :> obj ]
     
     let normalizeJsonDoc (binRoot : string) (root : string) = 
-        let regexReplace (p : string, r : string) s = Regex.Replace(s, p, r, RegexOptions.IgnoreCase)
+        let regexReplace (p : string, r : string) s = Regex.Replace(s, p, r, RegexOptions.IgnoreCase ||| RegexOptions.Multiline)
         [ @"[{(]?[0-9A-F]{8}[-]?([0-9A-F]{4}[-]?){3}[0-9A-F]{12}[)}]?", "<GUID>"
           @"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]*Z", "<DATETIME>"
+          @"\""ErrorMessage\""\: \""FsCheck\.Xunit\.PropertyFailedException \: .*Falsifiable, .*\""", @"""ErrorMessage"": ""FsCheck.Xunit.PropertyFailedException : Falsifiable..."""
           binRoot.Replace(@"\", @"\\\\"), "<binroot>"
           root.Replace(@"\", @"\\\\"), "<root>" ]
         |> List.foldBack regexReplace
+    
+    let toJson o = JsonConvert.SerializeObject(o, Formatting.Indented, cfg)
+    
+    let runEngine sln props = 
+        let ssr = sprintf @"%s\%O" binRoot (Guid.NewGuid())
+        try 
+            let r, ds, es = createRunnerAndDS()
+            let cfg = EngineConfig(SnapShotRoot = ssr, AdditionalMSBuildProperties = props)
+            let testProject = getTestProjectsRoot sln
+            r.StartAsync cfg (DateTime.UtcNow.AddMinutes(-1.0)) (testProject |> FilePath) (CancellationToken())
+            |> Async.AwaitTask
+            |> Async.RunSynchronously
+            |> ignore
+            normalizeEngineOutput es ds |> toJson, testProject
+        finally
+            if Directory.Exists ssr then Directory.Delete(ssr, true)

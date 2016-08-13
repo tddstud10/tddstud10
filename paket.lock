@@ -4,9 +4,9 @@ NUGET
     xunit.runner.console (2.1)
 GIT
   remote: https://github.com/parthopdas/tddstud10-testprojects.git
-     (a6f9e67f1ed25ec6945a2aab1993325cd34e0a99)
+     (3b5394b1a0cc5e2f10bd061a1178aa2c1cf15d40)
       build: build.cmd Build
       os: windows
-     (a6f9e67f1ed25ec6945a2aab1993325cd34e0a99)
+     (3b5394b1a0cc5e2f10bd061a1178aa2c1cf15d40)
       build: build.cmd Build
       os: mono

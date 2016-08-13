@@ -1,0 +1,4443 @@
+﻿[
+  [
+    {
+      "Case": "Initial"
+    },
+    {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\CSXUnit1xNUnit3x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": [
+        "DefineConstants=BREAK_NOTHING"
+      ]
+    },
+    {
+      "Case": "FirstBuildRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Creating Solution Snapshot"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "CreateSnapshot"
+        }
+      }
+    },
+    {
+      "Case": "BuildPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Creating Solution Snapshot"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "CreateSnapshot"
+        }
+      }
+    },
+    {
+      "Case": "BuildRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Deleting Build Output"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "DeleteBuildOutput"
+        }
+      }
+    },
+    {
+      "Case": "BuildPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Deleting Build Output"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "DeleteBuildOutput"
+        }
+      }
+    },
+    {
+      "Case": "BuildRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Building Solution Snapshot"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "BuildSnapshot"
+        }
+      }
+    },
+    {
+      "Case": "BuildPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Building Solution Snapshot"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "BuildSnapshot"
+        }
+      }
+    },
+    {
+      "Case": "BuildRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Refresh Test Runtime"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "RefreshTestRuntime"
+        }
+      }
+    },
+    {
+      "Case": "BuildPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Refresh Test Runtime"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "RefreshTestRuntime"
+        }
+      }
+    },
+    {
+      "Case": "BuildRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Discover Sequence Points"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "DiscoverSequencePoints"
+        }
+      }
+    },
+    {
+      "Case": "BuildPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Discover Sequence Points"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "DiscoverSequencePoints"
+        }
+      }
+    },
+    {
+      "Case": "BuildRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Discover Unit Tests"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "DiscoverTests"
+        }
+      }
+    },
+    {
+      "Case": "BuildPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Discover Unit Tests"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "DiscoverTests"
+        }
+      }
+    },
+    {
+      "Case": "BuildRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Instrument Binaries"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "InstrumentBinaries"
+        }
+      }
+    },
+    {
+      "Case": "BuildPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Instrument Binaries"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "InstrumentBinaries"
+        }
+      }
+    },
+    {
+      "Case": "TestRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Running Tests"
+          ]
+        },
+        "kind": {
+          "Case": "Test"
+        },
+        "subKind": {
+          "Case": "RunTests"
+        }
+      }
+    },
+    {
+      "Case": "TestPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Running Tests"
+          ]
+        },
+        "kind": {
+          "Case": "Test"
+        },
+        "subKind": {
+          "Case": "RunTests"
+        }
+      }
+    },
+    {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\CSXUnit1xNUnit3x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": [
+        "DefineConstants=BREAK_NOTHING"
+      ]
+    }
+  ],
+  {
+    "Case": "Some",
+    "Fields": [
+      {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\CSXUnit1xNUnit3x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      }
+    ]
+  },
+  [
+    {
+      "Key": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\CLASS1.CS"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            12
+          ]
+        }
+      },
+      "Value": [
+        {
+          "DtcId": "<GUID>",
+          "FullyQualifiedName": "CSXUnit1xNUnit3x.StringTests3.IndexOf",
+          "DisplayName": "CSXUnit1xNUnit3x.StringTests3.IndexOf",
+          "Source": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+            ]
+          },
+          "CodeFilePath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "LineNumber": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Key": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\CLASS1.CS"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            30
+          ]
+        }
+      },
+      "Value": [
+        {
+          "DtcId": "<GUID>",
+          "FullyQualifiedName": "CSXUnit1xNUnit3x.StringTests3.SquareRootDefinition(0.0d)",
+          "DisplayName": "SquareRootDefinition(0.0d)",
+          "Source": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+            ]
+          },
+          "CodeFilePath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "LineNumber": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        },
+        {
+          "DtcId": "<GUID>",
+          "FullyQualifiedName": "CSXUnit1xNUnit3x.StringTests3.SquareRootDefinition(1.0d)",
+          "DisplayName": "SquareRootDefinition(1.0d)",
+          "Source": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+            ]
+          },
+          "CodeFilePath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "LineNumber": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Key": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\CLASS1.CS"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            41
+          ]
+        }
+      },
+      "Value": [
+        {
+          "DtcId": "<GUID>",
+          "FullyQualifiedName": "CSXUnit1xNUnit3x.StringTests3.TestToSkip",
+          "DisplayName": "CSXUnit1xNUnit3x.StringTests3.TestToSkip",
+          "Source": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+            ]
+          },
+          "CodeFilePath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "LineNumber": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              41
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "Key": {
+        "Case": "FilePath",
+        "Fields": [
+          "<root>\\CLASS1.CS"
+        ]
+      },
+      "Value": [
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  7
+                ]
+              }
+            },
+            "uid": 0
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              56
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              9
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              67
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              7
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  6
+                ]
+              }
+            },
+            "uid": 2
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              73
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              35
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              73
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              36
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  6
+                ]
+              }
+            },
+            "uid": 1
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              73
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              11
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              73
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              34
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  6
+                ]
+              }
+            },
+            "uid": 0
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              73
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              9
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              73
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              10
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  5
+                ]
+              }
+            },
+            "uid": 2
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              70
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              41
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              70
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              42
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  5
+                ]
+              }
+            },
+            "uid": 1
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              70
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              11
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              70
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              40
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  5
+                ]
+              }
+            },
+            "uid": 0
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              70
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              9
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              70
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              10
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  4
+                ]
+              }
+            },
+            "uid": 1
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              21
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              9
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              21
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              36
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  4
+                ]
+              }
+            },
+            "uid": 0
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              18
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              9
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              18
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              32
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  3
+                ]
+              }
+            },
+            "uid": 2
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              49
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              9
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              49
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              10
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  3
+                ]
+              }
+            },
+            "uid": 1
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              42
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              48
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              22
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  3
+                ]
+              }
+            },
+            "uid": 0
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              41
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              9
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              41
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              10
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  2
+                ]
+              }
+            },
+            "uid": 5
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              37
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              9
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              37
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              10
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  2
+                ]
+              }
+            },
+            "uid": 4
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              36
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              36
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              104
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  2
+                ]
+              }
+            },
+            "uid": 3
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              35
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              35
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              54
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  2
+                ]
+              }
+            },
+            "uid": 2
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              33
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              33
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              42
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  2
+                ]
+              }
+            },
+            "uid": 1
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              31
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              31
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              78
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  2
+                ]
+              }
+            },
+            "uid": 0
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              9
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              10
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  1
+                ]
+              }
+            },
+            "uid": 3
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              15
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              9
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              15
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              10
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  1
+                ]
+              }
+            },
+            "uid": 2
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              14
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              14
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              50
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  1
+                ]
+              }
+            },
+            "uid": 1
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              48
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  1
+                ]
+              }
+            },
+            "uid": 0
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              9
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              10
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "Key": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      },
+      "Value": [
+        {
+          "DisplayName": "CSXUnit1xNUnit3x.StringTests3.IndexOf(input: \"hello world\", letter: 'w', expected: 6)",
+          "TestCase": {
+            "DtcId": "<GUID>",
+            "FullyQualifiedName": "CSXUnit1xNUnit3x.StringTests3.IndexOf",
+            "DisplayName": "CSXUnit1xNUnit3x.StringTests3.IndexOf",
+            "Source": {
+              "Case": "FilePath",
+              "Fields": [
+                "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+              ]
+            },
+            "CodeFilePath": {
+              "Case": "FilePath",
+              "Fields": [
+                "<root>\\CLASS1.CS"
+              ]
+            },
+            "LineNumber": {
+              "Case": "DocumentCoordinate",
+              "Fields": [
+                12
+              ]
+            }
+          },
+          "Outcome": {
+            "Case": "TOPassed"
+          },
+          "ErrorStackTrace": null,
+          "ErrorMessage": null
+        },
+        {
+          "DisplayName": "CSXUnit1xNUnit3x.StringTests3.IndexOf(input: \"goodnight moon\", letter: 'w', expected: -1)",
+          "TestCase": {
+            "DtcId": "<GUID>",
+            "FullyQualifiedName": "CSXUnit1xNUnit3x.StringTests3.IndexOf",
+            "DisplayName": "CSXUnit1xNUnit3x.StringTests3.IndexOf",
+            "Source": {
+              "Case": "FilePath",
+              "Fields": [
+                "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+              ]
+            },
+            "CodeFilePath": {
+              "Case": "FilePath",
+              "Fields": [
+                "<root>\\CLASS1.CS"
+              ]
+            },
+            "LineNumber": {
+              "Case": "DocumentCoordinate",
+              "Fields": [
+                12
+              ]
+            }
+          },
+          "Outcome": {
+            "Case": "TOPassed"
+          },
+          "ErrorStackTrace": null,
+          "ErrorMessage": null
+        }
+      ]
+    },
+    {
+      "Key": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      },
+      "Value": [
+        {
+          "DisplayName": "SquareRootDefinition(0.0d)",
+          "TestCase": {
+            "DtcId": "<GUID>",
+            "FullyQualifiedName": "CSXUnit1xNUnit3x.StringTests3.SquareRootDefinition(0.0d)",
+            "DisplayName": "SquareRootDefinition(0.0d)",
+            "Source": {
+              "Case": "FilePath",
+              "Fields": [
+                "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+              ]
+            },
+            "CodeFilePath": {
+              "Case": "FilePath",
+              "Fields": [
+                "<root>\\CLASS1.CS"
+              ]
+            },
+            "LineNumber": {
+              "Case": "DocumentCoordinate",
+              "Fields": [
+                30
+              ]
+            }
+          },
+          "Outcome": {
+            "Case": "TOPassed"
+          },
+          "ErrorStackTrace": null,
+          "ErrorMessage": null
+        },
+        {
+          "DisplayName": "SquareRootDefinition(1.0d)",
+          "TestCase": {
+            "DtcId": "<GUID>",
+            "FullyQualifiedName": "CSXUnit1xNUnit3x.StringTests3.SquareRootDefinition(1.0d)",
+            "DisplayName": "SquareRootDefinition(1.0d)",
+            "Source": {
+              "Case": "FilePath",
+              "Fields": [
+                "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+              ]
+            },
+            "CodeFilePath": {
+              "Case": "FilePath",
+              "Fields": [
+                "<root>\\CLASS1.CS"
+              ]
+            },
+            "LineNumber": {
+              "Case": "DocumentCoordinate",
+              "Fields": [
+                30
+              ]
+            }
+          },
+          "Outcome": {
+            "Case": "TOPassed"
+          },
+          "ErrorStackTrace": null,
+          "ErrorMessage": null
+        }
+      ]
+    },
+    {
+      "Key": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              41
+            ]
+          }
+        }
+      },
+      "Value": [
+        {
+          "DisplayName": "CSXUnit1xNUnit3x.StringTests3.TestToSkip",
+          "TestCase": {
+            "DtcId": "<GUID>",
+            "FullyQualifiedName": "CSXUnit1xNUnit3x.StringTests3.TestToSkip",
+            "DisplayName": "CSXUnit1xNUnit3x.StringTests3.TestToSkip",
+            "Source": {
+              "Case": "FilePath",
+              "Fields": [
+                "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+              ]
+            },
+            "CodeFilePath": {
+              "Case": "FilePath",
+              "Fields": [
+                "<root>\\CLASS1.CS"
+              ]
+            },
+            "LineNumber": {
+              "Case": "DocumentCoordinate",
+              "Fields": [
+                41
+              ]
+            }
+          },
+          "Outcome": {
+            "Case": "TOPassed"
+          },
+          "ErrorStackTrace": null,
+          "ErrorMessage": null
+        }
+      ]
+    }
+  ],
+  [],
+  [
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            1
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            1
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            1
+          ]
+        },
+        "Item2": 1
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            1
+          ]
+        },
+        "Item2": 1
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            1
+          ]
+        },
+        "Item2": 2
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            1
+          ]
+        },
+        "Item2": 2
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            1
+          ]
+        },
+        "Item2": 3
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            1
+          ]
+        },
+        "Item2": 3
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            2
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            2
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            2
+          ]
+        },
+        "Item2": 1
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            2
+          ]
+        },
+        "Item2": 1
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            2
+          ]
+        },
+        "Item2": 2
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            2
+          ]
+        },
+        "Item2": 2
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            2
+          ]
+        },
+        "Item2": 3
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            2
+          ]
+        },
+        "Item2": 3
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            2
+          ]
+        },
+        "Item2": 4
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            2
+          ]
+        },
+        "Item2": 4
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            2
+          ]
+        },
+        "Item2": 5
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            2
+          ]
+        },
+        "Item2": 5
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              41
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 1
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              41
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 2
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              41
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            4
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            4
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            4
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            4
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            4
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              41
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            4
+          ]
+        },
+        "Item2": 1
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            4
+          ]
+        },
+        "Item2": 1
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            4
+          ]
+        },
+        "Item2": 1
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            4
+          ]
+        },
+        "Item2": 1
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            4
+          ]
+        },
+        "Item2": 1
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              41
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            5
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            5
+          ]
+        },
+        "Item2": 1
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            7
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\CSXUnit1xNUnit3x.NET20\\out\\CSXUnit1xNUnit3x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\CLASS1.CS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      }
+    }
+  ]
+]
