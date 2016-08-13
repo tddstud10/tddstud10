@@ -1,51 +1,40 @@
 ﻿namespace R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core.Editor
 
-open Microsoft.VisualStudio.Text.Editor
-open Microsoft.VisualStudio.Text.Tagging
-open System
-open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
-open System.Windows
-open Microsoft.VisualStudio.Text.Formatting
 open Microsoft.VisualStudio.Shell.Interop
-open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
-open System.Collections.Generic
-open Microsoft.VisualStudio.Text
-open GlyphGenerator
-
+open Microsoft.VisualStudio.Text.Editor
+open Microsoft.VisualStudio.Text.Formatting
+open Microsoft.VisualStudio.Text.Tagging
+open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
+open System
 
 type Margin(textView : IWpfTextView, mgta : ITagAggregator<_>, painter, getMarginSize, getVisualElement) = 
     let mutable disposed = false
     
-    let cache = Dictionary<SnapshotSpan, IEnumerable<IMappingTagSpan<IMarginGlyphTag>>>()
-
     let throwIfDisposed() = 
         if disposed then raise (ObjectDisposedException(MarginConstants.Name))
     
-    let paintGlyphs cache = 
+    let paintGlyphs = 
         throwIfDisposed()
-        (textView.ViewportLocation, textView.TextViewLines :> _ seq) |> painter cache
+        (textView.ViewportLocation, textView.TextViewLines :> _ seq) |> painter
     
-    let lcSub = textView.LayoutChanged.Subscribe(fun _ -> paintGlyphs cache)
-    let tcSub = mgta.TagsChanged.Subscribe(fun _ -> cache.Clear(); paintGlyphs cache)
-    let zlcSub = textView.ZoomLevelChanged.Subscribe(fun _ -> paintGlyphs cache)
-
-    static member Create (dte: EnvDTE.DTE) (dbg: IVsDebugger3) (textView : IWpfTextView) (mgta : ITagAggregator<_>) = 
+    let lcSub = textView.LayoutChanged.Subscribe(fun _ -> paintGlyphs)
+    let tcSub = mgta.TagsChanged.Subscribe(fun _ -> paintGlyphs)
+    let zlcSub = textView.ZoomLevelChanged.Subscribe(fun _ -> paintGlyphs)
+    
+    static member Create (dte : EnvDTE.DTE) (dbg : IVsDebugger3) (textView : IWpfTextView) (mgta : ITagAggregator<_>) = 
         (* NOTE: Pure wireup code in this constructor. Hence not tested. *)
-        let getZL = fun() -> textView.ZoomLevel / 100.0
+        let getZL = fun () -> textView.ZoomLevel / 100.0
         let createHA = createHostActions dte dbg
-        let canvas : MarginCanvas = 
-            if XX.canvasV2 then
-                MarginCanvasV2(getZL) :> _
-            else
-                MarginCanvasV1(getZL) :> _
-                
-        let painter cache = 
+        let canvas = MarginCanvas(getZL)
+        
+        let painter = 
             GlpyhBoundsGenerator.generate getZL
-            >> (Seq.map (fun (b, (l : ITextViewLine)) -> b, (XX.xxx cache l mgta)))
+            >> (Seq.map (fun (b, l : ITextViewLine) -> b, l.Extent |> mgta.GetTags))
             >> (Seq.choose GlyphInfoGenerator.generate)
             >> (Seq.map (GlyphGenerator.generate createHA getZL))
-            >> canvas.Refresh 
-        new Margin(textView, mgta, painter, (fun () -> canvas.FE.ActualWidth), (fun () -> canvas.FE))
+            >> canvas.Refresh
+        new Margin(textView, mgta, painter, (fun () -> canvas.UserControl.ActualWidth), (fun () -> canvas.UserControl))
+    
     override x.Finalize() = x.Dispose(false)
     
     member private __.Dispose(disposing : _) = 

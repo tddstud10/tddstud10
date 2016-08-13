@@ -24,15 +24,14 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
             ////}
 
             //SimpleIoc.Default.Register<IDataAccessService, DataAccessService>();
-            SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<MainViewModel1>();
         }
 
-        public MainViewModel Main
+        public MainViewModel1 Main
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
+                return ServiceLocator.Current.GetInstance<MainViewModel1>();
             }
         }
 
