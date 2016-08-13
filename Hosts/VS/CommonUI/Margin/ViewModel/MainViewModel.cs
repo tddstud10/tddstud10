@@ -6,9 +6,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
+namespace R4nd0mApps.TddStud10.Hosts.Common.Margin.ViewModel
 {
-    public partial class MainViewModel1 : ViewModelBase
+    public partial class MainViewModel : ViewModelBase
     {
         // NOTE: Only a layout debugging aid. Can be removed once UI is stable.
         private static bool debugLayout = false;
@@ -51,7 +51,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
             }
         }
 
-        public MainViewModel1()
+        public MainViewModel()
         {
         }
 

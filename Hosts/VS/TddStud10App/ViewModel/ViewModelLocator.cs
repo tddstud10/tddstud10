@@ -14,7 +14,7 @@
 
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel;
+using R4nd0mApps.TddStud10.Hosts.Common.Margin.ViewModel;
 
 namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
 {
@@ -42,7 +42,7 @@ namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
 
-            SimpleIoc.Default.Register<MainViewModel1>();
+            SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<MainWindowViewModel>();
         }
 

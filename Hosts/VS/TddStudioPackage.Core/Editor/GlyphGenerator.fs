@@ -15,6 +15,6 @@ let generate createHA getZL ((b, mgi) : Rect * MarginGlyphInfo) =
         | CodeCoverage -> Geometry.Parse(String.Format("M 0 0 H {0} V {0} H 0 V 0", gWidth))
     
     let br = SolidColorBrush(mgi.Color)
-    let e = Path(Data = shape, Fill = br, Stroke = br)
+    let e = Path(Data = shape, Fill = br, Stroke = br, StrokeThickness = 2.0 * getZL())
     e.Tag <- createHA mgi.Tags
     b, e :> FrameworkElement

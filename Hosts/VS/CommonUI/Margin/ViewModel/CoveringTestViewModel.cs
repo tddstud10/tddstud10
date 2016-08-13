@@ -3,7 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using R4nd0mApps.TddStud10.Common.Domain;
 using System;
 
-namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
+namespace R4nd0mApps.TddStud10.Hosts.Common.Margin.ViewModel
 {
     public class CoveringTestViewModel : ViewModelBase
     {

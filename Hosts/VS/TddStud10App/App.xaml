@@ -11,8 +11,8 @@
       x:Key="Locator" 
       d:IsDataSource="True" />
     <vm:ViewModelLocator 
-      xmlns:vm="clr-namespace:R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel;assembly=R4nd0mApps.TddStud10.Hosts.CommonUI"
-      x:Key="CoveringTestsVMLocator" 
+      xmlns:vm="clr-namespace:R4nd0mApps.TddStud10.Hosts.Common.Margin.ViewModel;assembly=R4nd0mApps.TddStud10.Hosts.CommonUI"
+      x:Key="MarginVMLocator" 
       d:IsDataSource="True" />
   </Application.Resources>
 </Application>
