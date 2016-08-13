@@ -8,7 +8,7 @@
   xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:StatusBar="clr-namespace:R4nd0mApps.TddStud10.Hosts.Common.StatusBar;assembly=R4nd0mApps.TddStud10.Hosts.CommonUI"
-  xmlns:CoveringTests="clr-namespace:R4nd0mApps.TddStud10.Hosts.Common.CoveringTests;assembly=R4nd0mApps.TddStud10.Hosts.CommonUI"
+  xmlns:Margin="clr-namespace:R4nd0mApps.TddStud10.Hosts.Common.Margin;assembly=R4nd0mApps.TddStud10.Hosts.CommonUI"
   Title="TddStud10 Console" Height="350" Width="721.575"
   WindowState="Maximized"
   DataContext="{Binding Path=Main, Source={StaticResource Locator}}">

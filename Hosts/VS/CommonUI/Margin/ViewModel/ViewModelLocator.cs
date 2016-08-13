@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
-namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
+namespace R4nd0mApps.TddStud10.Hosts.Common.Margin.ViewModel
 {
     public class ViewModelLocator
     {

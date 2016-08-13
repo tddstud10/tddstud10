@@ -7,7 +7,7 @@ module HostIdeApiExtensions =
     open Microsoft.VisualStudio.Shell.Interop
     open R4nd0mApps.TddStud10.Engine.Core
     open R4nd0mApps.TddStud10.Engine.Core.Common
-    open R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
+    open R4nd0mApps.TddStud10.Hosts.Common.Margin.ViewModel
     open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
     open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core
     open System

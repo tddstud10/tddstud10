@@ -7,6 +7,8 @@ open System
 open System.Windows
 open R4nd0mApps.TddStud10.Common.TestFramework
 
+#if DO_NOT_COMPILE
+
 let zl = 1.1
 
 let createMargin2 p t = 
@@ -68,3 +70,5 @@ let ``Painter is not called if object is disposed``() =
     tv.FireLayoutChangedEvent()
     ta.FireTagsChangedEvent()
     Assert.Equal(None, s.CalledWith)
+
+#endif

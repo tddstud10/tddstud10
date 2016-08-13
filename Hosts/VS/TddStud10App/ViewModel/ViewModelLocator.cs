@@ -14,7 +14,7 @@
 
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel;
+using R4nd0mApps.TddStud10.Hosts.Common.Margin.ViewModel;
 
 namespace R4nd0mApps.TddStud10.Hosts.Console.TddStud10App.ViewModel
 {

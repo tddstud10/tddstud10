@@ -6,7 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
+namespace R4nd0mApps.TddStud10.Hosts.Common.Margin.ViewModel
 {
     public partial class MainViewModel : ViewModelBase
     {
@@ -39,18 +39,6 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
 
         private HostIdeActions _hostActions;
 
-        private GlyphInfo _glyphInfo;
-
-        public GlyphInfo GlyphInfo
-        {
-            get { return _glyphInfo; }
-            set
-            {
-                _glyphInfo = value;
-                RaisePropertyChanged(() => GlyphInfo);
-            }
-        }
-
         private ObservableCollection<CoveringTestViewModel> _coveringTests;
 
         public ObservableCollection<CoveringTestViewModel> CoveringTests
@@ -63,25 +51,14 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
             }
         }
 
-        public RelayCommand ShowPopupCommand { get; set; }
-
-        [PreferredConstructor]
         public MainViewModel()
         {
         }
 
-        public MainViewModel(GlyphInfo glyphInfo, HostIdeActions hostActions)
-            : this()
+        public void ShowPopup(HostIdeActions ha)
         {
-            _glyphInfo = glyphInfo;
+            this._hostActions = ha;
 
-            _hostActions = hostActions;
-
-            ShowPopupCommand = new RelayCommand(ShowPopup);
-        }
-
-        private void ShowPopup()
-        {
             InitializePopup();
 
             PopupVisible =
@@ -93,11 +70,6 @@ namespace R4nd0mApps.TddStud10.Hosts.Common.CoveringTests.ViewModel
 
         private void InitializePopup()
         {
-            if (CoveringTests != null)
-            {
-                return;
-            }
-
             var vms =
                 _hostActions
                 .GetCoveringTestResults.Invoke(null)
