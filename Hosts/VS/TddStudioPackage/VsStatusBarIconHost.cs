@@ -30,9 +30,23 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                     return;
                 }
 
-                _runState = value;
-                RaisePropertyChanged(() => RunState);
+                _statusBarThreadDispatcher.InvokeAsync(
+                    () =>
+                    {
+                        _runState = value;
+                        RaisePropertyChanged(() => RunState);
+                    });
             }
+        }
+
+        public static VsStatusBarIconHost CreateAndInjectIntoVsStatusBar()
+        {
+            Logger.I.LogInfo("Attempting to inject icon into VS' status bar.");
+
+            VsStatusBarIconHost iconHost = new VsStatusBarIconHost();
+            iconHost.InjectControl();
+
+            return iconHost;
         }
 
         private VsStatusBarIconHost()
@@ -142,21 +156,6 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                 }
             }
             return null;
-        }
-
-        public static VsStatusBarIconHost CreateAndInjectIntoVsStatusBar()
-        {
-            Logger.I.LogInfo("Attempting to inject icon into VS' status bar.");
-
-            VsStatusBarIconHost iconHost = new VsStatusBarIconHost();
-            iconHost.InjectControl();
-
-            return iconHost;
-        }
-
-        public void InvokeAsyncOnStatusBarThread(Action action)
-        {
-            _statusBarThreadDispatcher.InvokeAsync(action);
         }
 
         private void InjectStatusBarIcon(StatusBar statusBar)

@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine;
+using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core;
 using System;
@@ -10,8 +12,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using R4nd0mApps.TddStud10.Common.Domain;
-using R4nd0mApps.TddStud10.Engine.Core;
 using CommandEntry = System.Tuple<string, uint, System.EventHandler, System.EventHandler>;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
@@ -69,6 +69,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             var solutionPath = FilePath.NewFilePath(_dte.Solution.FileName);
             var config = EngineConfigLoader.load(new EngineConfig(), solutionPath);
             config.IsDisabled = isDisabled;
+            TddStud10Package.Instance.IconHost.RunState = RunState.Initial;
+
             EngineConfigLoader.setConfig(solutionPath, config);
         }
 
@@ -92,7 +94,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             cmd.Visible = true;
             cmd.Text = EngineLoader.IsEngineEnabled()
-                        ? Properties.Resources.DisableTddStud10State 
+                        ? Properties.Resources.DisableTddStud10State
                         : Properties.Resources.EnableTddStud10State;
         }
 

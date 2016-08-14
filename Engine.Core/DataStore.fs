@@ -17,7 +17,22 @@ type DataStore() =
     member val TestResults = PerTestIdDResults() with get, set
     member val TestFailureInfo = PerDocumentLocationTestFailureInfo() with get, set
     member val CoverageInfo = PerSequencePointIdTestRunId() with get, set
-    
+    member private x.UpdateData = function
+        | NoData -> ()
+        | TestCases(tc) -> 
+            x.TestCases <- tc
+            Common.safeExec (fun () -> testCasesUpdated.Trigger(x.TestCases))
+        | SequencePoints(sp) -> 
+            x.SequencePoints <- sp
+            Common.safeExec (fun () -> sequencePointsUpdated.Trigger(x.SequencePoints))
+        | TestRunOutput(tr, tfi, ci) -> 
+            x.TestResults <- tr
+            Common.safeExec (fun () -> testResultsUpdated.Trigger(x.TestResults))
+            x.TestFailureInfo <- tfi
+            Common.safeExec (fun () -> testFailureInfoUpdated.Trigger(x.TestFailureInfo))
+            x.CoverageInfo <- ci
+            Common.safeExec (fun () -> coverageInfoUpdated.Trigger(x.CoverageInfo))
+        
     interface IDataStore with
         member x.RunStartParams : RunStartParams option = x.RunStartParams
         member __.TestCasesUpdated : IEvent<_> = testCasesUpdated.Publish
@@ -26,35 +41,13 @@ type DataStore() =
         member __.TestFailureInfoUpdated : IEvent<_> = testFailureInfoUpdated.Publish
         member __.CoverageInfoUpdated : IEvent<_> = coverageInfoUpdated.Publish
         member x.UpdateRunStartParams(rsp : RunStartParams) : unit = x.RunStartParams <- rsp |> Some
-        
-        member x.ResetData() = 
-            x.SequencePoints <- new PerDocumentSequencePoints()
-            Common.safeExec (fun () -> sequencePointsUpdated.Trigger(x.SequencePoints))
-            x.TestCases <- new PerDocumentLocationDTestCases()
-            Common.safeExec (fun () -> testCasesUpdated.Trigger(x.TestCases))
-            x.TestResults <- new PerTestIdDResults()
-            Common.safeExec (fun () -> testResultsUpdated.Trigger(x.TestResults))
-            x.TestFailureInfo <- new PerDocumentLocationTestFailureInfo()
-            Common.safeExec (fun () -> testFailureInfoUpdated.Trigger(x.TestFailureInfo))
-            x.CoverageInfo <- new PerSequencePointIdTestRunId()
-            Common.safeExec (fun () -> coverageInfoUpdated.Trigger(x.CoverageInfo))
-        
-        member x.UpdateData(rd : RunData) : unit = 
-            match rd with
-            | NoData -> ()
-            | TestCases(tc) -> 
-                x.TestCases <- tc
-                Common.safeExec (fun () -> testCasesUpdated.Trigger(x.TestCases))
-            | SequencePoints(sp) -> 
-                x.SequencePoints <- sp
-                Common.safeExec (fun () -> sequencePointsUpdated.Trigger(x.SequencePoints))
-            | TestRunOutput(tr, tfi, ci) -> 
-                x.TestResults <- tr
-                Common.safeExec (fun () -> testResultsUpdated.Trigger(x.TestResults))
-                x.TestFailureInfo <- tfi
-                Common.safeExec (fun () -> testFailureInfoUpdated.Trigger(x.TestFailureInfo))
-                x.CoverageInfo <- ci
-                Common.safeExec (fun () -> coverageInfoUpdated.Trigger(x.CoverageInfo))
+                
+        member x.UpdateData(rd : RunData) : unit = x.UpdateData rd
+
+        member x.ResetData() =
+            () |> PerDocumentSequencePoints |> SequencePoints |> x.UpdateData
+            () |> PerDocumentLocationDTestCases |> TestCases |> x.UpdateData
+            (PerTestIdDResults(), PerDocumentLocationTestFailureInfo(), PerSequencePointIdTestRunId()) |> TestRunOutput |> x.UpdateData
         
         member x.FindTest dl : DTestCase seq = (dl, x.TestCases) ||> Dict.tryGetValue Seq.empty (fun v -> v :> seq<_>)
         member x.GetSequencePointsForFile p : SequencePoint seq = 

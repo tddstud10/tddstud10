@@ -30,7 +30,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         private IVsSolution2 _solution;
         private EnvDTE.DTE _dte;
 
-        private VsStatusBarIconHost _iconHost;
+        public VsStatusBarIconHost IconHost { get; private set; }
 
         public static TddStud10Package Instance { get; private set; }
 
@@ -68,7 +68,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             new PackageCommands(this).AddCommands();
 
-            _iconHost = VsStatusBarIconHost.CreateAndInjectIntoVsStatusBar();
+            IconHost = VsStatusBarIconHost.CreateAndInjectIntoVsStatusBar();
 
             Instance = this;
 
@@ -144,11 +144,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
             EngineLoader.DisableEngine();
             EngineLoader.Unload();
-            _iconHost.InvokeAsyncOnStatusBarThread(
-                () =>
-                {
-                    _iconHost.RunState = RunState.Initial;
-                });
+            IconHost.RunState = RunState.Initial;
 
             return VSConstants.S_OK;
         }
@@ -202,11 +198,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         public void RunStateChanged(RunState rs)
         {
-            _iconHost.InvokeAsyncOnStatusBarThread(
-                () =>
-                {
-                    _iconHost.RunState = rs;
-                });
+            IconHost.RunState = rs;
         }
 
         public void RunStarting(RunStartParams rd)
