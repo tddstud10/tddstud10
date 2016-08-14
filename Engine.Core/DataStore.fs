@@ -45,8 +45,8 @@ type DataStore() =
         member x.UpdateData(rd : RunData) : unit = x.UpdateData rd
 
         member x.ResetData() =
-            () |> PerDocumentSequencePoints |> SequencePoints |> x.UpdateData
-            () |> PerDocumentLocationDTestCases |> TestCases |> x.UpdateData
+            PerDocumentSequencePoints() |> SequencePoints |> x.UpdateData
+            PerDocumentLocationDTestCases() |> TestCases |> x.UpdateData
             (PerTestIdDResults(), PerDocumentLocationTestFailureInfo(), PerSequencePointIdTestRunId()) |> TestRunOutput |> x.UpdateData
         
         member x.FindTest dl : DTestCase seq = (dl, x.TestCases) ||> Dict.tryGetValue Seq.empty (fun v -> v :> seq<_>)

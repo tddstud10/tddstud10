@@ -9,7 +9,7 @@
   - ignore tests and make things green
   - unignore, fix tests and make things green - green test, debug, goto test
   - cache in %temp%
-
+  - disable tddstudio
 
 # Acceptance Tests
   - Help About - icon, version, name
