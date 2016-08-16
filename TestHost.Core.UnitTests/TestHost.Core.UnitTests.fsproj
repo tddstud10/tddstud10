@@ -70,40 +70,16 @@
       <Link>TestData\bins\XUnit20FSPortable\FSharp.Core.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\TestExecution\TestData\bins\XUnit20FSPortable\FSharp.Core.xml">
-      <Link>TestData\bins\XUnit20FSPortable\FSharp.Core.xml</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="..\TestExecution\TestData\bins\XUnit20FSPortable\xunit.abstractions.dll">
       <Link>TestData\bins\XUnit20FSPortable\xunit.abstractions.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\TestExecution\TestData\bins\XUnit20FSPortable\xunit.abstractions.xml">
-      <Link>TestData\bins\XUnit20FSPortable\xunit.abstractions.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\TestExecution\TestData\bins\XUnit20FSPortable\xunit.assert.dll">
       <Link>TestData\bins\XUnit20FSPortable\xunit.assert.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\TestExecution\TestData\bins\XUnit20FSPortable\xunit.assert.pdb">
-      <Link>TestData\bins\XUnit20FSPortable\xunit.assert.pdb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\TestExecution\TestData\bins\XUnit20FSPortable\xunit.assert.xml">
-      <Link>TestData\bins\XUnit20FSPortable\xunit.assert.xml</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="..\TestExecution\TestData\bins\XUnit20FSPortable\xunit.core.dll">
       <Link>TestData\bins\XUnit20FSPortable\xunit.core.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\TestExecution\TestData\bins\XUnit20FSPortable\xunit.core.pdb">
-      <Link>TestData\bins\XUnit20FSPortable\xunit.core.pdb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\TestExecution\TestData\bins\XUnit20FSPortable\xunit.core.xml">
-      <Link>TestData\bins\XUnit20FSPortable\xunit.core.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\TestExecution\TestData\bins\XUnit20FSPortable\xunit.execution.desktop.dll">
@@ -112,14 +88,6 @@
     </None>
     <None Include="..\TestExecution\TestData\bins\XUnit20FSPortable\XUnit20FSPortable.dll">
       <Link>TestData\bins\XUnit20FSPortable\XUnit20FSPortable.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\TestExecution\TestData\bins\XUnit20FSPortable\XUnit20FSPortable.pdb">
-      <Link>TestData\bins\XUnit20FSPortable\XUnit20FSPortable.pdb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\TestExecution\TestData\bins\XUnit20FSPortable\XUnit20FSPortable.XML">
-      <Link>TestData\bins\XUnit20FSPortable\XUnit20FSPortable.XML</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="TestData\NoTestAdapters\bins\AUnit.TestAdapter.Runtime.dll">
