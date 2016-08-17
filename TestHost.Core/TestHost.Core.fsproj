@@ -73,9 +73,7 @@
     <Compile Include="XUnitTestExecutor.fs" />
     <Compile Include="TestFailureInfoExtensions.fs" />
     <Compile Include="TestAdapterExtensions.fs" />
-    <None Include="_EventRegisterUsersGuide.docx" />
     <Content Include="packages.config" />
-    <None Include="_EventSourceUsersGuide.docx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
