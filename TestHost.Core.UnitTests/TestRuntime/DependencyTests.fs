@@ -16,7 +16,7 @@ let ``Should have restricted dependencies``() =
     (* Update the TestRunTimeInstaller if you update this list *)
     let knownDeps = 
         [ ("mscorlib", "2.0.0.0")
-          ("Microsoft.Diagnostics.Tracing.EventSource", "1.0.26.0")
+          ("Microsoft.Diagnostics.Tracing.EventSource", "1.1.28.0")
           ("System.Core", "3.5.0.0")
           ("System.ServiceModel", "3.0.0.0")
           ("System", "2.0.0.0")
