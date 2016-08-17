@@ -9,8 +9,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>TestHost.Core</RootNamespace>
     <AssemblyName>R4nd0mApps.TddStud10.TestHost.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <Name>TestHost.Core</Name>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -73,7 +73,9 @@
     <Compile Include="XUnitTestExecutor.fs" />
     <Compile Include="TestFailureInfoExtensions.fs" />
     <Compile Include="TestAdapterExtensions.fs" />
+    <None Include="_EventRegisterUsersGuide.docx" />
     <Content Include="packages.config" />
+    <None Include="_EventSourceUsersGuide.docx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
