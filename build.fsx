@@ -50,11 +50,13 @@ let runTest pattern =
 
 Target "Test" DoNothing
 Target "UnitTests" (runTest "/*.UnitTests*.dll")
-Target "ContractTests" 
-    (if File.Exists(sprintf @"%s\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe" <| environVar "ProgramFiles(x86)") then 
-        runTest "/*.ContractTests*.dll" 
-    else 
-        fun () -> traceImportant "Not required to run ContractTests on VS2013 boxes for simplifying test matrix.")
+Target "ContractTests"
+    (let tests = 
+        if File.Exists(sprintf @"%s\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe" <| environVar "ProgramFiles(x86)") then 
+            "/*.ContractTests*.dll" 
+        else 
+            "/*.NoContractTests*.dll"
+    runTest tests)
 
 
 "Clean" ?=> "Build"
