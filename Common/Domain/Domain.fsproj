@@ -9,8 +9,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>R4nd0mApps.TddStud10.Common.Domain</RootNamespace>
     <AssemblyName>R4nd0mApps.TddStud10.Common.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <Name>R4nd0mApps.TddStud10.Common.Domain</Name>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -73,7 +73,9 @@
     <Compile Include="IDataStore.fs" />
     <Compile Include="Code\PathBuilder.fs" />
     <Compile Include="Code\CollectionExtensions.fs" />
+    <None Include="_EventRegisterUsersGuide.docx" />
     <Content Include="packages.config" />
+    <None Include="_EventSourceUsersGuide.docx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
