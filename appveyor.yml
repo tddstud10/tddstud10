@@ -5,7 +5,7 @@ image:
 - Visual Studio 2015
 
 build_script:
-- cmd: .\build.cmd
+- cmd: .\build.cmd Publish
 
 test: off
 
