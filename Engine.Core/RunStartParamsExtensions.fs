@@ -25,6 +25,8 @@ module RunStartParamsExtensions =
                   { Path = solutionPath
                     SnapshotPath = PathBuilder.makeSlnSnapshotPath snapShotRoot solutionPath
                     BuildRoot = buildRoot }
+              IgnoredTests = cfg.IgnoredTests
+              AdditionalMSBuildProperties = cfg.AdditionalMSBuildProperties
               DataFiles = 
                   { SequencePointStore =
                         PathBuilder.combine [ buildRoot

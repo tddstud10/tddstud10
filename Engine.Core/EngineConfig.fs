@@ -5,9 +5,14 @@ open System.Runtime.Serialization
 [<AllowNullLiteral>]
 [<DataContract>]
 type EngineConfig() = 
-    let mutable snapShotRoot = @"%temp%\_tdd"
-    
     [<DataMember(IsRequired = false)>]
-    member __.SnapShotRoot 
-        with get () = snapShotRoot
-        and set value = snapShotRoot <- value
+    member val SnapShotRoot = @"%temp%\_tdd" with get, set
+
+    [<DataMember(IsRequired = false)>]
+    member val IgnoredTests = "" with get, set
+
+    [<DataMember(IsRequired = false)>]
+    member val IsDisabled = false with get, set
+
+    [<DataMember(IsRequired = false)>]
+    member val AdditionalMSBuildProperties : string[] = [||] with get, set

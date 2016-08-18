@@ -1,0 +1,7836 @@
+﻿DataStore Entity[0] = [
+  {
+    "Case": "Initial"
+  },
+  {
+    "Case": "FirstBuildRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Creating Solution Snapshot"
+        ]
+      },
+      "kind": {
+        "Case": "Build"
+      },
+      "subKind": {
+        "Case": "CreateSnapshot"
+      }
+    }
+  },
+  {
+    "Case": "BuildPassed"
+  },
+  {
+    "Case": "BuildRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Deleting Build Output"
+        ]
+      },
+      "kind": {
+        "Case": "Build"
+      },
+      "subKind": {
+        "Case": "DeleteBuildOutput"
+      }
+    }
+  },
+  {
+    "Case": "BuildPassed"
+  },
+  {
+    "Case": "BuildRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Building Solution Snapshot"
+        ]
+      },
+      "kind": {
+        "Case": "Build"
+      },
+      "subKind": {
+        "Case": "BuildSnapshot"
+      }
+    }
+  },
+  {
+    "Case": "BuildPassed"
+  },
+  {
+    "Case": "BuildRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Refresh Test Runtime"
+        ]
+      },
+      "kind": {
+        "Case": "Build"
+      },
+      "subKind": {
+        "Case": "RefreshTestRuntime"
+      }
+    }
+  },
+  {
+    "Case": "BuildPassed"
+  },
+  {
+    "Case": "BuildRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Discover Sequence Points"
+        ]
+      },
+      "kind": {
+        "Case": "Build"
+      },
+      "subKind": {
+        "Case": "DiscoverSequencePoints"
+      }
+    }
+  },
+  {
+    "Case": "BuildPassed"
+  },
+  {
+    "Case": "BuildRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Discover Unit Tests"
+        ]
+      },
+      "kind": {
+        "Case": "Build"
+      },
+      "subKind": {
+        "Case": "DiscoverTests"
+      }
+    }
+  },
+  {
+    "Case": "BuildPassed"
+  },
+  {
+    "Case": "BuildRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Instrument Binaries"
+        ]
+      },
+      "kind": {
+        "Case": "Build"
+      },
+      "subKind": {
+        "Case": "InstrumentBinaries"
+      }
+    }
+  },
+  {
+    "Case": "BuildPassed"
+  },
+  {
+    "Case": "TestRunning"
+  },
+  {
+    "sp": {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
+    },
+    "info": {
+      "name": {
+        "Case": "RunStepName",
+        "Fields": [
+          "Running Tests"
+        ]
+      },
+      "kind": {
+        "Case": "Test"
+      },
+      "subKind": {
+        "Case": "RunTests"
+      }
+    }
+  },
+  {
+    "Case": "TestPassed"
+  },
+  {
+    "SnapShotRoot": {
+      "Case": "FilePath",
+      "Fields": [
+        "<binroot>\\<GUID>"
+      ]
+    },
+    "StartTime": "<DATETIME>",
+    "TestHostPath": {
+      "Case": "FilePath",
+      "Fields": [
+        "<binroot>\\TddStud10.TestHost.exe"
+      ]
+    },
+    "Solution": {
+      "Path": {
+        "Case": "FilePath",
+        "Fields": [
+          "<root>\\VBXUnit1xNUnit2x.sln"
+        ]
+      },
+      "SnapshotPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+        ]
+      },
+      "BuildRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
+        ]
+      }
+    },
+    "DataFiles": {
+      "SequencePointStore": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+        ]
+      },
+      "CoverageSessionStore": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+        ]
+      },
+      "TestResultsStore": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+        ]
+      },
+      "DiscoveredUnitTestsStore": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+        ]
+      },
+      "TestFailureInfoStore": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+        ]
+      },
+      "DiscoveredUnitDTestsStore": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+        ]
+      }
+    },
+    "IgnoredTests": "",
+    "AdditionalMSBuildProperties": []
+  }
+]
+DataStore Entity[1] = {
+  "Case": "Some",
+  "Fields": [
+    {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\VBXUnit1xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": []
+    }
+  ]
+}
+DataStore Entity[2] = [
+  {
+    "Key": {
+      "document": {
+        "Case": "FilePath",
+        "Fields": [
+          "<root>\\APPSETTINGTESTS.VB"
+        ]
+      },
+      "line": {
+        "Case": "DocumentCoordinate",
+        "Fields": [
+          23
+        ]
+      }
+    },
+    "Value": [
+      {
+        "DtcId": "<GUID>",
+        "FullyQualifiedName": "VBXUnit1xNUnit2x.AppSettingTests.id",
+        "DisplayName": "id",
+        "Source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          ]
+        },
+        "CodeFilePath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "LineNumber": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "Key": {
+      "document": {
+        "Case": "FilePath",
+        "Fields": [
+          "<root>\\APPSETTINGTESTS.VB"
+        ]
+      },
+      "line": {
+        "Case": "DocumentCoordinate",
+        "Fields": [
+          28
+        ]
+      }
+    },
+    "Value": [
+      {
+        "DtcId": "<GUID>",
+        "FullyQualifiedName": "VBXUnit1xNUnit2x.AppSettingTests.name",
+        "DisplayName": "name",
+        "Source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          ]
+        },
+        "CodeFilePath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "LineNumber": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "Key": {
+      "document": {
+        "Case": "FilePath",
+        "Fields": [
+          "<root>\\APPSETTINGTESTS.VB"
+        ]
+      },
+      "line": {
+        "Case": "DocumentCoordinate",
+        "Fields": [
+          33
+        ]
+      }
+    },
+    "Value": [
+      {
+        "DtcId": "<GUID>",
+        "FullyQualifiedName": "VBXUnit1xNUnit2x.AppSettingTests.name2",
+        "DisplayName": "VBXUnit1xNUnit2x.AppSettingTests.name2",
+        "Source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+          ]
+        },
+        "CodeFilePath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "LineNumber": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        }
+      }
+    ]
+  }
+]
+DataStore Entity[3] = [
+  {
+    "Key": {
+      "Case": "FilePath",
+      "Fields": [
+        ""
+      ]
+    },
+    "Value": [
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                34
+              ]
+            }
+          },
+          "uid": 3
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            352
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            352
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                34
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            355
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            30
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            355
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            114
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                34
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            351
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            351
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            29
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                34
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            350
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            350
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            29
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                33
+              ]
+            }
+          },
+          "uid": 8
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            338
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            338
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            24
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                33
+              ]
+            }
+          },
+          "uid": 7
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            337
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            21
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            337
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                33
+              ]
+            }
+          },
+          "uid": 6
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            336
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            21
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            336
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            27
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                33
+              ]
+            }
+          },
+          "uid": 5
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            336
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            21
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            336
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            27
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                33
+              ]
+            }
+          },
+          "uid": 4
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            335
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            25
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            335
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            50
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                33
+              ]
+            }
+          },
+          "uid": 3
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            334
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            25
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            334
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            38
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                33
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            333
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            21
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            333
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            45
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                33
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            332
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            25
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            332
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            53
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                33
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            331
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            331
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                32
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            281
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            281
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                32
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            280
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            16
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            280
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                32
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            279
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            279
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            29
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                31
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            275
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            275
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                31
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            274
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            274
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            35
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                31
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            273
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            273
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            71
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                30
+              ]
+            }
+          },
+          "uid": 5
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            270
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            270
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            25
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                30
+              ]
+            }
+          },
+          "uid": 4
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            268
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            21
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            268
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            36
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                30
+              ]
+            }
+          },
+          "uid": 3
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            267
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            267
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            21
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                30
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            266
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            21
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            266
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            35
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                30
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            265
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            265
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            44
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                30
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            264
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            12
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            264
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            95
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                29
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            261
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            261
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            25
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                29
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            260
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            260
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            39
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                29
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            259
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            259
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            59
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                28
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            257
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            257
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            25
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                28
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            256
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            256
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            46
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                28
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            255
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            255
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            72
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                27
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            253
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            253
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            25
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                27
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            252
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            252
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            42
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                27
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            251
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            251
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            63
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                26
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            249
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            249
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            25
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                26
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            248
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            248
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            40
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                26
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            247
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            247
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            75
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                7
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            239
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            239
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                7
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            238
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            238
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            67
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                7
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            237
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            14
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            237
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                6
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            146
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            146
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                6
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            145
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            145
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            58
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                6
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            144
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            144
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            16
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                5
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            135
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            135
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                5
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            134
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            134
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            57
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                5
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            133
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            133
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            16
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                4
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            123
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            123
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                4
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            122
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            122
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            62
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                4
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            121
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            121
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            16
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                3
+              ]
+            }
+          },
+          "uid": 3
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            284
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            26
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            284
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            105
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                3
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            148
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            26
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            148
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            136
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                3
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            137
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            26
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            137
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            95
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                3
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            126
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            26
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            126
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            97
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                2
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            109
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            109
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            16
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                2
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            108
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            108
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            25
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                2
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            ""
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            107
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            107
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            25
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "Key": {
+      "Case": "FilePath",
+      "Fields": [
+        "<root>\\APPSETTING.VB"
+      ]
+    },
+    "Value": [
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                18
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTING.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                18
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTING.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            19
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            19
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            27
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                18
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTING.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            18
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            18
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            51
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                17
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTING.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            16
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            16
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            16
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                17
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTING.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            15
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            15
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            29
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                17
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTING.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            14
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            14
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            12
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                16
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTING.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            11
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            11
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            16
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                16
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTING.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            10
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            10
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            31
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                16
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTING.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            12
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                15
+              ]
+            }
+          },
+          "uid": 3
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTING.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            7
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            7
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            12
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                15
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTING.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            6
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            6
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                15
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTING.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            27
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                15
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTING.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            4
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            4
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            61
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "Key": {
+      "Case": "FilePath",
+      "Fields": [
+        "<root>\\APPSETTINGTESTS.VB"
+      ]
+    },
+    "Value": [
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                24
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            35
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            35
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            12
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                24
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            34
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            34
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            73
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                24
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                23
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            30
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            30
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            12
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                23
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            29
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            29
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            66
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                23
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            22
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                22
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            25
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            25
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            12
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                22
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            24
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            24
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            149
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                22
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                21
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            12
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                21
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            26
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                20
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            14
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            14
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            12
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                20
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            53
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                20
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            12
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            5
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            12
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                19
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            9
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            39
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                19
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            8
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            8
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            43
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "Key": {
+      "Case": "FilePath",
+      "Fields": [
+        "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+      ]
+    },
+    "Value": [
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                10
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            59
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            59
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                10
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            58
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            58
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            40
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                10
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            57
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            57
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            72
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                9
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            56
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            56
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                9
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            55
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            55
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            39
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                9
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            54
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            54
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            16
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                8
+              ]
+            }
+          },
+          "uid": 7
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            45
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            45
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                8
+              ]
+            }
+          },
+          "uid": 6
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            44
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            44
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            35
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                8
+              ]
+            }
+          },
+          "uid": 5
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            43
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            43
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                8
+              ]
+            }
+          },
+          "uid": 4
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            43
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            43
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                8
+              ]
+            }
+          },
+          "uid": 3
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            42
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            21
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            42
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            39
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                8
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            41
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            25
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            41
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            177
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                8
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            40
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            40
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            69
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                8
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\RESOURCES.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            39
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            39
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            16
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "Key": {
+      "Case": "FilePath",
+      "Fields": [
+        "<root>\\MY PROJECT\\SETTINGS.DESIGNER.VB"
+      ]
+    },
+    "Value": [
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                14
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\SETTINGS.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            70
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            70
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                14
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\SETTINGS.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            69
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            69
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            69
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                14
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\SETTINGS.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            68
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            68
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            16
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                13
+              ]
+            }
+          },
+          "uid": 2
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\SETTINGS.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            54
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            54
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            20
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                13
+              ]
+            }
+          },
+          "uid": 1
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\SETTINGS.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            53
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            17
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            53
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            39
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                13
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\SETTINGS.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            41
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            41
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            16
+          ]
+        }
+      },
+      {
+        "id": {
+          "methodId": {
+            "assemblyId": {
+              "Case": "AssemblyId",
+              "Fields": [
+                "<GUID>"
+              ]
+            },
+            "mdTokenRid": {
+              "Case": "MdTokenRid",
+              "Fields": [
+                11
+              ]
+            }
+          },
+          "uid": 0
+        },
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\MY PROJECT\\SETTINGS.DESIGNER.VB"
+          ]
+        },
+        "startLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        },
+        "startColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            24
+          ]
+        },
+        "endLine": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        },
+        "endColumn": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            155
+          ]
+        }
+      }
+    ]
+  }
+]
+DataStore Entity[4] = [
+  {
+    "Key": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    },
+    "Value": [
+      {
+        "DisplayName": "id",
+        "TestCase": {
+          "DtcId": "<GUID>",
+          "FullyQualifiedName": "VBXUnit1xNUnit2x.AppSettingTests.id",
+          "DisplayName": "id",
+          "Source": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+            ]
+          },
+          "CodeFilePath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\APPSETTINGTESTS.VB"
+            ]
+          },
+          "LineNumber": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              23
+            ]
+          }
+        },
+        "Outcome": {
+          "Case": "TOPassed"
+        },
+        "ErrorStackTrace": null,
+        "ErrorMessage": null
+      }
+    ]
+  },
+  {
+    "Key": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    },
+    "Value": [
+      {
+        "DisplayName": "name",
+        "TestCase": {
+          "DtcId": "<GUID>",
+          "FullyQualifiedName": "VBXUnit1xNUnit2x.AppSettingTests.name",
+          "DisplayName": "name",
+          "Source": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+            ]
+          },
+          "CodeFilePath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\APPSETTINGTESTS.VB"
+            ]
+          },
+          "LineNumber": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              28
+            ]
+          }
+        },
+        "Outcome": {
+          "Case": "TOPassed"
+        },
+        "ErrorStackTrace": null,
+        "ErrorMessage": null
+      }
+    ]
+  },
+  {
+    "Key": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        }
+      }
+    },
+    "Value": [
+      {
+        "DisplayName": "VBXUnit1xNUnit2x.AppSettingTests.name2",
+        "TestCase": {
+          "DtcId": "<GUID>",
+          "FullyQualifiedName": "VBXUnit1xNUnit2x.AppSettingTests.name2",
+          "DisplayName": "VBXUnit1xNUnit2x.AppSettingTests.name2",
+          "Source": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+            ]
+          },
+          "CodeFilePath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\APPSETTINGTESTS.VB"
+            ]
+          },
+          "LineNumber": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              33
+            ]
+          }
+        },
+        "Outcome": {
+          "Case": "TOPassed"
+        },
+        "ErrorStackTrace": null,
+        "ErrorMessage": null
+      }
+    ]
+  }
+]
+DataStore Entity[5] = []
+DataStore Entity[6] = [
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          15
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          15
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          15
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          15
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          15
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          15
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          15
+        ]
+      },
+      "Item2": 2
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          15
+        ]
+      },
+      "Item2": 2
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          15
+        ]
+      },
+      "Item2": 2
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          15
+        ]
+      },
+      "Item2": 3
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          15
+        ]
+      },
+      "Item2": 3
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          15
+        ]
+      },
+      "Item2": 3
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          16
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          16
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          16
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          16
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          17
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          17
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          17
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          17
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          19
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          19
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          19
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          19
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          20
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          20
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          20
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          20
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          20
+        ]
+      },
+      "Item2": 2
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          20
+        ]
+      },
+      "Item2": 2
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          21
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          21
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          22
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          22
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          22
+        ]
+      },
+      "Item2": 2
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            23
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          23
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          23
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          23
+        ]
+      },
+      "Item2": 2
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            28
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          24
+        ]
+      },
+      "Item2": 0
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          24
+        ]
+      },
+      "Item2": 1
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        }
+      }
+    }
+  },
+  {
+    "Item1": {
+      "Item1": {
+        "Case": "MdTokenRid",
+        "Fields": [
+          24
+        ]
+      },
+      "Item2": 2
+    },
+    "Item2": {
+      "source": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>\\VBXUnit1xNUnit2x.NET40\\out\\VBXUnit1xNUnit2x.dll"
+        ]
+      },
+      "location": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\APPSETTINGTESTS.VB"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            33
+          ]
+        }
+      }
+    }
+  }
+]

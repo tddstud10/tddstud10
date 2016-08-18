@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
+using Mono.Cecil;
 
 namespace R4nd0mApps.TddStud10.TestHost
 {
@@ -58,12 +59,13 @@ namespace R4nd0mApps.TddStud10.TestHost
             var slnPath = args[7];
             var slnSnapPath = args[8];
             var discoveredUnitDTestsStore = args[9];
+            var ignoredTests = (args[10] ?? "").Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
             var searchPath = FilePath.NewFilePath(Path.Combine(Path.GetDirectoryName(slnSnapPath), "packages"));
             if (command == "discover")
             {
                 var tds = TestAdapterExtensions.findTestDiscoverers(TestAdapterExtensions.knownAdaptersMap).Invoke(searchPath);
-                DiscoverUnitTests(tds, slnPath, slnSnapPath, discoveredUnitTestsStore, discoveredUnitDTestsStore, buildRoot, new DateTime(long.Parse(timeFilter)));
+                DiscoverUnitTests(tds, slnPath, slnSnapPath, discoveredUnitTestsStore, discoveredUnitDTestsStore, buildRoot, new DateTime(long.Parse(timeFilter)), ignoredTests);
                 LogInfo("TestHost: Exiting Main.");
                 return 0;
             }
@@ -125,7 +127,7 @@ namespace R4nd0mApps.TddStud10.TestHost
                 });
         }
 
-        private static void DiscoverUnitTests(IEnumerable<ITestDiscoverer> tds, string slnPath, string slnSnapPath, string discoveredUnitTestsStore, string discoveredUnitDTestsStore, string buildOutputRoot, DateTime timeFilter)
+        private static void DiscoverUnitTests(IEnumerable<ITestDiscoverer> tds, string slnPath, string slnSnapPath, string discoveredUnitTestsStore, string discoveredUnitDTestsStore, string buildOutputRoot, DateTime timeFilter, string[] ignoredTests)
         {
             Logger.I.LogInfo("DiscoverUnitTests: starting discovering.");
             var testsPerAssembly = new PerDocumentLocationTestCases();
@@ -135,7 +137,6 @@ namespace R4nd0mApps.TddStud10.TestHost
                 timeFilter,
                 (string assemblyPath) =>
                 {
-                    var asmPath = FilePath.NewFilePath(assemblyPath);
                     var disc = new XUnitTestDiscoverer();
                     disc.TestDiscovered.AddHandler(
                         new FSharpHandler<TestCase>(
@@ -149,7 +150,7 @@ namespace R4nd0mApps.TddStud10.TestHost
                                 var dtests = dtestsPerAssembly.GetOrAdd(dl, _ => new ConcurrentBag<DTestCase>());
                                 dtests.Add(TestPlatformExtensions.toDTestCase(ea));
                             }));
-                    disc.DiscoverTests(tds, FilePath.NewFilePath(assemblyPath));
+                    disc.DiscoverTests(tds, FilePath.NewFilePath(assemblyPath), ignoredTests);
                 });
 
             testsPerAssembly.Serialize(FilePath.NewFilePath(discoveredUnitTestsStore));

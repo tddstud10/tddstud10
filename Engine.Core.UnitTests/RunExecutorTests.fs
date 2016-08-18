@@ -9,7 +9,9 @@ open R4nd0mApps.TddStud10.Engine.TestFramework
 open System.IO
 
 let cfg = EngineConfig()
-cfg.SnapShotRoot <- "%HOMEPATH%"
+cfg.SnapShotRoot <- "%WINDIR%"
+cfg.AdditionalMSBuildProperties <- [|"AdditionalMSBuildProperties"|]
+cfg.IgnoredTests <- "IgnoredTests"
 let now = DateTime.Now
 let host = new TestHost(Int32.MaxValue)
 let ex = (new InvalidOperationException("A mock method threw")) :> Exception
@@ -59,6 +61,8 @@ let ``Executor initialized RunData``() =
             { Path = slnFile
               SnapshotPath = ~~(ssRoot + @"\folder\file.sln")
               BuildRoot = ~~(ssRoot + @"\folder\out") }
+          IgnoredTests = cfg.IgnoredTests
+          AdditionalMSBuildProperties = cfg.AdditionalMSBuildProperties
           DataFiles = 
               { SequencePointStore = ~~(ssRoot + @"\folder\out\Z_sequencePointStore.xml")
                 CoverageSessionStore = ~~(ssRoot + @"\folder\out\Z_coverageresults.xml")

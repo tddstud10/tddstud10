@@ -74,7 +74,7 @@ namespace R4nd0mApps.TddStud10.Engine
             _onRunErrorHandler = new FSharpHandler<Exception>((s, ea) => _host.OnRunError(ea));
             _runEndedHandler = new FSharpHandler<RunStartParams>((s, ea) => _host.RunEnded(ea));
 
-            _runner = _runner ?? TddStud10Runner.Create(host, Engine.CreateRunSteps());
+            _runner = _runner ?? TddStud10Runner.Create(host, Engine.CreateRunSteps(_dataStore.FindTest));
             _runner.AttachHandlers(
                 _runStateChangedHandler,
                 _runStartingHandler,
@@ -109,6 +109,7 @@ namespace R4nd0mApps.TddStud10.Engine
         public static void DisableEngine()
         {
             Logger.I.LogInfo("Disabling Engine...");
+            DataStore.Instance.ResetData();
             _efsWatcher.Disable();
         }
 

@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine;
+using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core;
 using System;
@@ -17,13 +19,11 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
     // NOTE: Move to FS when we make a change in this next.
     public class PackageCommands
     {
-        private IServiceProvider _serviceProvider;
         private EnvDTE.DTE _dte;
         private IMenuCommandService _mcs;
 
         public PackageCommands(IServiceProvider serviceProvider)
         {
-            _serviceProvider = serviceProvider;
             _dte = serviceProvider.GetService<EnvDTE.DTE>();
             _mcs = serviceProvider.GetService<IMenuCommandService>();
         }
@@ -55,11 +55,23 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             if (EngineLoader.IsEngineEnabled())
             {
                 EngineLoader.DisableEngine();
+                SetTddStudioDisable(true);
             }
             else
             {
                 EngineLoader.EnableEngine();
+                SetTddStudioDisable(false);
             }
+        }
+
+        private void SetTddStudioDisable(bool isDisabled)
+        {
+            var solutionPath = FilePath.NewFilePath(_dte.Solution.FileName);
+            var config = EngineConfigLoader.load(new EngineConfig(), solutionPath);
+            config.IsDisabled = isDisabled;
+            TddStud10Package.Instance.IconHost.RunState = RunState.Initial;
+
+            EngineConfigLoader.setConfig(solutionPath, config);
         }
 
         private void OnBeforeQueryStatusChangeTddStud10State(object sender, EventArgs e)
@@ -81,14 +93,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             }
 
             cmd.Visible = true;
-            if (EngineLoader.IsEngineEnabled())
-            {
-                cmd.Text = Properties.Resources.DisableTddStud10State;
-            }
-            else
-            {
-                cmd.Text = Properties.Resources.EnableTddStud10State;
-            }
+            cmd.Text = EngineLoader.IsEngineEnabled()
+                        ? Properties.Resources.DisableTddStud10State
+                        : Properties.Resources.EnableTddStud10State;
         }
 
         #endregion

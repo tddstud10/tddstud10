@@ -1,0 +1,6070 @@
+﻿[
+  [
+    {
+      "Case": "Initial"
+    },
+    {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\FSXUnit2xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": [
+        "DefineConstants=BREAK_NOTHING"
+      ]
+    },
+    {
+      "Case": "FirstBuildRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Creating Solution Snapshot"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "CreateSnapshot"
+        }
+      }
+    },
+    {
+      "Case": "BuildPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Creating Solution Snapshot"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "CreateSnapshot"
+        }
+      }
+    },
+    {
+      "Case": "BuildRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Deleting Build Output"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "DeleteBuildOutput"
+        }
+      }
+    },
+    {
+      "Case": "BuildPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Deleting Build Output"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "DeleteBuildOutput"
+        }
+      }
+    },
+    {
+      "Case": "BuildRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Building Solution Snapshot"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "BuildSnapshot"
+        }
+      }
+    },
+    {
+      "Case": "BuildPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Building Solution Snapshot"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "BuildSnapshot"
+        }
+      }
+    },
+    {
+      "Case": "BuildRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Refresh Test Runtime"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "RefreshTestRuntime"
+        }
+      }
+    },
+    {
+      "Case": "BuildPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Refresh Test Runtime"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "RefreshTestRuntime"
+        }
+      }
+    },
+    {
+      "Case": "BuildRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Discover Sequence Points"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "DiscoverSequencePoints"
+        }
+      }
+    },
+    {
+      "Case": "BuildPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Discover Sequence Points"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "DiscoverSequencePoints"
+        }
+      }
+    },
+    {
+      "Case": "BuildRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Discover Unit Tests"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "DiscoverTests"
+        }
+      }
+    },
+    {
+      "Case": "BuildPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Discover Unit Tests"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "DiscoverTests"
+        }
+      }
+    },
+    {
+      "Case": "BuildRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Instrument Binaries"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "InstrumentBinaries"
+        }
+      }
+    },
+    {
+      "Case": "BuildPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Instrument Binaries"
+          ]
+        },
+        "kind": {
+          "Case": "Build"
+        },
+        "subKind": {
+          "Case": "InstrumentBinaries"
+        }
+      }
+    },
+    {
+      "Case": "TestRunning"
+    },
+    {
+      "sp": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "info": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Running Tests"
+          ]
+        },
+        "kind": {
+          "Case": "Test"
+        },
+        "subKind": {
+          "Case": "RunTests"
+        }
+      }
+    },
+    {
+      "Case": "TestPassed"
+    },
+    {
+      "Item1": {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      },
+      "Item2": {
+        "name": {
+          "Case": "RunStepName",
+          "Fields": [
+            "Running Tests"
+          ]
+        },
+        "kind": {
+          "Case": "Test"
+        },
+        "subKind": {
+          "Case": "RunTests"
+        }
+      }
+    },
+    {
+      "SnapShotRoot": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\<GUID>"
+        ]
+      },
+      "StartTime": "<DATETIME>",
+      "TestHostPath": {
+        "Case": "FilePath",
+        "Fields": [
+          "<binroot>\\TddStud10.TestHost.exe"
+        ]
+      },
+      "Solution": {
+        "Path": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\FSXUnit2xNUnit2x.sln"
+          ]
+        },
+        "SnapshotPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+          ]
+        },
+        "BuildRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+          ]
+        }
+      },
+      "DataFiles": {
+        "SequencePointStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+          ]
+        },
+        "CoverageSessionStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+          ]
+        },
+        "TestResultsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+          ]
+        },
+        "DiscoveredUnitTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+          ]
+        },
+        "TestFailureInfoStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+          ]
+        },
+        "DiscoveredUnitDTestsStore": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+          ]
+        }
+      },
+      "IgnoredTests": "",
+      "AdditionalMSBuildProperties": [
+        "DefineConstants=BREAK_NOTHING"
+      ]
+    }
+  ],
+  {
+    "Case": "Some",
+    "Fields": [
+      {
+        "SnapShotRoot": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>"
+          ]
+        },
+        "StartTime": "<DATETIME>",
+        "TestHostPath": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\TddStud10.TestHost.exe"
+          ]
+        },
+        "Solution": {
+          "Path": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "SnapshotPath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\FSXUnit2xNUnit2x.sln"
+            ]
+          },
+          "BuildRoot": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out"
+            ]
+          }
+        },
+        "DataFiles": {
+          "SequencePointStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_sequencePointStore.xml"
+            ]
+          },
+          "CoverageSessionStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_coverageresults.xml"
+            ]
+          },
+          "TestResultsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testresults.xml"
+            ]
+          },
+          "DiscoveredUnitTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitTests.xml"
+            ]
+          },
+          "TestFailureInfoStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_testFailureInfo.xml"
+            ]
+          },
+          "DiscoveredUnitDTestsStore": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\Z_discoveredUnitDTests.xml"
+            ]
+          }
+        },
+        "IgnoredTests": "",
+        "AdditionalMSBuildProperties": [
+          "DefineConstants=BREAK_NOTHING"
+        ]
+      }
+    ]
+  },
+  [
+    {
+      "Key": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\LIBRARY1.FS"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            13
+          ]
+        }
+      },
+      "Value": [
+        {
+          "DtcId": "<GUID>",
+          "FullyQualifiedName": "FSXUnit2xNUnit2x.Class1.Reverse of reverse of a list is the original list",
+          "DisplayName": "FSXUnit2xNUnit2x.Class1.Reverse of reverse of a list is the original list",
+          "Source": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+            ]
+          },
+          "CodeFilePath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "LineNumber": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Key": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\LIBRARY1.FS"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            30
+          ]
+        }
+      },
+      "Value": [
+        {
+          "DtcId": "<GUID>",
+          "FullyQualifiedName": "FSXUnit2xNUnit2x.Class1.should parse symbol <GUID>0449d661)",
+          "DisplayName": "FSXUnit2xNUnit2x.Class1.should parse symbol(toParse: \"?test bla\", result: \"?test\")",
+          "Source": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+            ]
+          },
+          "CodeFilePath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "LineNumber": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        },
+        {
+          "DtcId": "<GUID>",
+          "FullyQualifiedName": "FSXUnit2xNUnit2x.Class1.should parse symbol <GUID>abd49890)",
+          "DisplayName": "FSXUnit2xNUnit2x.Class1.should parse symbol(toParse: \"an1 rest\", result: \"an1\")",
+          "Source": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+            ]
+          },
+          "CodeFilePath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "LineNumber": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Key": {
+        "document": {
+          "Case": "FilePath",
+          "Fields": [
+            "<root>\\LIBRARY1.FS"
+          ]
+        },
+        "line": {
+          "Case": "DocumentCoordinate",
+          "Fields": [
+            38
+          ]
+        }
+      },
+      "Value": [
+        {
+          "DtcId": "<GUID>",
+          "FullyQualifiedName": "FSXUnit2xNUnit2x.Class1.shouldSayHelloWithFsUnit",
+          "DisplayName": "shouldSayHelloWithFsUnit",
+          "Source": {
+            "Case": "FilePath",
+            "Fields": [
+              "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+            ]
+          },
+          "CodeFilePath": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "LineNumber": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              38
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "Key": {
+        "Case": "FilePath",
+        "Fields": [
+          "<root>\\LIBRARY1.FS"
+        ]
+      },
+      "Value": [
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  7
+                ]
+              }
+            },
+            "uid": 0
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              45
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              19
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              45
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              24
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  5
+                ]
+              }
+            },
+            "uid": 0
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              9
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              46
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  4
+                ]
+              }
+            },
+            "uid": 0
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              21
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              21
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              48
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  3
+                ]
+              }
+            },
+            "uid": 0
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              9
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              16
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              15
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  2
+                ]
+              }
+            },
+            "uid": 0
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              38
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              9
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              45
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              39
+            ]
+          }
+        },
+        {
+          "id": {
+            "methodId": {
+              "assemblyId": {
+                "Case": "AssemblyId",
+                "Fields": [
+                  "<GUID>"
+                ]
+              },
+              "mdTokenRid": {
+                "Case": "MdTokenRid",
+                "Fields": [
+                  1
+                ]
+              }
+            },
+            "uid": 0
+          },
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "startLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              10
+            ]
+          },
+          "startColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              6
+            ]
+          },
+          "endLine": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              10
+            ]
+          },
+          "endColumn": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              12
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "Key": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      },
+      "Value": [
+        {
+          "DisplayName": "FSXUnit2xNUnit2x.Class1.Reverse of reverse of a list is the original list",
+          "TestCase": {
+            "DtcId": "<GUID>",
+            "FullyQualifiedName": "FSXUnit2xNUnit2x.Class1.Reverse of reverse of a list is the original list",
+            "DisplayName": "FSXUnit2xNUnit2x.Class1.Reverse of reverse of a list is the original list",
+            "Source": {
+              "Case": "FilePath",
+              "Fields": [
+                "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+              ]
+            },
+            "CodeFilePath": {
+              "Case": "FilePath",
+              "Fields": [
+                "<root>\\LIBRARY1.FS"
+              ]
+            },
+            "LineNumber": {
+              "Case": "DocumentCoordinate",
+              "Fields": [
+                13
+              ]
+            }
+          },
+          "Outcome": {
+            "Case": "TOPassed"
+          },
+          "ErrorStackTrace": null,
+          "ErrorMessage": null
+        }
+      ]
+    },
+    {
+      "Key": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      },
+      "Value": [
+        {
+          "DisplayName": "FSXUnit2xNUnit2x.Class1.should parse symbol(toParse: \"an1 rest\", result: \"an1\")",
+          "TestCase": {
+            "DtcId": "<GUID>",
+            "FullyQualifiedName": "FSXUnit2xNUnit2x.Class1.should parse symbol <GUID>abd49890)",
+            "DisplayName": "FSXUnit2xNUnit2x.Class1.should parse symbol(toParse: \"an1 rest\", result: \"an1\")",
+            "Source": {
+              "Case": "FilePath",
+              "Fields": [
+                "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+              ]
+            },
+            "CodeFilePath": {
+              "Case": "FilePath",
+              "Fields": [
+                "<root>\\LIBRARY1.FS"
+              ]
+            },
+            "LineNumber": {
+              "Case": "DocumentCoordinate",
+              "Fields": [
+                30
+              ]
+            }
+          },
+          "Outcome": {
+            "Case": "TOPassed"
+          },
+          "ErrorStackTrace": null,
+          "ErrorMessage": null
+        },
+        {
+          "DisplayName": "FSXUnit2xNUnit2x.Class1.should parse symbol(toParse: \"?test bla\", result: \"?test\")",
+          "TestCase": {
+            "DtcId": "<GUID>",
+            "FullyQualifiedName": "FSXUnit2xNUnit2x.Class1.should parse symbol <GUID>0449d661)",
+            "DisplayName": "FSXUnit2xNUnit2x.Class1.should parse symbol(toParse: \"?test bla\", result: \"?test\")",
+            "Source": {
+              "Case": "FilePath",
+              "Fields": [
+                "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+              ]
+            },
+            "CodeFilePath": {
+              "Case": "FilePath",
+              "Fields": [
+                "<root>\\LIBRARY1.FS"
+              ]
+            },
+            "LineNumber": {
+              "Case": "DocumentCoordinate",
+              "Fields": [
+                30
+              ]
+            }
+          },
+          "Outcome": {
+            "Case": "TOPassed"
+          },
+          "ErrorStackTrace": null,
+          "ErrorMessage": null
+        }
+      ]
+    },
+    {
+      "Key": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              38
+            ]
+          }
+        }
+      },
+      "Value": [
+        {
+          "DisplayName": "shouldSayHelloWithFsUnit",
+          "TestCase": {
+            "DtcId": "<GUID>",
+            "FullyQualifiedName": "FSXUnit2xNUnit2x.Class1.shouldSayHelloWithFsUnit",
+            "DisplayName": "shouldSayHelloWithFsUnit",
+            "Source": {
+              "Case": "FilePath",
+              "Fields": [
+                "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+              ]
+            },
+            "CodeFilePath": {
+              "Case": "FilePath",
+              "Fields": [
+                "<root>\\LIBRARY1.FS"
+              ]
+            },
+            "LineNumber": {
+              "Case": "DocumentCoordinate",
+              "Fields": [
+                38
+              ]
+            }
+          },
+          "Outcome": {
+            "Case": "TOPassed"
+          },
+          "ErrorStackTrace": null,
+          "ErrorMessage": null
+        }
+      ]
+    }
+  ],
+  [],
+  [
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            1
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            1
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            1
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            1
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              38
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            2
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              38
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            3
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              13
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            4
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            4
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            5
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            5
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              30
+            ]
+          }
+        }
+      }
+    },
+    {
+      "Item1": {
+        "Item1": {
+          "Case": "MdTokenRid",
+          "Fields": [
+            7
+          ]
+        },
+        "Item2": 0
+      },
+      "Item2": {
+        "source": {
+          "Case": "FilePath",
+          "Fields": [
+            "<binroot>\\<GUID>\\FSXUnit2xNUnit2x.NET45\\out\\FSXUnit2xNUnit2x.dll"
+          ]
+        },
+        "location": {
+          "document": {
+            "Case": "FilePath",
+            "Fields": [
+              "<root>\\LIBRARY1.FS"
+            ]
+          },
+          "line": {
+            "Case": "DocumentCoordinate",
+            "Fields": [
+              38
+            ]
+          }
+        }
+      }
+    }
+  ]
+]

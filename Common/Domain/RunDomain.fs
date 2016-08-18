@@ -26,7 +26,10 @@ type RunStartParams =
       StartTime : DateTime
       TestHostPath : FilePath
       Solution : SolutionPaths
-      DataFiles : RunDataFiles }
+      DataFiles : RunDataFiles
+      // TODO: Merge this with EngineConfig, otherwise we will keep duplicating parameters
+      IgnoredTests : string
+      AdditionalMSBuildProperties : string[] }
 
 type RunStepInfo = 
     { name : RunStepName

@@ -9,6 +9,7 @@ type IDataStore =
     abstract CoverageInfoUpdated : IEvent<PerSequencePointIdTestRunId>
     abstract UpdateRunStartParams : RunStartParams -> unit
     abstract UpdateData : RunData -> unit
+    abstract ResetData : unit -> unit
     abstract FindTest : DocumentLocation -> seq<DTestCase>
     abstract GetSequencePointsForFile : FilePath -> seq<SequencePoint>
     abstract FindTestFailureInfo : DocumentLocation -> seq<TestFailureInfo>
