@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>R4nd0mApps.TddStud10.Common.Domain</RootNamespace>
     <AssemblyName>R4nd0mApps.TddStud10.Common.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
     <Name>R4nd0mApps.TddStud10.Common.Domain</Name>
     <NuGetPackageImportStamp>
