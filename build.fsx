@@ -14,7 +14,7 @@ let testDir  = @".\build\"
 let solutionFile = "TddStud10.sln"
 
 // version info
-let version = if buildServer = BuildServer.AppVeyor then AppVeyor.AppVeyorEnvironment.BuildNumber else "1.0.0.0"
+let version = if buildServer = BuildServer.AppVeyor then AppVeyor.AppVeyorEnvironment.BuildVersion else "1.0.0.0"
 
 // Targets
 Target "Clean" (fun _ ->
