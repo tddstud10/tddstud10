@@ -23,7 +23,11 @@ Target "Clean" (fun _ ->
 
 
 Target "Rebuild" DoNothing
+
 Target "Build" (fun _ ->
+
+    RestorePackages()
+
     !! solutionFile
     |> MSBuild buildDir "Build"
          [
