@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">    
+  <id>@project@</id>
+  <version>@build.number@</version>
+  <authors>@authors@</authors>
+  <owners>@authors@</owners>
+  <summary>@summary@</summary>
+  <licenseUrl>https://github.com/parthopdas/tddstud10/blob/master/LICENSE</licenseUrl>
+  <projectUrl>https://github.com/parthopdas/tddstud10</projectUrl>
+  <iconUrl>https://github.com/parthopdas/tddstud10/icon.png</iconUrl>
+  <requireLicenseAcceptance>false</requireLicenseAcceptance>
+  <description>@description@</description>
+  <releaseNotes>@releaseNotes@</releaseNotes>
+  <copyright>Partho P. Das 2016-3016</copyright>    
+  <tags>TddStud10 TDD Unit Test</tags>
+  @dependencies@
+  @references@
+  </metadata>
+  @files@
+</package>
