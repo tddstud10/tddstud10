@@ -73,7 +73,7 @@ Target "Package" (fun _ ->
         { p with               
             Authors = [ "The TddStud10 Team" ]
             Project = "TddStud10.Core"
-            Description = "Core TddStud10 Runtime & Libraries"
+            Description = "Core TddStud10 Runtime and Libraries"
             Version = version
             Files = [ buildDirRel "*.*", Some "bin", Some exclusions
                       buildDirRel "amd64\*.*", Some @"bin\amd64", None
