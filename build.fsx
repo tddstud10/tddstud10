@@ -9,6 +9,8 @@ open System.IO
 // Directories
 let buildDir  = @".\build\"
 let testDir  = @".\build\"
+let nugetDir = @".\NuGet\"
+ensureDirExists (directoryInfo nugetDir)
 
 // Filesets
 let solutionFile = "TddStud10.sln"
@@ -18,11 +20,11 @@ let version = if buildServer = BuildServer.AppVeyor then AppVeyor.AppVeyorEnviro
 
 // Targets
 Target "Clean" (fun _ ->
-    CleanDirs [buildDir]
+    CleanDirs [buildDir; nugetDir]
 )
 
-
 Target "Rebuild" DoNothing
+
 Target "Build" (fun _ ->
     !! solutionFile
     |> MSBuild buildDir "Build"
@@ -36,7 +38,7 @@ Target "Build" (fun _ ->
     |> Log "Build-Output: "
 
     // AppVeyor workaround
-    !! "packages\**\Newtonsoft.Json.dll"
+    !! @"packages\Newtonsoft.Json\lib\net45\Newtonsoft.Json.dll"
     |> CopyFiles buildDir
 )
 
@@ -71,7 +73,7 @@ Target "Package" (fun _ ->
         { p with               
             Authors = [ "The TddStud10 Team" ]
             Project = "TddStud10.Core"
-            Description = "Core TddStud10 Runtime & Libraries"
+            Description = "Core TddStud10 Runtime and Libraries"
             Version = version
             Files = [ buildDirRel "*.*", Some "bin", Some exclusions
                       buildDirRel "amd64\*.*", Some @"bin\amd64", None

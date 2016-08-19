@@ -24,6 +24,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Bb]uild/
+[Nn]u[Gg]et/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -155,19 +156,14 @@ publish/
 PublishScripts/
 
 ## NuGet Packages
-#*.nupkg
+*.nupkg
 ## The packages folder can be ignored because of Package Restore
-#**/packages/*
-## except build/, which is used as an MSBuild target.
-!packages/**/build/
+**/packages/*
 ## Uncomment if necessary however generally it will be regenerated when needed
 ##!**/packages/repositories.config
 ## NuGet v3's project.json files produces more ignoreable files
-#*.nuget.props
-#*.nuget.targets
-# Remove these lines after uncommenting the above
-packages/FAKE/
-packages/xunit.runner.console/
+*.nuget.props
+*.nuget.targets
 
 # Microsoft Azure Build Output
 csx/
