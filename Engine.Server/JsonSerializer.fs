@@ -1,4 +1,4 @@
-namespace FsAutoComplete
+namespace R4nd0mApps.TddStud10.Engine
 
 module JsonSerializer = 
     open Newtonsoft.Json

@@ -1,5 +1,6 @@
 module R4nd0mApps.TddStud10.Engine.Server
 
+open R4nd0mApps.TddStud10.Engine.Diagnostics
 open Newtonsoft.Json
 open Suave
 open Suave.Filters
@@ -14,7 +15,11 @@ module Contract =
 
     type RunRequest = 
         { SolutionPath : string
-          Delay : TimeSpan }
+          Delay : int }
+
+    type Result<'T> = { Kind : string; Data : 'T }
+
+    type RunResult = Result<string>
 
 [<AutoOpen>]
 module Utils = 
@@ -26,6 +31,14 @@ module Utils =
         |> getString
         |> fromJson<'a>
 
+module Processors =
+    // Test with: curl -Uri 'http://127.0.0.1:9999/run' -Method Post -Body '{ "solutionPath" : "c:\\a.sln", "delay" : 1 }'
+    let processRunRequest data = 
+        async { 
+            do! Async.Sleep(data.Delay * 1000)
+            return [ JsonSerializer.writeJson { Kind = "RunResult"; Data = sprintf "Finished run on %s..." data.SolutionPath } ]
+        }
+
 [<EntryPoint>]
 let main argv = 
     System.Threading.ThreadPool.SetMinThreads(8, 8) |> ignore
@@ -33,7 +46,9 @@ let main argv =
         fun (r : HttpContext) -> 
             async { 
                 let data = r.request |> getResourceFromReq
+                Logger.logInfof "Request: %A" data
                 let! res = f data
+                Logger.logInfof "Response: %A" res
                 let res' = 
                     res
                     |> List.toArray
@@ -44,11 +59,7 @@ let main argv =
     let app = 
         Writers.setMimeType "application/json; charset=utf-8" >=> Filters.POST 
         >=> choose [ 
-            // Test with: curl -Uri 'http://127.0.0.1:9999/run' -Method Post -Body '{ "solutionPath" : "c:\\a.sln", "delay" : "00:00:01" }'
-            path "/run" >=> handler (fun (data : RunRequest) -> async { 
-                do! Async.Sleep(data.Delay.TotalSeconds * 1000.0 |> int)
-                return [ sprintf "Finished run on %s..." data.SolutionPath ]
-            })
+            path "/run" >=> handler Processors.processRunRequest 
         ]
     
     let port = 
