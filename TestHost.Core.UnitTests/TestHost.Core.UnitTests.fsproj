@@ -114,7 +114,6 @@ xcopy /frys $(ProjectDir)\..\TestExecution\TestData $(TargetDir)\TestData
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Import Project="..\.paket\paket.targets" />
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v3.5'">
       <ItemGroup>
