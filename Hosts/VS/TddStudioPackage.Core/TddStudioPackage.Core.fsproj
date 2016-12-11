@@ -58,7 +58,6 @@
       <Link>Constants.fs</Link>
     </Compile>
     <Compile Include="AssemblyAttributes.fs" />
-    <Compile Include="Logger.fs" />
     <Compile Include="Services.fs" />
     <Content Include="paket.references" />
     <Compile Include="PkgGuids.fs" />
@@ -123,6 +122,11 @@
     <ProjectReference Include="..\..\..\Common\Domain\Domain.fsproj">
       <Name>Domain</Name>
       <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Logger\Logger.fsproj">
+      <Name>Logger</Name>
+      <Project>{e5fb2293-3055-4c4c-800e-a31ac891a931}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Engine.Core\Engine.Core.fsproj">

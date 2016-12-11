@@ -4,11 +4,12 @@ module TestAdapterExtensions =
     open Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter
     open R4nd0mApps.TddStud10.Common
     open R4nd0mApps.TddStud10.Common.Domain
-    open R4nd0mApps.TddStud10.TestHost.Diagnostics
     open System
     open System.IO
     open System.Reflection
     
+    let logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger
+
     let knownAdaptersMap = 
         [ (FilePath "xunit.runner.visualstudio.testadapter.dll", 
            [ ("ITestDiscoverer", "Xunit.Runner.VisualStudio.TestAdapter.VsTestRunner")
@@ -43,7 +44,7 @@ module TestAdapterExtensions =
         
         let resolver = asmResolver (Path.GetDirectoryName(path.ToString()) |> FilePath)
         try 
-            Logger.logInfof "Attempting to load Test Adapter %s from %O" adapterType path
+            logger.logInfof "Attempting to load Test Adapter %s from %O" adapterType path
             AppDomain.CurrentDomain.add_AssemblyResolve (ResolveEventHandler resolver)
             let res =
                 path
@@ -54,7 +55,7 @@ module TestAdapterExtensions =
                     |> Option.bind (Map.tryFind adapterType)
                     |> Option.bind (loadType a)
                     |> Option.bind (Activator.CreateInstance >> Some)
-            Logger.logInfof "Loaded Test Adapter %s from %O" adapterType path
+            logger.logInfof "Loaded Test Adapter %s from %O" adapterType path
             res
         finally
             AppDomain.CurrentDomain.remove_AssemblyResolve (ResolveEventHandler resolver)

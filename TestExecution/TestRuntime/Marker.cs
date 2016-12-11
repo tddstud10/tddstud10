@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.Remoting.Messaging;
 using System.ServiceModel;
-using R4nd0mApps.TddStud10.TestRuntime.Diagnostics;
 
 namespace R4nd0mApps.TddStud10.TestRuntime
 {
@@ -37,7 +36,7 @@ namespace R4nd0mApps.TddStud10.TestRuntime
         {
             if (_isDebuggerAttached)
             {
-                Logger.I.LogInfo("Marker: Ignoring call as debugger is attached.");
+                Trace.TraceInformation("Marker: Ignoring call as debugger is attached.");
                 return;
             }
 
@@ -53,13 +52,13 @@ namespace R4nd0mApps.TddStud10.TestRuntime
         {
             if (_isDebuggerAttached)
             {
-                Logger.I.LogInfo("Marker: Ignoring call as debugger is attached.");
+                Trace.TraceInformation("Marker: Ignoring call as debugger is attached.");
                 return;
             }
 
             if (TestRunId == null)
             {
-                Logger.I.LogError("Marker: Appears we did not have any sequence points for {0},{1},{2}.", source, document, line);
+                Trace.TraceError("Marker: Appears we did not have any sequence points for {0},{1},{2}.", source, document, line);
             }
 
             _channel.Value.ExitUnitTest(TestRunId, source, document, line);
@@ -89,12 +88,12 @@ namespace R4nd0mApps.TddStud10.TestRuntime
         {
             string address = CreateCodeCoverageDataCollectorEndpointAddress();
 
-            Logger.I.LogInfo("Marker: Initiating connection to {0} ...", address);
+            Trace.TraceInformation("Marker: Initiating connection to {0} ...", address);
             NetNamedPipeBinding binding = new NetNamedPipeBinding(NetNamedPipeSecurityMode.None);
             EndpointAddress epa = new EndpointAddress(address);
             var ret = ChannelFactory<ICoverageDataCollector>.CreateChannel(binding, epa);
             ret.Ping();
-            Logger.I.LogInfo("Marker: Connected to server.", address);
+            Trace.TraceInformation("Marker: Connected to server.", address);
 
             return ret;
         }

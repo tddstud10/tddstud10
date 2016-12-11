@@ -8,12 +8,13 @@ module HostIdeApiExtensions =
     open R4nd0mApps.TddStud10.Engine.Core
     open R4nd0mApps.TddStud10.Engine.Core.Common
     open R4nd0mApps.TddStud10.Hosts.Common.Margin.ViewModel
-    open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
     open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core
     open System
     open System.Collections.Concurrent
     open System.IO
     
+    let logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger
+
     let private launch (debugger : IVsDebugger3) (FilePath exe) args = 
         let (targets : VsDebugTargetInfo3 array) = Array.zeroCreate 1
         targets.[0].dlo <- DEBUG_LAUNCH_OPERATION.DLO_CreateProcess |> uint32
@@ -24,7 +25,7 @@ module HostIdeApiExtensions =
         let (results : VsDebugTargetProcessInfo array) = Array.zeroCreate targets.Length
         debugger.LaunchDebugTargets3(targets.Length |> uint32, targets, results) 
         |> ErrorHandlerExtensions.ThrowOnFailure
-        results |> Array.iter (fun r -> Logger.logInfof "%d launched under debugger at %O" r.dwProcessId r.creationTime)
+        results |> Array.iter (fun r -> logger.logInfof "%d launched under debugger at %O" r.dwProcessId r.creationTime)
     
     let private setBreakPoint (dte : EnvDTE.DTE) { document = FilePath f; line = DocumentCoordinate l } = 
         dte.Debugger.Breakpoints.Add(null, f, l) |> ignore
@@ -49,7 +50,7 @@ module HostIdeApiExtensions =
             tpa.Serialize(DataStore.Instance.RunStartParams.Value.DataFiles.DiscoveredUnitDTestsStore)
             DataStore.Instance.RunStartParams 
             |> Option.fold (fun () e -> launch dbg e.TestHostPath (TestHost.buildCommandLine "execute" e)) 
-                   (Logger.logErrorf "DataStore.Instance.RunStartParams not yet set")
+                   (logger.logErrorf "DataStore.Instance.RunStartParams not yet set")
         f >> safeExec
     
     let runTest = 

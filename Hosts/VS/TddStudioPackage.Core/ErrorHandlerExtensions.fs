@@ -2,12 +2,13 @@
 
 open System.Runtime.CompilerServices
 open Microsoft.VisualStudio
-open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
       
 [<Extension>]
 type public ErrorHandlerExtensions = 
+
     [<Extension>]
     static member public ThrowOnFailure(hr : int) = 
+        let logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger
         if ErrorHandler.Failed hr then
-            Logger.logErrorf "hr = %d. Going to throw up." hr
+            logger.logErrorf "hr = %d. Going to throw up." hr
         ErrorHandler.ThrowOnFailure(hr) |> ignore

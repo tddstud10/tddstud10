@@ -3,7 +3,7 @@ using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
 using R4nd0mApps.TddStud10.Common;
 using R4nd0mApps.TddStud10.Common.Domain;
-using R4nd0mApps.TddStud10.Engine.Diagnostics;
+using R4nd0mApps.TddStud10.Logger;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -16,6 +16,8 @@ namespace R4nd0mApps.TddStud10
 {
     internal static class Instrumentation
     {
+        private static ILogger Logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger;
+
         public static PerDocumentSequencePoints GenerateSequencePointInfo(IRunExecutorHost host, RunStartParams rsp)
         {
             try
@@ -24,7 +26,7 @@ namespace R4nd0mApps.TddStud10
             }
             catch (Exception e)
             {
-                Logger.I.LogError("Failed to instrument. Exception: {0}", e);
+                Logger.LogError("Failed to instrument. Exception: {0}", e);
             }
 
             return null;
@@ -34,7 +36,7 @@ namespace R4nd0mApps.TddStud10
         {
             var timeFilter = rsp.StartTime;
             var buildOutputRoot = rsp.Solution.BuildRoot.Item;
-            Logger.I.LogInfo(
+            Logger.LogInfo(
                 "Generating sequence point info: Time filter - {0}, Build output root - {1}.",
                 timeFilter.ToLocalTime(),
                 buildOutputRoot);
@@ -46,7 +48,7 @@ namespace R4nd0mApps.TddStud10
                 timeFilter,
                 (string assemblyPath) =>
                 {
-                    Logger.I.LogInfo("Generating sequence point info for {0}.", assemblyPath);
+                    Logger.LogInfo("Generating sequence point info for {0}.", assemblyPath);
 
                     var assembly = AssemblyDefinition.ReadAssembly(assemblyPath, new ReaderParameters { ReadSymbols = true });
 
@@ -106,7 +108,7 @@ namespace R4nd0mApps.TddStud10
             }
             catch (Exception e)
             {
-                Logger.I.LogError("Failed to instrument. Exception: {0}", e);
+                Logger.LogError("Failed to instrument. Exception: {0}", e);
             }
         }
 
@@ -133,7 +135,7 @@ namespace R4nd0mApps.TddStud10
             var solutionSnapshotRoot = Path.GetDirectoryName(rsp.Solution.SnapshotPath.Item);
             var solutionRoot = Path.GetDirectoryName(rsp.Solution.Path.Item);
             var buildOutputRoot = rsp.Solution.BuildRoot.Item;
-            Logger.I.LogInfo(
+            Logger.LogInfo(
                 "Instrumenting: Time filter - {0}, Build output root - {1}.",
                 timeFilter.ToLocalTime(),
                 buildOutputRoot);
@@ -143,7 +145,7 @@ namespace R4nd0mApps.TddStud10
             if (snKeyFile != null)
             {
                 snKeyPair = new System.Reflection.StrongNameKeyPair(File.ReadAllBytes(snKeyFile));
-                Logger.I.LogInfo("Using strong name from {0}.", snKeyFile);
+                Logger.LogInfo("Using strong name from {0}.", snKeyFile);
             }
 
             var asmResolver = new DefaultAssemblyResolver();
@@ -176,7 +178,7 @@ namespace R4nd0mApps.TddStud10
                 timeFilter,
                 (string assemblyPath) =>
                 {
-                    Logger.I.LogInfo("Instrumenting {0}.", assemblyPath);
+                    Logger.LogInfo("Instrumenting {0}.", assemblyPath);
 
                     var assembly = AssemblyDefinition.ReadAssembly(assemblyPath, readerParams);
 
@@ -205,7 +207,7 @@ namespace R4nd0mApps.TddStud10
                     }
                     catch
                     {
-                        Logger.I.LogInfo("Backing up or instrumentation failed. Attempting to revert back changes to {0}.", assemblyPath);
+                        Logger.LogInfo("Backing up or instrumentation failed. Attempting to revert back changes to {0}.", assemblyPath);
                         File.Delete(assemblyPath);
                         File.Move(backupAssemblyPath, assemblyPath);
                         throw;
@@ -287,7 +289,7 @@ namespace R4nd0mApps.TddStud10
                     }
                     else
                     {
-                        Logger.I.LogError("Instrumentation: Unsupported method type: IsConstructo = {0}, Return Type = {1}, IsAsync = {2}.", meth.IsConstructor, meth.ReturnType, meth.IsAsync());
+                        Logger.LogError("Instrumentation: Unsupported method type: IsConstructo = {0}, Return Type = {1}, IsAsync = {2}.", meth.IsConstructor, meth.ReturnType, meth.IsAsync());
                     }
                 }
 

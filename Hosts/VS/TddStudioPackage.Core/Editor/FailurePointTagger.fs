@@ -6,14 +6,15 @@ open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 open System.Threading
 open R4nd0mApps.TddStud10.Engine.Core
-open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 
 type FailurePointTagger(buffer : ITextBuffer, dataStore : IDataStore) as self = 
+    let logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger
+
     let syncContext = SynchronizationContext.Current
     let tagsChanged = Event<_, _>()
     
     let fireTagsChanged _ = 
-        Logger.logInfof "Firing FailurePointTagger.TagsChanged"
+        logger.logInfof "Firing FailurePointTagger.TagsChanged"
         syncContext.Send
             (SendOrPostCallback
                  (fun _ -> 

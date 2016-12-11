@@ -1,11 +1,12 @@
 ﻿using Microsoft.FSharp.Control;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Adapter;
+using Mono.Cecil;
 using R4nd0mApps.TddStud10.Common;
 using R4nd0mApps.TddStud10.Common.Domain;
+using R4nd0mApps.TddStud10.Logger;
 using R4nd0mApps.TddStud10.TestExecution;
 using R4nd0mApps.TddStud10.TestExecution.Adapters;
-using R4nd0mApps.TddStud10.TestHost.Diagnostics;
 using R4nd0mApps.TddStud10.TestRuntime;
 using System;
 using System.Collections.Concurrent;
@@ -15,21 +16,22 @@ using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
-using Mono.Cecil;
 
 namespace R4nd0mApps.TddStud10.TestHost
 {
     public static class Program
     {
+        private static ILogger Logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger;
+
         private static bool _debuggerAttached = Debugger.IsAttached;
         private static void LogInfo(string format, params object[] args)
         {
-            Logger.I.LogInfo(format, args);
+            Logger.LogInfo(format, args);
         }
 
         private static void LogError(string format, params object[] args)
         {
-            Logger.I.LogError(format, args);
+            Logger.LogError(format, args);
         }
 
         [LoaderOptimization(LoaderOptimization.MultiDomain)]
@@ -59,7 +61,7 @@ namespace R4nd0mApps.TddStud10.TestHost
             var slnPath = args[7];
             var slnSnapPath = args[8];
             var discoveredUnitDTestsStore = args[9];
-            var ignoredTests = (args[10] ?? "").Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            var ignoredTests = (args[10] ?? "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             var searchPath = FilePath.NewFilePath(Path.Combine(Path.GetDirectoryName(slnSnapPath), "packages"));
             if (command == "discover")
@@ -104,7 +106,7 @@ namespace R4nd0mApps.TddStud10.TestHost
         private static void FindAndExecuteForEachAssembly(string buildOutputRoot, DateTime timeFilter, Action<string> action, int? maxThreads = null)
         {
             int madDegreeOfParallelism = maxThreads.HasValue ? maxThreads.Value : Environment.ProcessorCount;
-            Logger.I.LogInfo("FindAndExecuteForEachAssembly: Running with {0} threads.", madDegreeOfParallelism);
+            Logger.LogInfo("FindAndExecuteForEachAssembly: Running with {0} threads.", madDegreeOfParallelism);
             var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".dll", ".exe" };
             Parallel.ForEach(
                 Directory.EnumerateFiles(buildOutputRoot, "*").Where(s => extensions.Contains(Path.GetExtension(s))),
@@ -122,14 +124,14 @@ namespace R4nd0mApps.TddStud10.TestHost
                         return;
                     }
 
-                    Logger.I.LogInfo("FindAndExecuteForEachAssembly: Running for assembly {0}. LastWriteTime: {1}.", assemblyPath, lastWriteTime.ToLocalTime());
+                    Logger.LogInfo("FindAndExecuteForEachAssembly: Running for assembly {0}. LastWriteTime: {1}.", assemblyPath, lastWriteTime.ToLocalTime());
                     action(assemblyPath);
                 });
         }
 
         private static void DiscoverUnitTests(IEnumerable<ITestDiscoverer> tds, string slnPath, string slnSnapPath, string discoveredUnitTestsStore, string discoveredUnitDTestsStore, string buildOutputRoot, DateTime timeFilter, string[] ignoredTests)
         {
-            Logger.I.LogInfo("DiscoverUnitTests: starting discovering.");
+            Logger.LogInfo("DiscoverUnitTests: starting discovering.");
             var testsPerAssembly = new PerDocumentLocationTestCases();
             var dtestsPerAssembly = new PerDocumentLocationDTestCases();
             FindAndExecuteForEachAssembly(
@@ -155,7 +157,7 @@ namespace R4nd0mApps.TddStud10.TestHost
 
             testsPerAssembly.Serialize(FilePath.NewFilePath(discoveredUnitTestsStore));
             dtestsPerAssembly.Serialize(FilePath.NewFilePath(discoveredUnitDTestsStore));
-            Logger.I.LogInfo("Written discovered unit tests to {0} & {1}.", discoveredUnitTestsStore, discoveredUnitDTestsStore);
+            Logger.LogInfo("Written discovered unit tests to {0} & {1}.", discoveredUnitTestsStore, discoveredUnitDTestsStore);
         }
 
         private static bool ExecuteTestWithCoverageDataCollection(Func<bool> runTests, string codeCoverageStore)

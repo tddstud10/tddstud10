@@ -58,7 +58,6 @@
     <Compile Include="..\Common\Constants.fs">
       <Link>Constants.fs</Link>
     </Compile>
-    <Compile Include="Logger.fs" />
     <Compile Include="PerDocumentLocationTestCases.fs" />
     <Compile Include="CoverageDataCollector.fs" />
     <Compile Include="TestPlatformExtensions.fs" />
@@ -84,6 +83,11 @@
     <ProjectReference Include="..\Common\Domain\Domain.fsproj">
       <Name>Domain</Name>
       <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Logger\Logger.fsproj">
+      <Name>Logger</Name>
+      <Project>{e5fb2293-3055-4c4c-800e-a31ac891a931}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\TestExecution\TestRuntime\TestRuntime.csproj">

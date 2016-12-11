@@ -35,10 +35,11 @@ module ITextViewExtensions =
 module ITextBufferExtensions = 
     open Microsoft.VisualStudio.Text
     open R4nd0mApps.TddStud10.Common.Domain
-    open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
     
     type ITextBuffer with
+
         member self.FilePath = 
+            let logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger
             let p = 
                 match self.Properties.TryGetProperty(typeof<ITextDocument>) with
                 | true, x -> 
@@ -49,7 +50,7 @@ module ITextBufferExtensions =
                         |> Some
                     | _ -> None
                 | _ -> None
-            if p = None then Logger.logErrorf "Buffer does not have ITextDocument property. Cannot get filename."
+            if p = None then logger.logErrorf "Buffer does not have ITextDocument property. Cannot get filename."
             p
 
 [<AutoOpen>]

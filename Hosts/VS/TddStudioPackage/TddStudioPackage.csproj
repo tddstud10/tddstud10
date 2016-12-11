@@ -42,7 +42,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DeployExtension>True</DeployExtension>
+    <DeployExtension>False</DeployExtension>
     <CopyVsixExtensionFiles>False</CopyVsixExtensionFiles>
     <CreateVsixContainer>False</CreateVsixContainer>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -226,6 +226,10 @@
       </IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>
       </IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Logger\Logger.fsproj">
+      <Project>{e5fb2293-3055-4c4c-800e-a31ac891a931}</Project>
+      <Name>Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Engine.Core\Engine.Core.fsproj">
       <Project>{E5FB2292-1833-4C4C-800E-A31AC891A931}</Project>

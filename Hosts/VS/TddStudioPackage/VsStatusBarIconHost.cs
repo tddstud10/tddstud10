@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Hosts.Common.StatusBar;
-using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
+using R4nd0mApps.TddStud10.Logger;
 using System;
 using System.Reflection;
 using System.Windows;
@@ -15,6 +15,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 {
     public class VsStatusBarIconHost : ObservableObject
     {
+        private static ILogger Logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger;
+
         private int _injectControlAttempts;
 
         private Dispatcher _statusBarThreadDispatcher;
@@ -41,7 +43,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         public static VsStatusBarIconHost CreateAndInjectIntoVsStatusBar()
         {
-            Logger.I.LogInfo("Attempting to inject icon into VS' status bar.");
+            Logger.LogInfo("Attempting to inject icon into VS' status bar.");
 
             VsStatusBarIconHost iconHost = new VsStatusBarIconHost();
             iconHost.InjectControl();
@@ -160,7 +162,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         private void InjectStatusBarIcon(StatusBar statusBar)
         {
-            Logger.I.LogInfo("... In status bar thread.");
+            Logger.LogInfo("... In status bar thread.");
             if (!IsUnmodifiedStatusBar(statusBar))
             {
                 return;
@@ -182,17 +184,17 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                 sbItem.Margin = new Thickness(0);
                 sbItem.Padding = new Thickness(0);
                 rootDockPanel.Children.Insert(0, sbItem);
-                Logger.I.LogInfo("... StatusBar NotificationIcon successfully injected.");
+                Logger.LogInfo("... StatusBar NotificationIcon successfully injected.");
             }
             catch (Exception e)
             {
-                Logger.I.LogError("... Got an exception {0}.", e);
+                Logger.LogError("... Got an exception {0}.", e);
             }
             finally
             {
                 rootDockPanel.LastChildFill = true;
             }
-            Logger.I.LogInfo("... Exiting from status bar thread.");
+            Logger.LogInfo("... Exiting from status bar thread.");
         }
 
         private void BindStatusIconProperties(NotificationIcon sbIcon)

@@ -2,9 +2,7 @@
 
 open Xunit
 open System
-open System.Collections.Concurrent
 open R4nd0mApps.TddStud10.Engine.TestFramework
-open R4nd0mApps.TddStud10.Engine.Diagnostics
 open System.Threading
 
 let ex = new InvalidOperationException("A mock method threw")

@@ -1,6 +1,5 @@
 ﻿namespace R4nd0mApps.TddStud10.Engine.Core
 
-open R4nd0mApps.TddStud10.Engine.Diagnostics
 open System.Threading
 open System.Threading.Tasks
 
@@ -17,6 +16,8 @@ type AgentMessage<'T> =
 
 // TODO: REFACTOR: Pull in Rx and replace this with Debounce.
 type StaleMessageIgnoringAgent<'T>(f) = 
+    let logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger
+
     let errorEvent = Event<_>()
     
     let createAgent f = 
@@ -30,30 +31,30 @@ type StaleMessageIgnoringAgent<'T>(f) =
                             | Some m -> 
                                 match m with
                                 | Data(m, rc) -> 
-                                    Logger.logInfof "SMIAgent: We have been asked to process message: %O." m
+                                    logger.logInfof "SMIAgent: We have been asked to process message: %O." m
                                     if c > 1 then 
                                         let more = c - 1
-                                        Logger.logInfof "SMIAgent: Flushing stale messages. Ignored %O. (%d remaining)." 
+                                        logger.logInfof "SMIAgent: Flushing stale messages. Ignored %O. (%d remaining)." 
                                             m more
                                         return! messageLoop more p (m :: il)
                                     else 
-                                        Logger.logInfof "SMIAgent: Flushed all stale messages. Processing %O." m
+                                        logger.logInfof "SMIAgent: Flushed all stale messages. Processing %O." m
                                         f m
                                         rc.Reply(Some m, il)
                                         return! messageLoop inbox.CurrentQueueLength (Some m) il
                                 | Pause(Duration t) -> 
-                                    Logger.logInfof "SMIAgent: We have been asked to pause for %A ms" t
+                                    logger.logInfof "SMIAgent: We have been asked to pause for %A ms" t
                                     Thread.Sleep(t / 1<ms>)
                                     return! messageLoop inbox.CurrentQueueLength None []
                                 | Stop(rc) -> 
-                                    Logger.logInfof "SMIAgent: We have been asked to stop"
+                                    logger.logInfof "SMIAgent: We have been asked to stop"
                                     rc.Reply()
                                     return ()
                             | None -> 
-                                Logger.logInfof "SMIAgent: TryReceive timed out. Should not really have happened"
+                                logger.logInfof "SMIAgent: TryReceive timed out. Should not really have happened"
                                 return! messageLoop inbox.CurrentQueueLength None []
                         with exn -> 
-                            Logger.logErrorf 
+                            logger.logErrorf 
                                 "SMIAgent: Exception while processing. Reporting, ignoring and continuing: Exception %O" 
                                 exn
                             errorEvent.Trigger(exn)
@@ -62,7 +63,7 @@ type StaleMessageIgnoringAgent<'T>(f) =
                 messageLoop inbox.CurrentQueueLength None [])
         // NOTE: Is a better idea to restart the agent?
         agent.Error.Add
-            (fun e -> Logger.logErrorf "SMIAgent: There was an unhandled error. This is not expected: Exception %O" e)
+            (fun e -> logger.logErrorf "SMIAgent: There was an unhandled error. This is not expected: Exception %O" e)
         agent
     
     let agent = createAgent f

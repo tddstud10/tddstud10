@@ -1,5 +1,5 @@
 ﻿using R4nd0mApps.TddStud10.Engine.Core;
-using R4nd0mApps.TddStud10.Engine.Diagnostics;
+using R4nd0mApps.TddStud10.Logger;
 using System;
 using System.IO;
 
@@ -7,6 +7,8 @@ namespace R4nd0mApps.TddStud10.Engine
 {
     internal sealed class EngineFileSystemWatcher : IDisposable
     {
+        private static ILogger Logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger;
+
         private Action<EngineLoaderParams> _action;
 
         private EngineLoaderParams _loaderParams;
@@ -103,31 +105,31 @@ namespace R4nd0mApps.TddStud10.Engine
 
         void FsWatcher_Error(object sender, ErrorEventArgs e)
         {
-            Logger.I.LogError(e.ToString());
+            Logger.LogError(e.ToString());
             _action(_loaderParams);
         }
 
         void FsWatcher_Created(object sender, FileSystemEventArgs e)
         {
-            Logger.I.LogInfo("########: FSWatcher: Got created event: {0}", e.FullPath);
+            Logger.LogInfo("########: FSWatcher: Got created event: {0}", e.FullPath);
             _action(_loaderParams);
         }
 
         void FsWatcher_Changed(object sender, FileSystemEventArgs e)
         {
-            Logger.I.LogInfo("########: FSWatcher: Got changed event: {0}", e.FullPath);
+            Logger.LogInfo("########: FSWatcher: Got changed event: {0}", e.FullPath);
             _action(_loaderParams);
         }
 
         void FsWatcher_Renamed(object sender, RenamedEventArgs e)
         {
-            Logger.I.LogInfo("########: FSWatcher: Got renamed event: {0}", e.FullPath);
+            Logger.LogInfo("########: FSWatcher: Got renamed event: {0}", e.FullPath);
             _action(_loaderParams);
         }
 
         void FsWatcher_Deleted(object sender, FileSystemEventArgs e)
         {
-            Logger.I.LogInfo("########: FSWatcher: Got deleted event: {0}", e.FullPath);
+            Logger.LogInfo("########: FSWatcher: Got deleted event: {0}", e.FullPath);
             _action(_loaderParams);
         }
 

@@ -121,7 +121,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Logger.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -160,6 +159,10 @@
     <ProjectReference Include="..\..\..\Common\Domain\Domain.fsproj">
       <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
       <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Logger\Logger.fsproj">
+      <Project>{e5fb2293-3055-4c4c-800e-a31ac891a931}</Project>
+      <Name>Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Engine.Core\Engine.Core.fsproj">
       <Project>{e5fb2292-1833-4c4c-800e-a31ac891a931}</Project>
