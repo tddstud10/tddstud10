@@ -5,7 +5,7 @@ open R4nd0mApps.TddStud10
 open System
 
 [<Sealed>]
-[<EventSource(Name = Constants.EtwProviderNameHostsVS)>]
+[<EventSource(Name = Constants.EtwProviderNameAllLogs)>]
 type internal WindowsLogger() = 
     inherit EventSource()
     static let i = new WindowsLogger()

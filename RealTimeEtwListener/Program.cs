@@ -42,11 +42,11 @@ namespace RealTimeEtwListener
                 session.StopOnDispose = true;
 
                 Console.Title = Constants.ProductName;
-                Console.CancelKeyPress += delegate(object sender, ConsoleCancelEventArgs e) { session.Dispose(); };
+                Console.CancelKeyPress += delegate (object sender, ConsoleCancelEventArgs e) { session.Dispose(); };
 
                 using (var source = new ETWTraceEventSource(SessionName, TraceEventSourceType.Session))
                 {
-                    new DynamicTraceEventParser(source).All += delegate(TraceEvent data)
+                    new DynamicTraceEventParser(source).All += delegate (TraceEvent data)
                     {
                         ProcessTraceEvent(data);
 
@@ -68,11 +68,7 @@ namespace RealTimeEtwListener
 
         private static void EnableProviders(TraceEventSession session)
         {
-            session.EnableProvider(Constants.EtwProviderNameHostsVS);
-            session.EnableProvider(Constants.EtwProviderNameHostsConsole);
-            session.EnableProvider(Constants.EtwProviderNameTestHost);
-            session.EnableProvider(Constants.EtwProviderNameEngine);
-            session.EnableProvider(Constants.EtwProviderNameTestRuntime);
+            session.EnableProvider(Constants.EtwProviderNameAllLogs);
         }
 
         private static void ProcessTraceEvent(TraceEvent data)
