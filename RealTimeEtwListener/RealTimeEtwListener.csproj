@@ -64,6 +64,12 @@
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CodeAnalysisRules.ruleset">
+      <Paket>True</Paket>
+    </Content>
+    <Content Include="_TraceEventProgrammersGuide.docx">
+      <Paket>True</Paket>
+    </Content>
     <Content Include="TraceEvent.ReadMe.txt">
       <Paket>True</Paket>
     </Content>

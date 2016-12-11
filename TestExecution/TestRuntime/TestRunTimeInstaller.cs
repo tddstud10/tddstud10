@@ -12,7 +12,6 @@ namespace R4nd0mApps.TddStud10.TestRuntime
             var files = new List<string>
                 {
                     Path.GetFullPath(typeof(R4nd0mApps.TddStud10.TestRuntime.Marker).Assembly.Location),
-                    Path.GetFullPath(typeof(Microsoft.Diagnostics.Tracing.EventSource).Assembly.Location),
                 };
 
             var sb = new StringBuilder();

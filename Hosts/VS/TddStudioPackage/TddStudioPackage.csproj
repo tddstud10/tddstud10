@@ -71,6 +71,9 @@
     <VsSdkTargets Condition=" '$(VisualStudioVersion)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\VSSDK\Microsoft.VsSDK.targets</VsSdkTargets>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="CodeAnalysisRules.ruleset">
+      <Paket>True</Paket>
+    </Content>
     <COMReference Include="EnvDTE">
       <Guid>{80CC9F66-E7D8-4DDD-85B6-D9E6CD0E93E2}</Guid>
       <VersionMajor>8</VersionMajor>
@@ -227,6 +230,10 @@
       <IncludeOutputGroupsInVSIXLocalOnly>
       </IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Logger.Windows\Logger.Windows.fsproj">
+      <Project>{e5fb2293-2944-4c4c-800e-a31ac891a931}</Project>
+      <Name>Logger.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Logger\Logger.fsproj">
       <Project>{e5fb2293-3055-4c4c-800e-a31ac891a931}</Project>
       <Name>Logger</Name>
@@ -334,44 +341,6 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v3.5'">
-      <ItemGroup>
-        <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
-          <HintPath>..\..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist\lib\net35\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3')">
-      <ItemGroup>
-        <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
-          <HintPath>..\..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
-      <ItemGroup>
-        <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
-          <HintPath>..\..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist\lib\net46\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="($(TargetFrameworkIdentifier) == 'WindowsPhoneApp') Or ($(TargetFrameworkIdentifier) == '.NETCore') Or ($(TargetFrameworkProfile) == 'Profile32')">
-      <ItemGroup>
-        <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
-          <HintPath>..\..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist\lib\portable-win8+wpa81\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
         <Reference Include="Mono.Cecil.Mdb">
@@ -423,6 +392,5 @@
       </ItemGroup>
     </When>
   </Choose>
-  <Import Project="..\..\..\packages\Microsoft.Diagnostics.Tracing.EventRegister\build\Microsoft.Diagnostics.Tracing.EventRegister.targets" Condition="Exists('..\..\..\packages\Microsoft.Diagnostics.Tracing.EventRegister\build\Microsoft.Diagnostics.Tracing.EventRegister.targets')" Label="Paket" />
   <Import Project="..\..\..\packages\StyleCop.MSBuild\build\StyleCop.MSBuild.Targets" Condition="Exists('..\..\..\packages\StyleCop.MSBuild\build\StyleCop.MSBuild.Targets')" Label="Paket" />
 </Project>

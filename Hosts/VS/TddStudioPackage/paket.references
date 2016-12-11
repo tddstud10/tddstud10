@@ -1,9 +1,5 @@
 BuildTools.FxCop
-CommonServiceLocator
 FSharp.Core
-Microsoft.Diagnostics.Tracing.EventRegister
-Microsoft.Diagnostics.Tracing.EventSource
-Microsoft.Diagnostics.Tracing.EventSource.Redist
 Mono.Cecil
 MvvmLightLibs
 StyleCop.MSBuild

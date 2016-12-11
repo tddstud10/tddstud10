@@ -86,6 +86,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CodeAnalysisRules.ruleset">
+      <Paket>True</Paket>
+    </Content>
     <None Include="..\..\..\tddstud10.snk" />
     <None Include="app.config" />
     <None Include="paket.references" />
@@ -178,44 +181,6 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v3.5'">
-      <ItemGroup>
-        <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
-          <HintPath>..\..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist\lib\net35\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3')">
-      <ItemGroup>
-        <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
-          <HintPath>..\..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
-      <ItemGroup>
-        <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
-          <HintPath>..\..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist\lib\net46\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="($(TargetFrameworkIdentifier) == 'WindowsPhoneApp') Or ($(TargetFrameworkIdentifier) == '.NETCore') Or ($(TargetFrameworkProfile) == 'Profile32')">
-      <ItemGroup>
-        <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
-          <HintPath>..\..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist\lib\portable-win8+wpa81\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
         <Reference Include="GalaSoft.MvvmLight.Extras">
@@ -241,6 +206,5 @@
       </ItemGroup>
     </When>
   </Choose>
-  <Import Project="..\..\..\packages\Microsoft.Diagnostics.Tracing.EventRegister\build\Microsoft.Diagnostics.Tracing.EventRegister.targets" Condition="Exists('..\..\..\packages\Microsoft.Diagnostics.Tracing.EventRegister\build\Microsoft.Diagnostics.Tracing.EventRegister.targets')" Label="Paket" />
   <Import Project="..\..\..\packages\StyleCop.MSBuild\build\StyleCop.MSBuild.Targets" Condition="Exists('..\..\..\packages\StyleCop.MSBuild\build\StyleCop.MSBuild.Targets')" Label="Paket" />
 </Project>

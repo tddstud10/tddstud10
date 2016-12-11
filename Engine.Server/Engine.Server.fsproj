@@ -62,44 +62,27 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v3.5'">
-      <ItemGroup>
-        <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
-          <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist\lib\net35\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3')">
-      <ItemGroup>
-        <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
-          <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
-      <ItemGroup>
-        <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
-          <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist\lib\net46\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="($(TargetFrameworkIdentifier) == 'WindowsPhoneApp') Or ($(TargetFrameworkIdentifier) == '.NETCore') Or ($(TargetFrameworkProfile) == 'Profile32')">
-      <ItemGroup>
-        <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
-          <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist\lib\portable-win8+wpa81\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
+  <ItemGroup>
+    <Content Include="paket.references" />
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="JsonSerializer.fs" />
+    <Compile Include="Engine.Server.fs" />
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <ProjectReference Include="..\Common\Domain\Domain.fsproj">
+      <Name>Domain</Name>
+      <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
@@ -122,26 +105,4 @@
       </ItemGroup>
     </When>
   </Choose>
-  <Import Project="..\packages\Microsoft.Diagnostics.Tracing.EventRegister\build\Microsoft.Diagnostics.Tracing.EventRegister.targets" Condition="Exists('..\packages\Microsoft.Diagnostics.Tracing.EventRegister\build\Microsoft.Diagnostics.Tracing.EventRegister.targets')" Label="Paket" />
-  <ItemGroup>
-    <Content Include="paket.references" />
-    <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="JsonSerializer.fs" />
-    <Compile Include="Engine.Server.fs" />
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <ProjectReference Include="..\Common\Domain\Domain.fsproj">
-      <Name>Domain</Name>
-      <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

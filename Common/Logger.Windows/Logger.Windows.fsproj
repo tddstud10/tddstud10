@@ -52,10 +52,22 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
+    <Content Include="net35\_EventRegisterUsersGuide.docx">
+      <Paket>True</Paket>
+    </Content>
+    <Content Include="net40\_EventRegisterUsersGuide.docx">
+      <Paket>True</Paket>
+    </Content>
+    <Content Include="portable-net45+win8+wpa81\_EventRegisterUsersGuide.docx">
+      <Paket>True</Paket>
+    </Content>
     <Compile Include="..\Constants.fs">
       <Link>Constants.fs</Link>
     </Compile>
     <Compile Include="WindowsLogger.fs" />
+    <Content Include="_EventSourceUsersGuide.docx">
+      <Paket>True</Paket>
+    </Content>
     <Content Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
