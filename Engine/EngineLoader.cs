@@ -1,7 +1,7 @@
 ﻿using Microsoft.FSharp.Control;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine.Core;
-using R4nd0mApps.TddStud10.Engine.Diagnostics;
+using R4nd0mApps.TddStud10.Logger;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -34,6 +34,8 @@ namespace R4nd0mApps.TddStud10.Engine
     // Till then we will just have to carefully do/undo the pairs of functionality at appropriate places
     public static class EngineLoader
     {
+        private static ILogger Logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger;
+
         private static EngineFileSystemWatcher _efsWatcher;
         private static IEngineHost _host;
         private static IDataStore _dataStore;
@@ -51,7 +53,7 @@ namespace R4nd0mApps.TddStud10.Engine
 
         public static void Load(IEngineHost host, IDataStore dataStore, EngineLoaderParams loaderParams)
         {
-            Logger.I.LogInfo("Loading Engine with solution {0}", loaderParams.SolutionPath);
+            Logger.LogInfo("Loading Engine with solution {0}", loaderParams.SolutionPath);
 
             _host = host;
             _dataStore = dataStore;
@@ -95,20 +97,20 @@ namespace R4nd0mApps.TddStud10.Engine
         public static bool IsEngineEnabled()
         {
             var enabled = IsEngineLoaded() && _efsWatcher.IsEnabled();
-            Logger.I.LogInfo("Engine is enabled:{0}", enabled);
+            Logger.LogInfo("Engine is enabled:{0}", enabled);
 
             return enabled;
         }
 
         public static void EnableEngine()
         {
-            Logger.I.LogInfo("Enabling Engine...");
+            Logger.LogInfo("Enabling Engine...");
             _efsWatcher.Enable();
         }
 
         public static void DisableEngine()
         {
-            Logger.I.LogInfo("Disabling Engine...");
+            Logger.LogInfo("Disabling Engine...");
             DataStore.Instance.ResetData();
             _efsWatcher.Disable();
         }
@@ -116,7 +118,7 @@ namespace R4nd0mApps.TddStud10.Engine
 
         public static void Unload()
         {
-            Logger.I.LogInfo("Unloading Engine...");
+            Logger.LogInfo("Unloading Engine...");
 
             _efsWatcher.Dispose();
             _efsWatcher = null;
@@ -160,7 +162,7 @@ namespace R4nd0mApps.TddStud10.Engine
             }
             else
             {
-                Logger.I.LogInfo("Engine is not loaded. Ignoring command.");
+                Logger.LogInfo("Engine is not loaded. Ignoring command.");
             }
         }
 
@@ -170,18 +172,18 @@ namespace R4nd0mApps.TddStud10.Engine
             {
                 if (!_host.CanContinue())
                 {
-                    Logger.I.LogInfo("Cannot start engine. Host has denied request.");
+                    Logger.LogInfo("Cannot start engine. Host has denied request.");
                     return;
                 }
 
                 if (IsRunInProgress())
                 {
-                    Logger.I.LogInfo("Cannot start engine. A run is already in progress.");
+                    Logger.LogInfo("Cannot start engine. A run is already in progress.");
                     return;
                 }
 
-                Logger.I.LogInfo("--------------------------------------------------------------------------------");
-                Logger.I.LogInfo("EngineLoader: Going to trigger a run.");
+                Logger.LogInfo("--------------------------------------------------------------------------------");
+                Logger.LogInfo("EngineLoader: Going to trigger a run.");
                 // NOTE: Note fix the CT design once we wire up.
                 if (_currentRunCts != null)
                 {
@@ -192,7 +194,7 @@ namespace R4nd0mApps.TddStud10.Engine
             }
             catch (Exception e)
             {
-                Logger.I.LogError("Exception thrown in InvokeEngine: {0}.", e);
+                Logger.LogError("Exception thrown in InvokeEngine: {0}.", e);
             }
         }
     }

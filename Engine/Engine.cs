@@ -1,6 +1,6 @@
 ﻿using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine.Core;
-using R4nd0mApps.TddStud10.Engine.Diagnostics;
+using R4nd0mApps.TddStud10.Logger;
 using R4nd0mApps.TddStud10.TestRuntime;
 using System;
 using System.Collections.Concurrent;
@@ -15,6 +15,8 @@ namespace R4nd0mApps.TddStud10.Engine
 {
     public static class Engine
     {
+        private static ILogger Logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger;
+
         public static RunStep[] CreateRunSteps(Func<DocumentLocation, IEnumerable<DTestCase>> findTest)
         {
             return new[]
@@ -33,7 +35,7 @@ namespace R4nd0mApps.TddStud10.Engine
         public static void FindAndExecuteForEachAssembly(IRunExecutorHost host, string buildOutputRoot, DateTime timeFilter, Action<string> action, int? maxThreads = null)
         {
             int madDegreeOfParallelism = maxThreads.HasValue ? maxThreads.Value : Environment.ProcessorCount;
-            Logger.I.LogInfo("FindAndExecuteForEachAssembly: Running with {0} threads.", madDegreeOfParallelism);
+            Logger.LogInfo("FindAndExecuteForEachAssembly: Running with {0} threads.", madDegreeOfParallelism);
             var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".dll", ".exe" };
             Parallel.ForEach(
                 Directory.EnumerateFiles(buildOutputRoot, "*").Where(s => extensions.Contains(Path.GetExtension(s))),
@@ -51,7 +53,7 @@ namespace R4nd0mApps.TddStud10.Engine
                         return;
                     }
 
-                    Logger.I.LogInfo("FindAndExecuteForEachAssembly: Running for assembly {0}. LastWriteTime: {1}.", assemblyPath, lastWriteTime.ToLocalTime());
+                    Logger.LogInfo("FindAndExecuteForEachAssembly: Running for assembly {0}. LastWriteTime: {1}.", assemblyPath, lastWriteTime.ToLocalTime());
                     action(assemblyPath);
                 });
         }
@@ -213,7 +215,7 @@ namespace R4nd0mApps.TddStud10.Engine
                 if (srcInfo.LastWriteTimeUtc > dstInfo.LastWriteTimeUtc)
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(dst));
-                    Logger.I.LogInfo("Copying: {0} - {1}.", src, dst);
+                    Logger.LogInfo("Copying: {0} - {1}.", src, dst);
                     File.Copy(src, dst, true);
                 }
             }
@@ -243,7 +245,7 @@ namespace R4nd0mApps.TddStud10.Engine
             ConcurrentQueue<string> consoleOutput = new ConcurrentQueue<string>();
             var commandLine = string.Format("Executing: '{0}' '{1}'", fileName, arguments);
             consoleOutput.Enqueue(commandLine);
-            Logger.I.LogInfo(commandLine);
+            Logger.LogInfo(commandLine);
 
             ProcessStartInfo processStartInfo;
             Process process;
@@ -265,18 +267,20 @@ namespace R4nd0mApps.TddStud10.Engine
             (
                 delegate (object sender, DataReceivedEventArgs e)
                 {
+                    var data = e.Data ?? "";
                     // append the new data to the data already read-in
-                    consoleOutput.Enqueue(e.Data);
-                    Logger.I.LogInfo(e.Data);
+                    consoleOutput.Enqueue(data);
+                    Logger.LogInfo(data);
                 }
             );
             process.ErrorDataReceived += new DataReceivedEventHandler
             (
                 delegate (object sender, DataReceivedEventArgs e)
                 {
+                    var data = e.Data ?? "";
                     // append the new data to the data already read-in
-                    consoleOutput.Enqueue(e.Data);
-                    Logger.I.LogError(e.Data);
+                    consoleOutput.Enqueue(data);
+                    Logger.LogError(data);
                 }
             );
             // start the process

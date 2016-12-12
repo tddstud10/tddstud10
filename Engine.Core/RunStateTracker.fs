@@ -2,14 +2,15 @@
 
 open System
 open R4nd0mApps.TddStud10.Common.Domain
-open R4nd0mApps.TddStud10.Engine.Diagnostics
 
 type RunStateTracker() = 
+    let logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger
+
     let mutable state = Initial
     let runStateChanged = new Event<_>()
 
     let logAndReturnBack s ev =
-        Logger.logErrorf "Run Tracker State Machine: Cannot handle event '%A' in state '%A'" ev s
+        logger.logErrorf "Run Tracker State Machine: Cannot handle event '%A' in state '%A'" ev s
         s
             
     let transitionState = 
@@ -60,7 +61,7 @@ type RunStateTracker() =
     let transitionStateAndRaiseEvent ev = 
         let oldState = state
         state <- transitionState (state, ev)
-        Logger.logInfof "Run Tracker State Machine: Trasition (%A, %A) -> %A" oldState ev state
+        logger.logInfof "Run Tracker State Machine: Trasition (%A, %A) -> %A" oldState ev state
         Common.safeExec (fun () -> runStateChanged.Trigger(state))
     
     member __.State = state

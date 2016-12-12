@@ -8,7 +8,8 @@ open Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging
 open Microsoft.VisualStudio.TestPlatform.ObjectModel
 open System.Collections.Generic
 open R4nd0mApps.TddStud10.Common.Domain
-open R4nd0mApps.TddStud10.TestHost.Diagnostics
+
+let logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger
 
 let getLocalPath() = 
     Assembly.GetExecutingAssembly().CodeBase
@@ -19,12 +20,12 @@ let getLocalPath() =
 
 let loadTestAdapter (FilePath binDir) = 
     let aPath = Path.Combine(binDir, "xunit.runner.visualstudio.testadapter.dll")
-    Logger.logInfof "Loading Test Adapter from %s" aPath
+    logger.logInfof "Loading Test Adapter from %s" aPath
     let ta = 
         Assembly.LoadFrom(aPath)
         |> fun a -> a.GetType("Xunit.Runner.VisualStudio.TestAdapter.VsTestRunner")
         |> fun t -> Activator.CreateInstance(t)
-    Logger.logInfof "Test Adapter loaded"
+    logger.logInfof "Test Adapter loaded"
     ta
 
 let toDTestCase (tc : TestCase) =
@@ -65,7 +66,7 @@ let createDiscoveryContext() =
 let createMessageLogger() = 
     { new IMessageLogger with
           member __.SendMessage(testMessageLevel : TestMessageLevel, message : string) : unit =
-              Logger.logErrorf "TestPlatform: SendMessage call was unexpected : [%O] %s" testMessageLevel message }
+              logger.logWarnf "TestPlatform: SendMessage call was unexpected : [%O] %s" testMessageLevel message }
 
 let createDiscoverySink td = 
     { new ITestCaseDiscoverySink with
@@ -76,35 +77,34 @@ let createRunContext() =
           
           member __.GetTestCaseFilter(_ : IEnumerable<string>, 
                                       _ : Func<string, TestProperty>) : ITestCaseFilterExpression = 
-              Logger.logErrorf "TestPlatform: GetTestCaseFilter call was unexpected"
+              logger.logWarnf "TestPlatform: GetTestCaseFilter call was unexpected"
               null
           
           member __.InIsolation : bool = 
-              Logger.logErrorf "TestPlatform: InIsolation call was unexpected"
+              logger.logWarnf "TestPlatform: InIsolation call was unexpected"
               false
           
           member __.IsBeingDebugged : bool = 
-              Logger.logErrorf "TestPlatform: IsBeingDebugged call was unexpected"
+              logger.logWarnf "TestPlatform: IsBeingDebugged call was unexpected"
               false
           
           member __.IsDataCollectionEnabled : bool = 
-              Logger.logErrorf "TestPlatform: IsDataCollectionEnabled call was unexpected"
+              logger.logWarnf "TestPlatform: IsDataCollectionEnabled call was unexpected"
               false
           
           member __.KeepAlive : bool = 
-              Logger.logErrorf "TestPlatform: KeepAlive call was unexpected"
+              logger.logWarnf "TestPlatform: KeepAlive call was unexpected"
               false
           
           member __.RunSettings : IRunSettings = 
-              Logger.logErrorf "TestPlatform: RunSettings call was unexpected"
               createRunSettings()   
           
           member __.SolutionDirectory : string = 
-              Logger.logErrorf "TestPlatform: SolutionDirectory call was unexpected"
+              logger.logWarnf "TestPlatform: SolutionDirectory call was unexpected"
               null
           
           member __.TestRunDirectory : string = 
-              Logger.logErrorf "TestPlatform: TestRunDirectory call was unexpected"
+              logger.logWarnf "TestPlatform: TestRunDirectory call was unexpected"
               null }
 
 let createFrameworkHandle te = 
@@ -116,13 +116,13 @@ let createFrameworkHandle te =
           
           member __.LaunchProcessWithDebuggerAttached(_ : string, _ : string, _ : string, 
                                                       _ : IDictionary<string, string>) : int = 
-              Logger.logErrorf "TestPlatform: LaunchProcessWithDebuggerAttached call was unexpected"
+              logger.logWarnf "TestPlatform: LaunchProcessWithDebuggerAttached call was unexpected"
               0
           
           member __.RecordAttachments(_ : IList<AttachmentSet>) : unit = 
-              Logger.logErrorf "TestPlatform: RecordAttachments call was unexpected"
+              logger.logWarnf "TestPlatform: RecordAttachments call was unexpected"
           member __.RecordEnd(_ : TestCase, _ : TestOutcome) : unit = ()
           member __.RecordResult(testResult : TestResult) : unit = testResult |> (toDTestResult >> te) 
           member __.RecordStart(_ : TestCase) : unit = ()
           member __.SendMessage(testMessageLevel : TestMessageLevel, message : string) : unit = 
-              Logger.logErrorf "TestPlatform: SendMessage call was unexpected : [%O] %s" testMessageLevel message }
+              logger.logWarnf "TestPlatform: SendMessage call was unexpected : [%O] %s" testMessageLevel message }

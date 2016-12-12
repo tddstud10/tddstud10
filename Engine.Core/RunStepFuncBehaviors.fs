@@ -2,7 +2,8 @@
 
 open System.Diagnostics
 open R4nd0mApps.TddStud10.Common.Domain
-open R4nd0mApps.TddStud10.Engine.Diagnostics
+
+let logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger
 
 let eventsPublisher f = 
     fun h sp i { onStart = se; onError = ee; onFinish = fe } -> 
@@ -38,16 +39,16 @@ let stepTimer (f : RunStepFunc) =
             f h sp i es
         finally
             let s = sw.Elapsed.ToString("mm\:ss\.ffff")
-            Logger.logInfof "[--] Step %A completed in %A" i.name s
+            logger.logInfof "[--] Step %A completed in %A" i.name s
 
 let stepLogger (f : RunStepFunc) = 
     fun h sp i es -> 
-        Logger.logInfof "[--> Starting step: %A" i.name
+        logger.logInfof "[--> Starting step: %A" i.name
         try 
             try 
                 f h sp i es
             with ex -> 
-                Logger.logErrorf "[**> Exception thrown in step: %A. Exception %s" i.name (ex.ToString())
+                logger.logErrorf "[**> Exception thrown in step: %A. Exception %s" i.name (ex.ToString())
                 reraise()
         finally
-            Logger.logInfof "<--] Finishing step: %A" i.name
+            logger.logInfof "<--] Finishing step: %A" i.name

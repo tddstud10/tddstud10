@@ -6,14 +6,16 @@ open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 open System.Threading
 open R4nd0mApps.TddStud10.Engine.Core
-open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 
 type CodeCoverageTagger(buffer : ITextBuffer, getspt : SnapshotSnapsToTagSpan<SequencePointTag>, dataStore : IDataStore) as self = 
+    
+    let logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger
+
     let syncContext = SynchronizationContext.Current
     let tagsChanged = Event<_, _>()
     
     let fireTagsChanged _ = 
-        Logger.logInfof "Firing CodeCoverageTagger.TagsChanged"
+        logger.logInfof "Firing CodeCoverageTagger.TagsChanged"
         syncContext.Send
             (SendOrPostCallback
                  (fun _ -> 

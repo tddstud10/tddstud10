@@ -4,9 +4,9 @@ using Microsoft.VisualStudio.Shell.Interop;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Engine.Core;
-using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core;
+using R4nd0mApps.TddStud10.Logger;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -21,6 +21,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
     [Guid(PkgGuids.GuidTddStud10Pkg)]
     public sealed class TddStud10Package : Package, IVsSolutionEvents, IEngineHost
     {
+        private static ILogger Logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger;
+
         private SynchronizationContext syncContext = SynchronizationContext.Current;
 
         private bool _disposed;
@@ -72,7 +74,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             Instance = this;
 
-            Logger.I.LogInfo("Initialized Package successfully.");
+            Logger.LogInfo("Initialized Package successfully.");
         }
 
         protected override void Dispose(bool disposing)
@@ -177,19 +179,19 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
             if (!this.GetService<SVsSolution, IVsSolution>().GetProperty<bool>((int)__VSPROPID4.VSPROPID_IsSolutionFullyLoaded))
             {
-                Logger.I.LogInfo("Solution is not fully loaded. Asking to stop.");
+                Logger.LogInfo("Solution is not fully loaded. Asking to stop.");
                 return false;
             }
 
             if (this.GetService<SVsSolution, IVsSolution>().GetProperty<bool>((int)__VSPROPID2.VSPROPID_IsSolutionClosing))
             {
-                Logger.I.LogInfo("Solution is closing. Asking to stop.");
+                Logger.LogInfo("Solution is closing. Asking to stop.");
                 return false;
             }
 
             if (_dte.Solution.SolutionBuild.BuildState == EnvDTE.vsBuildState.vsBuildStateInProgress)
             {
-                Logger.I.LogInfo("Build in progress. Asking to stop.");
+                Logger.LogInfo("Build in progress. Asking to stop.");
                 return false;
             }
 

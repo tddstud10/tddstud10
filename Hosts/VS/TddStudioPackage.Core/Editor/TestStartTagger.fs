@@ -6,14 +6,13 @@ open R4nd0mApps.TddStud10.Common.Domain
 open R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.EditorFrameworkExtensions
 open System.Threading
 open R4nd0mApps.TddStud10.Engine.Core
-open R4nd0mApps.TddStud10.Hosts.VS.Diagnostics
 
 type TestStartTagger(buffer : ITextBuffer, dataStore : IDataStore) as self = 
     let syncContext = SynchronizationContext.Current
     let tagsChanged = Event<_, _>()
     
     let fireTagsChanged _ = 
-        Logger.logInfof "Firing TestStartTagger.TagsChanged"
+        logger.logInfof "Firing TestStartTagger.TagsChanged"
         syncContext.Send
             (SendOrPostCallback
                  (fun _ -> 

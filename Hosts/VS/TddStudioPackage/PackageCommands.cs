@@ -3,8 +3,8 @@ using Microsoft.VisualStudio.Shell.Interop;
 using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine;
 using R4nd0mApps.TddStud10.Engine.Core;
-using R4nd0mApps.TddStud10.Hosts.VS.Diagnostics;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core;
+using R4nd0mApps.TddStud10.Logger;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -19,6 +19,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
     // NOTE: Move to FS when we make a change in this next.
     public class PackageCommands
     {
+        private static ILogger Logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger;
+
         private EnvDTE.DTE _dte;
         private IMenuCommandService _mcs;
 
@@ -50,7 +52,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         private void ExecuteChangeTddStud10State(object sender, EventArgs e)
         {
-            Logger.I.LogInfo("Changing TddStud10 state...");
+            Logger.LogInfo("Changing TddStud10 state...");
 
             if (EngineLoader.IsEngineEnabled())
             {
@@ -76,18 +78,18 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         private void OnBeforeQueryStatusChangeTddStud10State(object sender, EventArgs e)
         {
-            Logger.I.LogInfo("Querying for TddStud10 state...");
+            Logger.LogInfo("Querying for TddStud10 state...");
 
             var cmd = sender as OleMenuCommand;
             if (cmd == null)
             {
-                Logger.I.LogError("sender should have been an OleMenuCommand. This is unexpected.");
+                Logger.LogError("sender should have been an OleMenuCommand. This is unexpected.");
                 return;
             }
 
             if (!_dte.Solution.IsOpen)
             {
-                Logger.I.LogInfo("Solution is not open.");
+                Logger.LogInfo("Solution is not open.");
                 cmd.Visible = false;
                 return;
             }
@@ -104,18 +106,18 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         private void OnBeforeQueryStatusViewTddStud10Logs(object sender, EventArgs e)
         {
-            Logger.I.LogInfo("Querying for ViewTddStud10Logs...");
+            Logger.LogInfo("Querying for ViewTddStud10Logs...");
 
             var cmd = sender as OleMenuCommand;
             if (cmd == null)
             {
-                Logger.I.LogError("sender should have been an OleMenuCommand. This is unexpected.");
+                Logger.LogError("sender should have been an OleMenuCommand. This is unexpected.");
                 return;
             }
 
             if (!_dte.Solution.IsOpen)
             {
-                Logger.I.LogInfo("Solution is not open.");
+                Logger.LogInfo("Solution is not open.");
                 cmd.Visible = false;
                 return;
             }
