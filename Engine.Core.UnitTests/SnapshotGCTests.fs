@@ -22,7 +22,7 @@ let ``Should delete unmarked folder``() =
     runTest <| fun rootDir -> 
         async { 
             Directory.CreateDirectory(rootDir </> "A") |> ignore
-            let! garbage = SnapshotGC.collect (FilePath rootDir)
+            let! garbage = SnapshotGC.sweep (FilePath rootDir)
             garbage
             |> Seq.sort
             |> Seq.toList
@@ -37,8 +37,8 @@ let ``Should not delete fresh folder``() =
     runTest <| fun rootDir -> 
         async { 
             Directory.CreateDirectory(rootDir </> "A") |> ignore
-            SnapshotGC.unmark (FilePath <| (rootDir </> "A"))
-            let! garbage = SnapshotGC.collect (FilePath rootDir)
+            SnapshotGC.mark (FilePath <| (rootDir </> "A"))
+            let! garbage = SnapshotGC.sweep (FilePath rootDir)
             garbage
             |> Seq.sort
             |> Seq.toList
@@ -53,8 +53,8 @@ let ``Should delete stale folder``() =
     runTest <| fun rootDir -> 
         async { 
             Directory.CreateDirectory(rootDir </> "A") |> ignore
-            SnapshotGC.mark (FilePath <| (rootDir </> "A"))
-            let! garbage = SnapshotGC.collect (FilePath rootDir)
+            SnapshotGC.unmark (FilePath <| (rootDir </> "A"))
+            let! garbage = SnapshotGC.sweep (FilePath rootDir)
             garbage
             |> Seq.sort
             |> Seq.toList
@@ -70,10 +70,10 @@ let ``Should delete all stale folders``() =
         async { 
             Directory.CreateDirectory(rootDir </> "A") |> ignore
             Directory.CreateDirectory(rootDir </> "B") |> ignore
-            SnapshotGC.mark (FilePath(rootDir </> "B"))
+            SnapshotGC.unmark (FilePath(rootDir </> "B"))
             Directory.CreateDirectory(rootDir </> "C") |> ignore
-            SnapshotGC.unmark (FilePath(rootDir </> "C"))
-            let! garbage = SnapshotGC.collect (FilePath rootDir)
+            SnapshotGC.mark (FilePath(rootDir </> "C"))
+            let! garbage = SnapshotGC.sweep (FilePath rootDir)
             garbage
             |> Seq.sort
             |> Seq.toList

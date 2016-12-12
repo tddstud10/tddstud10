@@ -8,14 +8,14 @@ module SnapshotGC =
     let private markerFile = "__tddstud10.gc.marker__"
     let private stalingTime = TimeSpan.FromDays(1.0)
     
-    let mark (FilePath sssr) = 
+    let unmark (FilePath sssr) = 
         let marker = Path.Combine(sssr, markerFile)
         File.WriteAllText(marker, "")
         FileInfo(marker).LastWriteTimeUtc <- DateTime.UtcNow.Subtract(stalingTime)
     
-    let unmark (FilePath sssr) = File.WriteAllText(Path.Combine(sssr, markerFile), "")
+    let mark (FilePath sssr) = File.WriteAllText(Path.Combine(sssr, markerFile), "")
     
-    let collect (FilePath ssr) = 
+    let sweep (FilePath ssr) = 
         async { 
             let isStale d = 
                 let marker = Path.Combine(d, markerFile)
