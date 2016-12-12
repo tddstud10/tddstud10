@@ -191,6 +191,9 @@ namespace R4nd0mApps.TddStud10.Engine
             CopyFiles(rsp, solutionGrandParentPath, Path.GetDirectoryName(rsp.Solution.Path.Item), SearchOption.TopDirectoryOnly);
             CopyFiles(rsp, solutionGrandParentPath, Path.Combine(Path.GetDirectoryName(rsp.Solution.Path.Item), "packages"), SearchOption.AllDirectories);
 
+            SnapshotGC.unmark(rsp.Solution.SnapshotPath);
+            SnapshotGC.collect(rsp.SnapShotRoot);
+
             return RunStepStatus.Succeeded.ToRSR(RunData.NoData, "What was done - TBD");
         }
 
