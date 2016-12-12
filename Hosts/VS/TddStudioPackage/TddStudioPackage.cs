@@ -40,7 +40,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
         {
             get
             {
-                return HostVersionExtensions.fromDteVersion(_dte.Version);
+                return HostVersion.fromDteVersion.Invoke(_dte.Version);
             }
         }
 

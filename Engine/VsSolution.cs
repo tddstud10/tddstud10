@@ -18,13 +18,13 @@ namespace R4nd0mApps.TddStud10
     {
         public static IEnumerable<VsProject> GetProjects(HostVersion version, string solutionFilePath)
         {
-            if (version == HostVersion.VS2013)
+            if (version.ToString() == "12.0")
             {
                 return new SolutionFile2013(solutionFilePath).Projects.Select(p => new VsProject { ProjectName = p.ProjectName, RelativePath = p.RelativePath });
             }
-            else if (version == HostVersion.VS2015)
+            else
             {
-                var t = Type.GetType("Microsoft.Build.Construction.SolutionFile, Microsoft.Build, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", false, false);
+                var t = Type.GetType(string.Format("Microsoft.Build.Construction.SolutionFile, Microsoft.Build, Version={0}.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", version), false, false);
                 var sln = t
                     .GetMethod("Parse", BindingFlags.Public | BindingFlags.Static)
                     .Invoke(null, new object[] { solutionFilePath });
@@ -32,10 +32,6 @@ namespace R4nd0mApps.TddStud10
                     .GetProperty("ProjectsInOrder", BindingFlags.Public | BindingFlags.Instance)
                     .GetValue(sln) as IEnumerable<dynamic>;
                 return projects.Select(p => new VsProject { ProjectName = p.ProjectName, RelativePath = p.RelativePath });
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException(string.Format("Unknown host: {0}", version));
             }
         }
     }

@@ -196,10 +196,17 @@ type RunEvent =
 type HostVersion =
     | VS2013
     | VS2015
+    | VS2017
     override x.ToString() = 
         match x with
         | VS2013 -> "12.0"
         | VS2015 -> "14.0"
+        | VS2017 -> "15.0"
+    static member fromDteVersion = function
+        | "12.0" -> VS2013
+        | "14.0" -> VS2015
+        | "15.0" -> VS2017
+        | v -> failwithf "%s Unknown DTE Version" v
 
 type public IRunExecutorHost = 
     abstract HostVersion : HostVersion

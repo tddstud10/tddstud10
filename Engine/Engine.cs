@@ -154,10 +154,12 @@ namespace R4nd0mApps.TddStud10.Engine
 
         private static RunStepResult BuildSolutionSnapshot(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
         {
+            // NOTE: This is likely a hack to make things work with VS2017 RC
+            var prefix = host.HostVersion == HostVersion.VS2017 ? @"Microsoft Visual Studio\2017\Community\" : "";
             var output = ExecuteProcess(
                 Path.Combine(
                     Environment.GetEnvironmentVariable("ProgramFiles(x86)"),
-                    string.Format(@"MSBuild\{0}\Bin\msbuild.exe", host.HostVersion)),
+                    string.Format(@"{0}MSBuild\{1}\Bin\msbuild.exe", prefix, host.HostVersion)),
                     string.Format(
                         @"/m /v:minimal /p:Configuration=Debug /p:CreateVsixContainer=false /p:DeployExtension=false /p:CopyVsixExtensionFiles=false {0} /p:OutDir=""{1}\\"" ""{2}""",
                         string.Join(" ", (rsp.AdditionalMSBuildProperties ?? new string[0]).Select(it => string.Format("/p:{0}", it))),
