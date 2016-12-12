@@ -17,5 +17,6 @@ let logger : ILogger =
     if File.Exists path then 
         Assembly.LoadFrom(path)
         |> fun a -> a.GetType("R4nd0mApps.TddStud10.Logger.WindowsLogger")
-        |> fun t -> Activator.CreateInstance(t) :?> ILogger
+        |> fun t -> t.GetProperty("I", System.Reflection.BindingFlags.NonPublic ||| BindingFlags.Static)
+        |> fun f -> f.GetValue(null) :?> ILogger
     else NullLogger() :> _

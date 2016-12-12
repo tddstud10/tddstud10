@@ -267,18 +267,20 @@ namespace R4nd0mApps.TddStud10.Engine
             (
                 delegate (object sender, DataReceivedEventArgs e)
                 {
+                    var data = e.Data ?? "";
                     // append the new data to the data already read-in
-                    consoleOutput.Enqueue(e.Data);
-                    Logger.LogInfo(e.Data);
+                    consoleOutput.Enqueue(data);
+                    Logger.LogInfo(data);
                 }
             );
             process.ErrorDataReceived += new DataReceivedEventHandler
             (
                 delegate (object sender, DataReceivedEventArgs e)
                 {
+                    var data = e.Data ?? "";
                     // append the new data to the data already read-in
-                    consoleOutput.Enqueue(e.Data);
-                    Logger.LogError(e.Data);
+                    consoleOutput.Enqueue(data);
+                    Logger.LogError(data);
                 }
             );
             // start the process

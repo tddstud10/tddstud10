@@ -9,7 +9,7 @@ open System
 type internal WindowsLogger() = 
     inherit EventSource()
     static let i = new WindowsLogger()
-    static member I = i
+    static member public I = i
     
     [<Event(1, Level = EventLevel.Informational)>]
     member private __.LogInfo(message : string) = base.WriteEvent(1, message)
