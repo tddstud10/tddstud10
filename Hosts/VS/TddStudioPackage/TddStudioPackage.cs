@@ -15,7 +15,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 {
     [ProvideBindingPath]
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("#110", "#112", "0.4.6.3", IconResourceID = 400)]
+    [InstalledProductRegistration("#110", "#112", "0.4.7.0", IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
     [Guid(PkgGuids.GuidTddStud10Pkg)]
