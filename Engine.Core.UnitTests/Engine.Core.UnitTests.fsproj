@@ -93,6 +93,7 @@
     <Compile Include="RunStateTrackerTests.fs" />
     <Compile Include="DataStoreTests.fs" />
     <Compile Include="CollectionExtensionTests.fs" />
+    <Compile Include="SnapshotGCTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Domain\Domain.fsproj">
