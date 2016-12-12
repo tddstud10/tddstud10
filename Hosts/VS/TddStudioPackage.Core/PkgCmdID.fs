@@ -6,3 +6,6 @@ module PkgCmdID =
     
     [<Literal>]
     let ViewTddStud10Logs = 0x102u
+
+    [<Literal>]
+    let KillOnGoingRun = 0x103u

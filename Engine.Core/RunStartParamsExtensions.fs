@@ -14,13 +14,15 @@ module RunStartParamsExtensions =
         |> Path.GetFullPath
         |> Path.GetDirectoryName
     
+    let testHostProcessName = sprintf "TddStud10.TestHost%s.exe" Constants.ProductVariant
+    
     type RunStartParams with
         static member Create (cfg : EngineConfig) startTime solutionPath = 
             let snapShotRoot = Environment.ExpandEnvironmentVariables(cfg.SnapShotRoot) |> FilePath
             let buildRoot = PathBuilder.makeSlnBuildRoot snapShotRoot solutionPath
             { SnapShotRoot = snapShotRoot
               StartTime = startTime
-              TestHostPath = Path.Combine(() |> getLocalPath, sprintf "TddStud10.TestHost%s.exe" Constants.ProductVariant) |> FilePath
+              TestHostPath = Path.Combine(() |> getLocalPath, testHostProcessName) |> FilePath
               Solution = 
                   { Path = solutionPath
                     SnapshotPath = PathBuilder.makeSlnSnapshotPath snapShotRoot solutionPath

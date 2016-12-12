@@ -97,6 +97,15 @@ namespace R4nd0mApps.TddStud10.Hosts.VS.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kill &amp;Ongoing Run.
+        /// </summary>
+        internal static string KillOnGoingRun {
+            get {
+                return ResourceManager.GetString("KillOnGoingRun", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TDD Studio.
         /// </summary>
         internal static string MessageBoxTitle {

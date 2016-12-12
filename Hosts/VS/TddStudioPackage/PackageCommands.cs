@@ -36,6 +36,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             {
                 new CommandEntry(PkgGuids.GuidTddStud10CmdSet, PkgCmdID.ChangeTddStud10State, ExecuteChangeTddStud10State, OnBeforeQueryStatusChangeTddStud10State),
                 new CommandEntry(PkgGuids.GuidTddStud10CmdSet, PkgCmdID.ViewTddStud10Logs, ExecuteViewTddStud10Logs, OnBeforeQueryStatusViewTddStud10Logs),
+                new CommandEntry(PkgGuids.GuidTddStud10CmdSet, PkgCmdID.KillOnGoingRun, ExecuteKillOnGoingRun, OnBeforeQueryStatusKillOnGoingRun),
             }.Aggregate(
                 _mcs,
                 (mcs, e) =>
@@ -144,6 +145,57 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                     .DisplayMessageBox(
                         Properties.Resources.ProductTitle,
                         string.Format(Properties.Resources.UnableToStartLogger, loggerPath));
+            }
+        }
+
+        #endregion
+
+        #region PkgCmdIDList.KillOnGoingRun
+
+        private void OnBeforeQueryStatusKillOnGoingRun(object sender, EventArgs e)
+        {
+            Logger.LogInfo("Querying for KillOnGoingRun...");
+
+            var cmd = sender as OleMenuCommand;
+            if (cmd == null)
+            {
+                Logger.LogError("sender should have been an OleMenuCommand. This is unexpected.");
+                return;
+            }
+
+            if (!_dte.Solution.IsOpen)
+            {
+                Logger.LogInfo("Solution is not open.");
+                cmd.Visible = false;
+                return;
+            }
+
+            cmd.Visible = true;
+            cmd.Text = Properties.Resources.KillOnGoingRun;
+        }
+
+        private void ExecuteKillOnGoingRun(object sender, EventArgs e)
+        {
+            Logger.LogInfo("Executing KillOnGoingRun...");
+
+            try
+            {
+                foreach (var p in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(RunStartParamsExtensions.testHostProcessName)))
+                {
+                    try
+                    {
+                        Logger.LogInfo("About to kill Process name: {0}, id: {1}", p.ProcessName, p.Id);
+                        p.Kill();
+                    }
+                    catch (Exception)
+                    {
+                        Logger.LogInfo("Unable to kill Process name: {0}, id: {1}", p.ProcessName, p.Id);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogInfo("Could not execute KillOnGoingRun... {0}", ex);
             }
         }
 
