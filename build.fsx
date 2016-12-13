@@ -6,6 +6,8 @@ open Fake.Testing
 open System
 open System.IO
 
+MSBuildDefaults <- { MSBuildDefaults with Verbosity = Some MSBuildVerbosity.Minimal }
+
 // Directories
 let buildDir  = @".\build\"
 let testDir  = @".\build\"

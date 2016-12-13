@@ -134,6 +134,9 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                 EngineLoader.EnableEngine();
             }
 
+            Logger.LogInfo("Triggering SnapshotGC on solution load.");
+            SnapshotGC.SweepAsync(FilePath.NewFilePath(Environment.ExpandEnvironmentVariables(cfg.SnapShotRoot)));
+
             return VSConstants.S_OK;
         }
 

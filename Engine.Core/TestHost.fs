@@ -1,6 +1,5 @@
 ﻿namespace R4nd0mApps.TddStud10.Engine.Core
 
-
 module TestHost =
     open R4nd0mApps.TddStud10.Common.Domain
 

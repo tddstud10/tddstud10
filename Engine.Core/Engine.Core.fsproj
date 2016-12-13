@@ -70,6 +70,7 @@
     <Compile Include="DataStore.fs" />
     <Compile Include="TestHost.fs" />
     <Content Include="paket.references" />
+    <Compile Include="SnapshotGC.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Logger\Logger.fsproj">
