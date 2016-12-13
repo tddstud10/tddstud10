@@ -144,4 +144,7 @@
   <data name="ViewTddStud10Logs" xml:space="preserve">
     <value>View TDD Studio &amp;Logs</value>
   </data>
+  <data name="KillOnGoingRun" xml:space="preserve">
+    <value>Kill &amp;Ongoing Run</value>
+  </data>
 </root>

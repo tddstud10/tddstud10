@@ -36,6 +36,16 @@
           <ButtonText>none</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidTddStud10CmdSet" id="killOnGoingRun" priority="0x0003" type="Button">
+        <Parent guid="guidTddStud10CmdSet" id="tddStud10MenuGroup" />
+        <CommandFlag>TextChanges</CommandFlag>
+        <CommandFlag>DynamicVisibility</CommandFlag>
+        <CommandFlag>DefaultInvisible</CommandFlag>
+        <CommandFlag>DefaultDisabled</CommandFlag>
+        <Strings>
+          <ButtonText>none</ButtonText>
+        </Strings>
+      </Button>
 
     </Buttons>
   </Commands>
@@ -51,6 +61,7 @@
       <IDSymbol name="tddStud10MenuGroup" value="0x1020" />
       <IDSymbol name="changeTddStud10State" value="0x0101" />
       <IDSymbol name="viewTddStud10Logs" value="0x0102"/>
+      <IDSymbol name="killOnGoingRun" value="0x0103"/>
     </GuidSymbol>
   </Symbols>
 </CommandTable>
