@@ -1,6 +1,5 @@
 ﻿module R4nd0mApps.TddStud10.Engine.Core.SnapshotGCTests
 
-open FsUnit.Xunit
 open R4nd0mApps.TddStud10.Common.Domain
 open System.IO
 open System.Threading.Tasks
@@ -23,13 +22,8 @@ let ``Should delete unmarked folder``() =
         async { 
             Directory.CreateDirectory(rootDir </> "A") |> ignore
             let! garbage = SnapshotGC.sweep (FilePath rootDir)
-            garbage
-            |> Seq.sort
-            |> Seq.toList
-            |> should matchList [ rootDir </> "A" ]
-            garbage
-            |> Seq.forall (Directory.Exists >> not)
-            |> should be True
+            Assert.Equal<string[]>(garbage |> Seq.sort |> Seq.toArray, [| rootDir </> "A" |])
+            Assert.True(garbage |> Seq.forall (Directory.Exists >> not))
         }
 
 [<Fact>]
@@ -39,13 +33,8 @@ let ``Should not delete fresh folder``() =
             Directory.CreateDirectory(rootDir </> "A") |> ignore
             SnapshotGC.mark (FilePath <| (rootDir </> "A"))
             let! garbage = SnapshotGC.sweep (FilePath rootDir)
-            garbage
-            |> Seq.sort
-            |> Seq.toList
-            |> should be Empty
-            garbage
-            |> Seq.forall Directory.Exists
-            |> should be True
+            Assert.Equal<string[]>(garbage |> Seq.sort |> Seq.toArray, [||])
+            Assert.True(garbage |> Seq.forall Directory.Exists)
         }
 
 [<Fact>]
@@ -55,13 +44,8 @@ let ``Should delete stale folder``() =
             Directory.CreateDirectory(rootDir </> "A") |> ignore
             SnapshotGC.unmark (FilePath <| (rootDir </> "A"))
             let! garbage = SnapshotGC.sweep (FilePath rootDir)
-            garbage
-            |> Seq.sort
-            |> Seq.toList
-            |> should matchList [ rootDir </> "A" ]
-            garbage
-            |> Seq.forall (Directory.Exists >> not)
-            |> should be True
+            Assert.Equal<string[]>(garbage |> Seq.sort |> Seq.toArray, [| rootDir </> "A" |])
+            Assert.True(garbage |> Seq.forall (Directory.Exists >> not))
         }
 
 [<Fact>]
@@ -74,15 +58,9 @@ let ``Should delete all stale folders``() =
             Directory.CreateDirectory(rootDir </> "C") |> ignore
             SnapshotGC.mark (FilePath(rootDir </> "C"))
             let! garbage = SnapshotGC.sweep (FilePath rootDir)
-            garbage
-            |> Seq.sort
-            |> Seq.toList
-            |> should matchList [ rootDir </> "A"
-                                  rootDir </> "B" ]
-            garbage
-            |> Seq.forall (Directory.Exists >> not)
-            |> should be True
-            [ rootDir </> "C" ]
-            |> Seq.forall Directory.Exists
-            |> should be True
+            Assert.Equal<string[]>(garbage |> Seq.sort |> Seq.toArray, 
+                                   [| rootDir </> "A"
+                                      rootDir </> "B" |])
+            Assert.True(garbage |> Seq.forall (Directory.Exists >> not))
+            Assert.True([ rootDir </> "C" ] |> Seq.forall Directory.Exists)
         }
