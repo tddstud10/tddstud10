@@ -27,6 +27,11 @@ Target "Clean" (fun _ ->
 
 Target "Rebuild" DoNothing
 
+Target "UpdateTelemetryKey" (fun _ ->
+    let key = EnvironmentHelper.environVarOrDefault "TELEMETRY_INSTRUMENTATION_KEY" String.Empty
+    File.WriteAllText(Path.Combine(__SOURCE_DIRECTORY__, "Hosts\VS\TddStudioPackage\Telemetry.Instrumentation.Key"), key)
+)
+
 Target "Build" (fun _ ->
     !! solutionFile
     |> MSBuild buildDir "Build"
@@ -86,10 +91,14 @@ Target "Package" (fun _ ->
 Target "Publish" (fun _ ->
     !! "build\*.nupkg"
     |> AppVeyor.PushArtifacts
+
+    !! "build\*.vsix"
+    |> AppVeyor.PushArtifacts
 )
 
 "Clean" ?=> "Build"
 "Clean" ==> "Rebuild" 
+"UpdateTelemetryKey" ==> "Build" 
 "Build" ==> "Rebuild" 
 "Build" ?=> "UnitTests" ==> "Test"
 "Build" ?=> "ContractTests" ==> "Test"

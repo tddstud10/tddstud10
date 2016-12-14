@@ -55,10 +55,14 @@
     <Compile Include="..\Constants.fs">
       <Link>Constants.fs</Link>
     </Compile>
+    <Content Include="paket.references" />
+    <Compile Include="XFactory.fs" />
     <Compile Include="ILogger.fs" />
     <Compile Include="NullLogger.fs" />
     <Compile Include="LoggerFactory.fs" />
-    <Content Include="paket.references" />
+    <Compile Include="ITelemetryClient.fs" />
+    <Compile Include="NullTelemetryClient.fs" />
+    <Compile Include="TelemetryClientFactory.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

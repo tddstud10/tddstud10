@@ -8,20 +8,23 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core;
 using R4nd0mApps.TddStud10.Logger;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace R4nd0mApps.TddStud10.Hosts.VS
 {
     [ProvideBindingPath]
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [InstalledProductRegistration("#110", "#112", "0.4.7.0", IconResourceID = 400)]
+    [InstalledProductRegistration("#110", "#112", Constants.ProductVersion, IconResourceID = 400)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExists_string)]
     [Guid(PkgGuids.GuidTddStud10Pkg)]
     public sealed class TddStud10Package : Package, IVsSolutionEvents, IEngineHost
     {
         private static ILogger Logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger;
+        private static ITelemetryClient TelemetryClient = R4nd0mApps.TddStud10.Logger.TelemetryClientFactory.telemetryClient;
 
         private SynchronizationContext syncContext = SynchronizationContext.Current;
 
@@ -74,6 +77,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
             Instance = this;
 
+            TelemetryClient.Initialize(Constants.ProductVersion, _dte.Version, _dte.Edition);
+
             Logger.LogInfo("Initialized Package successfully.");
         }
 
@@ -103,6 +108,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsSolutionEvents.OnAfterCloseSolution(object pUnkReserved)
         {
+            TelemetryClient.Flush();
             return VSConstants.S_OK;
         }
 
@@ -132,6 +138,10 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             if (!cfg.IsDisabled)
             {
                 EngineLoader.EnableEngine();
+            }
+            else
+            {
+                TelemetryClient.TrackEvent("EngineDisabledOnLoad", new Dictionary<string, string>(), new Dictionary<string, double>());
             }
 
             Logger.LogInfo("Triggering SnapshotGC on solution load.");
@@ -166,6 +176,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
 
         int IVsSolutionEvents.OnQueryCloseSolution(object pUnkReserved, ref int pfCancel)
         {
+            System.Threading.Tasks.Task.Run(() => TelemetryClient.Flush());
             return VSConstants.S_OK;
         }
 

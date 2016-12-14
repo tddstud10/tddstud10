@@ -3,6 +3,7 @@ using R4nd0mApps.TddStud10.Common.Domain;
 using R4nd0mApps.TddStud10.Engine.Core;
 using R4nd0mApps.TddStud10.Logger;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,6 +36,7 @@ namespace R4nd0mApps.TddStud10.Engine
     public static class EngineLoader
     {
         private static ILogger Logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger;
+        private static ITelemetryClient TelemetryClient = R4nd0mApps.TddStud10.Logger.TelemetryClientFactory.telemetryClient;
 
         private static EngineFileSystemWatcher _efsWatcher;
         private static IEngineHost _host;
@@ -105,12 +107,14 @@ namespace R4nd0mApps.TddStud10.Engine
         public static void EnableEngine()
         {
             Logger.LogInfo("Enabling Engine...");
+            TelemetryClient.TrackEvent("EnableEngine", new Dictionary<string, string>(), new Dictionary<string, double>());
             _efsWatcher.Enable();
         }
 
         public static void DisableEngine()
         {
             Logger.LogInfo("Disabling Engine...");
+            TelemetryClient.TrackEvent("DisableEngine", new Dictionary<string, string>(), new Dictionary<string, double>());
             DataStore.Instance.ResetData();
             _efsWatcher.Disable();
         }

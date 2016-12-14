@@ -16,6 +16,7 @@ namespace R4nd0mApps.TddStud10.Engine
     public static class Engine
     {
         private static ILogger Logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger;
+        private static ITelemetryClient TelemetryClient = R4nd0mApps.TddStud10.Logger.TelemetryClientFactory.telemetryClient;
 
         public static RunStep[] CreateRunSteps(Func<DocumentLocation, IEnumerable<DTestCase>> findTest)
         {
@@ -119,6 +120,9 @@ namespace R4nd0mApps.TddStud10.Engine
                 sequencePoint.Serialize(rsp.DataFiles.SequencePointStore);
             }
 
+            var totalSP = sequencePoint.Values.Aggregate(0, (acc, e) => acc + e.Count);
+            TelemetryClient.TrackEvent(rsi.name.Item, new Dictionary<string, string>(), new Dictionary<string, double> { { "SequencePointCount", totalSP } });
+
             return RunStepStatus.Succeeded.ToRSR(RunData.NewSequencePoints(sequencePoint), "Binaries Instrumented - which ones - TBD");
         }
 
@@ -138,6 +142,9 @@ namespace R4nd0mApps.TddStud10.Engine
             }
 
             var testsPerAssembly = PerDocumentLocationDTestCases.Deserialize(FilePath.NewFilePath(rsp.DataFiles.DiscoveredUnitDTestsStore.Item));
+
+            var totalTests = testsPerAssembly.Values.Aggregate(0, (acc, e) => acc + e.Count);
+            TelemetryClient.TrackEvent(rsi.name.Item, new Dictionary<string, string>(), new Dictionary<string, double> { { "TestCount", totalTests } });
 
             return rss.ToRSR(RunData.NewTestCases(testsPerAssembly), "Unit Tests Discovered - which ones - TBD");
         }
@@ -177,7 +184,8 @@ namespace R4nd0mApps.TddStud10.Engine
         private static RunStepResult TakeSolutionSnapshot(IRunExecutorHost host, RunStartParams rsp, RunStepInfo rsi)
         {
             var solutionGrandParentPath = Path.GetDirectoryName(Path.GetDirectoryName(rsp.Solution.Path.Item));
-            VsSolution.GetProjects(host.HostVersion, rsp.Solution.Path.Item).ToList().ForEach(p =>
+            var projects = VsSolution.GetProjects(host.HostVersion, rsp.Solution.Path.Item).ToList();
+            projects.ForEach(p =>
             {
                 if (!host.CanContinue())
                 {
@@ -192,6 +200,8 @@ namespace R4nd0mApps.TddStud10.Engine
             CopyFiles(rsp, solutionGrandParentPath, Path.Combine(Path.GetDirectoryName(rsp.Solution.Path.Item), "packages"), SearchOption.AllDirectories);
 
             SnapshotGC.mark(FilePath.NewFilePath(Path.GetDirectoryName(rsp.Solution.SnapshotPath.Item)));
+
+            TelemetryClient.TrackEvent(rsi.name.Item, new Dictionary<string, string>(), new Dictionary<string, double> { { "ProjectCount", projects.Count } });
 
             return RunStepStatus.Succeeded.ToRSR(RunData.NoData, "What was done - TBD");
         }

@@ -6,6 +6,7 @@ open System.IO
 
 module SnapshotGC = 
     let logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger
+    let tc = R4nd0mApps.TddStud10.Logger.TelemetryClientFactory.telemetryClient
 
     let private markerFile = "__gc_marker__"
     let private stalingTime = TimeSpan.FromDays(1.0)
@@ -29,7 +30,9 @@ module SnapshotGC =
                 |> Seq.filter isStale
                 |> Seq.toList
 
-            logger.logInfof "SnapShotGC: detected %d snapshots to be GCed. Starting to delete them now." garbage.Length
+            logger.logInfof "SnapshotGC: detected %d snapshots to be GCed. Starting to delete them now." garbage.Length
+            tc.TrackEvent("SnapshotGC", dict[], dict["SnapshotsDeleted", (float)garbage.Length])
+
             garbage |> Seq.iter (fun d -> Common.safeExec (fun () -> Directory.Delete(d, true)))
             return garbage
         }
