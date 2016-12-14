@@ -7,6 +7,10 @@ open System
 open System.IO
 open System.Reflection
 
+type internal WindowsTelemetryOperation(oh : IOperationHolder<RequestTelemetry>) = 
+    member val OperationHolder = oh
+    interface ITelemetryOperation
+
 [<Sealed>]
 type internal WindowsTelemetryClient() = 
     let tc = TelemetryClient()
@@ -35,6 +39,8 @@ type internal WindowsTelemetryClient() =
             tc.Context.User.Id <- sprintf "%s(%s)" Environment.UserName Environment.MachineName
         
         member __.TrackEvent(eventName, properties, metrics) = tc.TrackEvent(eventName, properties, metrics)
-        member __.StartOperation(operationName) = tc.StartOperation<RequestTelemetry>(operationName) :> _
-        member __.StopOperation(operation) = tc.StopOperation(operation :?> IOperationHolder<_>)
+        member __.StartOperation(operationName) = 
+            tc.StartOperation<RequestTelemetry>(operationName) |> WindowsTelemetryOperation :> _
+        member __.StopOperation(operation) = 
+            (operation :?> WindowsTelemetryOperation).OperationHolder |> tc.StopOperation
         member __.Flush() = tc.Flush()
