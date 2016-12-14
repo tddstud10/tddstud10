@@ -13,10 +13,10 @@ namespace R4nd0mApps.TddStud10
 {
     internal class Constants
     {
-        public const string ProductVariant = ".df";
-
         public const string ProductName = "Test Driven Development Studio (dogfood)";
+        public const string ProductVersion = "doogfood";
 
+        public const string ProductVariant = ".df";
         public const string RealTimeSessionName = "R4nd0mApps-TddStud10-Realtime-Session-df";
         public const string EtwProviderNameAllLogs = "R4nd0mApps-TddStud10-All-Logs-df";
     }
@@ -28,10 +28,11 @@ namespace R4nd0mApps.TddStud10
 module internal Constants =
 
     [<Literal>]
-    let ProductVariant = ".df";
-
-    [<Literal>]
     let ProductName = "Test Driven Development Studio (dogfood)";
+    [<Literal>]
+    let ProductVersion = "dogfood";
+    [<Literal>]
+    let ProductVariant = ".df";
 
     [<Literal>]
     let RealTimeSessionName = "R4nd0mApps-TddStud10-Realtime-Session-df";

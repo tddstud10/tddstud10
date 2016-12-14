@@ -5,6 +5,8 @@ module internal Constants =
     [<Literal>]
     let ProductName = "Test Driven Development Studio";
     [<Literal>]
+    let ProductVersion = "0.4.7.0";
+    [<Literal>]
     let ProductVariant = "";
 
     [<Literal>]

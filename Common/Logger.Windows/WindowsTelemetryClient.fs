@@ -1,6 +1,8 @@
 namespace R4nd0mApps.TddStud10.Logger
 
 open Microsoft.ApplicationInsights
+open Microsoft.ApplicationInsights.DataContracts
+open Microsoft.ApplicationInsights.Extensibility
 open System
 open System.IO
 open System.Reflection
@@ -24,12 +26,15 @@ type internal WindowsTelemetryClient() =
     static member public I = i
     interface ITelemetryClient with
         
-        member __.Initialize(version, edition) = 
+        member __.Initialize(version, hostVersion, hostEdition) = 
             tc.InstrumentationKey <- loadKey()
             tc.Context.Session.Id <- Guid.NewGuid().ToString()
             tc.Context.Component.Version <- version
-            tc.Context.Device.Model <- edition
+            tc.Context.Device.Type <- hostVersion
+            tc.Context.Device.Model <- hostEdition
             tc.Context.User.Id <- sprintf "%s(%s)" Environment.UserName Environment.MachineName
         
         member __.TrackEvent(eventName, properties, metrics) = tc.TrackEvent(eventName, properties, metrics)
+        member __.StartOperation(operationName) = tc.StartOperation<RequestTelemetry>(operationName) :> _
+        member __.StopOperation(operation) = tc.StopOperation(operation :?> IOperationHolder<_>)
         member __.Flush() = tc.Flush()
