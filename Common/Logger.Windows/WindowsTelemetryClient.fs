@@ -40,7 +40,7 @@ type internal WindowsTelemetryClient() =
         
         member __.TrackEvent(eventName, properties, metrics) = tc.TrackEvent(eventName, properties, metrics)
         member __.StartOperation(operationName) = 
-            tc.StartOperation<RequestTelemetry>(operationName) |> WindowsTelemetryOperation :> _
+            new WindowsTelemetryOperation(tc.StartOperation<RequestTelemetry>(operationName)) :> _
         member __.StopOperation(operation) = 
             (operation :?> WindowsTelemetryOperation).OperationHolder |> tc.StopOperation
         member __.Flush() = tc.Flush()
