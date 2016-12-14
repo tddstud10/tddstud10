@@ -8,6 +8,7 @@ using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage;
 using R4nd0mApps.TddStud10.Hosts.VS.TddStudioPackage.Core;
 using R4nd0mApps.TddStud10.Logger;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -137,6 +138,10 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             if (!cfg.IsDisabled)
             {
                 EngineLoader.EnableEngine();
+            }
+            else
+            {
+                TelemetryClient.TrackEvent("EngineDisabledOnLoad", new Dictionary<string, string>(), new Dictionary<string, double>());
             }
 
             Logger.LogInfo("Triggering SnapshotGC on solution load.");

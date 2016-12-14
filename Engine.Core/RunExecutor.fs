@@ -1,9 +1,10 @@
 ﻿namespace R4nd0mApps.TddStud10.Engine.Core
 
-open System
 open R4nd0mApps.TddStud10.Common.Domain
+open System
 
 type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, stepWrapper : RunStepFuncWrapper) = 
+    let tc = R4nd0mApps.TddStud10.Logger.TelemetryClientFactory.telemetryClient
     let runStarting = new Event<_>()
     let runEnded = new Event<_>()
     let onRunError = new Event<_>()
@@ -34,6 +35,7 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
     member public __.Start(cfg, startTime, solutionPath) = 
         (* NOTE: Need to ensure the started/errored/ended events go out no matter what*)
         let rsp = RunStartParams.Create cfg startTime solutionPath
+        let op = tc.StartOperation("TddStud10 Run")
         Common.safeExec (fun () -> runStarting.Trigger(rsp))
         let rses = 
             { onStart = runStepStarting
@@ -45,6 +47,7 @@ type public RunExecutor private (host : IRunExecutorHost, runSteps : RunSteps, s
         | None -> ()
         | Some e -> Common.safeExec (fun () -> onRunError.Trigger(e))
         Common.safeExec (fun () -> runEnded.Trigger(rsp))
+        tc.StopOperation(op)
         rsp, err
     
     static member public Create host runSteps stepWrapper = new RunExecutor(host, runSteps, stepWrapper)

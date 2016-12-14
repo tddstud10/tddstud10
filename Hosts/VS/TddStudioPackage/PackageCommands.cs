@@ -20,6 +20,7 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
     public class PackageCommands
     {
         private static ILogger Logger = R4nd0mApps.TddStud10.Logger.LoggerFactory.logger;
+        private static ITelemetryClient TelemetryClient = R4nd0mApps.TddStud10.Logger.TelemetryClientFactory.telemetryClient;
 
         private EnvDTE.DTE _dte;
         private IMenuCommandService _mcs;
@@ -146,6 +147,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
                         Properties.Resources.ProductTitle,
                         string.Format(Properties.Resources.UnableToStartLogger, loggerPath));
             }
+
+            TelemetryClient.TrackEvent("ViewTddStud10Logs", new Dictionary<string, string>(), new Dictionary<string, double>());
         }
 
         #endregion
@@ -197,6 +200,8 @@ namespace R4nd0mApps.TddStud10.Hosts.VS
             {
                 Logger.LogInfo("Could not execute KillOnGoingRun... {0}", ex);
             }
+
+            TelemetryClient.TrackEvent("KillOnGoingRun", new Dictionary<string, string>(), new Dictionary<string, double>());
         }
 
         #endregion
