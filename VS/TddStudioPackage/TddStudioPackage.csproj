@@ -242,7 +242,7 @@
       <Project>{e5fb2293-3055-4c4c-800e-a31ac891a931}</Project>
       <Name>Logger</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Engine.Core\Engine.Core.fsproj">
+    <ProjectReference Include="..\..\Engine\Engine.Core\Engine.Core.fsproj">
       <Project>{E5FB2292-1833-4C4C-800E-A31AC891A931}</Project>
       <Name>Engine.Core</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b
@@ -250,7 +250,7 @@
       <IncludeOutputGroupsInVSIXLocalOnly>
       </IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
-    <ProjectReference Include="..\..\Engine\Engine.csproj">
+    <ProjectReference Include="..\..\Engine\Engine\Engine.csproj">
       <Project>{96D4C703-953A-43F6-94FA-A5394B297703}</Project>
       <Name>Engine</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b

@@ -27,7 +27,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\FxCopCSharp.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\FxCopCSharp.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisTreatWarningsAsErrors>True</CodeAnalysisTreatWarningsAsErrors>
     <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
@@ -40,7 +40,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <RunCodeAnalysis>True</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\FxCopCSharp.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\FxCopCSharp.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisTreatWarningsAsErrors>True</CodeAnalysisTreatWarningsAsErrors>
     <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
@@ -48,7 +48,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\tddstud10.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\tddstud10.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -81,15 +81,15 @@
     <Compile Include="VsSolution.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\tddstud10.snk" />
+    <None Include="..\..\tddstud10.snk" />
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Domain\Domain.fsproj">
+    <ProjectReference Include="..\..\Common\Domain\Domain.fsproj">
       <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
       <Name>Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Logger\Logger.fsproj">
+    <ProjectReference Include="..\..\Common\Logger\Logger.fsproj">
       <Project>{e5fb2293-3055-4c4c-800e-a31ac891a931}</Project>
       <Name>Logger</Name>
     </ProjectReference>
@@ -97,11 +97,11 @@
       <Project>{e5fb2292-1833-4c4c-800e-a31ac891a931}</Project>
       <Name>Engine.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Test\TestRuntime\TestRuntime.csproj">
+    <ProjectReference Include="..\..\Test\TestRuntime\TestRuntime.csproj">
       <Project>{0fea2e86-4ee0-4fd8-949d-c74189b855d9}</Project>
       <Name>TestRuntime</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Test\TestHost.Core\TestHost.Core.fsproj">
+    <ProjectReference Include="..\..\Test\TestHost.Core\TestHost.Core.fsproj">
       <Project>{84693096-cba0-407a-900a-3b48d21c5459}</Project>
       <Name>TestHost.Core</Name>
     </ProjectReference>
@@ -124,27 +124,27 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
         <Reference Include="Mono.Cecil.Mdb">
-          <HintPath>..\packages\Mono.Cecil\lib\net45\Mono.Cecil.Mdb.dll</HintPath>
+          <HintPath>..\..\packages\Mono.Cecil\lib\net45\Mono.Cecil.Mdb.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
         <Reference Include="Mono.Cecil.Pdb">
-          <HintPath>..\packages\Mono.Cecil\lib\net45\Mono.Cecil.Pdb.dll</HintPath>
+          <HintPath>..\..\packages\Mono.Cecil\lib\net45\Mono.Cecil.Pdb.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
         <Reference Include="Mono.Cecil.Rocks">
-          <HintPath>..\packages\Mono.Cecil\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
+          <HintPath>..\..\packages\Mono.Cecil\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
         <Reference Include="Mono.Cecil">
-          <HintPath>..\packages\Mono.Cecil\lib\net45\Mono.Cecil.dll</HintPath>
+          <HintPath>..\..\packages\Mono.Cecil\lib\net45\Mono.Cecil.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
       </ItemGroup>
     </When>
   </Choose>
-  <Import Project="..\packages\StyleCop.MSBuild\build\StyleCop.MSBuild.Targets" Condition="Exists('..\packages\StyleCop.MSBuild\build\StyleCop.MSBuild.Targets')" Label="Paket" />
+  <Import Project="..\..\packages\StyleCop.MSBuild\build\StyleCop.MSBuild.Targets" Condition="Exists('..\..\packages\StyleCop.MSBuild\build\StyleCop.MSBuild.Targets')" Label="Paket" />
 </Project>

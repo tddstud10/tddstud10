@@ -171,11 +171,11 @@
       <Project>{e5fb2293-3055-4c4c-800e-a31ac891a931}</Project>
       <Name>Logger</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Engine.Core\Engine.Core.fsproj">
+    <ProjectReference Include="..\..\Engine\Engine.Core\Engine.Core.fsproj">
       <Project>{e5fb2292-1833-4c4c-800e-a31ac891a931}</Project>
       <Name>Engine.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Engine\Engine.csproj">
+    <ProjectReference Include="..\..\Engine\Engine\Engine.csproj">
       <Project>{96d4c703-953a-43f6-94fa-a5394b297703}</Project>
       <Name>Engine</Name>
     </ProjectReference>
