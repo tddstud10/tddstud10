@@ -26,6 +26,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Debug\Engine.ContractTests.XML</DocumentationFile>
+    <StartAction>Program</StartAction>
+    <StartProgram>D:\src\tddstud10\packages\xunit.runner.console\tools\xunit.console.exe</StartProgram>
+    <StartArguments>"D:\src\tddstud10\build\R4nd0mApps.TddStud10.Engine.ContractTests.dll"</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

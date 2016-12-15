@@ -179,11 +179,11 @@
       <Project>{96d4c703-953a-43f6-94fa-a5394b297703}</Project>
       <Name>Engine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\TestHost.Core\TestHost.Core.fsproj">
+    <ProjectReference Include="..\..\Test\TestHost.Core\TestHost.Core.fsproj">
       <Project>{84693096-cba0-407a-900a-3b48d21c5459}</Project>
       <Name>TestHost.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\TestHost\TestHost.csproj">
+    <ProjectReference Include="..\..\Test\TestHost\TestHost.csproj">
       <Project>{d6d4d595-14e0-4631-9ff5-f33976e08b34}</Project>
       <Name>TestHost</Name>
     </ProjectReference>

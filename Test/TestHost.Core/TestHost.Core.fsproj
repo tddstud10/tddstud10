@@ -25,7 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Debug\TestHost.Core.XML</DocumentationFile>
-    <OtherFlags>--keyfile:..\tddstud10.snk</OtherFlags>
+    <OtherFlags>--keyfile:..\..\tddstud10.snk</OtherFlags>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,7 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Release\TestHost.Core.XML</DocumentationFile>
-    <OtherFlags>--keyfile:..\tddstud10.snk</OtherFlags>
+    <OtherFlags>--keyfile:..\..\tddstud10.snk</OtherFlags>
   </PropertyGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
@@ -55,7 +55,7 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyAttributes.fs" />
-    <Compile Include="..\Common\Constants.fs">
+    <Compile Include="..\..\Common\Constants.fs">
       <Link>Constants.fs</Link>
     </Compile>
     <Compile Include="PerDocumentLocationTestCases.fs" />
@@ -70,7 +70,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>True</SpecificVersion>
-      <HintPath>..\VS\VSSDK.References\Vs2013\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll</HintPath>
+      <HintPath>..\ObjectModel\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -80,17 +80,17 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.ServiceModel" />
-    <ProjectReference Include="..\Common\Domain\Domain.fsproj">
+    <ProjectReference Include="..\..\Common\Domain\Domain.fsproj">
       <Name>Domain</Name>
       <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Logger\Logger.fsproj">
+    <ProjectReference Include="..\..\Common\Logger\Logger.fsproj">
       <Name>Logger</Name>
       <Project>{e5fb2293-3055-4c4c-800e-a31ac891a931}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\TestExecution\TestRuntime\TestRuntime.csproj">
+    <ProjectReference Include="..\TestRuntime\TestRuntime.csproj">
       <Name>TestRuntime</Name>
       <Project>{0fea2e86-4ee0-4fd8-949d-c74189b855d9}</Project>
       <Private>True</Private>

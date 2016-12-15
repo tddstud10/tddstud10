@@ -28,7 +28,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\FxCopCSharp.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\FxCopCSharp.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisTreatWarningsAsErrors>True</CodeAnalysisTreatWarningsAsErrors>
     <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
@@ -42,7 +42,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <RunCodeAnalysis>True</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\FxCopCSharp.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\FxCopCSharp.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisTreatWarningsAsErrors>True</CodeAnalysisTreatWarningsAsErrors>
     <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
@@ -50,7 +50,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\tddstud10.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\tddstud10.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>R4nd0mApps.TddStud10.TestHost.Program</StartupObject>
@@ -58,7 +58,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>True</SpecificVersion>
-      <HintPath>..\VSSDK.References\Vs2013\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll</HintPath>
+      <HintPath>..\ObjectModel\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -84,15 +84,15 @@
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Domain\Domain.fsproj">
+    <ProjectReference Include="..\..\Common\Domain\Domain.fsproj">
       <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
       <Name>Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Common\Logger\Logger.fsproj">
+    <ProjectReference Include="..\..\Common\Logger\Logger.fsproj">
       <Project>{e5fb2293-3055-4c4c-800e-a31ac891a931}</Project>
       <Name>Logger</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestExecution\TestRuntime\TestRuntime.csproj">
+    <ProjectReference Include="..\TestRuntime\TestRuntime.csproj">
       <Project>{0fea2e86-4ee0-4fd8-949d-c74189b855d9}</Project>
       <Name>TestRuntime</Name>
     </ProjectReference>
