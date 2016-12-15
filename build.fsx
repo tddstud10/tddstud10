@@ -28,8 +28,10 @@ Target "Clean" (fun _ ->
 Target "Rebuild" DoNothing
 
 Target "UpdateTelemetryKey" (fun _ ->
+    let keyFile = Path.Combine(__SOURCE_DIRECTORY__, "VS\TddStudioPackage\Telemetry.Instrumentation.Key")
+    if not <| File.Exists keyFile then failwithf "Key file not found at %s" keyFile
     let key = EnvironmentHelper.environVarOrDefault "TELEMETRY_INSTRUMENTATION_KEY" String.Empty
-    File.WriteAllText(Path.Combine(__SOURCE_DIRECTORY__, "Hosts\VS\TddStudioPackage\Telemetry.Instrumentation.Key"), key)
+    File.WriteAllText(keyFile, key)
 )
 
 Target "Build" (fun _ ->

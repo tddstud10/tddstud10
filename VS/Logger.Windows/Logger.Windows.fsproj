@@ -61,7 +61,7 @@
     <Content Include="portable-net45+win8+wpa81\_EventRegisterUsersGuide.docx">
       <Paket>True</Paket>
     </Content>
-    <Compile Include="..\Constants.fs">
+    <Compile Include="..\..\Common\Constants.fs">
       <Link>Constants.fs</Link>
     </Compile>
     <Compile Include="WindowsTelemetryClient.fs" />
@@ -82,7 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Logger\Logger.fsproj">
+    <ProjectReference Include="..\..\Common\Logger\Logger.fsproj">
       <Name>Logger</Name>
       <Project>{e5fb2293-3055-4c4c-800e-a31ac891a931}</Project>
       <Private>True</Private>
