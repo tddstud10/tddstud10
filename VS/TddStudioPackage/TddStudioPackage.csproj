@@ -226,21 +226,9 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Domain\Domain.fsproj">
-      <Project>{E5FB2293-1833-4C4C-800E-A31AC891A931}</Project>
-      <Name>Domain</Name>
-      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b
-      </IncludeOutputGroupsInVSIX>
-      <IncludeOutputGroupsInVSIXLocalOnly>
-      </IncludeOutputGroupsInVSIXLocalOnly>
-    </ProjectReference>
     <ProjectReference Include="..\Logger.Windows\Logger.Windows.fsproj">
       <Project>{e5fb2293-2944-4c4c-800e-a31ac891a931}</Project>
       <Name>Logger.Windows</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\Logger\Logger.fsproj">
-      <Project>{e5fb2293-3055-4c4c-800e-a31ac891a931}</Project>
-      <Name>Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Engine\Engine.Core\Engine.Core.fsproj">
       <Project>{E5FB2292-1833-4C4C-800E-A31AC891A931}</Project>
@@ -396,5 +384,17 @@
       </ItemGroup>
     </When>
   </Choose>
+  <ItemGroup>
+    <Reference Include="R4nd0mApps.TddStud10.Common.Domain">
+      <HintPath>..\..\packages\tddstud10\TddStud10.Common\lib\R4nd0mApps.TddStud10.Common.Domain.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+    <Reference Include="R4nd0mApps.TddStud10.Logger">
+      <HintPath>..\..\packages\tddstud10\TddStud10.Common\lib\R4nd0mApps.TddStud10.Logger.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+  </ItemGroup>
   <Import Project="..\..\packages\StyleCop.MSBuild\build\StyleCop.MSBuild.Targets" Condition="Exists('..\..\packages\StyleCop.MSBuild\build\StyleCop.MSBuild.Targets')" Label="Paket" />
 </Project>

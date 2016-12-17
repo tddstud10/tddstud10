@@ -84,11 +84,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-    <ProjectReference Include="..\..\Common\Domain\Domain.fsproj">
-      <Name>Domain</Name>
-      <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <ProjectReference Include="..\TestRuntime\TestRuntime.csproj">
       <Name>TestRuntime</Name>
       <Project>{0fea2e86-4ee0-4fd8-949d-c74189b855d9}</Project>
@@ -184,4 +179,16 @@ xcopy /frys $(ProjectDir)\..\TestData $(TargetDir)\TestData
       </ItemGroup>
     </When>
   </Choose>
+  <ItemGroup>
+    <Reference Include="R4nd0mApps.TddStud10.Common.Domain">
+      <HintPath>..\..\packages\tddstud10\TddStud10.Common\lib\R4nd0mApps.TddStud10.Common.Domain.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+    <Reference Include="R4nd0mApps.TddStud10.Logger">
+      <HintPath>..\..\packages\tddstud10\TddStud10.Common\lib\R4nd0mApps.TddStud10.Logger.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+  </ItemGroup>
 </Project>

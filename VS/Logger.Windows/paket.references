@@ -1,2 +1,4 @@
 Microsoft.Diagnostics.Tracing.EventSource
 Microsoft.ApplicationInsights
+group TddStud10
+TddStud10.Common

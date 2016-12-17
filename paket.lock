@@ -434,3 +434,10 @@ GIT
      (36e3b3f0716c1a3bedfb959c23e00a831f86a739)
       build: build.cmd Build
       os: mono
+GROUP TddStud10
+NUGET
+  remote: http://www.nuget.org/api/v2
+    FSharp.Core (3.1.2.5)
+  remote: https://ci.appveyor.com/nuget/common-wqs82t184w0x
+    TddStud10.Common (0.1.0-ci0069)
+      FSharp.Core (>= 3.1.2.5)

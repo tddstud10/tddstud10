@@ -23,7 +23,6 @@
         <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Engine.Core" Path="|Engine.Core|" AssemblyName="|Engine.Core;AssemblyName|" />
         <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="TestHost.Core" Path="|TestHost.Core|" AssemblyName="|TestHost.Core;AssemblyName|" />
         <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="CommonUI" Path="|CommonUI|" AssemblyName="|CommonUI;AssemblyName|" />
-        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Domain" Path="|Domain|" AssemblyName="|Domain;AssemblyName|" />
         <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="TestRuntime" Path="|TestRuntime|" AssemblyName="|TestRuntime;AssemblyName|" />
     </Assets>
 </PackageManifest>

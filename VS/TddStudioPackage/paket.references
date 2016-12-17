@@ -3,3 +3,5 @@ FSharp.Core
 Mono.Cecil
 MvvmLightLibs
 StyleCop.MSBuild
+group TddStud10
+TddStud10.Common

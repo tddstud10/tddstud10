@@ -73,11 +73,6 @@
     <Compile Include="SnapshotGC.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Logger\Logger.fsproj">
-      <Name>Logger</Name>
-      <Project>{e5fb2293-3055-4c4c-800e-a31ac891a931}</Project>
-      <Private>True</Private>
-    </ProjectReference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
@@ -88,11 +83,6 @@
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
-    <ProjectReference Include="..\..\Common\Domain\Domain.fsproj">
-      <Name>Domain</Name>
-      <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
-      <Private>True</Private>
-    </ProjectReference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -103,4 +93,16 @@
       <Message Text="AB>>> $(AssemblySearchPaths)" Importance="high" />
   </Target>
   -->
+  <ItemGroup>
+    <Reference Include="R4nd0mApps.TddStud10.Common.Domain">
+      <HintPath>..\..\packages\tddstud10\TddStud10.Common\lib\R4nd0mApps.TddStud10.Common.Domain.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+    <Reference Include="R4nd0mApps.TddStud10.Logger">
+      <HintPath>..\..\packages\tddstud10\TddStud10.Common\lib\R4nd0mApps.TddStud10.Logger.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+  </ItemGroup>
 </Project>

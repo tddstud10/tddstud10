@@ -1,3 +1,5 @@
 Mono.Cecil
 xunit
 xunit.runner.visualstudio
+group TddStud10
+TddStud10.Common

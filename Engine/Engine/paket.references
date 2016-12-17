@@ -1,3 +1,5 @@
 BuildTools.FxCop
 Mono.Cecil
 StyleCop.MSBuild
+group TddStud10
+TddStud10.Common

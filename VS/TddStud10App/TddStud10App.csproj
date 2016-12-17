@@ -159,17 +159,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Domain\Domain.fsproj">
-      <Project>{e5fb2293-1833-4c4c-800e-a31ac891a931}</Project>
-      <Name>Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Logger.Windows\Logger.Windows.fsproj">
       <Project>{e5fb2293-2944-4c4c-800e-a31ac891a931}</Project>
       <Name>Logger.Windows</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Common\Logger\Logger.fsproj">
-      <Project>{e5fb2293-3055-4c4c-800e-a31ac891a931}</Project>
-      <Name>Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Engine\Engine.Core\Engine.Core.fsproj">
       <Project>{e5fb2292-1833-4c4c-800e-a31ac891a931}</Project>
@@ -293,5 +285,17 @@
       </ItemGroup>
     </When>
   </Choose>
+  <ItemGroup>
+    <Reference Include="R4nd0mApps.TddStud10.Common.Domain">
+      <HintPath>..\..\packages\tddstud10\TddStud10.Common\lib\R4nd0mApps.TddStud10.Common.Domain.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+    <Reference Include="R4nd0mApps.TddStud10.Logger">
+      <HintPath>..\..\packages\tddstud10\TddStud10.Common\lib\R4nd0mApps.TddStud10.Logger.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+  </ItemGroup>
   <Import Project="..\..\packages\StyleCop.MSBuild\build\StyleCop.MSBuild.Targets" Condition="Exists('..\..\packages\StyleCop.MSBuild\build\StyleCop.MSBuild.Targets')" Label="Paket" />
 </Project>
