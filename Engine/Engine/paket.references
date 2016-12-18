@@ -3,3 +3,4 @@ Mono.Cecil
 StyleCop.MSBuild
 group TddStud10
 TddStud10.Common
+TddStud10.TestHost

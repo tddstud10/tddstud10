@@ -89,19 +89,12 @@
       <Project>{e5fb2292-1833-4c4c-800e-a31ac891a931}</Project>
       <Name>Engine.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Test\TestRuntime\TestRuntime.csproj">
-      <Project>{0fea2e86-4ee0-4fd8-949d-c74189b855d9}</Project>
-      <Name>TestRuntime</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Test\TestHost.Core\TestHost.Core.fsproj">
-      <Project>{84693096-cba0-407a-900a-3b48d21c5459}</Project>
-      <Name>TestHost.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -146,6 +139,18 @@
     </Reference>
     <Reference Include="R4nd0mApps.TddStud10.Logger">
       <HintPath>..\..\packages\tddstud10\TddStud10.Common\lib\R4nd0mApps.TddStud10.Logger.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="R4nd0mApps.TddStud10.TestHost.Core">
+      <HintPath>..\..\packages\tddstud10\TddStud10.TestHost\lib\R4nd0mApps.TddStud10.TestHost.Core.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+    <Reference Include="R4nd0mApps.TddStud10.TestRuntime">
+      <HintPath>..\..\packages\tddstud10\TddStud10.TestHost\lib\R4nd0mApps.TddStud10.TestRuntime.dll</HintPath>
       <Private>True</Private>
       <Paket>True</Paket>
     </Reference>

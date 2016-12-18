@@ -71,6 +71,21 @@
     <VsSdkTargets Condition=" '$(VisualStudioVersion)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\VSSDK\Microsoft.VsSDK.targets</VsSdkTargets>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="..\..\packages\tddstud10\TddStud10.TestHost\lib\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll">
+      <Link>Microsoft.VisualStudio.TestPlatform.ObjectModel.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\..\packages\tddstud10\TddStud10.TestHost\lib\msdia120typelib_clr0200.dll">
+      <Link>msdia120typelib_clr0200.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <Content Include="..\..\packages\tddstud10\TddStud10.TestHost\lib\TddStud10.TestHost.exe">
+      <Link>TddStud10.TestHost.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="CodeAnalysisRules.ruleset">
       <Paket>True</Paket>
     </Content>
@@ -203,6 +218,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\packages\tddstud10\TddStud10.TestHost\lib\TddStud10.TestHost.exe.config">
+      <Link>TddStud10.TestHost.exe.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <None Include="app.config" />
     <None Include="paket.references" />
     <None Include="source.extension.vsixmanifest">
@@ -253,33 +273,6 @@
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b      </IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>
       </IncludeOutputGroupsInVSIXLocalOnly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Test\TestRuntime\TestRuntime.csproj">
-      <Project>{0FEA2E86-4EE0-4FD8-949D-C74189B855D9}</Project>
-      <Name>TestRuntime</Name>
-      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b
-      </IncludeOutputGroupsInVSIX>
-      <IncludeOutputGroupsInVSIXLocalOnly>
-      </IncludeOutputGroupsInVSIXLocalOnly>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Test\TestHost.Core\TestHost.Core.fsproj">
-      <Project>{84693096-CBA0-407A-900A-3B48D21C5459}</Project>
-      <Name>TestHost.Core</Name>
-      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b
-      </IncludeOutputGroupsInVSIX>
-      <IncludeOutputGroupsInVSIXLocalOnly>
-      </IncludeOutputGroupsInVSIXLocalOnly>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Test\TestHost\TestHost.csproj">
-      <Project>{D6D4D595-14E0-4631-9FF5-F33976E08B34}</Project>
-      <Name>TestHost</Name>
-      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bDebugSymbolsProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b
-      </IncludeOutputGroupsInVSIX>
-      <IncludeOutputGroupsInVSIXLocalOnly>
-      </IncludeOutputGroupsInVSIXLocalOnly>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="..\CommonUI\CommonUI.csproj">
       <Project>{C578A684-2FFF-4100-8620-C1220D05EA3E}</Project>
@@ -392,6 +385,18 @@
     </Reference>
     <Reference Include="R4nd0mApps.TddStud10.Logger">
       <HintPath>..\..\packages\tddstud10\TddStud10.Common\lib\R4nd0mApps.TddStud10.Logger.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="R4nd0mApps.TddStud10.TestHost.Core">
+      <HintPath>..\..\packages\tddstud10\TddStud10.TestHost\lib\R4nd0mApps.TddStud10.TestHost.Core.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+    <Reference Include="R4nd0mApps.TddStud10.TestRuntime">
+      <HintPath>..\..\packages\tddstud10\TddStud10.TestHost\lib\R4nd0mApps.TddStud10.TestRuntime.dll</HintPath>
       <Private>True</Private>
       <Paket>True</Paket>
     </Reference>

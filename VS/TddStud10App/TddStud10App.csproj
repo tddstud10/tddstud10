@@ -97,6 +97,18 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\packages\tddstud10\TddStud10.TestHost\lib\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll">
+      <Link>Microsoft.VisualStudio.TestPlatform.ObjectModel.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\tddstud10\TddStud10.TestHost\lib\msdia120typelib_clr0200.dll">
+      <Link>msdia120typelib_clr0200.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\packages\tddstud10\TddStud10.TestHost\lib\TddStud10.TestHost.exe">
+      <Link>TddStud10.TestHost.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="CodeAnalysisRules.ruleset">
       <Paket>True</Paket>
     </Content>
@@ -147,6 +159,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="..\..\packages\tddstud10\TddStud10.TestHost\lib\TddStud10.TestHost.exe.config">
+      <Link>TddStud10.TestHost.exe.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="paket.references" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -170,14 +186,6 @@
     <ProjectReference Include="..\..\Engine\Engine\Engine.csproj">
       <Project>{96d4c703-953a-43f6-94fa-a5394b297703}</Project>
       <Name>Engine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Test\TestHost.Core\TestHost.Core.fsproj">
-      <Project>{84693096-cba0-407a-900a-3b48d21c5459}</Project>
-      <Name>TestHost.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Test\TestHost\TestHost.csproj">
-      <Project>{d6d4d595-14e0-4631-9ff5-f33976e08b34}</Project>
-      <Name>TestHost</Name>
     </ProjectReference>
     <ProjectReference Include="..\CommonUI\CommonUI.csproj">
       <Project>{c578a684-2fff-4100-8620-c1220d05ea3e}</Project>
@@ -293,6 +301,18 @@
     </Reference>
     <Reference Include="R4nd0mApps.TddStud10.Logger">
       <HintPath>..\..\packages\tddstud10\TddStud10.Common\lib\R4nd0mApps.TddStud10.Logger.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="R4nd0mApps.TddStud10.TestHost.Core">
+      <HintPath>..\..\packages\tddstud10\TddStud10.TestHost\lib\R4nd0mApps.TddStud10.TestHost.Core.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+    <Reference Include="R4nd0mApps.TddStud10.TestRuntime">
+      <HintPath>..\..\packages\tddstud10\TddStud10.TestHost\lib\R4nd0mApps.TddStud10.TestRuntime.dll</HintPath>
       <Private>True</Private>
       <Paket>True</Paket>
     </Reference>

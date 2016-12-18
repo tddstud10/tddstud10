@@ -18,11 +18,7 @@
     <Assets>
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
         <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
-        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Engine" Path="|Engine|" AssemblyName="|Engine;AssemblyName|" />
         <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="%CurrentProject%.Extensions" Path="|TddStudioPackage.Core|" AssemblyName="|TddStudioPackage.Core;AssemblyName|" />
-        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Engine.Core" Path="|Engine.Core|" AssemblyName="|Engine.Core;AssemblyName|" />
-        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="TestHost.Core" Path="|TestHost.Core|" AssemblyName="|TestHost.Core;AssemblyName|" />
         <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="CommonUI" Path="|CommonUI|" AssemblyName="|CommonUI;AssemblyName|" />
-        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="TestRuntime" Path="|TestRuntime|" AssemblyName="|TestRuntime;AssemblyName|" />
     </Assets>
 </PackageManifest>
