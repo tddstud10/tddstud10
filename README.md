@@ -4,11 +4,11 @@
 
 # Project Components
   - Main: This repo, for work item tracking and discussions related to the project. Also for source code history.
-  - VS: Plugin for VS2013, VS2015 [![Build status](https://ci.appveyor.com/api/projects/status/561lghv3qmarn2fn/branch/master?svg=true)](https://ci.appveyor.com/project/TddStud10/vs/branch/master)
-  - VSCode (Work has just started, no ETA. Help needed!!!)
-  - Common: Common Library for all components. [![Build status](https://ci.appveyor.com/api/projects/status/dd2cnas76bgku651/branch/master?svg=true)](https://ci.appveyor.com/project/TddStud10/common/branch/master)
-  - Engine: Workflow coordinator. [![Build status](https://ci.appveyor.com/api/projects/status/j18x5rn2lbqhsb4s/branch/master?svg=true)](https://ci.appveyor.com/project/TddStud10/engine/branch/master)
-  - TestHost: Test host, runner and runtime. [![Build status](https://ci.appveyor.com/api/projects/status/6s52sajc86x0vvj6/branch/master?svg=true)](https://ci.appveyor.com/project/TddStud10/testhost/branch/master)
+  - [VS](https://github.com/tddstud10/VS): Plugin for VS2013, VS2015 [![Build status](https://ci.appveyor.com/api/projects/status/561lghv3qmarn2fn/branch/master?svg=true)](https://ci.appveyor.com/project/TddStud10/vs/branch/master)
+  - [VSCode](https://github.com/tddstud10/VSCode): Plugin for VSCode. Work has just started, no ETA. Help needed!
+  - [Common](https://github.com/tddstud10/Common): Common Library for all components. [![Build status](https://ci.appveyor.com/api/projects/status/dd2cnas76bgku651/branch/master?svg=true)](https://ci.appveyor.com/project/TddStud10/common/branch/master)
+  - [Engine](https://github.com/tddstud10/Engine): Workflow coordinator. [![Build status](https://ci.appveyor.com/api/projects/status/j18x5rn2lbqhsb4s/branch/master?svg=true)](https://ci.appveyor.com/project/TddStud10/engine/branch/master)
+  - [TestHost](https://github.com/tddstud10/TestHost): Test host, runner and runtime. [![Build status](https://ci.appveyor.com/api/projects/status/6s52sajc86x0vvj6/branch/master?svg=true)](https://ci.appveyor.com/project/TddStud10/testhost/branch/master)
 
 # Goals, Intentions, Guidelines
 
