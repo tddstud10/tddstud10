@@ -1,21 +1,14 @@
-﻿[![Build status](https://ci.appveyor.com/api/projects/status/ustuq9veqf22qenb/branch/master?svg=true)](https://ci.appveyor.com/project/parthopdas/tddstud10/branch/master)
-[![Join the chat at https://gitter.im/parthopdas/tddstud10](https://badges.gitter.im/parthopdas/tddstud10.svg)](https://gitter.im/parthopdas/tddstud10?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+﻿[![Join the chat at https://gitter.im/parthopdas/tddstud10](https://badges.gitter.im/parthopdas/tddstud10.svg)](https://gitter.im/parthopdas/tddstud10?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 > **Test Driven Development Studio - An environment for practicing Kent Beck style Test Driven Development.**
->
->  Copyright (c) 2015-3015, The TddStud10 Team
->
->  Licensed under the Apache License, Version 2.0 (the "License");
->  you may not use this file except in compliance with the License.
->  You may obtain a copy of the License at
->
->      http://www.apache.org/licenses/LICENSE-2.0
->
->  Unless required by applicable law or agreed to in writing, software
->  distributed under the License is distributed on an "AS IS" BASIS,
->  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
->  See the License for the specific language governing permissions and
->  limitations under the License.
+
+# Project Components
+  - Main: This repo, for work item tracking and discussions related to the project. Also for source code history.
+  - VS: Plugin for VS2013, VS2015 [![Build status](https://ci.appveyor.com/api/projects/status/561lghv3qmarn2fn/branch/master?svg=true)](https://ci.appveyor.com/project/TddStud10/vs/branch/master)
+  - VSCode (Work has just started, no ETA. Help needed!!!)
+  - Common: Common Library for all components. [![Build status](https://ci.appveyor.com/api/projects/status/dd2cnas76bgku651/branch/master?svg=true)](https://ci.appveyor.com/project/TddStud10/common/branch/master)
+  - Engine: Workflow coordinator. [![Build status](https://ci.appveyor.com/api/projects/status/j18x5rn2lbqhsb4s/branch/master?svg=true)](https://ci.appveyor.com/project/TddStud10/engine/branch/master)
+  - TestHost: Test host, runner and runtime. [![Build status](https://ci.appveyor.com/api/projects/status/6s52sajc86x0vvj6/branch/master?svg=true)](https://ci.appveyor.com/project/TddStud10/testhost/branch/master)
 
 # Goals, Intentions, Guidelines
 

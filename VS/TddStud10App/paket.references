@@ -1,9 +1,0 @@
-BuildTools.FxCop
-EditorUtils2010
-FSharp.Core
-Mono.Cecil
-MvvmLightLibs
-StyleCop.MSBuild
-group TddStud10
-TddStud10.Common
-TddStud10.TestHost
